@@ -13,6 +13,7 @@ use App\Models\BusinessCategory;
 use App\Models\District;
 use App\Models\City;
 use App\Models\State;
+use App\Models\Banner;
 
 class HomeController extends Controller
 {
@@ -25,6 +26,9 @@ class HomeController extends Controller
         $this->viewData['pageTitle'] = 'Home';
 
         $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->get();
+
+        $banner = Banner::where('status', 1)->get();
+        $this->viewData['banner'] = $banner;
 
         $this->viewData['vendoruser'] = $vendoruser;
         

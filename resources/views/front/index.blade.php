@@ -8,26 +8,15 @@
     <!-- Start Hero Area -->
     <section class="hero-area">
         <div class="hero-slider">
-            <div class="slide active">
-                <img src="{{asset('public/front/assets/images/hero/banner-1.png')}}" alt="Slide 1">
-            </div>
-            <div class="slide">
-                <img src="{{asset('public/front/assets/images/hero/banner-2.png')}}" alt="Slide 2">
-            </div>
-            <div class="slide">
-                <img src="{{asset('public/front/assets/images/hero/banner-3.jpg')}}" alt="Slide 3">
-            </div>
-            <div class="slide">
-                <img src="{{asset('public/front/assets/images/hero/banner-4.avif')}}" alt="Slide 3">
-            </div>
-            <div class="slide">
-                <img src="{{asset('public/front/assets/images/hero/banner-5.jpg')}}" alt="Slide 3">
-            </div>
-
+            @foreach ($banner as $key => $value)
+                <div class="slide {{($key == 0) ? 'active' : ''}}">
+                    <img src="{{ $value->image}}" alt="Slide {{($key + 1)}}">
+                </div>
+            @endforeach
             <button class="arrow prev">&#10094;</button>
             <button class="arrow next">&#10095;</button>
 
-                    <div class="dots"></div>
+            <div class="dots"></div>
 
         </div>
     </section>

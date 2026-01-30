@@ -1,19 +1,19 @@
-var Banners = (function() {
+var thisJs = (function() {
     return {
         /**
          * Initialization.
          */
         init: function() {
-            Banners.validateForm();
-            Banners.initializeComponents();
-            Banners.customValidationMethods();
+            thisJs.validateForm();
+            thisJs.initializeComponents();
+            thisJs.customValidationMethods();
         },
 
         /**
          * Initialize components.
          */
         initializeComponents: function() {
-            var $form = $('#edit-banner-form');
+            var $form = $('#edit-form');
             
             // Bootstrap Select
             Components.bootstrapSelect($form);
@@ -34,7 +34,7 @@ var Banners = (function() {
                 $date_range_picker.flatpickr({
                     dateFormat: "d-m-Y",
                     // mode: "range",
-                    maxDate: "today",
+                    // maxDate: "today",
                 });
             }
             //----------------
@@ -95,7 +95,7 @@ var Banners = (function() {
          * Validate country form.
          */
         validateForm: function() {
-            var $form = $("#edit-banner-form");
+            var $form = $("#edit-form");
             $form.validate({
                 // @validation states + elements
                 errorClass: "invalid-feedback",
@@ -106,29 +106,36 @@ var Banners = (function() {
                 rules: {
                     name: {
                         required: true,
+                        // remote: {
+                        //     url: $("#name").data("check-url"),
+                        //     type: "post",
+                        //     data: {
+                        //         name: function() {
+                        //             return $("#name").val();
+                        //         },
+                        //         category_id: function() {
+                        //             return $("#category_id").val();
+                        //         }
+                        //     }
+                        // }
                     },
                     image: {
-                        required: {
-                            depends: function(){
-                                if(($("#image").attr("data-default-file") === undefined || $("#image").attr("data-default-file") == '')){
-                                    return true;
-                                }
-                            }
-                        },
+                        required: false,
                         accept: "image/jpg, image/jpeg, image/png, image/gif"
-                    },
+                    }
                 },
                 //------------------
 
                 // @validation error messages
                 messages: {
                     name: {
-                        required: "This field is required."
+                        required: "This field is required.",
+                        //remote: "The name already exists."
                     },
-                    image: {
+                    image:{
                         required: "This field is required.",
                         accept: "Only JPG, PNG and GIF files are allowed."
-                    },
+                    }
                 },
                 //---------------------------
 
@@ -177,4 +184,4 @@ var Banners = (function() {
     };
 })();
 
-Banners.init();
+thisJs.init();

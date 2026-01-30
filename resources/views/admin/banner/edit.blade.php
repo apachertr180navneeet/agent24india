@@ -107,5 +107,5 @@
 <script src="{{ asset('public/plugins/jquery-ui/jquery-ui.js') }}"></script>
 <script src="{{ asset('public/plugins/flatpickr/flatpickr.js') }}"></script>
 <script src="{{ asset('public/js/components.js') }}"></script>
-<script src="{{ asset('public/js/category/edit.js') }}"></script>
+<script src="{{ asset('public/js/banners/banners-edit.js') }}"></script>
 @endpush
