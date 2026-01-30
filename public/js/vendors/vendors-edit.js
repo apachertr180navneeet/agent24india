@@ -162,9 +162,9 @@ var thisJs = (function() {
                     district_id:{
                         required: true
                     },
-                    // city_id:{
-                    //     required: true
-                    // },
+                    city_id:{
+                        required: true
+                    },
                     address:{
                         required: true
                     },
@@ -179,9 +179,9 @@ var thisJs = (function() {
                     category_id:{
                         required: true
                     },
-                    // sub_category_id:{
-                    //     required: true
-                    // }
+                    sub_category_id:{
+                        required: true
+                    },
                 },
                 //------------------
 
@@ -209,9 +209,9 @@ var thisJs = (function() {
                     district_id:{
                         required: "This field is required."
                     },
-                    // city_id:{
-                    //     required: "This field is required."
-                    // },
+                    city_id:{
+                        required: "This field is required."
+                    },
                     address:{
                         required: "This field is required."
                     },
@@ -226,9 +226,9 @@ var thisJs = (function() {
                     category_id:{
                         required: "This field is required.",
                     },
-                    // sub_category_id:{
-                    //     required: "This field is required.",
-                    // },
+                    sub_category_id:{
+                        required: "This field is required.",
+                    },
                 },
                 //---------------------------
 

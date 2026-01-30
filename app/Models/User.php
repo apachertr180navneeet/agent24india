@@ -44,6 +44,7 @@ class User extends Authenticatable implements OAuthenticatable
         'business_name',
         'business_address',
         'business_category_id',
+        'business_sub_category_id',
         'state_id',
         'district_id',
         'city_id',
@@ -52,6 +53,8 @@ class User extends Authenticatable implements OAuthenticatable
         'is_approved',
         'pincode',
         'vendor_image',
+        'description',
+        'pick_your_location',
     ];
 
     /**
@@ -308,7 +311,6 @@ class User extends Authenticatable implements OAuthenticatable
         //----------
 
         $requestArray = $request->all();
-        dd($requestArray);
 
         // Prepare data
         $data = [
@@ -316,6 +318,9 @@ class User extends Authenticatable implements OAuthenticatable
             'business_name' => $requestArray['business_name'],
             'business_address' => $requestArray['address'],
             'business_category_id' => $requestArray['category_id'],
+            'business_sub_category_id' => $requestArray['sub_category_id'],
+            'pick_your_location' => $requestArray['pick_your_location'],
+            'description' => $requestArray['description'],
             'state_id' => $requestArray['state_id'],
             'district_id' => $requestArray['district_id'],
             'city_id' => $requestArray['city_id'],
@@ -380,6 +385,7 @@ class User extends Authenticatable implements OAuthenticatable
                 'business_name' => $requestArray['business_name'],
                 'business_address' => $requestArray['address'],
                 'business_category_id' => $requestArray['category_id'],
+                'business_sub_category_id' => $requestArray['sub_category_id'],
                 'state_id' => $requestArray['state_id'],
                 'district_id' => $requestArray['district_id'],
                 'city_id' => $requestArray['city_id'],

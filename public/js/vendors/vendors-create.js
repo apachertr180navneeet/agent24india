@@ -184,6 +184,18 @@ var Users = (function() {
                     sub_category_id:{
                         required: true
                     },
+                    password:{
+                        required: true,
+                        minlength: 6,
+                        maxlength: 20,
+                        strongPassword: true
+                    },
+                    confirm_password:{
+                        required: true,
+                        minlength: 6,
+                        maxlength: 20,
+                        equalTo: "#password"
+                    },
                 },
                 //------------------
 
@@ -231,6 +243,17 @@ var Users = (function() {
                     sub_category_id:{
                         required: "This field is required.",
                     },
+                    password: {
+                        required: "This field is required.",
+                        minlength: "Password must be at leat 6 characters long.",
+                        maxlength: "Password cannot have more than 20 characters.",
+                    },
+                    confirm_password: {
+                        required: "This field is required.",
+                        minlength: "Password must be at leat 6 characters long.",
+                        maxlength: "Password cannot have more than 20 characters.",
+                        equalTo: "Confirm password must be same as password."
+                    }
                 },
                 //---------------------------
 
