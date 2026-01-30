@@ -79,6 +79,22 @@ Route::prefix('admin')->name('admin.')->group(function(){
             Route::post('/check-name', [Admin\CategoryController::class, 'checkName'])->name('category.checkName');
         });
 
+        Route::prefix("banner")->group(function(){
+            Route::get("/", [Admin\BannerController::class, "index"])->name("banner.index");
+            Route::get('/list', [Admin\BannerController::class, 'getBanners'])->name('banner.getBanners');
+            Route::get("/create", [Admin\BannerController::class, "create"])->name("banner.create");
+            Route::post("/store", [Admin\BannerController::class, "store"])->name("banner.store");
+            Route::get("/edit/{id}", [Admin\BannerController::class, "edit"])->name("banner.edit");
+            Route::post("/update/{id}", [Admin\BannerController::class, "update"])->name("banner.update");
+            Route::post("/change-status", [Admin\BannerController::class, "changeStatus"])->name("banner.changeStatus");
+            Route::delete('/destroy', [Admin\BannerController::class, 'destroy'])->name('banner.destroy');
+            Route::get('/destroy-single/{id}', [Admin\BannerController::class, 'deleteSingle'])->name('banner.deleteSingle');
+            Route::get('/export/{type}/{id?}', [Admin\BannerController::class, 'export'])->name('banner.export');
+
+            // Ajax check
+            Route::post('/check-name', [Admin\BannerController::class, 'checkName'])->name('banner.checkName');
+        });
+
         Route::prefix("tag")->group(function(){
             Route::get("/", [Admin\SubCategoryController::class, "index"])->name("subcategory.index");
             Route::get('/list', [Admin\SubCategoryController::class, 'getSubCategories'])->name('subcategory.getSubCategories');

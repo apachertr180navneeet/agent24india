@@ -201,9 +201,8 @@ var Banners = (function() {
                         searchable: false,
                         sortable: false
                     },
-                    { data: "imageLink", name: "imageLink", sortable: false },
                     { data: "name", name: "name", sortable: true },
-                    { data: "banner_order", name: "banner_order", sortable: true },
+                    { data: "created", name: "created", sortable: true },
                     { data: "status", name: "status", sortable: true },
                     {
                         data: "action",

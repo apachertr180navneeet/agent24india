@@ -2,54 +2,42 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Http\Traits\Orderable;
-use App\Http\Traits\Statusable;
-use App\Http\Traits\StatusToggleable;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Traits\UploadImage;
-use App\Http\Traits\UploadFile;
 
-class Category extends Model
+class Banner extends Model
 {
-    use SoftDeletes, Statusable, StatusToggleable, UploadImage, UploadFile;
+    use HasFactory, SoftDeletes; // <-- Added SoftDeletes
+
+    protected $table = 'banners';
 
     protected $fillable = [
-        'parent_id',
-        'name',
+        'title',
         'image',
-        'description',
+        'order',
+        'type',
         'status',
-        'created_by',
-        'updated_by'
     ];
 
-    /**
-     * Get Parent Category
-     */
-    public function parentCategory(){
-        return $this->belongsTo(Category::class, "parent_id", "id");
-    }
 
     /**
      * Get categories list
      */
     public function scopeGetCategories($model, $limit = null, $offset = null, $search = null, $filter = array(), $sort = array())
     {
-        $records = Category::select('categories.id', 'categories.parent_id', 'categories.name', 'categories.image', 'categories.status', 'categories.created_at')
+        $records = Banner::select('banners.id', 'banners.title', 'banners.image', 'banners.status', 'banners.created_at')
         // ->with([
-        //     "parentCategory" => function($query){
+        //     "parentbanner" => function($query){
         //         $query->select("id", "name", "image", "status");
         //     }
         // ])
-        ->whereNull('parent_id')
         ->where(function($query) use($search, $filter, $sort){
             // Search
             if(!(empty($search)))
             {
                 $search = strtolower($search);
-                $query->whereRaw('( lower(categories.name) LIKE \'%'.$search.'%\' )');
+                $query->whereRaw('( lower(banners.title) LIKE \'%'.$search.'%\' )');
             }
         });
         
@@ -58,9 +46,9 @@ class Category extends Model
         {
             $arr_fields = array(
                 "", 
-                "categories.name",
-                "categories.created_at",
-                "categories.status",
+                "banners.title",
+                "banners.created_at",
+                "banners.status",
                 ""
             );
 
@@ -71,7 +59,7 @@ class Category extends Model
         }
         else
         {
-            $records->orderBy('categories.id', 'desc');
+            $records->orderBy('banners.id', 'desc');
         }
 
         // Set final limit and records
@@ -91,21 +79,21 @@ class Category extends Model
      */
     public function scopeGetSubCategories($model, $limit = null, $offset = null, $search = null, $filter = array(), $sort = array())
     {
-        $records = Category::select('categories.id', 'categories.parent_id', 'categories.name', 'categories.image', 'categories.status', 'categories.created_at')
+        $records = Banner::select('banners.id', 'banners.parent_id', 'banners.title', 'banners.image', 'banners.status', 'banners.created_at')
         ->with([
-            "parentCategory" => function($query){
-                $query->select("id", "parent_id", "name", "image", "status");
+            "parentbanner" => function($query){
+                $query->select("id", "parent_id", "title", "image", "status");
             }
         ])
-        ->whereHas("parentCategory", function($query){
-            $query->select("id", "parent_id", "name", "image", "status");
+        ->whereHas("parentbanner", function($query){
+            $query->select("id", "parent_id", "title", "image", "status");
         })
         ->where(function($query) use($search, $filter, $sort){
             // Search
             if(!(empty($search)))
             {
                 $search = strtolower($search);
-                $query->whereRaw('( lower(categories.name) LIKE \'%'.$search.'%\' )');
+                $query->whereRaw('( lower(banners.title) LIKE \'%'.$search.'%\' )');
             }
         });
         
@@ -113,15 +101,15 @@ class Category extends Model
         if((!(empty($sort)) && $sort['column'] > 0) || !empty($search))
         {
             if($sort['column']){
-                $records = $records->join('categories as parent_category', 'parent_category.id', '=', 'categories.parent_id');
+                $records = $records->join('banners as parent_banner', 'parent_banner.id', '=', 'banners.parent_id');
             }
 
             $arr_fields = array(
                 "", 
-                "categories.name",
-                "parent_category.name",
-                "categories.created_at",
-                "categories.status",
+                "banners.title",
+                "parent_banner.title",
+                "banners.created_at",
+                "banners.status",
                 ""
             );
 
@@ -153,10 +141,12 @@ class Category extends Model
         $authUser = auth()->user();
         $requestArray = $request->all();
 
+        // dd($requestArray);
+
         $data = [
-            'parent_id' => !empty($requestArray['parent_id']) ? $requestArray['parent_id'] : null,
-            'name'       => $requestArray['name'],
+            'title'       => $requestArray['name'],
             'status'     => $requestArray['status'],
+            'type'       => $requestArray['type'],
             'created_by' => $authUser->id,
             'updated_by' => $authUser->id,
         ];
@@ -164,7 +154,7 @@ class Category extends Model
         // Upload image
         if ($request->hasFile('image')) {
 
-            $path = public_path('upload/category');
+            $path = public_path('upload/banner');
 
             if (!file_exists($path)) {
                 mkdir($path, 0777, true);
@@ -175,41 +165,41 @@ class Category extends Model
             $file->move($path, $filename);
 
             // Full URL save in DB
-            $data['image'] = asset('public/upload/category/' . $filename);
+            $data['image'] = asset('public/upload/banner/' . $filename);
         }
 
         return $this->create($data);
     }
 
     /**
-     * Update Category
+     * Update banner
      */
     public function scopeUpdateRecord($model, $request)
     {
         $authUser = auth()->user();
         $requestArray = $request->all();
+        
 
-        $categoryData = Category::where('id', $requestArray['category_id'])->first();
+        $bannerData = banner::where('id', $requestArray['banner_id'])->first();
 
-        if (!$categoryData) {
+        if (!$bannerData) {
             return null;
         }
 
         $data = [
-            'parent_id' => !empty($requestArray['parent_id']) ? $requestArray['parent_id'] : null,
-            'name'       => $requestArray['name'],
+            'title'       => $requestArray['name'],
             'status'     => $requestArray['status'],
             'updated_by'=> $authUser->id,
         ];
 
         if ($request->hasFile('image')) {
 
-            $path = public_path('upload/category');
+            $path = public_path('upload/banner');
 
             // Delete old image
-            if (!empty($categoryData->image)) {
+            if (!empty($bannerData->image)) {
                 $oldPath = public_path(
-                    str_replace(asset('/'), '', $categoryData->image)
+                    str_replace(asset('/'), '', $bannerData->image)
                 );
 
                 if (file_exists($oldPath)) {
@@ -228,11 +218,10 @@ class Category extends Model
             $file->move($path, $filename);
 
             // Save full URL
-            $data['image'] = asset('public/upload/category/' . $filename);
+            $data['image'] = asset('public/upload/banner/' . $filename);
         }
 
-        $categoryData->update($data);
-        return $categoryData;
+        $bannerData->update($data);
+        return $bannerData;
     }
-
 }

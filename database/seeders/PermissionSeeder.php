@@ -341,6 +341,39 @@ class PermissionSeeder extends Seeder
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ],
+            // Banner
+            [
+                'name' => 'View Banner',
+                'guard_name' => 'web',
+                'slug' => 'view-banner',
+                'module_name' => 'Banner',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ],
+            [
+                'name' => 'Add Banner',
+                'guard_name' => 'web',
+                'slug' => 'add-banner',
+                'module_name' => 'Banner',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ],
+            [
+                'name' => 'Edit Banner',
+                'guard_name' => 'web',
+                'slug' => 'edit-banner',
+                'module_name' => 'Banner',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ],
+            [
+                'name' => 'Delete Banner',
+                'guard_name' => 'web',
+                'slug' => 'delete-banner',
+                'module_name' => 'Banner',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ],
         ];
 
         foreach($permissionsData as $key => $value)
