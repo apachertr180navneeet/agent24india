@@ -48,9 +48,39 @@ class HomeController extends Controller
         // Send view data
         $this->viewData['pageTitle'] = 'Vendor List';
 
-        $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->get();
+        $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->paginate(12);
+
+        $category = Category::where('status', 1)->whereNull('parent_id')->get();
 
         $this->viewData['vendoruser'] = $vendoruser;
+        $this->viewData['category'] = $category;
+        
+        return view("front.vendorlist")->with($this->viewData);
+    }
+
+
+    public function vendorlistByLocation($location){
+        // Send view data
+        $this->viewData['pageTitle'] = 'Vendor List';
+
+        $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->where('district_id', $location)->paginate(12);
+        $category = Category::where('status', 1)->whereNull('parent_id')->get();
+
+        $this->viewData['vendoruser'] = $vendoruser;
+        $this->viewData['category'] = $category;
+        
+        return view("front.vendorlist")->with($this->viewData);
+    }
+
+    public function vendorlistByCategory($category){
+        // Send view data
+        $this->viewData['pageTitle'] = 'Vendor List';
+
+        $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->where('business_category_id', $category)->paginate(12);
+        $category = Category::where('status', 1)->whereNull('parent_id')->get();
+
+        $this->viewData['vendoruser'] = $vendoruser;
+        $this->viewData['category'] = $category;
         
         return view("front.vendorlist")->with($this->viewData);
     }

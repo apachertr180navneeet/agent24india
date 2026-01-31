@@ -203,6 +203,8 @@ Route::prefix('admin')->name('admin.')->group(function(){
 
 Route::get('/', [Front\HomeController::class, "index"])->name('front.index');
 Route::get('/vendorlist', [Front\HomeController::class, "vendorlist"])->name('front.vendorlist');
+Route::get('/vendorlist/{location}', [Front\HomeController::class, "vendorlistByLocation"])->name('front.vendorlist.location');
+Route::get('/category/vendorlist/{category}', [Front\HomeController::class, "vendorlistByCategory"])->name('front.vendorlist.category');
 
 Route::name('front.')->group(function(){
     // Route::get('/', [Front\HomeController::class, "index"])->name('index');

@@ -1,7 +1,7 @@
 <header class="header">
     <div class="container header-inner">
         <!-- Logo -->
-        <a href="#" class="logo">
+        <a href="{{route('front.index')}}" class="logo">
             <img src="{{asset('public/front/assets/images/logo/agent-india-logo2.png')}}" alt="Logo">
         </a>
         <!-- Toggle Button -->

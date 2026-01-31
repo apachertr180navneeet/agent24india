@@ -29,9 +29,12 @@
                     <div class="search-input">
                         <label for="category"><i class="lni lni-grid-alt theme-color"></i></label>
                         <select name="category" id="category">
-                            <option value="none" selected disabled>Choose Categories</option>
-                            @foreach($category as $key => $value)
-                                <option value="{{$value->id}}">{{$value->name}}</option>
+                            <option value="none">Choose Categories</option>
+                            @foreach($category as $value)
+                                <option value="{{ $value->id }}"
+                                    {{ request()->route('category') == $value->id ? 'selected' : '' }}>
+                                    {{ $value->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -46,10 +49,12 @@
         <div class="container">
             <div class="categories-grid">
                 @foreach($category as $key => $value)
-                    <div class="category-card">
-                        <img src="{{$value->image}}" alt="{{$value->name}}" >
-                        <span>{{$value->name}}</span>
-                    </div>
+                    <a href="{{ route('front.vendorlist.category', ['category' => $value->id]) }}">
+                        <div class="category-card">
+                            <img src="{{$value->image}}" alt="{{$value->name}}" >
+                            <span>{{$value->name}}</span>
+                        </div>
+                    </a>
                 @endforeach
             </div>
 
@@ -66,7 +71,7 @@
 
                 <!-- Location Card -->
                 @foreach($district as $districtkey => $districtvalue)    
-                    <a href="#" class="location-card1">
+                    <a href="{{ route('front.vendorlist.location', ['location' => $districtvalue->id]) }}" class="location-card1">
                         <img 
                             src="{{ $districtvalue->image 
                                 ? $districtvalue->image 

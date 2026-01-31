@@ -91,9 +91,12 @@
                         <div class="search-input">
                             <label for="location"><i class="lni lni-map-marker theme-color"></i></label>
                             <select name="location" id="location">
-                                <option value="none" selected disabled>Choose District</option>
-                                @foreach($districtList as $key => $value)
-                                <option value="{{$value->id}}">{{$value->name}}</option>
+                                <option value="none" disabled>Choose District</option>
+                                @foreach($districtList as $value)
+                                    <option value="{{ $value->id }}"
+                                        {{ request()->route('location') == $value->id ? 'selected' : '' }}>
+                                        {{ $value->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -221,5 +224,27 @@
         @include('front.layout.footer')
 
         @stack('scripts')
+
+        <script>
+            document.getElementById('location').addEventListener('change', function () {
+                let locationId = this.value;
+                if (locationId !== 'none') {
+                    let url = "{{ route('front.vendorlist.location', ':id') }}";
+                    url = url.replace(':id', locationId);
+                    window.location.href = url;
+                }
+            });
+        </script>
+
+        <script>
+            document.getElementById('category').addEventListener('change', function () {
+                let categoryId = this.value;
+                if (categoryId !== 'none') {
+                    let url = "{{ route('front.vendorlist.category', ':id') }}";
+                    url = url.replace(':id', categoryId);
+                    window.location.href = url;
+                }
+            });
+        </script>
     </body>
 </html>
