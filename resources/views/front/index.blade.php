@@ -67,11 +67,18 @@
                 <!-- Location Card -->
                 @foreach($district as $districtkey => $districtvalue)    
                     <a href="#" class="location-card1">
-                        <img src="https://mediawtravel.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2018/12/30030705/23.28.1-The-Blue-City-and-Mehrangarh-Fort-by-Sean-Hsu.jpg" alt="New York">
+                        <img 
+                            src="{{ $districtvalue->image 
+                                ? $districtvalue->image 
+                                : 'https://mediawtravel.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2018/12/30030705/23.28.1-The-Blue-City-and-Mehrangarh-Fort-by-Sean-Hsu.jpg' }}" 
+                            alt="{{ $districtvalue->name }}"
+                        >
+
                         <div class="overlay1">
-                            <h3 class="text-light">{{$districtvalue->name}}</h3>
+                            <h3 class="text-light">{{ $districtvalue->name }}</h3>
                         </div>
-                    </a>    
+                    </a>
+    
                 @endforeach
             </div>
         </div>

@@ -15,6 +15,7 @@ class District extends Model
     protected $fillable = [
         'state_id',
         'name',
+        'image',
         'status',
         'created_by',
         'updated_by'
@@ -92,6 +93,23 @@ class District extends Model
             'updated_by' => $authUser->id
         ];
 
+        // Upload image
+        if ($request->hasFile('image')) {
+
+            $path = public_path('upload/district');
+
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+
+            $file     = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move($path, $filename);
+
+            // Full URL save in DB
+            $data['image'] = asset('public/upload/district/' . $filename);
+        }
+
         $record = $this->create($data);
 
         return $record;
@@ -120,7 +138,23 @@ class District extends Model
                 'updated_at' => date('Y-m-d H:i:s'),
                 'updated_by' => $authUser->id
             ];
+            
+            // Upload image
+            if ($request->hasFile('image')) {
 
+                $path = public_path('upload/district');
+
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+
+                $file     = $request->file('image');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move($path, $filename);
+
+                // Full URL save in DB
+                $data['image'] = asset('public/upload/district/' . $filename);
+            }
             $district = $districtData->update($data);
         }
 

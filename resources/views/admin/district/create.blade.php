@@ -56,6 +56,12 @@
                                 <div class="row row-sm">
                                     <div class="col-md-6 col-lg-6 col-xl-6">
                                         <div class="form-group">
+                                            <label class="">Image</label>
+                                            <input type="file" class="form-control image-preview" id="image" name="image"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-lg-6 col-xl-6">
+                                        <div class="form-group">
                                             <label class="">Status</label>
                                             <select class="form-control select-picker" id="status" name="status">
                                                 <option value="1">Active</option>

@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Http\Traits\Orderable;
+use App\Http\Traits\Statusable;
+use App\Http\Traits\StatusToggleable;
 
 class Banner extends Model
 {
-    use HasFactory, SoftDeletes; // <-- Added SoftDeletes
+    use HasFactory, SoftDeletes, StatusToggleable; // <-- Added SoftDeletes
 
     protected $table = 'banners';
 

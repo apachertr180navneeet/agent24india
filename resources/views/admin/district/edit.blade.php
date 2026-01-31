@@ -57,6 +57,25 @@
 
                             <div class="row row-sm">
                                 <div class="col-md-6 col-lg-6 col-xl-6">
+                                    @php
+                                    $image = '';
+                                    if(isset($district->image) && !empty($district->image))
+                                    {
+                                        $image = $district->image;
+                                    }
+                                    @endphp
+                                    <div class="form-group">
+                                        <label class="">Image 
+                                            @if(!empty($image))
+                                                <!-- <span>
+                                                    <a href="{{$image}}" download><i class="fa fa-download"></i></a>
+                                                </span> -->
+                                            @endif
+                                        </label>
+                                        <input type="file" class="form-control image-preview" id="image" name="image" data-show-remove="false" data-default-file="{{$image}}"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xl-6">
                                     <div class="form-group">
                                         <label class="">Status</label>
                                         <select class="form-control select-picker" id="status" name="status">
