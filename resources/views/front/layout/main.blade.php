@@ -75,43 +75,13 @@
 
         @php
         $categoryModel = new \App\Models\Category();
+        $districtModel = new \App\Models\District();
         $businessCategory = $categoryModel->select('id', 'name')->where('status', 1)->get();
+        $districtList = $districtModel->select('id', 'name')->where('status', 1)->get();
         @endphp
 
         <!-- Start Header Area -->
         @include('front.layout.header')
-
-        <!-- Overlay -->
-        <div class="menu-overlay" id="menuOverlay"></div>
-
-        <!-- Slide Menu -->
-        <div class="side-menu" id="sideMenu">
-            <button class="close-btn" id="closeMenu">&times;</button>
-            <h4>
-                @if(\Auth::check())
-                    <a href="javascript:void(0)">{{auth()->user()->name}}</a>
-                @endif
-            </h4>
-            <ul>
-                <li><a href="{{route('front.index')}}">Home</a></li>
-                <li><a href="{{route('front.vendorlist')}}">Vendor List</a></li>
-                @if(\Auth::check())
-                <li><a href="{{route('front.profile')}}">Profile</a></li>
-                <li><a href="#">Free ad post</a></li>
-                <li><a href="#">Payment history</a></li>
-                @endif
-                <li><a href="#">Demo</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
-                <li><a href="#">Notice</a></li>
-                <li><a href="supportpage.html">Support & Help</a></li>
-                @if(\Auth::check())
-                    <li><a href="{{route('front.logout')}}">Logout</a></li>    
-                @else
-                    <li><a href="javascript:void(0)" class="open-signin">Sign In</a></li>
-                @endif
-            </ul>
-        </div>
 
         <!-- Location Selector -->
         <section class="container" >
@@ -122,11 +92,9 @@
                             <label for="location"><i class="lni lni-map-marker theme-color"></i></label>
                             <select name="location" id="location">
                                 <option value="none" selected disabled>Choose District</option>
-                                <option value="none">Jodhpur</option>
-                                <option value="none">Jaipur</option>
-                                <option value="none">Udaipur</option>
-                                <option value="none">Jaisalmer</option>
-                                <option value="none">Kota</option>
+                                @foreach($districtList as $key => $value)
+                                <option value="{{$value->id}}">{{$value->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

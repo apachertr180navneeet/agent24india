@@ -146,8 +146,6 @@ class UserController extends Controller
         $this->viewData['breadcrumb'] = $breadcrumb;
         $this->viewData['roles'] = $roles;
 
-        dd( $this->viewData);
-
         return view('admin.users.create')->with($this->viewData);
     }
 

@@ -12,3 +12,35 @@
         </button>
     </div>
 </header>
+
+<!-- Overlay -->
+<div class="menu-overlay" id="menuOverlay"></div>
+
+<!-- Slide Menu -->
+<div class="side-menu" id="sideMenu">
+    <button class="close-btn" id="closeMenu">&times;</button>
+    <h4>
+        @if(\Auth::check())
+            <a href="javascript:void(0)">{{auth()->user()->name}}</a>
+        @endif
+    </h4>
+    <ul>
+        <li><a href="{{route('front.index')}}">Home</a></li>
+        <li><a href="{{route('front.vendorlist')}}">Vendor List</a></li>
+        @if(\Auth::check())
+        <li><a href="{{route('front.profile')}}">Profile</a></li>
+        <li><a href="#">Free ad post</a></li>
+        <li><a href="#">Payment history</a></li>
+        @endif
+        <li><a href="#">Demo</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="#">Notice</a></li>
+        <li><a href="supportpage.html">Support & Help</a></li>
+        @if(\Auth::check())
+            <li><a href="{{route('front.logout')}}">Logout</a></li>    
+        @else
+            <li><a href="javascript:void(0)" class="open-signin">Sign In</a></li>
+        @endif
+    </ul>
+</div>

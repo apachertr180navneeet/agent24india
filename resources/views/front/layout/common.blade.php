@@ -33,7 +33,9 @@
 
         @php
         $categoryModel = new \App\Models\Category();
+        $districtModel = new \App\Models\District();
         $businessCategory = $categoryModel->select('id', 'name')->where('status', 1)->get();
+        $districtList = $districtModel->select('id', 'name')->where('status', 1)->get();
         @endphp
 
         <!-- Start Header Area -->
@@ -80,11 +82,9 @@
                             <label for="location"><i class="lni lni-map-marker theme-color"></i></label>
                             <select name="location" id="location">
                                 <option value="none" selected disabled>Choose District</option>
-                                <option value="none">Jodhpur</option>
-                                <option value="none">Jaipur</option>
-                                <option value="none">Udaipur</option>
-                                <option value="none">Jaisalmer</option>
-                                <option value="none">Kota</option>
+                                @foreach($districtList as $key => $value)
+                                <option value="{{$value->id}}">{{$value->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

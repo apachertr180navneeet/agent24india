@@ -14,6 +14,7 @@ use App\Models\District;
 use App\Models\City;
 use App\Models\State;
 use App\Models\Banner;
+use App\Models\Category;
 
 class HomeController extends Controller
 {
@@ -28,9 +29,16 @@ class HomeController extends Controller
         $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->get();
 
         $banner = Banner::where('status', 1)->get();
-        $this->viewData['banner'] = $banner;
 
+        $category = Category::where('status', 1)->whereNull('parent_id')->get();
+
+        $district = District::where('status', 1)->get();
+
+
+        $this->viewData['banner'] = $banner;
         $this->viewData['vendoruser'] = $vendoruser;
+        $this->viewData['category'] = $category;
+        $this->viewData['district'] = $district;
         
         return view("front.index")->with($this->viewData);
     }

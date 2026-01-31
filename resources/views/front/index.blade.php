@@ -30,16 +30,9 @@
                         <label for="category"><i class="lni lni-grid-alt theme-color"></i></label>
                         <select name="category" id="category">
                             <option value="none" selected disabled>Choose Categories</option>
-                            <option value="none">Vehicle</option>
-                            <option value="none">Electronics</option>
-                            <option value="none">Mobiles</option>
-                            <option value="none">Furniture</option>
-                            <option value="none">Fashion</option>
-                            <option value="none">Jobs</option>
-                            <option value="none">Real Estate</option>
-                            <option value="none">Animals</option>
-                            <option value="none">Education</option>
-                            <option value="none">Matrimony</option>
+                            @foreach($category as $key => $value)
+                                <option value="{{$value->id}}">{{$value->name}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -52,108 +45,12 @@
     <section class="categories-section">
         <div class="container">
             <div class="categories-grid">
-
-                <div class="category-card">
-                    <img src="{{asset('public/front/assets/images/categories/work-location_18281361.png')}}" alt="" >
-                    <span>Travel</span>
-                </div>
-
-                <div class="category-card">
-                    <img src="{{asset('public/front/assets/images/categories/driving_school_2023.svg')}}" alt="">
-                    <span>RTO</span>
-                </div>
-
-                <div class="category-card">
-                    <img src="{{asset('public/front/assets/images/categories/clothes-hanger_2357063.png')}}" alt="">
-                    <span>Cloths</span>
-                </div>
-
-                <div class="category-card">
-                    <img src="{{asset('public/front/assets/images/categories/real-estate-agent_10725791.png')}}" alt="">
-                    <span>Property</span>
-                </div>
-
-                <div class="category-card">
-                <img src="{{asset('public/front/assets/images/categories/jewelry_6790507.png')}}" alt="">
-                    <span>Jewelry</span>
-                </div>
-
-                <div class="category-card">
-                    <img src="{{asset('public/front/assets/images/categories/work-location_18281361.png')}}" alt="" >
-                    <span>Travel</span>
-                </div>
-
-                <div class="category-card">
-                    <img src="{{asset('public/front/assets/images/categories/driving_school_2023.svg')}}" alt="">
-                    <span>RTO</span>
-                </div>
-
-                <div class="category-card">
-                    <img src="{{asset('public/front/assets/images/categories/clothes-hanger_2357063.png')}}" alt="">
-                    <span>Cloths</span>
-                </div>
-
-                <div class="category-card">
-                    <img src="{{asset('public/front/assets/images/categories/real-estate-agent_10725791.png')}}" alt="">
-                    <span>Property</span>
-                </div>
-
-                <div class="category-card">
-                <img src="{{asset('public/front/assets/images/categories/jewelry_6790507.png')}}" alt="">
-                    <span>Jewelry</span>
-                </div>
-                
-                <div class="category-card">
-                    <img src="{{asset('public/front/assets/images/categories/clothes-hanger_2357063.png')}}" alt="">
-                    <span>Cloths</span>
-                </div>
-
-                <div class="category-card">
-                    <img src="{{asset('public/front/assets/images/categories/real-estate-agent_10725791.png')}}" alt="">
-                    <span>Property</span>
-                </div>
-
-                <div class="category-card">
-                <img src="{{asset('public/front/assets/images/categories/jewelry_6790507.png')}}" alt="">
-                    <span>Jewelry</span>
-                </div>
-                
-                <div class="category-card">
-                    <img src="{{asset('public/front/assets/images/categories/work-location_18281361.png')}}" alt="" >
-                    <span>Travel</span>
-                </div>
-
-                <div class="category-card">
-                <img src="{{asset('public/front/assets/images/categories/jewelry_6790507.png')}}" alt="">
-                    <span>Jewelry</span>
-                </div>
-
-                <div class="category-card">
-                    <img src="{{asset('public/front/assets/images/categories/driving_school_2023.svg')}}" alt="">
-                    <span>RTO</span>
-                </div>
-
-                <div class="category-card">
-                    <img src="{{asset('public/front/assets/images/categories/real-estate-agent_10725791.png')}}" alt="">
-                    <span>Property</span>
-                </div>
-
-                <div class="category-card">
-                <img src="{{asset('public/front/assets/images/categories/jewelry_6790507.png')}}" alt="">
-                    <span>Jewelry</span>
-                </div>
-
-                <div class="category-card">
-                    <img src="{{asset('public/front/assets/images/categories/work-location_18281361.png')}}" alt="" >
-                    <span>Travel</span>
-                </div>
-
-                <div class="category-card">
-                    <img src="{{asset('public/front/assets/images/categories/driving_school_2023.svg')}}" alt="">
-                    <span>RTO</span>
-                </div>
-
-
+                @foreach($category as $key => $value)
+                    <div class="category-card">
+                        <img src="{{$value->image}}" alt="{{$value->name}}" >
+                        <span>{{$value->name}}</span>
+                    </div>
+                @endforeach
             </div>
 
         </div>
@@ -163,90 +60,19 @@
     <section class="locations-section1">
         <div class="container">
             <div class="section-title">
-                            <h2 class="wow fadeInUp" data-wow-delay=".4s">Show Locations </h2>
-                        </div>
+                <h2 class="wow fadeInUp" data-wow-delay=".4s">Show Locations </h2>
+            </div>
             <div class="locations-grid1">
 
                 <!-- Location Card -->
-                <a href="#" class="location-card1">
-                    <img src="https://mediawtravel.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2018/12/30030705/23.28.1-The-Blue-City-and-Mehrangarh-Fort-by-Sean-Hsu.jpg" alt="New York">
-                    <div class="overlay1">
-                        <h3 class="text-light">Jodhpur</h3>
-                    </div>
-                </a>
-
-                <!-- Location Card -->
-            <a href="#" class="location-card1">
-                    <img src="https://mediawtravel.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2018/12/30030705/23.28.1-The-Blue-City-and-Mehrangarh-Fort-by-Sean-Hsu.jpg" alt="New York">
-                    <div class="overlay1">
-                        <h3 class="text-light">Jaipur</h3>
-                    </div>
-                </a>
-
-
-                <!-- Location Card -->
-            <a href="#" class="location-card1">
-                    <img src="https://mediawtravel.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2018/12/30030705/23.28.1-The-Blue-City-and-Mehrangarh-Fort-by-Sean-Hsu.jpg" alt="New York">
-                    <div class="overlay1">
-                        <h3 class="text-light">Udaipur</h3>
-                    </div>
-                </a>
-
-                <!-- Location Card -->
-            <a href="#" class="location-card1">
-                    <img src="https://mediawtravel.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2018/12/30030705/23.28.1-The-Blue-City-and-Mehrangarh-Fort-by-Sean-Hsu.jpg" alt="New York">
-                    <div class="overlay1">
-                        <h3 class="text-light">Jaisalmer</h3>
-                    </div>
-                </a>
-
-                <!-- Location Card -->
-            <a href="#" class="location-card1">
-                    <img src="https://mediawtravel.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2018/12/30030705/23.28.1-The-Blue-City-and-Mehrangarh-Fort-by-Sean-Hsu.jpg" alt="New York">
-                    <div class="overlay1">
-                        <h3 class="text-light">Kota</h3>
-                    </div>
-                </a>
-                <!-- Location Card -->
-                <a href="#" class="location-card1">
-                    <img src="https://mediawtravel.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2018/12/30030705/23.28.1-The-Blue-City-and-Mehrangarh-Fort-by-Sean-Hsu.jpg" alt="New York">
-                    <div class="overlay1">
-                        <h3 class="text-light">Jodhpur</h3>
-                    </div>
-                </a>
-
-                <!-- Location Card -->
-            <a href="#" class="location-card1">
-                    <img src="https://mediawtravel.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2018/12/30030705/23.28.1-The-Blue-City-and-Mehrangarh-Fort-by-Sean-Hsu.jpg" alt="New York">
-                    <div class="overlay1">
-                        <h3 class="text-light">Jaipur</h3>
-                    </div>
-                </a>
-
-
-                <!-- Location Card -->
-            <a href="#" class="location-card1">
-                    <img src="https://mediawtravel.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2018/12/30030705/23.28.1-The-Blue-City-and-Mehrangarh-Fort-by-Sean-Hsu.jpg" alt="New York">
-                    <div class="overlay1">
-                        <h3 class="text-light">Udaipur</h3>
-                    </div>
-                </a>
-
-                <!-- Location Card -->
-            <a href="#" class="location-card1">
-                    <img src="https://mediawtravel.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2018/12/30030705/23.28.1-The-Blue-City-and-Mehrangarh-Fort-by-Sean-Hsu.jpg" alt="New York">
-                    <div class="overlay1">
-                        <h3 class="text-light">Jaisalmer</h3>
-                    </div>
-                </a>
-
-                <!-- Location Card -->
-            <a href="#" class="location-card1">
-                    <img src="https://mediawtravel.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2018/12/30030705/23.28.1-The-Blue-City-and-Mehrangarh-Fort-by-Sean-Hsu.jpg" alt="New York">
-                    <div class="overlay1">
-                        <h3 class="text-light">Kota</h3>
-                    </div>
-                </a>      
+                @foreach($district as $districtkey => $districtvalue)    
+                    <a href="#" class="location-card1">
+                        <img src="https://mediawtravel.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2018/12/30030705/23.28.1-The-Blue-City-and-Mehrangarh-Fort-by-Sean-Hsu.jpg" alt="New York">
+                        <div class="overlay1">
+                            <h3 class="text-light">{{$districtvalue->name}}</h3>
+                        </div>
+                    </a>    
+                @endforeach
             </div>
         </div>
     </section>
