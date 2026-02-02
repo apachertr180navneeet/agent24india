@@ -9,22 +9,11 @@
 <!-- Start Hero Area -->
 <section class="hero-area">
     <div class="hero-slider">
-        <div class="slide active">
-            <img src="{{ asset('public/front/assets/images/hero/banner-1.png') }}" alt="Slide 1">
-        </div>
-        <div class="slide">
-            <img src="{{ asset('public/front/assets/images/hero/banner-2.png') }}" alt="Slide 2">
-        </div>
-        <div class="slide">
-            <img src="{{ asset('public/front/assets/images/hero/banner-3.jpg') }}" alt="Slide 3">
-        </div>
-        <div class="slide">
-            <img src="{{ asset('public/front/assets/images/hero/banner-4.avif') }}" alt="Slide 4">
-        </div>
-        <div class="slide">
-            <img src="{{ asset('public/front/assets/images/hero/banner-5.jpg') }}" alt="Slide 5">
-        </div>
-
+        @foreach ($topadvertisments as $topadvertisment)
+            <div class="slide active">
+                <img src="{{ $topadvertisment->image }}" alt="{{ $topadvertisment->image_alt }}">
+            </div>
+        @endforeach
         <button class="arrow prev">&#10094;</button>
         <button class="arrow next">&#10095;</button>
         <div class="dots"></div>
@@ -124,15 +113,11 @@
 
                 <!-- Sidebar -->
                 <div class="col-lg-3 col-md-12 col-right">
-                    <div class="sidebar-box mb-3">
-                        <img src="{{ asset('public/front/assets/images/sidebanner/sidebanner1.jpg') }}" alt="">
-                    </div>
-                    <div class="sidebar-box mb-3">
-                        <img src="{{ asset('public/front/assets/images/sidebanner/sidebanner2.jpg') }}" alt="">
-                    </div>
-                    <div class="sidebar-box mb-3">
-                        <img src="{{ asset('public/front/assets/images/sidebanner/sidebanner3.jpg') }}" alt="">
-                    </div>
+                    @foreach($sideadvertisments as $sideadvertisment)
+                        <div class="sidebar-box mb-3">
+                            <img src="{{ $sideadvertisment->image }}" alt="{{ $sideadvertisment->image_alt }}">
+                        </div>
+                    @endforeach
                 </div>
                 <!-- /Sidebar -->
 

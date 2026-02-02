@@ -15,6 +15,7 @@ use App\Models\City;
 use App\Models\State;
 use App\Models\Banner;
 use App\Models\Category;
+use App\Models\Advertisment;
 
 class HomeController extends Controller
 {
@@ -52,8 +53,18 @@ class HomeController extends Controller
 
         $category = Category::where('status', 1)->whereNull('parent_id')->get();
 
+        $topadvertisments = Advertisment::where('status', 1)
+                        ->where('sub_type', 'top')
+                        ->get();
+
+        $sideadvertisments = Advertisment::where('status', 1)
+                ->where('sub_type', 'side')
+                ->get();
+
         $this->viewData['vendoruser'] = $vendoruser;
         $this->viewData['category'] = $category;
+        $this->viewData['topadvertisments'] = $topadvertisments;
+        $this->viewData['sideadvertisments'] = $sideadvertisments;
         
         return view("front.vendorlist")->with($this->viewData);
     }
@@ -66,8 +77,20 @@ class HomeController extends Controller
         $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->where('district_id', $location)->paginate(12);
         $category = Category::where('status', 1)->whereNull('parent_id')->get();
 
+        $topadvertisments = Advertisment::where('status', 1)
+                ->where('sub_type', 'top')
+                ->where('district', $location)
+                ->get();
+
+        $sideadvertisments = Advertisment::where('status', 1)
+                ->where('sub_type', 'side')
+                ->where('district', $location)
+                ->get();
+
         $this->viewData['vendoruser'] = $vendoruser;
         $this->viewData['category'] = $category;
+        $this->viewData['topadvertisments'] = $topadvertisments;
+        $this->viewData['sideadvertisments'] = $sideadvertisments;
         
         return view("front.vendorlist")->with($this->viewData);
     }
@@ -77,10 +100,24 @@ class HomeController extends Controller
         $this->viewData['pageTitle'] = 'Vendor List';
 
         $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->where('business_category_id', $category)->paginate(12);
-        $category = Category::where('status', 1)->whereNull('parent_id')->get();
+        $categories = Category::where('status', 1)->whereNull('parent_id')->get();
+
+        $topadvertisments = Advertisment::where('status', 1)
+            ->where('sub_type', 'top')
+            ->where('category', $category)
+            ->get();
+
+        $sideadvertisments = Advertisment::where('status', 1)
+            ->where('sub_type', 'side')
+            ->where('category', $category)
+            ->get();
 
         $this->viewData['vendoruser'] = $vendoruser;
-        $this->viewData['category'] = $category;
+        $this->viewData['category'] = $categories;
+        $this->viewData['topadvertisments'] = $topadvertisments;
+        $this->viewData['sideadvertisments'] = $sideadvertisments;
+
+
         
         return view("front.vendorlist")->with($this->viewData);
     }
