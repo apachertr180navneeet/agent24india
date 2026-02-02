@@ -11,10 +11,10 @@
                     <div class="single-footer f-link">
                         <h3>Quick Links</h3>
                         <ul>
-                            <li><a href="javascript:void(0)">Home</a></li>
-                            <li><a href="javascript:void(0)">About Us</a></li>
-                            <li><a href="javascript:void(0)">Contact Us</a></li>
-                            <li><a href="javascript:void(0)">Profile</a></li>
+                            <li><a href="{{route('front.index')}}">Home</a></li>
+                            <li><a href="{{route('front.aboutus')}}">About Us</a></li>
+                            <li><a href="{{route('front.contactus')}}">Contact Us</a></li>
+                            <li><a href="{{route('front.profile')}}">Profile</a></li>
                         </ul>
                     </div>
                 </div>
@@ -24,6 +24,8 @@
                         <h3>Support Links</h3>
                         <ul>
                             <li><a href="javascript:void(0)">Help & Support</a></li>
+                            <li><a href="{{route('front.termsAndConditions')}}">Terms & Conditions</a></li>
+                            <li><a href="{{route('front.privacyPolicy')}}">Privacy Policy</a></li>
                         </ul>
                     </div>
                 </div>

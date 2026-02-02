@@ -218,6 +218,10 @@ Route::prefix('admin')->name('admin.')->group(function(){
 });
 
 Route::get('/', [Front\HomeController::class, "index"])->name('front.index');
+Route::get('/about-us', [Front\HomeController::class, "aboutus"])->name('front.aboutus');
+Route::get('/contact-us', [Front\HomeController::class, "contactus"])->name('front.contactus');
+Route::get('/terms-and-conditions', [Front\HomeController::class, "termsAndConditions"])->name('front.termsAndConditions');
+Route::get('/privacy-policy', [Front\HomeController::class, "privacyPolicy"])->name('front.privacyPolicy');
 Route::get('/vendorlist', [Front\HomeController::class, "vendorlist"])->name('front.vendorlist');
 Route::get('/vendorlist/{location}', [Front\HomeController::class, "vendorlistByLocation"])->name('front.vendorlist.location');
 Route::get('/category/vendorlist/{category}', [Front\HomeController::class, "vendorlistByCategory"])->name('front.vendorlist.category');

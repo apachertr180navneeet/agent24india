@@ -32,11 +32,12 @@
         <li><a href="#">Free ad post</a></li>
         <li><a href="#">Payment history</a></li>
         @endif
-        <li><a href="#">Demo</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="{{route('front.aboutus')}}">About Us</a></li>
+        <li><a href="{{route('front.contactus')}}">Contact Us</a></li>
         <li><a href="#">Notice</a></li>
         <li><a href="supportpage.html">Support & Help</a></li>
+        <li><a href="{{route('front.termsAndConditions')}}">Terms & Conditions</a></li>
+        <li><a href="{{route('front.privacyPolicy')}}">Privacy Policy</a></li>
         @if(\Auth::check())
             <li><a href="{{route('front.logout')}}">Logout</a></li>    
         @else

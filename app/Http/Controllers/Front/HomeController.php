@@ -45,6 +45,38 @@ class HomeController extends Controller
     }
 
 
+    public function aboutus(){
+        // Send view data
+        $this->viewData['pageTitle'] = 'About Us';
+
+        return view("front.about")->with($this->viewData);
+    }
+
+
+    public function termsAndConditions(){
+        // Send view data
+        $this->viewData['pageTitle'] = 'Terms & Conditions';
+
+        return view("front.termsAndConditions")->with($this->viewData);
+    }
+
+
+    public function privacyPolicy(){
+        // Send view data
+        $this->viewData['pageTitle'] = 'Privacy Policy';
+
+        return view("front.privacypolicy")->with($this->viewData);
+    }
+
+
+    public function contactus(){
+        // Send view data
+        $this->viewData['pageTitle'] = 'Contact Us';
+
+        return view("front.contactus")->with($this->viewData);
+    }
+
+
     public function vendorlist(){
         // Send view data
         $this->viewData['pageTitle'] = 'Vendor List';
