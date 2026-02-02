@@ -112,6 +112,16 @@ $currentRoute = request()->route()->getName();
                         </li>
                         @endif
 
+                        @if(auth()->user()->hasPermissionTo('View Advertisment'))
+                        <li class="nav-item">
+                            <a href="{{ route('admin.advertisment.index') }}" 
+                               class="nav-link {{ request()->routeIs('admin.advertisment.*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-ad"></i>
+                                <p>Advertisment</p>
+                            </a>
+                        </li>
+                        @endif
+
                         @if(auth()->user()->hasPermissionTo('View State'))
                         <li class="nav-item">
                             <a href="{{ route('admin.state.index') }}" 

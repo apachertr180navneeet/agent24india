@@ -374,6 +374,40 @@ class PermissionSeeder extends Seeder
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ],
+
+            // Advertisment
+            [
+                'name' => 'View Advertisment',
+                'guard_name' => 'web',
+                'slug' => 'view-advertisment',
+                'module_name' => 'Advertisment',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ],
+            [
+                'name' => 'Add Advertisment',
+                'guard_name' => 'web',
+                'slug' => 'add-advertisment',
+                'module_name' => 'Advertisment',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ],
+            [
+                'name' => 'Edit Advertisment',
+                'guard_name' => 'web',
+                'slug' => 'edit-advertisment',
+                'module_name' => 'Advertisment',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ],
+            [
+                'name' => 'Delete Advertisment',
+                'guard_name' => 'web',
+                'slug' => 'delete-advertisment',
+                'module_name' => 'Advertisment',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ],
         ];
 
         foreach($permissionsData as $key => $value)

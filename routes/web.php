@@ -95,6 +95,22 @@ Route::prefix('admin')->name('admin.')->group(function(){
             Route::post('/check-name', [Admin\BannerController::class, 'checkName'])->name('banner.checkName');
         });
 
+        Route::prefix("advertisment")->group(function(){
+            Route::get("/", [Admin\AdvertismentController::class, "index"])->name("advertisment.index");
+            Route::get('/list', [Admin\AdvertismentController::class, 'getAdvertisments'])->name('advertisment.getAdvertisments');
+            Route::get("/create", [Admin\AdvertismentController::class, "create"])->name("advertisment.create");
+            Route::post("/store", [Admin\AdvertismentController::class, "store"])->name("advertisment.store");
+            Route::get("/edit/{id}", [Admin\AdvertismentController::class, "edit"])->name("advertisment.edit");
+            Route::post("/update/{id}", [Admin\AdvertismentController::class, "update"])->name("advertisment.update");
+            Route::post("/change-status", [Admin\AdvertismentController::class, "changeStatus"])->name("advertisment.changeStatus");
+            Route::delete('/destroy', [Admin\AdvertismentController::class, 'destroy'])->name('advertisment.destroy');
+            Route::get('/destroy-single/{id}', [Admin\AdvertismentController::class, 'deleteSingle'])->name('advertisment.deleteSingle');
+            Route::get('/export/{type}/{id?}', [Admin\AdvertismentController::class, 'export'])->name('advertisment.export');
+
+            // Ajax check
+            Route::post('/check-name', [Admin\AdvertismentController::class, 'checkName'])->name('advertisment.checkName');
+        });
+
         Route::prefix("tag")->group(function(){
             Route::get("/", [Admin\SubCategoryController::class, "index"])->name("subcategory.index");
             Route::get('/list', [Admin\SubCategoryController::class, 'getSubCategories'])->name('subcategory.getSubCategories');
