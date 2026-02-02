@@ -229,6 +229,8 @@ Route::name('front.')->group(function(){
 
     Route::post('/signup', [Front\HomeController::class, "signup"])->name('signup');
 
+    Route::post('/update-category', [Front\ProfileController::class, 'updateCategory'])->name('updateCategory');
+
     Route::middleware('auth')->group(function(){
         Route::get('/profile', [Front\ProfileController::class, "index"])->name('profile');
         Route::post('/update-profile', [Front\ProfileController::class, "updateProfile"])->name('updateProfile');

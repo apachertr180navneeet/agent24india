@@ -14,6 +14,7 @@ use App\Models\BusinessCategory;
 use App\Models\District;
 use App\Models\City;
 use App\Models\State;
+use App\Models\Category;
 use App\Http\Traits\UploadImage;
 use App\Http\Traits\UploadFile;
 
@@ -28,9 +29,12 @@ class ProfileController extends Controller
     public function index(){
         $user = Auth::user();
 
+        $parentCategories = Category::where('status', 1)->whereNull('parent_id')->get();
+
         // Send view data
         $this->viewData['user'] = $user;
         $this->viewData['pageTitle'] = 'Profile';
+        $this->viewData['parentCategories'] = $parentCategories;
         
         return view("front.profile")->with($this->viewData);
     }
@@ -249,5 +253,28 @@ class ProfileController extends Controller
             'data' => $data
         ];
         return response()->json($response);
+    }
+
+    public function updateCategory(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $user->business_category_id = $request->business_category_id;
+            $user->save();
+
+
+            $category = Category::where('parent_id', $request->business_category_id)->get();
+            
+            return response()->json([
+                'status' => true,
+                'message' => 'Category updated successfully',
+                'category' => $category
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to update category'
+            ]);
+        }
     }
 }

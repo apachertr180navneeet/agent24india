@@ -183,7 +183,7 @@ class HomeController extends Controller
 
         $districtname = ucfirst(strtolower($request->district_id));
 
-        $district = District::where('name', $districtname)->where('state_id', $state_id)->where('city_id', $city_id)->first();
+        $district = District::where('name', $districtname)->where('state_id', $state_id)->first();
         if(!$district){
             $district = District::create([
                 'name' => $districtname,

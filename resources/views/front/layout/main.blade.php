@@ -109,7 +109,7 @@
             <div class="auth-popup">
             <span class="close-btn1">&times;</span>
             <div class="auth-header">
-                <img src="assets/images/logo/agent-24india-logo.png" alt="Logo" class="logo" />
+                <img src="{{asset('public/front/assets/images/logo/agent-india-logo2.png')}}" alt="Logo" class="logo" />
             </div>
 
             <div class="auth-tabs">
@@ -226,25 +226,29 @@
         @stack('scripts')
 
         <script>
-            document.getElementById('location').addEventListener('change', function () {
-                let locationId = this.value;
-                if (locationId !== 'none') {
-                    let url = "{{ route('front.vendorlist.location', ':id') }}";
-                    url = url.replace(':id', locationId);
-                    window.location.href = url;
-                }
-            });
-        </script>
+            const locationEl = document.getElementById('location');
+            if (locationEl) {
+                locationEl.addEventListener('change', function () {
+                    let locationId = this.value;
+                    if (locationId !== 'none') {
+                        let url = "{{ route('front.vendorlist.location', ':id') }}";
+                        url = url.replace(':id', locationId);
+                        window.location.href = url;
+                    }
+                });
+            }
 
-        <script>
-            document.getElementById('category').addEventListener('change', function () {
-                let categoryId = this.value;
-                if (categoryId !== 'none') {
-                    let url = "{{ route('front.vendorlist.category', ':id') }}";
-                    url = url.replace(':id', categoryId);
-                    window.location.href = url;
-                }
-            });
+            const categoryEl = document.getElementById('category');
+            if (categoryEl) {
+                categoryEl.addEventListener('change', function () {
+                    let categoryId = this.value;
+                    if (categoryId !== 'none') {
+                        let url = "{{ route('front.vendorlist.category', ':id') }}";
+                        url = url.replace(':id', categoryId);
+                        window.location.href = url;
+                    }
+                });
+            }
         </script>
     </body>
 </html>

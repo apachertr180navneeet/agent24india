@@ -101,10 +101,10 @@
             <div class="tags-row">
                 <div class="tag-field">
                     <label>Category:</label>
-                    <select>
-                        <option>Travel</option>
-                        <option>RTO</option>
-                        <option>Food</option>
+                    <select name="business_category_id" id="business_category_id" onchange="updateCategory(this.value)">
+                        @foreach($parentCategories as $category)
+                            <option value="{{$category->id}}" @if($user->business_category_id == $category->id) selected @endif>{{$category->name}}</option>
+                        @endforeach
                     </select>
                 </div>
 
@@ -118,7 +118,7 @@
                 </div>
             </div>
 
-            <div class="selected-tags">
+            {{--  <div class="selected-tags">
                 <span class="tag-pill">
                     Car Travel <span class="remove">&times;</span>
                 </span>
@@ -128,7 +128,7 @@
                 <span class="tag-pill">
                     Bus Travel <span class="remove">&times;</span>
                 </span>
-            </div>
+            </div>  --}}
         </div>
 
         <div class="desc-box">
@@ -271,6 +271,33 @@
             reader.readAsDataURL(file);
         }
     }
+
+    function updateCategory(categoryId) {
+        $.ajax({
+            url: "{{ route('front.updateCategory') }}", // Update this route as per your application
+            method: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                business_category_id: categoryId
+            },
+            beforeSend: function(xhr, settings) {
+                console.log('Updating category:', categoryId);
+            },
+            success: function(response, textStatus, xhr) {
+                console.log('Category updated successfully:', response);
+                if(response.status) {
+                    toastr.success(response.message);
+                } else {
+                    toastr.error(response.message);
+                }
+            },
+            error: function(xhr, textStatus, error) {
+                console.log('Error updating category:', error);
+                toastr.error('Failed to update category');
+            }
+        });
+    }
+    
     
     document.querySelectorAll('.remove').forEach(btn => {
         btn.onclick = function () {

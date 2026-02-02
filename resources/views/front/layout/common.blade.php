@@ -96,7 +96,7 @@
             <div class="auth-popup">
             <span class="close-btn1">&times;</span>
             <div class="auth-header">
-                <img src="assets/images/logo/agent-24india-logo.png" alt="Logo" class="logo" />
+                <img src="{{asset('public/front/assets/images/logo/agent-india-logo2.png')}}" alt="Logo" class="logo" />
             </div>
 
             <div class="auth-tabs">
