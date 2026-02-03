@@ -76,8 +76,12 @@
         @php
         $categoryModel = new \App\Models\Category();
         $districtModel = new \App\Models\District();
+        $cityModel = new \App\Models\City();
+        $stateModel = new \App\Models\State();
         $businessCategory = $categoryModel->select('id', 'name')->where('status', 1)->get();
         $districtList = $districtModel->select('id', 'name')->where('status', 1)->get();
+        $cityList = $cityModel->select('id', 'name')->where('status', 1)->get();
+        $stateList = $stateModel->select('id', 'name')->where('status', 1)->get();
         @endphp
 
         <!-- Start Header Area -->
@@ -159,15 +163,31 @@
                         <input type="text" name="business_address" id="business_address" placeholder="Business Address">
                         <div class="row d-flex">
                             <div class="col-lg-6">
-                                <input type="text" name="district_id" id="district_id" placeholder="District">
+                                <select name="district_id" id="district_id">
+                                    <option value="">Select District</option>
+                                    @foreach($districtList as $key => $value)
+                                    <option value="{{$value->id}}">{{$value->name}}</option>
+                                    @endforeach
+                                </select>
+
                             </div>
                             <div class="col-lg-6">
-                                <input type="text" name="city_id" id="city_id" placeholder="City">
+                                <select name="city_id" id="city_id">
+                                    <option value="">Select City</option>
+                                    @foreach($cityList as $key => $value)
+                                    <option value="{{$value->id}}">{{$value->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="row d-flex">
                             <div class="col-lg-6">
-                                <input type="text" name="state_id" id="state_id" placeholder="State">
+                                <select name="state_id" id="state_id">
+                                    <option value="">Select State</option>
+                                    @foreach($stateList as $key => $value)
+                                    <option value="{{$value->id}}">{{$value->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="col-lg-6">
                                 <input type="text" name="pincode" id="pincode" placeholder="Pin Code">

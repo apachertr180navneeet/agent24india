@@ -247,7 +247,6 @@ class HomeController extends Controller
                 'password' => Hash::make($request->password),
                 // 'terms_agree' => $request->terms_agree,
                 'terms_agree' => true,
-                'status' => 0,
             ];
 
             $user = User::create($data);
