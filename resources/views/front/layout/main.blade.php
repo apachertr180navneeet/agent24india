@@ -95,10 +95,9 @@
                         <div class="search-input">
                             <label for="location"><i class="lni lni-map-marker theme-color"></i></label>
                             <select name="location" id="location">
-                                <option value="none" disabled>Choose District</option>
+                                <option value="none">Choose District</option>
                                 @foreach($districtList as $value)
-                                    <option value="{{ $value->id }}"
-                                        {{ request()->route('location') == $value->id ? 'selected' : '' }}>
+                                    <option value="{{ $value->id }}">
                                         {{ $value->name }}
                                     </option>
                                 @endforeach

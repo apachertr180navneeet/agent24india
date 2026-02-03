@@ -191,40 +191,13 @@ class HomeController extends Controller
 
     public function signup(Request $request){
 
-        $statename = ucfirst(strtolower($request->state_id));
-        $state = State::where('name', $statename)->first();
-
-        if(!$state){
-            $state = State::create([
-                'name' => $statename
-            ]);
-        }
-
-        $state_id = $state->id;
+        $state_id = $request->state_id;
         
-        $cityname = ucfirst(strtolower($request->city_id));
-        $city = City::where('name', $cityname)->where('state_id', $state_id)->first();
         
-        if(!$city){
-            $city = City::create([
-                'name' => $cityname,
-                'state_id' => $state_id
-            ]);
-        }
-        $city_id = $city->id;
+        $city_id = $request->city_id;
 
-        $districtname = ucfirst(strtolower($request->district_id));
-
-        $district = District::where('name', $districtname)->where('state_id', $state_id)->first();
-        if(!$district){
-            $district = District::create([
-                'name' => $districtname,
-                'state_id' => $state_id,
-                'city_id' => $city_id
-            ]);
-        }
-
-        $district_id = $district->id;
+        
+        $district_id = $request->district_id;
 
         DB::beginTransaction();
         try{
