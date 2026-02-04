@@ -33,6 +33,8 @@ class HomeController extends Controller
 
         $category = Category::where('status', 1)->whereNull('parent_id')->get();
 
+        $districthome = District::where('status', 1)->where('is_home', 1)->orderBy('district_order', 'asc')->get();
+
         $district = District::where('status', 1)->get();
 
 
@@ -40,6 +42,7 @@ class HomeController extends Controller
         $this->viewData['vendoruser'] = $vendoruser;
         $this->viewData['category'] = $category;
         $this->viewData['district'] = $district;
+        $this->viewData['districthome'] = $districthome;
         
         return view("front.index")->with($this->viewData);
     }

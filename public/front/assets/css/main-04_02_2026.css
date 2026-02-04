@@ -5803,7 +5803,7 @@ blockquote .shape {
 }
 
 .logo img {
-    height: 40px;
+    height: 50px;
 }
 
 /* Toggle */
@@ -5938,7 +5938,7 @@ blockquote .shape {
 }
  .item-position-ai {
   display: inline-block;
-  background: #469300;
+  background: #f80000;
   color: #fff;
   font-size: 10px;
   font-weight: 600;
@@ -6839,112 +6839,4 @@ textarea {
 .contact-info ul li i {
   color: #0B72B9;
   margin-right: 10px;
-}
-
-
-
-
-/* CENTER MENU */
-.main-menu {
-  list-style: none;
-  display: flex;
-  gap: 50px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.main-menu a {
-  text-decoration: none;
-  color: #000;
-  font-weight: 500;
-  font-size: 16px;
-}
-
-/* RIGHT */
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-/* BUTTON */
-.sign-btn {
-  background: #0B72B9;
-  color: #fff;
-  padding: 8px 30px;
-  border-radius: 8px;
-  text-decoration: none;
-}
-.nav-right a {
-  color: #fff;
-  text-decoration: none;
-}
-
-
-
-.dropdown-menu {
-  background: #fff;
-  list-style: none;
-  border: 1px solid #ddd;
-  display: none;
-  min-width: 180px;
-  padding: 10px;
-  line-height: 2;
-}
-
-.dropdown:hover .dropdown-menu {
-  display: block;
-}
-.dropdown-menu a:hover  {
-  background-color: #0B72B9;
-  border-radius: 6px;
-  min-width: 100%;
-  padding-left: 5px;
-  color: #fff;
-}
-
-/* HAMBURGER */
-.menu-toggle {
-  display: block;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.menu-toggle span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background: #000;
-  margin: 4px 0;
-}
-
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  .main-menu {
-    position: static;
-    transform: none;
-    flex-direction: column;
-    display: none;
-    width: 100%;
-    background: #fff;
-    margin-top: 15px;
-  }
-
-  .main-menu.active {
-    display: flex;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-  .sign-btn {
-  background: #0B72B9;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 8px;
-  text-decoration: none;
-}
-
 }

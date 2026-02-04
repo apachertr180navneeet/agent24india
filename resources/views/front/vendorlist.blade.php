@@ -3,9 +3,37 @@
 
 @push('styles')
 @endpush
-
+ @php
+    $categoryModel = new \App\Models\Category();
+    $districtModel = new \App\Models\District();
+    $cityModel = new \App\Models\City();
+    $stateModel = new \App\Models\State();
+    $businessCategory = $categoryModel->select('id', 'name')->whereNull('parent_id')->where('status', 1)->get();
+    $districtList = $districtModel->select('id', 'name')->where('status', 1)->get();
+    $cityList = $cityModel->select('id', 'name')->where('status', 1)->get();
+    $stateList = $stateModel->select('id', 'name')->where('status', 1)->get();
+@endphp
 @section('content')
-
+<!-- Location Selector -->
+<section class="container" >
+    <div class="search-form wow ">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-12 p-0">
+                <div class="search-input">
+                    <label for="location"><i class="lni lni-map-marker theme-color"></i></label>
+                    <select name="location" id="location">
+                        <option value="none">Choose District</option>
+                        @foreach($districtList as $value)
+                            <option value="{{ $value->id }}">
+                                {{ $value->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <!-- Start Hero Area -->
 <section class="hero-area">
     <div class="hero-slider">

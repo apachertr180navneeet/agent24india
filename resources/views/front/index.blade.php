@@ -3,8 +3,37 @@
 
 @push('styles')
 @endpush
-
+ @php
+    $categoryModel = new \App\Models\Category();
+    $districtModel = new \App\Models\District();
+    $cityModel = new \App\Models\City();
+    $stateModel = new \App\Models\State();
+    $businessCategory = $categoryModel->select('id', 'name')->whereNull('parent_id')->where('status', 1)->get();
+    $districtList = $districtModel->select('id', 'name')->where('status', 1)->get();
+    $cityList = $cityModel->select('id', 'name')->where('status', 1)->get();
+    $stateList = $stateModel->select('id', 'name')->where('status', 1)->get();
+@endphp
 @section('content')
+    <!-- Location Selector -->
+    <section class="container" >
+        <div class="search-form wow ">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12 p-0">
+                    <div class="search-input">
+                        <label for="location"><i class="lni lni-map-marker theme-color"></i></label>
+                        <select name="location" id="location">
+                            <option value="none">Choose District</option>
+                            @foreach($districtList as $value)
+                                <option value="{{ $value->id }}">
+                                    {{ $value->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- Start Hero Area -->
     <section class="hero-area">
         <div class="hero-slider">
@@ -65,17 +94,17 @@
     <section class="locations-section1">
         <div class="container">
             <div class="section-title">
-                <h2 class="wow fadeInUp" data-wow-delay=".4s">Show Locations </h2>
+                <h2 class="wow fadeInUp" data-wow-delay=".4s">Locations </h2>
             </div>
             <div class="locations-grid1">
 
                 <!-- Location Card -->
-                @foreach($district as $districtkey => $districtvalue)    
+                @foreach($districthome as $districtkey => $districtvalue)    
                     <a href="{{ route('front.vendorlist.location', ['location' => $districtvalue->id]) }}" class="location-card1">
                         <img 
                             src="{{ $districtvalue->image 
                                 ? $districtvalue->image 
-                                : 'https://mediawtravel.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2018/12/30030705/23.28.1-The-Blue-City-and-Mehrangarh-Fort-by-Sean-Hsu.jpg' }}" 
+                                : 'https://media.istockphoto.com/id/481776206/photo/cityscape-of-blue-city-and-mehrangarh-fort-jodhpur-india.jpg?s=2048x2048&w=is&k=20&c=gWUiWwsZpLsSoBSgLOvnhZbR6pwQpcPEqMLDYUTaIt0=' }}" 
                             alt="{{ $districtvalue->name }}"
                         >
 

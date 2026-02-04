@@ -68,6 +68,7 @@ class DistrictController extends Controller
                 $stateName = 'N/A';
                 $created = 'N/A';
                 $status = '';
+                $homepage = '';
                 $action = '';
 
                 $name = $value->name ?? $name;
@@ -80,6 +81,12 @@ class DistrictController extends Controller
                 else{
                     $status = '<label class="badge badge-warning">Inactive</label> &nbsp;';
                 }
+
+                $homeChecked = $value->is_home ? 'checked' : '';
+                $homepage .= '<div class="form-check form-switch d-inline-block">
+                                <input class="form-check-input dt-toggle-home" type="checkbox" data-url="'.route('admin.district.addToHome').'" data-id="'.$value->id.'" '.$homeChecked.'>
+                                <label class="form-check-label">Add to Home</label>
+                            </div>';
 
                 $action = '<div class="btn-group">
                     <button type="button" class="btn btn-warning dropdown-toggle dropdown-icon" data-toggle="dropdown">
@@ -97,6 +104,7 @@ class DistrictController extends Controller
                     "state_name" => $stateName,
                     "status" => $status,
                     "created" => $created,
+                    'homepage' => $homepage,
                     "action" => $action
                 );
             }
@@ -442,5 +450,79 @@ class DistrictController extends Controller
         }
 
         return response()->json($status, 200);
+    }
+
+    /**
+     * Add district to home page.
+     *
+     * @return boolean
+     *
+     * @author Rajesh
+     * @created_at 2024-10-10
+     */
+    public function addToHome(Request $request)
+    {
+        $district = District::where('id', $request->id)->first();
+
+        if (!$district) {
+            return response()->json([
+                '_status' => false,
+                '_message' => __('messages.record_failed', ['record' => 'District']),
+                '_type' => 'error',
+            ], 200);
+        }
+
+        // Count how many districts are already set as home
+        $homeCount = District::where('is_home', 1)->count();
+
+        if ($request->is_home && $homeCount >= 10) {
+            return response()->json([
+                '_status' => false,
+                '_message' => 'Maximum of 10 districts can be set as home.',
+                '_type' => 'error',
+            ], 200);
+        }
+
+        $district->is_home = $request->is_home;
+        $district->save();
+
+        return response()->json([
+            '_status' => true,
+            '_message' => __('messages.record_updated', ['record' => 'District']),
+            '_type' => 'success',
+        ], 200);
+    }
+
+
+    /**     * Get districts by state.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * @author Rajesh
+     * @created_at 2024-10-15
+     */
+    public function listHomeDistricts(Request $request){
+
+        $districts = District::where('is_home', 1)
+            ->where('status', 1)
+            ->select('id', 'name')
+            ->get();
+
+        $pageTitle = 'Home Page Districts';
+        return view("admin.district.homepage", compact('districts', 'pageTitle'));
+    }
+
+
+    /**
+     * Get Sort order.
+     */
+    public function updateOrder(Request $request)
+    {
+        foreach ($request->order as $item) {
+            District::where('id', $item['id'])
+                ->update(['district_order' => $item['position']]);
+        }
+
+        return response()->json(['status' => true]);
     }
 }

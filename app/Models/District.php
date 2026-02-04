@@ -18,7 +18,9 @@ class District extends Model
         'image',
         'status',
         'created_by',
-        'updated_by'
+        'updated_by',
+        'is_home',
+        'district_order'
     ];
 
     /**
@@ -26,7 +28,7 @@ class District extends Model
      */
     public function scopeGetDistricts($model, $limit = null, $offset = null, $search = null, $filter = array(), $sort = array())
     {
-        $records = District::select('districts.id', 'districts.state_id', 'districts.name', 'districts.status', 'districts.created_at', 'states.name as state_name')
+        $records = District::select('districts.id', 'districts.state_id', 'districts.name', 'districts.status', 'districts.created_at', 'states.name as state_name' , 'districts.is_home')
         ->join('states', 'states.id', '=', 'districts.state_id')
         ->where(function($query) use($search, $filter, $sort){
             // Search
@@ -34,6 +36,7 @@ class District extends Model
             {
                 $search = strtolower($search);
                 $query->whereRaw('( lower(districts.name) LIKE \'%'.$search.'%\' )');
+                $query->orWhereRaw('( lower(states.name) LIKE \'%'.$search.'%\' )');
             }
         });
         
@@ -46,6 +49,7 @@ class District extends Model
                 "states.name",
                 "districts.created_at",
                 "districts.status",
+                "districts.is_home",
                 ""
             );
 
@@ -124,10 +128,9 @@ class District extends Model
         $district = null;
         
         $requestArray = $request->all();
-        // dd($requestArray);
 
         // Get User
-        $districtData = District::where('id', $requestArray['state_id'])->first();
+        $districtData = District::where('id', $requestArray['district_id'])->first();
 
         if(!empty($districtData))
         {

@@ -40,6 +40,8 @@
                             @if(auth()->user()->hasPermissionTo('Add District'))
                                 <a href="{{ route('admin.district.create') }}" class="btn btn-block btn-primary"><i class="fas fa-plus"></i> Add</a>
                             @endif
+
+                            <a href="{{ route('admin.district.listHomeDistricts') }}" class="btn btn-block btn-success"><i class="fas fa-plus"></i> Home page</a>
                         </div>
                     </div>
                     </div>
@@ -53,6 +55,7 @@
                                     <th>State Name</th>
                                     <th>Date</th>
                                     <th>Status</th>
+                                    <th>Home Page</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>

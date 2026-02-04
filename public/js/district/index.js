@@ -13,6 +13,7 @@ var thisJs = (function() {
             thisJs.changeStatus();
             thisJs.destroyRecords();
             thisJs.deleteRecord();
+            thisJs.toggleHomePage();
             thisJs.dataTableCustomFilter();
             thisJs.initializeComponents();
         },
@@ -27,6 +28,22 @@ var thisJs = (function() {
             // Bootstrap Select on filter form dropdowns
             Components.bootstrapSelect($filter_form);
             //------------
+
+            // Ensure `is_home` filter exists (All / Yes / No). Insert if not present.
+            if ($filter_form.length && $filter_form.find('#filter_is_home').length === 0) {
+                var isHomeHtml = '<div class="form-group mr-2">' +
+                    '<label class="d-block">Home Page</label>' +
+                    '<select id="filter_is_home" name="filter_is_home" class="select-picker form-control">' +
+                        '<option value="">All</option>' +
+                        '<option value="1">Yes</option>' +
+                        '<option value="0">No</option>' +
+                    '</select>' +
+                '</div>';
+
+                $filter_form.append(isHomeHtml);
+                // Re-initialize bootstrap select for the newly added element
+                Components.bootstrapSelect($filter_form);
+            }
 
             // Enable Button on change filter form elements
             Components.enableButton($filter_form);
@@ -193,6 +210,8 @@ var thisJs = (function() {
                     url: $dataTable.data("url"),
                     data: function(d) {
                         d.filter_itr_status = $("#filter_itr_status").val();
+                        // Send is_home filter value (empty = all, "1" = home, "0" = not home)
+                        d.filter_is_home = $("#filter_is_home").length ? $("#filter_is_home").val() : '';
                     }
                 },
                 columns: [
@@ -206,6 +225,7 @@ var thisJs = (function() {
                     { data: "state_name", name: "state_name", sortable: true },
                     { data: "created", name: "created", sortable: true },
                     { data: "status", name: "status", sortable: true },
+                    { data: "homepage", name: "homepage", searchable: false, sortable: false },
                     {
                         data: "action",
                         name: "action",
@@ -470,6 +490,60 @@ var thisJs = (function() {
                   }).then((result) => {
                     if (result.isConfirmed) {
                         window.location.href = deleteUrl;
+                    }
+                });
+            });
+        },
+
+        /**
+         * Toggle home page checkbox.
+         */
+        toggleHomePage: function() {
+            var $dataTable = $(".dataTable");
+
+            // Handle form submission event
+            $dataTable.on("change", ".dt-toggle-home", function(e) {
+                var $checkbox = $(this);
+                var isChecked = $checkbox.is(':checked');
+                var districtId = $checkbox.data('id');
+                var url = $checkbox.data('url');
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { 
+                        id: districtId,
+                        is_home: isChecked ? 1 : 0
+                    },
+                    beforeSend: function() {
+                        $checkbox.prop("disabled", true);
+                    },
+                    success: function(response) {
+                        // Ensure response is an object
+                        if (typeof response === 'string') {
+                            try {
+                                response = JSON.parse(response);
+                            } catch (e) {
+                                // keep as string if not JSON
+                            }
+                        }
+
+                        // If server indicates failure, revert checkbox state
+                        if (response && response._status === false) {
+                            $checkbox.prop('checked', !isChecked);
+                        }
+
+                        console.log(response);
+                        App.showNotification(response);
+                    },
+                    error: function() {
+                        alert('Error updating home page status');
+                        App.showNotification({message: 'Error updating home page status', status: false});
+                        // Revert checkbox
+                        $checkbox.prop('checked', !isChecked);
+                    },
+                    complete: function() {
+                        $checkbox.prop("disabled", false);
                     }
                 });
             });

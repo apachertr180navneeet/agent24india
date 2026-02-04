@@ -157,6 +157,11 @@ Route::prefix('admin')->name('admin.')->group(function(){
 
             // Ajax check
             Route::post('/check-name', [Admin\DistrictController::class, 'checkName'])->name('district.checkName');
+
+            // add in district in home page
+            Route::post('/add-to-home', [Admin\DistrictController::class, 'addToHome'])->name('district.addToHome');
+            Route::get('/list-home-districts', [Admin\DistrictController::class, 'listHomeDistricts'])->name('district.listHomeDistricts');
+            Route::post('/update-order', [Admin\DistrictController::class, 'updateOrder'])->name('district.updateOrder');
         });
 
         Route::prefix("city")->group(function(){
