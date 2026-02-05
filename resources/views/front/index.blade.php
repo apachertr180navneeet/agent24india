@@ -2,34 +2,125 @@
 @section('title', $pageTitle)
 
 @push('styles')
+<style>
+    .search-results {
+        position: absolute;
+        width: 100%;
+        background: #fff;
+        border: 1px solid #ddd;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 9999;
+    }
+
+    .result-item {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .result-item:hover {
+        background: #f2f2f2;
+    }
+    /* Category Section */
+    .categories-section {
+        padding: 40px 0;
+    }
+
+    /* Grid layout */
+    .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr); /* 6 per row */
+        gap: 20px;
+    }
+
+    /* Card style */
+    .category-link {
+        text-decoration: none;
+    }
+
+    .category-card {
+        background: #fff;
+        border-radius: 10px;
+        padding: 15px 10px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        transition: 0.3s;
+    }
+
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .category-card img {
+        width: 60px;
+        height: 60px;
+        object-fit: contain;
+        margin-bottom: 8px;
+    }
+
+    .category-card span {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+        .categories-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .categories-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .categories-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>
 @endpush
  @php
-    $categoryModel = new \App\Models\Category();
     $districtModel = new \App\Models\District();
     $cityModel = new \App\Models\City();
-    $stateModel = new \App\Models\State();
-    $businessCategory = $categoryModel->select('id', 'name')->whereNull('parent_id')->where('status', 1)->get();
     $districtList = $districtModel->select('id', 'name')->where('status', 1)->get();
-    $cityList = $cityModel->select('id', 'name')->where('status', 1)->get();
-    $stateList = $stateModel->select('id', 'name')->where('status', 1)->get();
 @endphp
 @section('content')
     <!-- Location Selector -->
-    <section class="container" >
-        <div class="search-form wow ">
+    <section class="container">
+        <div class="search-form">
             <div class="row">
-                <div class="col-lg-12 col-md-12 col-12 p-0">
-                    <div class="search-input">
-                        <label for="location"><i class="lni lni-map-marker theme-color"></i></label>
-                        <select name="location" id="location">
-                            <option value="none">Choose District</option>
+                <div class="col-lg-12 p-0">
+
+                    <div class="search-input position-relative">
+                        <label>
+                            <i class="lni lni-map-marker theme-color"></i>
+                        </label>
+
+                        <input type="text" 
+                            id="location_search" 
+                            class="form-control"
+                            placeholder="Search or choose district"
+                            autocomplete="off">
+
+                        <div id="searchResults" class="search-results">
                             @foreach($districtList as $value)
-                                <option value="{{ $value->id }}">
+                                <div class="result-item" 
+                                    data-id="{{ $value->id }}"
+                                    data-name="{{ strtolower($value->name) }}">
                                     {{ $value->name }}
-                                </option>
+                                </div>
                             @endforeach
-                        </select>
+                        </div>
+
                     </div>
+
                 </div>
             </div>
         </div>
@@ -73,20 +164,19 @@
     </section>
 
 
-    <!-- Category -->
+    <!-- Category Section -->
     <section class="categories-section">
         <div class="container">
             <div class="categories-grid">
                 @foreach($category as $key => $value)
-                    <a href="{{ route('front.vendorlist.category', ['category' => $value->id]) }}">
+                    <a href="{{ route('front.vendorlist.category', ['category' => $value->id]) }}" class="category-link">
                         <div class="category-card">
-                            <img src="{{$value->image}}" alt="{{$value->name}}" >
-                            <span>{{$value->name}}</span>
+                            <img src="{{ $value->image }}" alt="{{ $value->name }}">
+                            <span>{{ $value->name }}</span>
                         </div>
                     </a>
                 @endforeach
             </div>
-
         </div>
     </section>
 
@@ -326,5 +416,97 @@
             }
         });
     }
+</script>
+<script>
+    $(function () {
+
+        var baseUrl = "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
+
+        // Click on search result
+        $('#searchResults').on('click', '.result-item', function () {
+            var name = $(this).text().trim();
+            var id   = $(this).data('id');
+
+            $('#location_search').val(name);
+            $('#location_id').val(id);
+
+            $('#searchResults').hide();
+
+            // Redirect
+            var url = baseUrl.replace('LOCATION_ID_PLACEHOLDER', id);
+            window.location.href = url;
+        });
+
+    });
+</script>
+<script>
+    // Client-side mapping of district name -> id (populated from server-rendered data)
+    document.addEventListener('DOMContentLoaded', function(){
+        var locMap = {};
+        @foreach($districtList as $d)
+            locMap["{{ addslashes($d->name) }}"] = "{{ $d->id }}";
+        @endforeach
+
+        // When user picks/enters a value in the search input, set the select and trigger change
+        $('#location_search').on('input change', function(){
+            var name = $(this).val();
+            if (locMap[name]){
+                $('#location').val(locMap[name]).trigger('change');
+            }
+        });
+
+        // Optional: pressing Enter when a partial name matches first result
+        $('#location_search').on('keydown', function(e){
+            if (e.key === 'Enter'){
+                var val = $(this).val();
+                if (locMap[val]){
+                    $('#location').val(locMap[val]).trigger('change');
+                } else {
+                    // try case-insensitive partial match
+                    var foundId = null;
+                    var q = val.toLowerCase();
+                    for (var k in locMap){ if (k.toLowerCase().indexOf(q) !== -1){ foundId = locMap[k]; break; } }
+                    if (foundId) $('#location').val(foundId).trigger('change');
+                }
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+
+        $('#searchResults').hide();
+
+        $('#location_search').on('keyup', function () {
+            let value = $(this).val().toLowerCase();
+
+            if (value.length === 0) {
+                $('#searchResults').hide();
+                return;
+            }
+
+            $('#searchResults').show();
+
+            $('.result-item').filter(function () {
+                $(this).toggle(
+                    $(this).data('name').indexOf(value) > -1
+                );
+            });
+        });
+
+        // Click select
+        $('.result-item').on('click', function () {
+            $('#location_search').val($(this).text());
+            $('#searchResults').hide();
+        });
+
+        // Click outside close
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.search-input').length) {
+                $('#searchResults').hide();
+            }
+        });
+
+    });
 </script>
 @endpush
