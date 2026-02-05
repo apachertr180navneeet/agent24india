@@ -59,6 +59,8 @@ class CityController extends Controller
         $records_count = City::GetCities(null, null, $search, $filter, $sort);
         $records = City::GetCities($limit, $start, $search, $filter, $sort);
 
+        //dd($records);
+
         $arr_data = array();
 
         if(count($records) > 0)
@@ -66,14 +68,12 @@ class CityController extends Controller
             foreach($records as $key => $value)
             {
                 $name = 'N/A';
-                $districtName = 'N/A';
                 $stateName = 'N/A';
                 $created = 'N/A';
                 $status = '';
                 $action = '';
 
                 $name = $value->name ?? $name;
-                $districtName = $value->district_name ?? $districtName;
                 $stateName = $value->state_name ?? $stateName;
                 $created = date("d-m-Y H:i", strtotime($value->created_at));
 
@@ -97,7 +97,6 @@ class CityController extends Controller
                 $arr_data[] = array(
                     "id" => $value->id,
                     "name" => $name,
-                    "district_name" => $districtName,
                     "state_name" => $stateName,
                     "status" => $status,
                     "created" => $created,

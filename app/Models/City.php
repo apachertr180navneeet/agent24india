@@ -26,8 +26,8 @@ class City extends Model
      */
     public function scopeGetCities($model, $limit = null, $offset = null, $search = null, $filter = array(), $sort = array())
     {
-        $records = City::select('cities.id', 'cities.state_id', 'cities.district_id', 'cities.name', 'cities.status', 'cities.created_at', 'districts.name as district_name', 'states.name as state_name')
-        ->join('districts', 'districts.id', '=', 'cities.district_id')
+        $records = City::select('cities.id', 'cities.state_id', 'cities.district_id', 'cities.name', 'cities.status', 'cities.created_at', 'states.name as state_name')
+        //->join('districts', 'districts.id', '=', 'cities.district_id')
         ->join('states', 'states.id', '=', 'cities.state_id')
         ->where(function($query) use($search, $filter, $sort){
             // Search
@@ -44,7 +44,7 @@ class City extends Model
             $arr_fields = array(
                 "", 
                 "cities.name",
-                "districts.name",
+                //"districts.name",
                 "states.name",
                 "cities.created_at",
                 "cities.status",

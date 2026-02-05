@@ -50,8 +50,7 @@
                                 <tr>
                                     <th>S.no.</th>
                                     <th>Name</th>
-                                    <th>District</th>
-                                    <th>City</th>
+                                    <th>State</th>
                                     <th>Date</th>
                                     <th>Status</th>
                                     <th>Action</th>
