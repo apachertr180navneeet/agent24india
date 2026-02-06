@@ -247,3 +247,8 @@ Route::name('front.')->group(function(){
         Route::post('/save-listing', [Front\ProfileController::class, "saveListing"])->name('saveListing');
     });
 });
+
+
+Route::get('/get-districts', [Front\HomeController::class, 'getDistricts'])->name('get.districts');
+Route::get('/get-cities', [Front\HomeController::class, 'getCities'])->name('get.cities');
+

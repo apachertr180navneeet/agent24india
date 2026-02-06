@@ -240,4 +240,18 @@ class HomeController extends Controller
             // dd($e);
         }
     }
+
+    public function getDistricts(Request $request)
+    {
+        return District::where('state_id', $request->state_id)
+                        ->select('id', 'name')
+                        ->get();
+    }
+
+    public function getCities(Request $request)
+    {
+        return City::where('district_id', $request->district_id)
+                   ->select('id', 'name')
+                   ->get();
+    }
 }

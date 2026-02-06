@@ -143,30 +143,25 @@
                         <input type="text" name="business_address" id="business_address" placeholder="Business Address">
                         <div class="row d-flex">
                             <div class="col-lg-6">
-                                <select name="district_id" id="district_id">
-                                    <option value="">Select District</option>
-                                    @foreach($districtList as $key => $value)
-                                    <option value="{{$value->id}}">{{$value->name}}</option>
+                                <select name="state_id" id="state_id">
+                                    <option value="">Select State</option>
+                                    @foreach($stateList as $value)
+                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
                                     @endforeach
                                 </select>
-
                             </div>
+
                             <div class="col-lg-6">
-                                <select name="city_id" id="city_id">
-                                    <option value="">Select City</option>
-                                    @foreach($cityList as $key => $value)
-                                    <option value="{{$value->id}}">{{$value->name}}</option>
-                                    @endforeach
+                                <select name="district_id" id="district_id">
+                                    <option value="">Select District</option>
                                 </select>
                             </div>
                         </div>
+
                         <div class="row d-flex">
                             <div class="col-lg-6">
-                                <select name="state_id" id="state_id">
-                                    <option value="">Select State</option>
-                                    @foreach($stateList as $key => $value)
-                                    <option value="{{$value->id}}">{{$value->name}}</option>
-                                    @endforeach
+                                <select name="city_id" id="city_id">
+                                    <option value="">Select City</option>
                                 </select>
                             </div>
                             <div class="col-lg-6">
@@ -249,6 +244,65 @@
                     }
                 });
             }
+        </script>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+
+                // STATE CHANGE → DISTRICT LOAD
+                $('#state_id').on('change', function () {
+                    let state_id = $(this).val();
+
+                    $('#district_id').html('<option value="">Loading...</option>');
+                    $('#city_id').html('<option value="">Select City</option>');
+
+                    if (state_id) {
+                        $.ajax({
+                            url: "{{ route('get.districts') }}",
+                            type: "GET",
+                            data: { state_id: state_id },
+                            success: function (data) {
+                                $('#district_id').html('<option value="">Select District</option>');
+                                $.each(data, function (key, value) {
+                                    $('#district_id').append(
+                                        '<option value="'+value.id+'">'+value.name+'</option>'
+                                    );
+                                });
+                            }
+                        });
+                    } else {
+                        $('#district_id').html('<option value="">Select District</option>');
+                    }
+                });
+
+                // DISTRICT CHANGE → CITY LOAD
+                $('#district_id').on('change', function () {
+                    let district_id = $(this).val();
+
+                    $('#city_id').html('<option value="">Loading...</option>');
+
+                    if (district_id) {
+                        $.ajax({
+                            url: "{{ route('get.cities') }}",
+                            type: "GET",
+                            data: { district_id: district_id },
+                            success: function (data) {
+                                $('#city_id').html('<option value="">Select City</option>');
+                                $.each(data, function (key, value) {
+                                    $('#city_id').append(
+                                        '<option value="'+value.id+'">'+value.name+'</option>'
+                                    );
+                                });
+                            }
+                        });
+                    } else {
+                        $('#city_id').html('<option value="">Select City</option>');
+                    }
+                });
+
+            });
         </script>
     </body>
 </html>
