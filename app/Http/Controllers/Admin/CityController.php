@@ -69,11 +69,13 @@ class CityController extends Controller
             {
                 $name = 'N/A';
                 $stateName = 'N/A';
+                $districtName = 'N/A';
                 $created = 'N/A';
                 $status = '';
                 $action = '';
 
                 $name = $value->name ?? $name;
+                $districtName = $value->district_name ?? $districtName;
                 $stateName = $value->state_name ?? $stateName;
                 $created = date("d-m-Y H:i", strtotime($value->created_at));
 
@@ -98,6 +100,7 @@ class CityController extends Controller
                     "id" => $value->id,
                     "name" => $name,
                     "state_name" => $stateName,
+                    "district_name" => $districtName,
                     "status" => $status,
                     "created" => $created,
                     "action" => $action

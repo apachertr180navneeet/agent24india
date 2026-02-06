@@ -204,6 +204,7 @@ var thisJs = (function() {
                     },
                     { data: "name", name: "name", sortable: true },
                     { data: "state_name", name: "state_name", sortable: true },
+                    { data: "district_name", name: "district_name", sortable: true },
                     { data: "created", name: "created", sortable: true },
                     { data: "status", name: "status", sortable: true },
                     {
