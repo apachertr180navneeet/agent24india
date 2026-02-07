@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\State;
 use App\Models\District;
 use App\Models\City;
+use App\Models\User;
 
 class CityController extends Controller
 {
@@ -336,40 +337,88 @@ class CityController extends Controller
      * @author Rajesh
      * @created_at 03-01-2026
      */
+    // public function destroy(Request $request)
+    // {
+    //     $ids = $request['ids'];
+    //     $city = City::whereIn('id', $ids)->get();
+
+    //     // Delete child ifany
+    //     if($city)
+    //     {
+    //         foreach($city as $key => $value)
+    //         {
+    //             // Delete record
+    //             $city = City::where('id', $value->id)->delete();
+    //         }
+    //     }
+        
+    //     // Set response
+    //     if ($city == true) 
+    //     {
+    //         $response = [
+    //             '_status' => true,
+    //             '_message' => __('messages.record_deleted', ['record' => 'City']),
+    //             '_type' => 'success',
+    //         ];
+    //     } 
+    //     else 
+    //     {
+    //         $response = [
+    //             '_status' => false,
+    //             '_message' => __('messages.record_failed', ['record' => 'City']),
+    //             '_type' => 'error',
+    //         ];
+    //     }
+    //     //-------------
+        
+    //     return response()->json($response, 200);
+    // }
+
     public function destroy(Request $request)
     {
-        $ids = $request['ids'];
-        $city = City::whereIn('id', $ids)->get();
+        $ids = $request->ids;
+        $cities = City::whereIn('id', $ids)->get();
 
-        // Delete child ifany
-        if($city)
-        {
-            foreach($city as $key => $value)
-            {
-                // Delete record
-                $city = City::where('id', $value->id)->delete();
+        $failed = [];
+        $deletedCount = 0;
+
+        if ($cities->count()) {
+            foreach ($cities as $city) {
+
+                // ❌ Check user assigned
+                $hasUsers = User::where('city_id', $city->id)->exists();
+
+                if ($hasUsers) {
+                    $failed[] = $city->name ?? $city->id;
+                    continue;
+                }
+
+                $city->delete();
+                $deletedCount++;
             }
         }
-        
-        // Set response
-        if ($city == true) 
-        {
+
+        if ($deletedCount > 0 && empty($failed)) {
             $response = [
                 '_status' => true,
                 '_message' => __('messages.record_deleted', ['record' => 'City']),
                 '_type' => 'success',
             ];
-        } 
-        else 
-        {
+        } elseif ($deletedCount > 0 && !empty($failed)) {
+            $response = [
+                '_status' => true,
+                '_message' => 'Some cities deleted. Others not deleted because users are attached: '
+                    . implode(', ', $failed),
+                '_type' => 'warning',
+            ];
+        } else {
             $response = [
                 '_status' => false,
-                '_message' => __('messages.record_failed', ['record' => 'City']),
+                '_message' => 'Cannot delete city(s): users are attached.',
                 '_type' => 'error',
             ];
         }
-        //-------------
-        
+
         return response()->json($response, 200);
     }
 
@@ -381,45 +430,90 @@ class CityController extends Controller
      * @author Rajesh
      * @created_at 03-01-2026
      */
+    // public function deleteSingle(Request $request, $id)
+    // {
+    //     $city = City::where('id', $id)->first();
+        
+    //     // Delete
+    //     if($city)
+    //     {
+    //         // Delete
+    //         $city = City::where('id', $id)->delete();
+    //     }
+        
+    //     // Set notification
+    //     if (!is_null($city))
+    //     {
+    //         // Set notification
+    //         $notification = [
+    //             '_status' => true,
+    //             '_message' => __('messages.record_deleted', ['record' => 'City']),
+    //             '_type' => 'success',
+    //         ];
+    //         //---------------
+
+    //         return redirect()->route('admin.city.index')->with(['notification' => $notification]);
+    //     } 
+    //     else 
+    //     {
+    //         // Set notification
+    //         $notification = [
+    //             '_status' => false,
+    //             '_message' => __('messages.record_failed', ['record' => 'City']),
+    //             '_type' => 'error',
+    //         ];
+    //         //---------------
+
+    //         return redirect()->route('admin.city.index')->with(['notification' => $notification]);
+    //     }
+    //     //-------------
+
+    //     return response()->json($response, 200);
+    // }
+
     public function deleteSingle(Request $request, $id)
     {
-        $city = City::where('id', $id)->first();
-        
-        // Delete
-        if($city)
-        {
-            // Delete
-            $city = City::where('id', $id)->delete();
-        }
-        
-        // Set notification
-        if (!is_null($city))
-        {
-            // Set notification
+        $city = City::find($id);
+
+        if ($city) {
+
+            // ❌ Check user assigned
+            $hasUsers = User::where('city_id', $city->id)->exists();
+
+            if ($hasUsers) {
+                $notification = [
+                    '_status' => false,
+                    '_message' => 'Cannot delete city because users are attached.',
+                    '_type' => 'error',
+                ];
+
+                return redirect()
+                    ->route('admin.city.index')
+                    ->with(['notification' => $notification]);
+            }
+
+            $city->delete();
+
             $notification = [
                 '_status' => true,
                 '_message' => __('messages.record_deleted', ['record' => 'City']),
                 '_type' => 'success',
             ];
-            //---------------
 
-            return redirect()->route('admin.city.index')->with(['notification' => $notification]);
-        } 
-        else 
-        {
-            // Set notification
-            $notification = [
-                '_status' => false,
-                '_message' => __('messages.record_failed', ['record' => 'City']),
-                '_type' => 'error',
-            ];
-            //---------------
-
-            return redirect()->route('admin.city.index')->with(['notification' => $notification]);
+            return redirect()
+                ->route('admin.city.index')
+                ->with(['notification' => $notification]);
         }
-        //-------------
 
-        return response()->json($response, 200);
+        $notification = [
+            '_status' => false,
+            '_message' => __('messages.record_failed', ['record' => 'City']),
+            '_type' => 'error',
+        ];
+
+        return redirect()
+            ->route('admin.city.index')
+            ->with(['notification' => $notification]);
     }
 
     /**

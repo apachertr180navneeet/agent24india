@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\State;
+use App\Models\City;
+use App\Models\District;
 
 class StateController extends Controller
 {
@@ -302,98 +304,195 @@ class StateController extends Controller
         return response()->json($response, 200);
     }
 
-    /**
-     * Destroy.
-     *
-     * @return boolean
-     *
-     * @author Rajesh
-     * @created_at 03-01-2026
-     */
+    // /**
+    //  * Destroy.
+    //  *
+    //  * @return boolean
+    //  *
+    //  * @author Rajesh
+    //  * @created_at 03-01-2026
+    //  */
+    // public function destroy(Request $request)
+    // {
+    //     $ids = $request['ids'];
+    //     $state = State::whereIn('id', $ids)->get();
+
+    //     // Delete child ifany
+    //     if($state)
+    //     {
+    //         foreach($state as $key => $value)
+    //         {
+    //             // Delete record
+    //             $state = State::where('id', $value->id)->delete();
+    //         }
+    //     }
+        
+    //     // Set response
+    //     if ($state == true) 
+    //     {
+    //         $response = [
+    //             '_status' => true,
+    //             '_message' => __('messages.record_deleted', ['record' => 'State']),
+    //             '_type' => 'success',
+    //         ];
+    //     } 
+    //     else 
+    //     {
+    //         $response = [
+    //             '_status' => false,
+    //             '_message' => __('messages.record_failed', ['record' => 'State']),
+    //             '_type' => 'error',
+    //         ];
+    //     }
+    //     //-------------
+        
+    //     return response()->json($response, 200);
+    // }
+
+    // /**
+    //  * Delete Single.
+    //  *
+    //  * @return boolean
+    //  *
+    //  * @author Rajesh
+    //  * @created_at 03-01-2026
+    //  */
+    // public function deleteSingle(Request $request, $id)
+    // {
+    //     $state = State::where('id', $id)->first();
+        
+    //     // Delete State
+    //     if($state)
+    //     {
+    //         // Delete State
+    //         $state = State::where('id', $id)->delete();
+    //     }
+        
+    //     // Set notification
+    //     if (!is_null($state))
+    //     {
+    //         // Set notification
+    //         $notification = [
+    //             '_status' => true,
+    //             '_message' => __('messages.record_deleted', ['record' => 'State']),
+    //             '_type' => 'success',
+    //         ];
+    //         //---------------
+
+    //         return redirect()->route('admin.state.index')->with(['notification' => $notification]);
+    //     } 
+    //     else 
+    //     {
+    //         // Set notification
+    //         $notification = [
+    //             '_status' => false,
+    //             '_message' => __('messages.record_failed', ['record' => 'State']),
+    //             '_type' => 'error',
+    //         ];
+    //         //---------------
+
+    //         return redirect()->route('admin.state.index')->with(['notification' => $notification]);
+    //     }
+    //     //-------------
+
+    //     return response()->json($response, 200);
+    // }
+
+
     public function destroy(Request $request)
     {
-        $ids = $request['ids'];
-        $state = State::whereIn('id', $ids)->get();
+        $ids = $request->ids;
+        $states = State::whereIn('id', $ids)->get();
 
-        // Delete child ifany
-        if($state)
-        {
-            foreach($state as $key => $value)
-            {
-                // Delete record
-                $state = State::where('id', $value->id)->delete();
+        $failed = [];
+        $deletedCount = 0;
+
+        if ($states->count()) {
+            foreach ($states as $state) {
+
+                $hasDistrict = District::where('state_id', $state->id)->exists();
+                $hasCity     = City::where('state_id', $state->id)->exists();
+
+                // ❌ If district or city exists, skip delete
+                if ($hasDistrict || $hasCity) {
+                    $failed[] = $state->name ?? $state->id;
+                    continue;
+                }
+
+                $state->delete();
+                $deletedCount++;
             }
         }
-        
-        // Set response
-        if ($state == true) 
-        {
+
+        if ($deletedCount > 0 && empty($failed)) {
             $response = [
                 '_status' => true,
                 '_message' => __('messages.record_deleted', ['record' => 'State']),
                 '_type' => 'success',
             ];
-        } 
-        else 
-        {
+        } elseif ($deletedCount > 0 && !empty($failed)) {
+            $response = [
+                '_status' => true,
+                '_message' => 'Some states deleted. Others not deleted because districts or cities are attached: '
+                    . implode(', ', $failed),
+                '_type' => 'warning',
+            ];
+        } else {
             $response = [
                 '_status' => false,
-                '_message' => __('messages.record_failed', ['record' => 'State']),
+                '_message' => 'Cannot delete state(s): districts or cities are attached.',
                 '_type' => 'error',
             ];
         }
-        //-------------
-        
+
         return response()->json($response, 200);
     }
 
-    /**
-     * Delete Single.
-     *
-     * @return boolean
-     *
-     * @author Rajesh
-     * @created_at 03-01-2026
-     */
+
     public function deleteSingle(Request $request, $id)
     {
-        $state = State::where('id', $id)->first();
-        
-        // Delete State
-        if($state)
-        {
-            // Delete State
-            $state = State::where('id', $id)->delete();
-        }
-        
-        // Set notification
-        if (!is_null($state))
-        {
-            // Set notification
+        $state = State::find($id);
+
+        if ($state) {
+
+            $hasDistrict = District::where('state_id', $state->id)->exists();
+            $hasCity     = City::where('state_id', $state->id)->exists();
+
+            // ❌ Stop delete if linked
+            if ($hasDistrict || $hasCity) {
+                $notification = [
+                    '_status' => false,
+                    '_message' => 'Cannot delete state because districts or cities are attached.',
+                    '_type' => 'error',
+                ];
+
+                return redirect()
+                    ->route('admin.state.index')
+                    ->with(['notification' => $notification]);
+            }
+
+            $state->delete();
+
             $notification = [
                 '_status' => true,
                 '_message' => __('messages.record_deleted', ['record' => 'State']),
                 '_type' => 'success',
             ];
-            //---------------
 
-            return redirect()->route('admin.state.index')->with(['notification' => $notification]);
-        } 
-        else 
-        {
-            // Set notification
-            $notification = [
-                '_status' => false,
-                '_message' => __('messages.record_failed', ['record' => 'State']),
-                '_type' => 'error',
-            ];
-            //---------------
-
-            return redirect()->route('admin.state.index')->with(['notification' => $notification]);
+            return redirect()
+                ->route('admin.state.index')
+                ->with(['notification' => $notification]);
         }
-        //-------------
 
-        return response()->json($response, 200);
+        $notification = [
+            '_status' => false,
+            '_message' => __('messages.record_failed', ['record' => 'State']),
+            '_type' => 'error',
+        ];
+
+        return redirect()
+            ->route('admin.state.index')
+            ->with(['notification' => $notification]);
     }
 
     /**

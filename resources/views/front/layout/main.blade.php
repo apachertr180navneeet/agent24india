@@ -78,7 +78,7 @@
         $districtModel = new \App\Models\District();
         $cityModel = new \App\Models\City();
         $stateModel = new \App\Models\State();
-        $businessCategory = $categoryModel->select('id', 'name')->whereNull('parent_id')->where('status', 1)->get();
+        $businessCategory = $categoryModel->select('id', 'name')->where('status', 1)->get();
         $districtList = $districtModel->select('id', 'name')->where('status', 1)->get();
         $cityList = $cityModel->select('id', 'name')->where('status', 1)->get();
         $stateList = $stateModel->select('id', 'name')->where('status', 1)->get();
@@ -87,7 +87,26 @@
         <!-- Start Header Area -->
         @include('front.layout.header')
 
-        
+        <!-- Location Selector -->
+        <section class="container" >
+            <div class="search-form wow ">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-12 p-0">
+                        <div class="search-input">
+                            <label for="location"><i class="lni lni-map-marker theme-color"></i></label>
+                            <select name="location" id="location">
+                                <option value="none">Choose District</option>
+                                @foreach($districtList as $value)
+                                    <option value="{{ $value->id }}">
+                                        {{ $value->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <div class="auth-overlay" id="authOverlay">
             <div class="auth-popup">
@@ -143,25 +162,30 @@
                         <input type="text" name="business_address" id="business_address" placeholder="Business Address">
                         <div class="row d-flex">
                             <div class="col-lg-6">
-                                <select name="state_id" id="state_id">
-                                    <option value="">Select State</option>
-                                    @foreach($stateList as $value)
-                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="col-lg-6">
                                 <select name="district_id" id="district_id">
                                     <option value="">Select District</option>
+                                    @foreach($districtList as $key => $value)
+                                    <option value="{{$value->id}}">{{$value->name}}</option>
+                                    @endforeach
                                 </select>
-                            </div>
-                        </div>
 
-                        <div class="row d-flex">
+                            </div>
                             <div class="col-lg-6">
                                 <select name="city_id" id="city_id">
                                     <option value="">Select City</option>
+                                    @foreach($cityList as $key => $value)
+                                    <option value="{{$value->id}}">{{$value->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row d-flex">
+                            <div class="col-lg-6">
+                                <select name="state_id" id="state_id">
+                                    <option value="">Select State</option>
+                                    @foreach($stateList as $key => $value)
+                                    <option value="{{$value->id}}">{{$value->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-lg-6">
@@ -244,65 +268,68 @@
                     }
                 });
             }
-        </script>
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            // Global AJAX search
+            (function(){
+                const searchInput = document.getElementById('global_search');
+                const resultsBox = document.getElementById('search_results_list');
+                let debounceTimer = null;
 
-        <script>
-            $(document).ready(function () {
-
-                // STATE CHANGE → DISTRICT LOAD
-                $('#state_id').on('change', function () {
-                    let state_id = $(this).val();
-
-                    $('#district_id').html('<option value="">Loading...</option>');
-                    $('#city_id').html('<option value="">Select City</option>');
-
-                    if (state_id) {
-                        $.ajax({
-                            url: "{{ route('get.districts') }}",
-                            type: "GET",
-                            data: { state_id: state_id },
-                            success: function (data) {
-                                $('#district_id').html('<option value="">Select District</option>');
-                                $.each(data, function (key, value) {
-                                    $('#district_id').append(
-                                        '<option value="'+value.id+'">'+value.name+'</option>'
-                                    );
-                                });
-                            }
-                        });
-                    } else {
-                        $('#district_id').html('<option value="">Select District</option>');
+                function renderResults(items){
+                    resultsBox.innerHTML = '';
+                    if(!items || items.length === 0){
+                        resultsBox.style.display = 'none';
+                        return;
                     }
-                });
-
-                // DISTRICT CHANGE → CITY LOAD
-                $('#district_id').on('change', function () {
-                    let district_id = $(this).val();
-
-                    $('#city_id').html('<option value="">Loading...</option>');
-
-                    if (district_id) {
-                        $.ajax({
-                            url: "{{ route('get.cities') }}",
-                            type: "GET",
-                            data: { district_id: district_id },
-                            success: function (data) {
-                                $('#city_id').html('<option value="">Select City</option>');
-                                $.each(data, function (key, value) {
-                                    $('#city_id').append(
-                                        '<option value="'+value.id+'">'+value.name+'</option>'
-                                    );
-                                });
-                            }
+                    items.forEach(it => {
+                        const li = document.createElement('li');
+                        li.style.padding = '10px';
+                        li.style.borderBottom = '1px solid #eee';
+                        li.style.cursor = 'pointer';
+                        li.innerHTML = `<strong>${it.business_name || it.name}</strong><br><small>${(it.district? it.district.name : '')} ${(it.city? ', ' + it.city.name : '')}</small>`;
+                        li.addEventListener('click', function(){
+                            window.location.href = '/vendorlist/' + (it.district_id || '');
                         });
-                    } else {
-                        $('#city_id').html('<option value="">Select City</option>');
-                    }
-                });
+                        resultsBox.appendChild(li);
+                    });
+                    resultsBox.style.display = 'block';
+                }
 
-            });
+                function doSearch(q){
+                    const locationEl = document.getElementById('location');
+                    const district = locationEl ? locationEl.value : null;
+                    const params = new URLSearchParams();
+                    params.append('q', q);
+                    if(district) params.append('district', district);
+
+                    fetch("{{ route('front.search') }}?" + params.toString(), {
+                        headers: { 'Accept': 'application/json' }
+                    }).then(r => r.json()).then(data => {
+                        renderResults(data);
+                    }).catch(err => {
+                        console.error(err);
+                        renderResults([]);
+                    });
+                }
+
+                if(searchInput){
+                    searchInput.addEventListener('input', function(e){
+                        const q = this.value.trim();
+                        clearTimeout(debounceTimer);
+                        if(q.length < 2){
+                            renderResults([]);
+                            return;
+                        }
+                        debounceTimer = setTimeout(() => doSearch(q), 300);
+                    });
+
+                    document.addEventListener('click', function(ev){
+                        if(!ev.target.closest('#search_results') && !ev.target.closest('#global_search')){
+                            resultsBox.style.display = 'none';
+                        }
+                    });
+                }
+            })();
         </script>
     </body>
 </html>

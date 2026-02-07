@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\State;
 use App\Models\District;
+use App\Models\User;
+use App\Models\Advertisment;
+use App\Models\City;
+
+
 
 class DistrictController extends Controller
 {
@@ -322,98 +327,199 @@ class DistrictController extends Controller
         return response()->json($response, 200);
     }
 
-    /**
-     * Destroy.
-     *
-     * @return boolean
-     *
-     * @author Rajesh
-     * @created_at 03-01-2026
-     */
+    // /**
+    //  * Destroy.
+    //  *
+    //  * @return boolean
+    //  *
+    //  * @author Rajesh
+    //  * @created_at 03-01-2026
+    //  */
+    // public function destroy(Request $request)
+    // {
+    //     $ids = $request['ids'];
+    //     $districts = District::whereIn('id', $ids)->get();
+
+    //     $failed = [];
+    //     $deletedCount = 0;
+
+    //     if ($districts) {
+    //         foreach ($districts as $value) {
+    //             $hasUsers = User::where('district_id', $value->id)->exists();
+    //             $hasAds = Advertisment::where('district_id', $value->id)->exists();
+
+    //             if ($hasUsers || $hasAds) {
+    //                 $failed[] = $value->name ?? $value->id;
+    //                 continue;
+    //             }
+
+    //             District::where('id', $value->id)->delete();
+    //             $deletedCount++;
+    //         }
+    //     }
+
+    //     if ($deletedCount > 0 && count($failed) === 0) {
+    //         $response = [
+    //             '_status' => true,
+    //             '_message' => __('messages.record_deleted', ['record' => 'District']),
+    //             '_type' => 'success',
+    //         ];
+    //     } elseif ($deletedCount > 0 && count($failed) > 0) {
+    //         $response = [
+    //             '_status' => true,
+    //             '_message' => __('Some districts deleted. Others not deleted because users or advertisements are attached: ') . implode(', ', $failed),
+    //             '_type' => 'warning',
+    //         ];
+    //     } else {
+    //         $response = [
+    //             '_status' => false,
+    //             '_message' => __('Cannot delete district(s): users or advertisements are attached.'),
+    //             '_type' => 'error',
+    //         ];
+    //     }
+    //     //-------------
+        
+    //     return response()->json($response, 200);
+    // }
+
+    // /**
+    //  * Delete Single.
+    //  *
+    //  * @return boolean
+    //  *
+    //  * @author Rajesh
+    //  * @created_at 03-01-2026
+    //  */
+    // public function deleteSingle(Request $request, $id)
+    // {
+    //     $district = District::where('id', $id)->first();
+    //     if ($district) {
+    //         $hasUsers = User::where('district_id', $district->id)->exists();
+    //         $hasAds = Advertisment::where('district_id', $district->id)->exists();
+
+    //         if ($hasUsers || $hasAds) {
+    //             $notification = [
+    //                 '_status' => false,
+    //                 '_message' => 'Cannot delete district because users or advertisements are attached.',
+    //                 '_type' => 'error',
+    //             ];
+
+    //             return redirect()->route('admin.district.index')->with(['notification' => $notification]);
+    //         }
+
+    //         District::where('id', $id)->delete();
+
+    //         $notification = [
+    //             '_status' => true,
+    //             '_message' => __('messages.record_deleted', ['record' => 'District']),
+    //             '_type' => 'success',
+    //         ];
+
+    //         return redirect()->route('admin.district.index')->with(['notification' => $notification]);
+    //     }
+
+    //     $notification = [
+    //         '_status' => false,
+    //         '_message' => __('messages.record_failed', ['record' => 'District']),
+    //         '_type' => 'error',
+    //     ];
+
+    //     return redirect()->route('admin.district.index')->with(['notification' => $notification]);
+    // }
+
     public function destroy(Request $request)
     {
-        $ids = $request['ids'];
-        $district = District::whereIn('id', $ids)->get();
+        $ids = $request->ids;
+        $districts = District::whereIn('id', $ids)->get();
 
-        // Delete child ifany
-        if($district)
-        {
-            foreach($district as $key => $value)
-            {
-                // Delete record
-                $district = District::where('id', $value->id)->delete();
+        $failed = [];
+        $deletedCount = 0;
+
+        if ($districts->count()) {
+            foreach ($districts as $district) {
+
+                $hasUsers = User::where('district_id', $district->id)->exists();
+                $hasCity  = City::where('district_id', $district->id)->exists();
+                $hasAds   = Advertisment::where('district_id', $district->id)->exists(); // ✅ NEW
+
+                if ($hasUsers || $hasCity || $hasAds) {
+                    $failed[] = $district->name ?? $district->id;
+                    continue;
+                }
+
+                $district->delete();
+                $deletedCount++;
             }
         }
-        
-        // Set response
-        if ($district == true) 
-        {
+
+        if ($deletedCount > 0 && empty($failed)) {
             $response = [
                 '_status' => true,
                 '_message' => __('messages.record_deleted', ['record' => 'District']),
                 '_type' => 'success',
             ];
-        } 
-        else 
-        {
+        } elseif ($deletedCount > 0 && !empty($failed)) {
+            $response = [
+                '_status' => true,
+                '_message' => 'Some districts deleted. Others not deleted because users, cities or advertisements are attached: '
+                    . implode(', ', $failed),
+                '_type' => 'warning',
+            ];
+        } else {
             $response = [
                 '_status' => false,
-                '_message' => __('messages.record_failed', ['record' => 'District']),
+                '_message' => 'Cannot delete district(s): users, cities or advertisements are attached.',
                 '_type' => 'error',
             ];
         }
-        //-------------
-        
+
         return response()->json($response, 200);
     }
 
-    /**
-     * Delete Single.
-     *
-     * @return boolean
-     *
-     * @author Rajesh
-     * @created_at 03-01-2026
-     */
     public function deleteSingle(Request $request, $id)
     {
-        $district = District::where('id', $id)->first();
-        
-        // Delete
-        if($district)
-        {
-            // Delete
-            $district = District::where('id', $id)->delete();
-        }
-        
-        // Set notification
-        if (!is_null($district))
-        {
-            // Set notification
+        $district = District::find($id);
+
+        if ($district) {
+
+            $hasUsers = User::where('district_id', $district->id)->exists();
+            $hasCity  = City::where('district_id', $district->id)->exists();
+            $hasAds   = Advertisment::where('district_id', $district->id)->exists(); // ✅ NEW
+
+            if ($hasUsers || $hasCity || $hasAds) {
+                $notification = [
+                    '_status' => false,
+                    '_message' => 'Cannot delete district because users, cities or advertisements are attached.',
+                    '_type' => 'error',
+                ];
+
+                return redirect()
+                    ->route('admin.district.index')
+                    ->with(['notification' => $notification]);
+            }
+
+            $district->delete();
+
             $notification = [
                 '_status' => true,
                 '_message' => __('messages.record_deleted', ['record' => 'District']),
                 '_type' => 'success',
             ];
-            //---------------
 
-            return redirect()->route('admin.district.index')->with(['notification' => $notification]);
-        } 
-        else 
-        {
-            // Set notification
-            $notification = [
-                '_status' => false,
-                '_message' => __('messages.record_failed', ['record' => 'District']),
-                '_type' => 'error',
-            ];
-            //---------------
-
-            return redirect()->route('admin.district.index')->with(['notification' => $notification]);
+            return redirect()
+                ->route('admin.district.index')
+                ->with(['notification' => $notification]);
         }
-        //-------------
 
-        return response()->json($response, 200);
+        $notification = [
+            '_status' => false,
+            '_message' => __('messages.record_failed', ['record' => 'District']),
+            '_type' => 'error',
+        ];
+
+        return redirect()
+            ->route('admin.district.index')
+            ->with(['notification' => $notification]);
     }
 
     /**

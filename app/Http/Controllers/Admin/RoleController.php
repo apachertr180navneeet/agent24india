@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Role as SpatieRole;
 use Spatie\Permission\Models\Permission as SpatiePermission;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Advertisment;
 use Auth;
 
 class RoleController extends Controller
@@ -339,32 +340,47 @@ class RoleController extends Controller
     public function destroy(Request $request)
     {
         $ids = $request['ids'];
-        $role = Role::whereIn('id', $ids)->get();
+        $roles = Role::whereIn('id', $ids)->get();
 
-        // Delete
-        if($role)
-        {
-            foreach($role as $key => $value)
-            {
-                // Delete role
-                $role = Role::where('id', $value->id)->delete();
+        $deleted = [];
+        $notDeleted = [];
+
+        if ($roles) {
+            foreach ($roles as $value) {
+                // If any user is assigned to this role, skip deletion
+                $hasUsers = User::where('role_id', $value->id)->whereNull('deleted_at')->exists();
+
+                if ($hasUsers) {
+                    $notDeleted[] = $value->name ?? $value->id;
+                    continue;
+                }
+
+                $res = Role::where('id', $value->id)->delete();
+                if ($res) {
+                    $deleted[] = $value->id;
+                } else {
+                    $notDeleted[] = $value->name ?? $value->id;
+                }
             }
         }
-        
+
         // Set response
-        if ($role == true) 
-        {
+        if (count($notDeleted) == 0 && count($deleted) > 0) {
             $response = [
                 '_status' => true,
                 '_message' => __('messages.record_deleted', ['record' => 'Role']),
                 '_type' => 'success',
             ];
-        } 
-        else 
-        {
+        } elseif (count($deleted) > 0 && count($notDeleted) > 0) {
             $response = [
                 '_status' => false,
-                '_message' => __('messages.record_failed', ['record' => 'Role']),
+                '_message' => 'Some roles were not deleted because they are assigned to users: ' . implode(', ', $notDeleted),
+                '_type' => 'warning',
+            ];
+        } else {
+            $response = [
+                '_status' => false,
+                '_message' => 'Roles could not be deleted. The following roles are assigned to users: ' . implode(', ', $notDeleted),
                 '_type' => 'error',
             ];
         }
@@ -386,8 +402,19 @@ class RoleController extends Controller
         $role = Role::where('id', $id)->first();
         
         // Delete
-        if($role)
-        {
+        if ($role) {
+            $hasUsers = User::where('role_id', $role->id)->whereNull('deleted_at')->exists();
+
+            if ($hasUsers) {
+                $notification = [
+                    '_status' => false,
+                    '_message' => 'Role cannot be deleted because it is assigned to one or more users.',
+                    '_type' => 'error',
+                ];
+
+                return redirect()->route('admin.role.index')->with(['notification' => $notification]);
+            }
+
             // Delete 
             $role = Role::where('id', $id)->delete();
         }

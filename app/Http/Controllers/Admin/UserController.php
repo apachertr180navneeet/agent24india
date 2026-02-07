@@ -11,6 +11,7 @@ use App\Models\State;
 use App\Models\District;
 use App\Models\City;
 use App\Models\Category;
+use App\Models\Advertisment;
 
 class UserController extends Controller
 {
@@ -942,97 +943,191 @@ class UserController extends Controller
         return response()->json($response, 200);
     }
 
-    /**
-     * Destroy.
-     *
-     * @return boolean
-     *
-     * @author Rajesh
-     * @created_at 05-08-2025
-     */
+    // /**
+    //  * Destroy.
+    //  *
+    //  * @return boolean
+    //  *
+    //  * @author Rajesh
+    //  * @created_at 05-08-2025
+    //  */
+    // public function destroyVendors(Request $request)
+    // {
+    //     $ids = $request['ids'];
+    //     $user = User::whereIn('id', $ids)->get();
+
+    //     // Delete child or sub categories if any
+    //     if($user)
+    //     {
+    //         foreach($user as $key => $value)
+    //         {
+    //             // Delete User
+    //             $user = User::where('id', $value->id)->delete();
+    //         }
+    //     }
+        
+    //     // Set response
+    //     if ($user == true) 
+    //     {
+    //         $response = [
+    //             '_status' => true,
+    //             '_message' => __('messages.record_deleted', ['record' => 'Agent']),
+    //             '_type' => 'success',
+    //         ];
+    //     } 
+    //     else 
+    //     {
+    //         $response = [
+    //             '_status' => false,
+    //             '_message' => __('messages.record_failed', ['record' => 'Agent']),
+    //             '_type' => 'error',
+    //         ];
+    //     }
+    //     //-------------
+        
+    //     return response()->json($response, 200);
+    // }
+
+    // /**
+    //  * Delete Single.
+    //  *
+    //  * @return boolean
+    //  *
+    //  * @author Rajesh
+    //  * @created_at 05-08-2025
+    //  */
+    // public function deleteSingleVendor(Request $request, $id)
+    // {
+    //     $user = User::where('id', $id)->first();
+        
+    //     // Delete User
+    //     if($user)
+    //     {
+    //         // Delete User
+    //         $user = User::where('id', $id)->delete();
+    //     }
+        
+    //     // Set notification
+    //     if (!is_null($user))
+    //     {
+    //         // Set notification
+    //         $notification = [
+    //             '_status' => true,
+    //             '_message' => __('messages.record_deleted', ['record' => 'Agent']),
+    //             '_type' => 'success',
+    //         ];
+    //         //---------------
+
+    //         return redirect()->route('admin.vendors.index')->with(['notification' => $notification]);
+    //     } 
+    //     else 
+    //     {
+    //         // Set notification
+    //         $notification = [
+    //             '_status' => false,
+    //             '_message' => __('messages.record_failed', ['record' => 'Agent']),
+    //             '_type' => 'error',
+    //         ];
+    //         //---------------
+
+    //         return redirect()->route('admin.vendors.index')->with(['notification' => $notification]);
+    //     }
+    //     //-------------
+
+    //     return response()->json($response, 200);
+    // }
+
+
     public function destroyVendors(Request $request)
     {
-        $ids = $request['ids'];
-        $user = User::whereIn('id', $ids)->get();
+        $ids = $request->ids;
+        $users = User::whereIn('id', $ids)->get();
 
-        // Delete child or sub categories if any
-        if($user)
-        {
-            foreach($user as $key => $value)
-            {
-                // Delete User
-                $user = User::where('id', $value->id)->delete();
+        $failed = [];
+        $deletedCount = 0;
+
+        if ($users->count()) {
+            foreach ($users as $user) {
+
+                // ❌ Check advertisement created by user
+                $hasAds = Advertisment::where('bussines_name', $user->id)->exists();
+
+                if ($hasAds) {
+                    $failed[] = $user->name ?? $user->id;
+                    continue;
+                }
+
+                $user->delete();
+                $deletedCount++;
             }
         }
-        
-        // Set response
-        if ($user == true) 
-        {
+
+        if ($deletedCount > 0 && empty($failed)) {
             $response = [
                 '_status' => true,
                 '_message' => __('messages.record_deleted', ['record' => 'Agent']),
                 '_type' => 'success',
             ];
-        } 
-        else 
-        {
+        } elseif ($deletedCount > 0 && !empty($failed)) {
+            $response = [
+                '_status' => true,
+                '_message' => 'Some agents deleted. Others not deleted because advertisements are attached: '
+                    . implode(', ', $failed),
+                '_type' => 'warning',
+            ];
+        } else {
             $response = [
                 '_status' => false,
-                '_message' => __('messages.record_failed', ['record' => 'Agent']),
+                '_message' => 'Cannot delete agent(s): advertisements are attached.',
                 '_type' => 'error',
             ];
         }
-        //-------------
-        
+
         return response()->json($response, 200);
     }
 
-    /**
-     * Delete Single.
-     *
-     * @return boolean
-     *
-     * @author Rajesh
-     * @created_at 05-08-2025
-     */
     public function deleteSingleVendor(Request $request, $id)
     {
-        $user = User::where('id', $id)->first();
-        
-        // Delete User
-        if($user)
-        {
-            // Delete User
-            $user = User::where('id', $id)->delete();
-        }
-        
-        // Set notification
-        if (!is_null($user))
-        {
-            // Set notification
+        $user = User::find($id);
+
+        if ($user) {
+
+            // ❌ Check advertisement exists
+            $hasAds = Advertisment::where('bussines_name', $user->id)->exists();
+
+            if ($hasAds) {
+                $notification = [
+                    '_status' => false,
+                    '_message' => 'Cannot delete agent because advertisements are attached.',
+                    '_type' => 'error',
+                ];
+
+                return redirect()
+                    ->route('admin.vendors.index')
+                    ->with(['notification' => $notification]);
+            }
+
+            $user->delete();
+
             $notification = [
                 '_status' => true,
                 '_message' => __('messages.record_deleted', ['record' => 'Agent']),
                 '_type' => 'success',
             ];
-            //---------------
 
-            return redirect()->route('admin.vendors.index')->with(['notification' => $notification]);
-        } 
-        else 
-        {
-            // Set notification
-            $notification = [
-                '_status' => false,
-                '_message' => __('messages.record_failed', ['record' => 'Agent']),
-                '_type' => 'error',
-            ];
-            //---------------
-
-            return redirect()->route('admin.vendors.index')->with(['notification' => $notification]);
+            return redirect()
+                ->route('admin.vendors.index')
+                ->with(['notification' => $notification]);
         }
-        //-------------
 
-        return response()->json($response, 200);
+        $notification = [
+            '_status' => false,
+            '_message' => __('messages.record_failed', ['record' => 'Agent']),
+            '_type' => 'error',
+        ];
+
+        return redirect()
+            ->route('admin.vendors.index')
+            ->with(['notification' => $notification]);
     }
 }

@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Category;
+use App\Models\User;
+use App\Models\Advertisment;
 
 class SubCategoryController extends Controller
 {
@@ -337,37 +339,63 @@ class SubCategoryController extends Controller
     public function destroy(Request $request)
     {
         $ids = $request['ids'];
-        $category = Category::whereIn('id', $ids)->get();
+        $categories = Category::whereIn('id', $ids)->get();
+
+        $deletedCount = 0;
+        $blockedReasons = [];
 
         // Delete child or sub categories if any
-        if($category)
+        if($categories)
         {
-            foreach($category as $key => $value)
+            foreach($categories as $key => $value)
             {
-                // Delete Category
-                $category = Category::where('id', $value->id)->delete();
+                // Check assignments: users (business_category_id or business_sub_category_id) and advertisments
+                $usersCount = User::where('business_category_id', $value->id)
+                    ->orWhere('business_sub_category_id', $value->id)
+                    ->count();
+
+                $adsCount = Advertisment::where('category', $value->id)->count();
+
+                if($usersCount > 0 || $adsCount > 0) {
+                    $name = $value->name ?? ('ID '.$value->id);
+                    $blockedReasons[] = $name.': '.$usersCount.' user(s), '.$adsCount.' advertisment(s)';
+                    // skip deletion for this category
+                    continue;
+                }
+
+                // Safe to delete Category
+                $deleted = Category::where('id', $value->id)->delete();
+                if($deleted) $deletedCount++;
             }
         }
-        
-        // Set response
-        if ($category == true) 
-        {
+
+        // Build response based on outcomes
+        if($deletedCount > 0 && empty($blockedReasons)) {
             $response = [
                 '_status' => true,
                 '_message' => __('messages.record_deleted', ['record' => 'Sub Category']),
                 '_type' => 'success',
             ];
-        } 
-        else 
-        {
+        } elseif($deletedCount > 0 && !empty($blockedReasons)) {
+            $response = [
+                '_status' => true,
+                '_message' => __('messages.record_deleted', ['record' => 'Sub Category'])." - Some sub categories were not deleted: ".implode('; ', $blockedReasons),
+                '_type' => 'warning',
+            ];
+        } elseif($deletedCount == 0 && !empty($blockedReasons)) {
+            $response = [
+                '_status' => false,
+                '_message' => __('messages.record_failed', ['record' => 'Sub Category'])." - Cannot delete: ".implode('; ', $blockedReasons),
+                '_type' => 'error',
+            ];
+        } else {
             $response = [
                 '_status' => false,
                 '_message' => __('messages.record_failed', ['record' => 'Sub Category']),
                 '_type' => 'error',
             ];
         }
-        //-------------
-        
+
         return response()->json($response, 200);
     }
 
@@ -386,8 +414,29 @@ class SubCategoryController extends Controller
         // Delete Category
         if($category)
         {
-            // Delete Category
-            $category = Category::where('id', $id)->delete();
+            // Check assignments: users (business_category_id or business_sub_category_id) and advertisments
+            $usersCount = User::where('business_category_id', $category->id)
+                ->orWhere('business_sub_category_id', $category->id)
+                ->count();
+
+            $adsCount = Advertisment::where('category', $category->id)->count();
+
+            if($usersCount > 0 || $adsCount > 0) {
+                $name = $category->name ?? ('ID '.$category->id);
+                $reason = $name.': '.$usersCount.' user(s), '.$adsCount.' advertisment(s)';
+
+                // Set notification with reason
+                $notification = [
+                    '_status' => false,
+                    '_message' => __('messages.record_failed', ['record' => 'Sub Category'])." - Cannot delete: ". $reason,
+                    '_type' => 'error',
+                ];
+
+                return redirect()->route('admin.subcategory.index')->with(['notification' => $notification]);
+            } else {
+                // Delete Category
+                $category = Category::where('id', $id)->delete();
+            }
         }
         
         // Set notification
@@ -399,7 +448,6 @@ class SubCategoryController extends Controller
                 '_message' => __('messages.record_deleted', ['record' => 'Sub Category']),
                 '_type' => 'success',
             ];
-            //---------------
 
             return redirect()->route('admin.subcategory.index')->with(['notification' => $notification]);
         } 
@@ -411,13 +459,9 @@ class SubCategoryController extends Controller
                 '_message' => __('messages.record_failed', ['record' => 'Sub Category']),
                 '_type' => 'error',
             ];
-            //---------------
 
             return redirect()->route('admin.subcategory.index')->with(['notification' => $notification]);
         }
-        //-------------
-
-        return response()->json($response, 200);
     }
 
     /**
