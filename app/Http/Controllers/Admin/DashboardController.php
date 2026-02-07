@@ -7,64 +7,126 @@ use Illuminate\Http\Request;
 use App\Models\Service;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\District;
 
 class DashboardController extends Controller
 {
-    protected $viewData;
+    protected $viewData = [];
 
-    public function __construct(){
-        // Constructor
+    public function __construct()
+    {
+        // Optional middleware
+        // $this->middleware('auth');
     }
 
+    /**
+     * Common reusable function for total, active & inactive counts
+     */
+    private function getStatusCounts($model, $conditions = [])
+    {
+        $query = $model::query();
+
+        if (!empty($conditions)) {
+            $query->where($conditions);
+        }
+
+        return $query->selectRaw("
+            COUNT(id) AS total_count,
+            COUNT(CASE WHEN status = 1 THEN id END) AS active_count,
+            COUNT(CASE WHEN status = 0 THEN id END) AS inactive_count
+        ")->first();
+    }
+
+    /**
+     * Category Counts
+     */
     public function getCategoryCounts()
     {
-        $categories = Category::selectRaw("count(id) as total_count, count(CASE when is_active = 1 THEN id END) as active_count, count(CASE when is_active = 0 THEN id END) as inactive_count")->first();
-
-        return $categories;
+        return Category::whereNull('parent_id')
+            ->selectRaw("
+                COUNT(id) AS total_count,
+                COUNT(CASE WHEN status = 1 THEN id END) AS active_count,
+                COUNT(CASE WHEN status = 0 THEN id END) AS inactive_count
+            ")->first();
     }
 
-    public function getServiceCounts()
+    /**
+     * District Counts
+     */
+    public function getDistrictCounts()
     {
-        $services = Service::selectRaw("count(id) as total_count, count(CASE when is_active = 1 THEN id END) as active_count, count(CASE when is_active = 0 THEN id END) as inactive_count")->first();
-
-        return $services;
+        return $this->getStatusCounts(District::class);
     }
 
+    /**
+     * Vendor Counts
+     * Vendor = User with role VENDOR
+     */
+    public function getVendorCounts()
+    {
+        return $this->getStatusCounts(
+            User::class,
+            ['role_id' => config('constants.roles.VENDOR.value')]
+        );
+    }
+
+    /**
+     * Agent Counts
+     */
     public function getAgentCounts()
     {
-        $agents = User::selectRaw("count(id) as total_count, count(CASE when is_active = 1 THEN id END) as active_count, count(CASE when is_active = 0 THEN id END) as inactive_count")->where('role_id', config('constants.roles.AGENT.value'))->first();
-
-        return $agents;
+        return $this->getStatusCounts(
+            User::class,
+            ['role_id' => config('constants.roles.AGENT.value')]
+        );
     }
 
+    /**
+     * Distributor Counts
+     */
     public function getDistributorCounts()
     {
-        $distributors = User::selectRaw("count(id) as total_count, count(CASE when is_active = 1 THEN id END) as active_count, count(CASE when is_active = 0 THEN id END) as inactive_count")->where('role_id', config('constants.roles.DISTRIBUTOR.value'))->first();
-
-        return $distributors;
+        return $this->getStatusCounts(
+            User::class,
+            ['role_id' => config('constants.roles.DISTRIBUTOR.value')]
+        );
     }
 
+    /**
+     * Customer Counts with ITR Status
+     */
     public function getCustomerCounts()
     {
-        $customers = User::selectRaw("count(id) as total_count, count(CASE when is_active = 1 THEN id END) as active_count, count(CASE when is_active = 0 THEN id END) as inactive_count, count(CASE when itr_status = 'PENDING' THEN id END) as itr_pending_count, count(CASE when itr_status = 'PROCESS' THEN id END) as itr_process_count, count(CASE when itr_status = 'DOCUMENT_INSUFFICIENCY' THEN id END) as itr_insufficiency_count, count(CASE when itr_status = 'DEPARTMENTAL_QUERY' THEN id END) as itr_query_count, count(CASE when itr_status = 'COMPLETE' THEN id END) as itr_complete_count")->where('role_id', config('constants.roles.CUSTOMER.value'))->first();
-
-        return $customers;
+        return User::where('role_id', config('constants.roles.CUSTOMER.value'))
+            ->selectRaw("
+                COUNT(id) AS total_count,
+                COUNT(CASE WHEN status = 1 THEN id END) AS active_count,
+                COUNT(CASE WHEN status = 0 THEN id END) AS inactive_count
+            ")->first();
     }
 
+    /**
+     * Dashboard View
+     */
     public function index()
     {
-        // Adding breadcrumb array
         $breadcrumb = [
             'Dashboard' => ''
         ];
 
-        $data = [];
+        $data = [
+            'categoryCounts'    => $this->getCategoryCounts(),
+            'districtCounts'    => $this->getDistrictCounts(),
+            'vendorCounts'      => $this->getVendorCounts(),
+            'agentCounts'       => $this->getAgentCounts(),
+            'distributorCounts' => $this->getDistributorCounts(),
+            'customerCounts'    => $this->getCustomerCounts(),
+        ];
 
-        // Send view data
-        $this->viewData['pageTitle'] = 'Dashboard';
+        $this->viewData['pageTitle']  = 'Dashboard';
         $this->viewData['breadcrumb'] = $breadcrumb;
-        $this->viewData["data"] = $data;
+        $this->viewData['data']       = $data;
 
-        return view("admin.dashboard.dashboard")->with($this->viewData);
+        return view('admin.dashboard.dashboard')->with($this->viewData);
     }
 }
