@@ -225,6 +225,12 @@ Route::prefix('admin')->name('admin.')->group(function(){
             Route::get("/edit/{id}", [Admin\CmsController::class, "edit"])->name("cms.edit");
             Route::post("/update/{id}", [Admin\CmsController::class, "update"])->name("cms.update");
         });
+
+        Route::prefix("paid-listing")->group(function(){
+            Route::get("/", [Admin\PaidListingController::class, "index"])->name("paid-listing.index");
+            Route::get("/edit/{id}", [Admin\PaidListingController::class, "edit"])->name("paid-listing.edit");
+            Route::post("/update/{id}", [Admin\PaidListingController::class, "update"])->name("paid-listing.update");
+        });
     });
 });
 

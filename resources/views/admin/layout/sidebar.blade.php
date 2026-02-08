@@ -191,6 +191,17 @@ $currentRoute = request()->route()->getName();
                 </li>
                 @endif
 
+                {{-- Paid Listing --}}
+                @if(auth()->user()->hasPermissionTo('View Paid Listing'))
+                <li class="nav-item">
+                    <a href="{{ route('admin.paid-listing.index') }}" 
+                       class="nav-link {{ request()->routeIs('admin.paid-listing.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>Paid Listing</p>
+                    </a>
+                </li>
+                @endif
+
 
                 {{-- Logout --}}
                 <li class="nav-item">
