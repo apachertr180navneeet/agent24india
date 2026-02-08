@@ -180,6 +180,18 @@ $currentRoute = request()->route()->getName();
                 @endif
 
 
+                {{-- CMS --}}
+                @if(auth()->user()->hasPermissionTo('View CMS'))
+                <li class="nav-item">
+                    <a href="{{ route('admin.cms.index') }}" 
+                       class="nav-link {{ request()->routeIs('admin.cms.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>CMS</p>
+                    </a>
+                </li>
+                @endif
+
+
                 {{-- Logout --}}
                 <li class="nav-item">
                     <a href="{{ route('admin.logout') }}" class="nav-link">

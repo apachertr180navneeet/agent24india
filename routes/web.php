@@ -219,6 +219,12 @@ Route::prefix('admin')->name('admin.')->group(function(){
             Route::post('/get-cities', [Admin\UserController::class, 'getCitiesByDistrict'])->name('vendors.getCitiesByDistrict');
             Route::post('/get-sub-categories', [Admin\UserController::class, 'getSubCategories'])->name('vendors.getSubCategories');
         });
+
+        Route::prefix("cms")->group(function(){
+            Route::get("/", [Admin\CmsController::class, "index"])->name("cms.index");
+            Route::get("/edit/{id}", [Admin\CmsController::class, "edit"])->name("cms.edit");
+            Route::post("/update/{id}", [Admin\CmsController::class, "update"])->name("cms.update");
+        });
     });
 });
 

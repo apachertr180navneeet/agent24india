@@ -16,6 +16,7 @@ use App\Models\State;
 use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Advertisment;
+use App\Models\Cms;
 
 class HomeController extends Controller
 {
@@ -52,6 +53,8 @@ class HomeController extends Controller
         // Send view data
         $this->viewData['pageTitle'] = 'About Us';
 
+        $this->viewData['about'] = Cms::where('id', '1')->first();
+
         return view("front.about")->with($this->viewData);
     }
 
@@ -60,6 +63,8 @@ class HomeController extends Controller
         // Send view data
         $this->viewData['pageTitle'] = 'Terms & Conditions';
 
+        $this->viewData['termsAndConditions'] = Cms::where('id', '2')->first();
+
         return view("front.termsAndConditions")->with($this->viewData);
     }
 
@@ -67,6 +72,8 @@ class HomeController extends Controller
     public function privacyPolicy(){
         // Send view data
         $this->viewData['pageTitle'] = 'Privacy Policy';
+
+        $this->viewData['privacyPolicy'] = Cms::where('id', '3')->first();
 
         return view("front.privacypolicy")->with($this->viewData);
     }
