@@ -41,15 +41,24 @@
                         <i class="lni lni-map-marker theme-color"></i>
                     </label>
 
-                    <input type="text" 
-                        id="location_search" 
+                    <!-- Search Input -->
+                    <input type="text"
+                        id="location_search"
                         class="form-control"
                         placeholder="Search or choose district"
-                        autocomplete="off">
+                        autocomplete="off"
+                        value="{{ $selectedDistrict ? $selectedDistrict->name : '' }}">
 
-                    <div id="searchResults" class="search-results">
+                    <!-- Hidden ID -->
+                    <input type="hidden"
+                        name="location"
+                        id="location_id"
+                        value="{{ $location ?? '' }}">
+
+                    <!-- Dropdown -->
+                    <div id="searchResults" class="search-results" style="display:none;">
                         @foreach($districtList as $value)
-                            <div class="result-item" 
+                            <div class="result-item"
                                 data-id="{{ $value->id }}"
                                 data-name="{{ strtolower($value->name) }}">
                                 {{ $value->name }}

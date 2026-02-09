@@ -116,11 +116,40 @@ class HomeController extends Controller
         // Send view data
         $this->viewData['pageTitle'] = 'Vendor List';
 
+        $district = District::where('status', 1)->get();
+
         $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->where('district_id', $location)->paginate(12);
         $category = Category::where('status', 1)->whereNull('parent_id')->get();
 
+        $banner = Advertisment::where('status', 1)
+            ->where('sub_type', 'top')
+            ->where('district', $location)
+            ->get();
+
+         $districtList = District::where('status', 1)
+        ->orderBy('name')
+        ->get();
+
+        $selectedDistrict = null;
+        if (!empty($location)) {
+            $selectedDistrict = $districtList->where('id', $location)->first();
+        }
+
+        $sideadvertisments = Advertisment::where('status', 1)
+            ->where('sub_type', 'side')
+            ->where('district', $location)
+            ->get();
+
+        $districthome = District::where('status', 1)->where('is_home', 1)->orderBy('district_order', 'asc')->get();
+
         $this->viewData['vendoruser'] = $vendoruser;
         $this->viewData['category'] = $category;
+        $this->viewData['district'] = $district;
+        $this->viewData['banner'] = $banner;
+        $this->viewData['selectedDistrict'] = $selectedDistrict;
+        $this->viewData['location'] = $location;
+        $this->viewData['sideadvertisments'] = $sideadvertisments;
+        $this->viewData['districthome'] = $districthome;
         
         return view("front.vendordistrict")->with($this->viewData);
     }
@@ -147,6 +176,45 @@ class HomeController extends Controller
         $this->viewData['topadvertisments'] = $topadvertisments;
         $this->viewData['sideadvertisments'] = $sideadvertisments;
 
+
+        
+        return view("front.vendorlist")->with($this->viewData);
+    }
+
+    public function vendorlistByLocationAndCategory($location , $category){
+        // Send view data
+        $this->viewData['pageTitle'] = 'Vendor List';
+
+        $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->where('business_category_id', $category)->where('district_id', $location)->paginate(12);
+        
+        $categories = Category::where('status', 1)->whereNull('parent_id')->get();
+
+        $topadvertisments = Advertisment::where('status', 1)
+            ->where('sub_type', 'top')
+            ->where('category', $category)
+            ->get();
+
+        $sideadvertisments = Advertisment::where('status', 1)
+            ->where('sub_type', 'side')
+            ->where('category', $category)
+            ->get();
+
+        $districtList = District::where('status', 1)
+        ->orderBy('name')
+        ->get();
+
+        $selectedDistrict = null;
+        if (!empty($location)) {
+            $selectedDistrict = $districtList->where('id', $location)->first();
+        }
+
+        $this->viewData['vendoruser'] = $vendoruser;
+        $this->viewData['category'] = $categories;
+        $this->viewData['topadvertisments'] = $topadvertisments;
+        $this->viewData['sideadvertisments'] = $sideadvertisments;
+        $this->viewData['location'] = $location;
+        $this->viewData['selectedDistrict'] = $selectedDistrict;
+        
 
         
         return view("front.vendorlist")->with($this->viewData);
