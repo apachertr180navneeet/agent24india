@@ -121,7 +121,7 @@
 
                             <div class="col-lg-9 col-md-8 col-8">
                                 <h4>
-                                    <a href="#">{{ $vendor->name }}</a>
+                                    <a href="{{ route('front.vendor.details', ['vendor' => $vendor->id]) }}">{{ $vendor->name }}</a>
                                 </h4>
                                 <p>{{ $vendor->business_name }}</p>
                                 <label class="text-dark">

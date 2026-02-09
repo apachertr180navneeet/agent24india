@@ -119,22 +119,10 @@ class HomeController extends Controller
         $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->where('district_id', $location)->paginate(12);
         $category = Category::where('status', 1)->whereNull('parent_id')->get();
 
-        $topadvertisments = Advertisment::where('status', 1)
-                ->where('sub_type', 'top')
-                ->where('district', $location)
-                ->get();
-
-        $sideadvertisments = Advertisment::where('status', 1)
-                ->where('sub_type', 'side')
-                ->where('district', $location)
-                ->get();
-
         $this->viewData['vendoruser'] = $vendoruser;
         $this->viewData['category'] = $category;
-        $this->viewData['topadvertisments'] = $topadvertisments;
-        $this->viewData['sideadvertisments'] = $sideadvertisments;
         
-        return view("front.vendorlist")->with($this->viewData);
+        return view("front.vendordistrict")->with($this->viewData);
     }
 
     public function vendorlistByCategory($category){
@@ -260,5 +248,42 @@ class HomeController extends Controller
         return City::where('district_id', $request->district_id)
                    ->select('id', 'name')
                    ->get();
+    }
+
+
+    public function vendordetail($id)
+    {
+        $this->viewData['pageTitle'] = 'Vendor Details';
+
+        $vendoruser = User::select(
+                'users.*',
+                'bc.name as business_category_name',
+                DB::raw('GROUP_CONCAT(bsc.name ORDER BY bsc.name SEPARATOR ", ") as business_sub_category_names'),
+                'states.name as state_name',
+                'districts.name as district_name',
+                'cities.name as city_name'
+            )
+            ->leftJoin('categories as bc', 'bc.id', '=', 'users.business_category_id')
+            ->leftJoin(
+                'categories as bsc',
+                DB::raw('FIND_IN_SET(bsc.id, users.business_sub_category_id)'),
+                '>',
+                DB::raw('0')
+            )
+            ->leftJoin('states', 'states.id', '=', 'users.state_id')
+            ->leftJoin('districts', 'districts.id', '=', 'users.district_id')
+            ->leftJoin('cities', 'cities.id', '=', 'users.city_id')
+            ->where('users.id', $id)
+            ->groupBy('users.id')
+            ->first();
+
+        $category = Category::where('status', 1)
+            ->whereNull('parent_id')
+            ->get();
+
+        $this->viewData['vendoruser'] = $vendoruser;
+        $this->viewData['category'] = $category;
+
+        return view('front.vendordetail')->with($this->viewData);
     }
 }

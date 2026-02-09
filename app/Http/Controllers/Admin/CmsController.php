@@ -59,14 +59,7 @@ class CmsController extends Controller
         return view('admin.cms.edit')->with($this->viewData);
     }
 
-    /**
-     * Update.
-     *
-     * @return mixed
-     *
-     * @author Rajesh
-     * @created 05-08-2025
-     */
+ 
     public function update(Request $request, $id)
     {
         try {
