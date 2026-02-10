@@ -123,7 +123,7 @@
                         <div class="row d-flex vendorlistiner mb-3">
                             <div class="col-lg-3 col-md-4 col-4">
                                 <div class="image">
-                                    <img src="{{ asset('public/front/assets/images/items-grid/img1.jpg') }}" 
+                                    <img src="{{ $vendor->profile_photo }}" 
                                          alt="Vendor Image" class="img-fluid">
                                 </div>
                             </div>

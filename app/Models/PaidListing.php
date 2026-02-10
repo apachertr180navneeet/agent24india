@@ -23,6 +23,7 @@ class PaidListing extends Model
         'phone',
         'district',
         'home_city',
-        'status'
+        'status',
+        'paid_type',
     ];
 }

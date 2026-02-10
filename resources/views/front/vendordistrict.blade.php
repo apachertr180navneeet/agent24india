@@ -205,7 +205,7 @@
 
 
      <!-- start locations -->
-    <section class="locations-section1">
+    {{--  <section class="locations-section1">
         <div class="container">
             <div class="section-title">
                 <h2 class="wow fadeInUp" data-wow-delay=".4s">Locations </h2>
@@ -230,7 +230,7 @@
                 @endforeach
             </div>
         </div>
-    </section>
+    </section>  --}}
 
 
     <!-- Listing -->

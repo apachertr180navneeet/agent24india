@@ -63,7 +63,7 @@
                                             <select class="form-control select-picker" id="type" name="type">
                                                 <option value="">-Select-</option>
                                                 <option value="listing_page" {{ old('type', $advertismentdata->type) == 'listing_page' ? 'selected' : '' }}>Listing Page</option>
-                                                <option value="dist_page" {{ old('type', $advertismentdata->type) == 'dist_page' ? 'selected' : '' }}>Dist. Page</option>
+                                                <option value="district_page" {{ old('type', $advertismentdata->type) == 'district_page' ? 'selected' : '' }}>Dist. Page</option>
                                             </select>
                                         </div>
                                     </div>

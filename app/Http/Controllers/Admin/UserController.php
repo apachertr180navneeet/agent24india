@@ -716,7 +716,7 @@ class UserController extends Controller
         ->get();
 
         // Category
-        $categories = Category::where('status', 1)->get();
+        $categories = Category::where('status', 1)->whereNull('parent_id')->get();
 
         // Category
         $subCategories = Category::where('status', 1)->where('parent_id', $user->business_category_id)->get();
@@ -773,9 +773,9 @@ class UserController extends Controller
                 'state_id'        => $request->state_id,
                 'district_id'     => $request->district_id,
                 'city_id'         => $request->city_id,
-                'address'         => $request->address,
+                'business_address'         => $request->address,
                 'pincode'         => $request->pincode,
-                'category_id'     => $request->category_id,
+                'business_category_id'     => $request->category_id,
                 'business_sub_category_id' => $request->sub_category_id,
                 'description'     => $request->description,
                 'pick_your_location'    => $request->pick_your_location,

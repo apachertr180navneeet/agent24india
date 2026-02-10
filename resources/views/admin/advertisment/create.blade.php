@@ -65,7 +65,7 @@
                                             <select class="form-control select-picker" id="type" name="type">
                                                 <option value="">-Select-</option>
                                                 <option value="listing_page">Listing Page</option>
-                                                <option value="dist_page">Dist. Page</option>
+                                                <option value="district_page">Dist. Page</option>
                                             </select>
                                         </div>
                                     </div>

@@ -17,6 +17,7 @@ use App\Models\State;
 use App\Models\Category;
 use App\Http\Traits\UploadImage;
 use App\Http\Traits\UploadFile;
+use App\Models\PaidListing;
 
 class ProfileController extends Controller
 {
@@ -29,12 +30,18 @@ class ProfileController extends Controller
     public function index(){
         $user = Auth::user();
 
+        $districts = District::where('status', 1)->get();
+
         $parentCategories = Category::where('status', 1)->whereNull('parent_id')->get();
+
+        $subCategories = Category::where('status', 1)->where('parent_id', $user->business_category_id)->get();
 
         // Send view data
         $this->viewData['user'] = $user;
         $this->viewData['pageTitle'] = 'Profile';
         $this->viewData['parentCategories'] = $parentCategories;
+        $this->viewData['subCategories'] = $subCategories;
+        $this->viewData['districts'] = $districts;
         
         return view("front.profile")->with($this->viewData);
     }
@@ -76,11 +83,10 @@ class ProfileController extends Controller
         $district_id = $district->id;
 
         $user = Auth::user();
-
+        
 
         // ===== FILE UPLOAD =====
-        $profileImageUrl = $user->profile_image; // keep old image if not uploaded
-
+        $profileImageUrl = $user->profile_photo; // keep old image if not uploaded
         if ($request->hasFile('profile_image')) {
             $file = $request->file('profile_image');
 
@@ -108,6 +114,7 @@ class ProfileController extends Controller
                 'state_id' => $state_id,
                 'pincode' => $request->pincode,
                 'profile_photo' => $profileImageUrl,
+                'description' => $request->description,
             ];
 
             
@@ -258,22 +265,107 @@ class ProfileController extends Controller
     {
         try {
             $user = Auth::user();
-            $user->business_category_id = $request->business_category_id;
+
+            // array ko comma separated string me convert karo
+            $user->business_sub_category_id = is_array($request->business_sub_category_id)
+                ? implode(',', $request->business_sub_category_id)
+                : $request->business_category_id;
+
             $user->save();
 
+            // categories fetch (multiple parent ids ke liye)
+            $categoryIds = explode(',', $user->business_category_id);
 
-            $category = Category::where('parent_id', $request->business_category_id)->get();
-            
-            return response()->json([
-                'status' => true,
-                'message' => 'Category updated successfully',
-                'category' => $category
-            ]);
+            $categories = Category::whereIn('parent_id', $categoryIds)->get();
+
+           
+           return redirect()->back();
+           
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
                 'message' => 'Failed to update category'
             ]);
         }
+    }
+
+
+    public function freeListing(Request $request){
+        $user = Auth::user();
+        $status = false;
+        $message = "Oops! Some error occurred, listing cannot be saved.";
+        $data = null;
+
+        DB::beginTransaction();
+        try{
+            PaidListing::create([
+                'bussines_id' => $user->id,
+                'home_city' => isset($request['home_city']) ? $request['home_city'] : null,
+                'phone' => isset($request['contact_number']) ? $request['contact_number'] : null,
+                'company_name' => isset($request['company_name']) ? $request['company_name'] : null,
+                'type' => '1',
+                'paid_type' => 'free',
+            ]);
+
+            $user->vendor_type = 'free';
+            $user->save();
+
+            DB::commit();
+
+            
+            return redirect()->back()->with('success', 'Free listing created successfully.');
+            
+        }
+        catch(\Exception $e){
+            dd($e);
+        }
+
+        $response = [
+            'status' => $status,
+            'message' => $message,
+            'data' => $data
+        ];
+        return response()->json($response);
+    }
+
+
+    public function paidListing(Request $request){
+
+        dd($request->all());
+        $user = Auth::user();
+        $status = false;
+        $message = "Oops! Some error occurred, listing cannot be saved.";
+        $data = null;
+
+        DB::beginTransaction();
+        try{
+            PaidListing::create([
+                'bussines_id' => $user->id,
+                'home_city' => isset($request['home_city']) ? $request['home_city'] : null,
+                'phone' => isset($request['contact_number']) ? $request['contact_number'] : null,
+                'company_name' => isset($request['company_name']) ? $request['company_name'] : null,
+                'type' => '1',
+                'paid_type' => 'free',
+            ]);
+
+            $user->vendor_type = 'free';
+            $user->save();
+
+            DB::commit();
+
+            
+            return redirect()->back()->with('success', 'Free listing created successfully.');
+            
+        }
+        catch(\Exception $e){
+            dd($e);
+        }
+
+        $response = [
+            'status' => $status,
+            'message' => $message,
+            'data' => $data
+        ];
+        return response()->json($response);
     }
 }

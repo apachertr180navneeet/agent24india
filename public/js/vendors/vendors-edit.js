@@ -179,9 +179,6 @@ var thisJs = (function() {
                     category_id:{
                         required: true
                     },
-                    sub_category_id:{
-                        required: true
-                    },
                 },
                 //------------------
 
@@ -224,9 +221,6 @@ var thisJs = (function() {
                         accept: "Only JPG, PNG and GIF files are allowed."
                     },
                     category_id:{
-                        required: "This field is required.",
-                    },
-                    sub_category_id:{
                         required: "This field is required.",
                     },
                 },

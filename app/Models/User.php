@@ -55,6 +55,7 @@ class User extends Authenticatable implements OAuthenticatable
         'vendor_image',
         'description',
         'pick_your_location',
+        'vendor_type',
     ];
 
     /**

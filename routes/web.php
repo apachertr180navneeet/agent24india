@@ -259,6 +259,8 @@ Route::name('front.')->group(function(){
         Route::post('/update-profile', [Front\ProfileController::class, "updateProfile"])->name('updateProfile');
         Route::post('/send-otp', [Front\ProfileController::class, "sendOtp"])->name('sendOtp');
         Route::post('/save-listing', [Front\ProfileController::class, "saveListing"])->name('saveListing');
+        Route::post('/free-listing', [Front\ProfileController::class, "freeListing"])->name('freeListing');
+        Route::post('/paid-listing', [Front\ProfileController::class, "paidListing"])->name('paidListing');
     });
 });
 

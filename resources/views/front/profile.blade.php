@@ -13,11 +13,11 @@
 @section('content')
 @php
         $categoryModel = new \App\Models\Category();
-        $businessCategory = $categoryModel->select('id', 'name')->where('status', 1)->get();
+        $businessCategory = $categoryModel->select('id', 'name')->whereNull('parent_id')->where('status', 1)->get();
         @endphp
     <!-- profile -->
     <div class="profile-wrapper">
-        <form id="update-profile-form" action="{{route('front.updateProfile')}}" method="post" enctype="multipart/form-data" onsubmit="return validateProfileUpdate();">
+        <form  action="{{route('front.updateProfile')}}" method="post" enctype="multipart/form-data" onsubmit="return validateProfileUpdate();">
             @csrf()
             <div class="profile-card">
                 <!-- Left Image Upload -->
@@ -89,6 +89,10 @@
                         </div>
                     </div>
 
+                    <div class="form-row">
+                        <textarea name="description" placeholder="Enter description here..." >{{$user->description}}</textarea>
+                    </div>
+
                     <div class="form-actions">
                         <button type="submit" id="btn-update-profile">Update Profile</button>
                     </div>
@@ -98,42 +102,55 @@
 
         <div class="tags-box">
             <h4 class="tags-title">Tags</h4>
-            <div class="tags-row">
-                <div class="tag-field">
-                    <label>Category:</label>
-                    <select name="business_category_id" id="business_category_id" onchange="updateCategory(this.value)">
-                        @foreach($parentCategories as $category)
-                            <option value="{{$category->id}}" @if($user->business_category_id == $category->id) selected @endif>{{$category->name}}</option>
-                        @endforeach
-                    </select>
+            <form action="{{ route('front.updateCategory') }}" method="post">
+            @csrf
+                <div class="tags-row">
+                    <div class="tag-field">
+                        <label>Category:</label>
+                        <select name="business_category_id" id="business_category_id" disabled>
+                            @foreach($parentCategories as $category)
+                                <option value="{{$category->id}}" @if($user->business_category_id == $category->id) selected @endif>{{$category->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    @php
+                        // Comma separated IDs ko array me convert karo
+                        $selectedSubCategories = $user->business_sub_category_id
+                            ? explode(',', $user->business_sub_category_id)
+                            : [];
+                    @endphp
+
+                    <div class="tag-field">
+                        <label>Sub Category:</label>
+                        <select name="business_sub_category_id[]" id="business_sub_category_id" multiple>
+                            @foreach($subCategories as $subCategory)
+                                <option value="{{ $subCategory->id }}"
+                                    {{ in_array($subCategory->id, $selectedSubCategories) ? 'selected' : '' }}>
+                                    {{ $subCategory->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="tag-feild">
+                        <input type="submit" name="type" value="Sub Category" class="btn btn-primary mt-3" />
+                    </div>
                 </div>
 
-                <div class="tag-field">
-                    <label>Sub Category:</label>
-                    <select>
-                        <option>Car Travel</option>
-                        <option>Bike Travel</option>
-                        <option>Bus Travel</option>
-                    </select>
+                <div class="selected-tags">
+                    @foreach($selectedSubCategories as $selectedSubCategory)
+                        @php
+                            $subCategory = $subCategories->where('id', $selectedSubCategory)->first();
+                        @endphp
+                        @if($subCategory)
+                            <span class="tag-pill">
+                                {{ $subCategory->name }} <span class="remove">&times;</span>
+                            </span>
+                        @endif
+                    @endforeach
                 </div>
-            </div>
-
-            {{--  <div class="selected-tags">
-                <span class="tag-pill">
-                    Car Travel <span class="remove">&times;</span>
-                </span>
-                <span class="tag-pill">
-                    Bike Travel <span class="remove">&times;</span>
-                </span>
-                <span class="tag-pill">
-                    Bus Travel <span class="remove">&times;</span>
-                </span>
-            </div>  --}}
-        </div>
-
-        <div class="desc-box">
-            <h4 class="desc-title">DESCRIPTION</h4>
-            <textarea class="desc-textarea" placeholder="Enter description here..." ></textarea>
+            </form>
         </div>
     </div>
 
@@ -153,7 +170,7 @@
                 @csrf
 
                 <input type="hidden" name="type" value="F" />
-
+                
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label class="form-label">Full Name</label>
@@ -169,38 +186,73 @@
                         <label class="form-label">Phone Number</label>
                         <input type="text" class="form-control" id="contact_number" name="contact_number" placeholder="Phone Number">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 mb-2">
                         <label class="form-label">OTP</label>
                         <div class="input-group">
-                        <input type="text" class="form-control" id="otp" name="otp" placeholder="OTP" disabled>
-                        <button type="submit" class="btn send-otp-btn" data-send-otp-url="{{route('front.sendOtp')}}">Send OTP</button>
-                        <button type="submit" class="btn confirm-btn d-none" data-save-listing-url="{{route('front.saveListing')}}">Confirm</button>
+                            <input type="text" class="form-control" id="otp" name="otp" placeholder="OTP" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <div class="input-group">
+                            <input type="submit" value="Send OTP" class="btn send-otp-btn">
                         </div>
                     </div>
                 </div>
             </form>
 
             <!-- Paid Listing Ad Form -->
-            <form id="paid" class="ad-form d-none" method="post">
+            <form id="paid" class="ad-form d-none" method="post" action="{{route('front.paidListing')}}">
                 @csrf
-                <!-- Hidden -->
-                <input type="hidden" name="type" value="P">
-                <!-- Hidden -->
+                <div class="district-box">
 
-                <div class="mb-3">
-                    <label class="form-label">Company Name</label>
-                    <input type="text" class="form-control" id="company_name" name="company_name" placeholder="Enter Company Name">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Phone Number</label>
-                    <input type="text" class="form-control" id="contact_number" name="contact_number" placeholder="Phone Number">
-                </div>
+                    <!-- District Buttons -->
+                    <div class="district-toggle mb-3">
+                        <button type="button" class="btn btn-outline-dark active" id="oneDistrict">
+                            1 District
+                        </button>
+                        <button type="button" class="btn btn-primary" id="fourDistrict">
+                            4 District
+                        </button>
+                    </div>
 
-                <button type="submit" class="btn confirm-btn" data-save-listing-url="{{route('front.saveListing')}}">Submit Paid Ad</button>
+                    <!-- Select District -->
+                    <div class="form-group mt-3">
+                        <label>Select 4 Dist.</label>
+                        <select name="districts[]" id="districts" class="form-control" multiple>
+                            @foreach ($districts as $district)
+                                <option value="{{ $district->id }}">{{ $district->name }}</option>
+                            @endforeach
+                        </select>
+                        <small class="text-danger">Dist. Dropdown with search option</small>
+                    </div>
+
+                    <!-- Name -->
+                    <div class="form-group mt-3">
+                        <label>Name</label>
+                        <input type="text" name="name" class="form-control" placeholder="name">
+                    </div>
+
+                    <!-- Home City -->
+                    <div class="form-group mt-3">
+                        <label>Home City</label>
+                        <input type="text" name="city" class="form-control" placeholder="city">
+                    </div>
+
+                    <!-- Price -->
+                    <div class="price-box mt-3">
+                        <strong>1 Month Price :</strong>
+                        <span class="price" id="priceText">250 Rs</span>
+
+                        <input type="hidden" name="price" id="price" value="250">
+                        <input type="hidden" name="type" id="type" value="1">
+                    </div>
+
+                    <!-- Confirm Button -->
+                    <div class="text-end mt-4">
+                        <input type="submit" class="btn confirm-btn" value="Submit Paid Ad">
+                    </div>
+
+                </div>
             </form>
 
             <!-- Banner Ad Form -->
@@ -232,6 +284,8 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+
+
 <!-- Include the jQuery Validation Plugin -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js"></script>
 
@@ -239,6 +293,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/additional-methods.min.js"></script>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
 
 <script>
     toastr.options = {
@@ -287,6 +342,7 @@
                 console.log('Category updated successfully:', response);
                 if(response.status) {
                     toastr.success(response.message);
+                    location.reload(); // Reload the page to reflect changes
                 } else {
                     toastr.error(response.message);
                 }
@@ -319,411 +375,42 @@
         document.getElementById(btn.dataset.target).classList.remove('d-none');
       });
     });
-
-    /**
-     * Form submissions
-     */
-    var validationForm = validationForm = $("#free").validate({
-        errorClass: "text-danger",
-        // validClass: "success",
-        errorElement: "span",
-        rules: {
-            full_name:{
-                required: true
-            },
-            home_city:{
-                required: true
-            },
-            contact_number: {
-                required: true
-            },
-            otp: {
-                required: {
-                    depends: function(element){
-                        if(!$(element).prop("disabled")){
-                            return true;
-                        }
-                        return false;
-                    }
-                }
-            }
-        },
-        messages: {
-            full_name:{
-                required: "This field is required."
-            },
-            home_city:{
-                required: "This field is required."
-            },
-            contact_number: {
-                required: "This field is required."
-            },
-            otp: {
-                required: "This field is required."
-            }
-        },
-        errorPlacement: function(error, element) {
-            error.insertAfter(element);
-        },
-        invalidHandler: function(event, validator) {
-            // 'this' refers to the form
-            var errors = validator.numberOfInvalids();
-            if (errors) {
-            var message = errors == 1
-                ? 'You missed 1 field. It has been highlighted'
-                : 'You missed ' + errors + ' fields. They have been highlighted';
-            $("div.error span").html(message);
-            $("div.error").show();
-            } else {
-            $("div.error").hide();
-            }
-        },
-        submitHandler: function(form, event) {
-            event.preventDefault();
-            // $(form).ajaxSubmit();
-
-            if(!$("#free").find(".send-otp-btn").hasClass("d-none")){
-                sendFreeListingOtp();
-            }
-            else{
-                saveFreeListing();
-            }
-        },
-    });
-
-    $("#tab-btn-free").on('click', function(){
-        if($("#tab-btn-free").hasClass('active')){
-            if(validationForm){
-                validationForm.destroy();
-            }
-
-            validationForm = $("#free").validate({
-                errorClass: "text-danger",
-                // validClass: "success",
-                errorElement: "span",
-                rules: {
-                    full_name:{
-                        required: true
-                    },
-                    home_city:{
-                        required: true
-                    },
-                    contact_number: {
-                        required: true
-                    },
-                    otp: {
-                        required: {
-                            depends: function(element){
-                                if(!$(element).prop("disabled")){
-                                    return true;
-                                }
-                                return false;
-                            }
-                        }
-                    }
-                },
-                messages: {
-                    full_name:{
-                        required: "This field is required."
-                    },
-                    home_city:{
-                        required: "This field is required."
-                    },
-                    contact_number: {
-                        required: "This field is required."
-                    },
-                    otp: {
-                        required: "This field is required."
-                    }
-                },
-                errorPlacement: function(error, element) {
-                    error.insertAfter(element);
-                },
-                invalidHandler: function(event, validator) {
-                    // 'this' refers to the form
-                    var errors = validator.numberOfInvalids();
-                    if (errors) {
-                    var message = errors == 1
-                        ? 'You missed 1 field. It has been highlighted'
-                        : 'You missed ' + errors + ' fields. They have been highlighted';
-                    $("div.error span").html(message);
-                    $("div.error").show();
-                    } else {
-                    $("div.error").hide();
-                    }
-                },
-                submitHandler: function(form, event) {
-                    event.preventDefault();
-                    // $(form).ajaxSubmit();
-
-                    if(!$("#free").find(".send-otp-btn").hasClass("d-none")){
-                        sendFreeListingOtp();
-                    }
-                    else{
-                        saveFreeListing();
-                    }
-                },
-            });
-        }
-    });
-
-    function sendFreeListingOtp(){
-        $.ajax({
-            url:$(".send-otp-btn").data('send-otp-url'),
-            method:"POST",
-            data:$("#free").serialize(),
-            beforeSend: function(xhr, settings){
-                console.log('before', xhr, settings);
-            },
-            success: function(response, textStatus, xhr){
-                console.log('success', response, textStatus, xhr);
-                if(response.status){
-                    $("#free").find("#full_name").prop('readonly', true);
-                    $("#free").find("#home_city").prop('readonly', true);
-                    $("#free").find("#contact_number").prop('readonly', true);
-                    $("#free").find("#otp").prop('disabled', false);
-
-                    $("#free").find(".send-otp-btn").addClass("d-none");
-
-                    $("#free").find(".confirm-btn").removeClass("d-none");
-
-                    toastr.success(response.message);
-                }
-                else{
-                    toastr.error(response.message);
-                }
-            },
-            complete: function(xhr, textStatus){
-                console.log('complete', xhr, textStatus);
-            },
-            error: function(xhr, textStatus, error){
-                console.log('error', xhr, textStatus, error);
-            }
-        });
-    }
-
-    function saveFreeListing(){
-        console.log($("#free").serialize());
-        // return false;
-        
-        $.ajax({
-            url: $("#free").find(".confirm-btn").data('save-listing-url'),
-            method:"POST",
-            data:$("#free").serialize(),
-            beforeSend: function(xhr, settings){
-                console.log('before', xhr, settings);
-            },
-            success: function(response, textStatus, xhr){
-                // console.log('success', response, textStatus, xhr);
-                if(response.status){
-                    $("#free").find("#full_name").val('').prop('readonly', false);
-                    $("#free").find("#home_city").val('').prop('readonly', false);
-                    $("#free").find("#contact_number").val('').prop('readonly', false);
-                    $("#free").find("#otp").val('').prop('disabled', true);
-
-                    $("#free").find(".send-otp-btn").removeClass("d-none");
-                    $("#free").find(".confirm-btn").addClass("d-none");
-
-                    toastr.success(response.message);
-                }
-                else{
-                    toastr.error(response.message);
-                }
-            },
-            complete: function(xhr, textStatus){
-                console.log('complete', xhr, textStatus);
-            },
-            error: function(xhr, textStatus, error){
-                console.log('error', xhr, textStatus, error);
-            }
-        });
-    }
-
-    /**
-     * Form submissions paid
-     */
-    $("#tab-btn-paid").on('click', function(){
-        if($(this).hasClass('active'))
-        {
-            if(validationForm){
-                validationForm.destroy();
-            }
-
-            validationForm = $("#paid").validate({
-                errorClass: "text-danger",
-                // validClass: "success",
-                errorElement: "span",
-                rules: {
-                    company_name:{
-                        required: true
-                    },
-                    email:{
-                        required: true,
-                        email: true
-                    },
-                    contact_number: {
-                        required: true
-                    }
-                },
-                messages: {
-                    company_name:{
-                        required: "This field is required."
-                    },
-                    email:{
-                        required: "This field is required.",
-                        email: "Please enter a valid email."
-                    },
-                    contact_number: {
-                        required: "This field is required."
-                    }
-                },
-                errorPlacement: function(error, element) {
-                    error.insertAfter(element);
-                },
-                invalidHandler: function(event, validator) {
-                    // 'this' refers to the form
-                    var errors = validator.numberOfInvalids();
-                    if (errors) {
-                    var message = errors == 1
-                        ? 'You missed 1 field. It has been highlighted'
-                        : 'You missed ' + errors + ' fields. They have been highlighted';
-                    $("div.error span").html(message);
-                    $("div.error").show();
-                    } else {
-                    $("div.error").hide();
-                    }
-                },
-                submitHandler: function(form, event) {
-                    event.preventDefault();
-                    // $(form).ajaxSubmit();
-    
-                    savePaidListing();
-                },
-            });
-        }
-    });
-
-    function savePaidListing(){
-        $.ajax({
-            url: $("#paid").find(".confirm-btn").data('save-listing-url'),
-            method:"POST",
-            data:$("#paid").serialize(),
-            beforeSend: function(xhr, settings){
-                console.log('before', xhr, settings);
-            },
-            success: function(response, textStatus, xhr){
-                // console.log('success', response, textStatus, xhr);
-                if(response.status){
-                    $("#paid").find("#company_name").val('').prop('readonly', false);
-                    $("#paid").find("#email").val('').prop('readonly', false);
-                    $("#paid").find("#contact_number").val('').prop('readonly', false);
-
-                    toastr.success(response.message);
-                }
-                else{
-                    toastr.error(response.message);
-                }
-            },
-            complete: function(xhr, textStatus){
-                console.log('complete', xhr, textStatus);
-            },
-            error: function(xhr, textStatus, error){
-                console.log('error', xhr, textStatus, error);
-            }
-        });
-    }
-
-    /**
-     * Form submissions banner
-     */
-    $("#tab-btn-banner").on('click', function(){
-        if($(this).hasClass('active'))
-        {
-            if(validationForm){
-                validationForm.destroy();
-            }
-
-            validationForm = $("#banner").validate({
-                errorClass: "text-danger",
-                // validClass: "success",
-                errorElement: "span",
-                rules: {
-                    banner_title:{
-                        required: true
-                    },
-                    banner_target_url:{
-                        required: true
-                    },
-                    banner_image: {
-                        required: true
-                    }
-                },
-                messages: {
-                    banner_title:{
-                        required: "This field is required."
-                    },
-                    banner_target_url:{
-                        required: "This field is required."
-                    },
-                    banner_image: {
-                        required: "This field is required."
-                    }
-                },
-                errorPlacement: function(error, element) {
-                    error.insertAfter(element);
-                },
-                invalidHandler: function(event, validator) {
-                    // 'this' refers to the form
-                    var errors = validator.numberOfInvalids();
-                    if (errors) {
-                    var message = errors == 1
-                        ? 'You missed 1 field. It has been highlighted'
-                        : 'You missed ' + errors + ' fields. They have been highlighted';
-                    $("div.error span").html(message);
-                    $("div.error").show();
-                    } else {
-                    $("div.error").hide();
-                    }
-                },
-                submitHandler: function(form, event) {
-                    event.preventDefault();
-                    // $(form).ajaxSubmit();
-    
-                    saveBannerListing();
-                },
-            });
-        }
-    });
-
-    function saveBannerListing(){
-        var formData = new FormData($("#banner")[0]);
-        
-        $.ajax({
-            url: $("#banner").find(".confirm-btn").data('save-listing-url'),
-            method:"POST",
-            data:formData,
-            contentType: false,
-            processData: false,
-            beforeSend: function(xhr, settings){
-                console.log('before', xhr, settings);
-            },
-            success: function(response, textStatus, xhr){
-                // console.log('success', response, textStatus, xhr);
-                if(response.status){
-                    $("#banner")[0].reset();
-                    toastr.success(response.message);
-                }
-                else{
-                    toastr.error(response.message);
-                }
-            },
-            complete: function(xhr, textStatus){
-                console.log('complete', xhr, textStatus);
-            },
-            error: function(xhr, textStatus, error){
-                console.log('error', xhr, textStatus, error);
-            }
-        });
-    }
 </script>
+
+<script>
+    $(document).ready(function () {
+
+        // 1 District Click
+        $('#oneDistrict').on('click', function () {
+            $('#price').val(250);
+            $('#type').val(1);
+            $('#priceText').text('250 Rs');
+
+            $(this).addClass('active btn-outline-dark')
+                .removeClass('btn-primary');
+
+            $('#fourDistrict').removeClass('active btn-outline-dark')
+                            .addClass('btn-primary');
+        });
+
+        // 4 District Click
+        $('#fourDistrict').on('click', function () {
+            $('#price').val(500);
+            $('#type').val(4);
+            $('#priceText').text('500 Rs');
+
+            $(this).addClass('active btn-outline-dark')
+                .removeClass('btn-primary');
+
+            $('#oneDistrict').removeClass('active btn-outline-dark')
+                            .addClass('btn-primary');
+        });
+
+    });
+</script>
+
+
+
+
+
 @endpush

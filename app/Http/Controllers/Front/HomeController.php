@@ -103,10 +103,21 @@ class HomeController extends Controller
                 ->where('sub_type', 'side')
                 ->get();
 
+        $districtList = District::where('status', 1)
+        ->orderBy('name')
+        ->get();
+
+        $selectedDistrict = null;
+        if (!empty($location)) {
+            $selectedDistrict = $districtList->where('id', $location)->first();
+        }
+
         $this->viewData['vendoruser'] = $vendoruser;
         $this->viewData['category'] = $category;
         $this->viewData['topadvertisments'] = $topadvertisments;
         $this->viewData['sideadvertisments'] = $sideadvertisments;
+        $this->viewData['districtList'] = $districtList;
+        $this->viewData['selectedDistrict'] = $selectedDistrict;
         
         return view("front.vendorlist")->with($this->viewData);
     }
@@ -171,10 +182,24 @@ class HomeController extends Controller
             ->where('category', $category)
             ->get();
 
+        $sideadvertisments = Advertisment::where('status', 1)
+                ->where('sub_type', 'side')
+                ->get();
+
+        $districtList = District::where('status', 1)
+        ->orderBy('name')
+        ->get();
+
+        $selectedDistrict = null;
+        if (!empty($location)) {
+            $selectedDistrict = $districtList->where('id', $location)->first();
+        }
+
         $this->viewData['vendoruser'] = $vendoruser;
         $this->viewData['category'] = $categories;
         $this->viewData['topadvertisments'] = $topadvertisments;
         $this->viewData['sideadvertisments'] = $sideadvertisments;
+        $this->viewData['selectedDistrict'] = $selectedDistrict;
 
 
         
