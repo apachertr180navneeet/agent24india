@@ -18,6 +18,8 @@ use App\Models\Category;
 use App\Models\Advertisment;
 use App\Models\Cms;
 
+use Illuminate\Support\Facades\Mail;
+
 class HomeController extends Controller
 {
     function __construct(){
@@ -84,6 +86,47 @@ class HomeController extends Controller
         $this->viewData['pageTitle'] = 'Contact Us';
 
         return view("front.contactus")->with($this->viewData);
+    }
+
+    public function submitContactus(Request $request)
+    {
+        $request->validate(
+            [
+                'name'    => 'required|string|max:50',
+                'email'   => 'required|email',
+                'phone'   => 'required|digits_between:10,15',
+                'subject' => 'required|string|max:100',
+                'message' => 'required|string|min:10',
+            ],
+            [
+                'name.required'    => 'Person name is required',
+                'email.required'   => 'Email is required',
+                'email.email'      => 'Enter a valid email address',
+                'phone.required'   => 'Phone number is required',
+                'phone.digits_between' => 'Phone number must be 10–15 digits',
+                'subject.required' => 'Subject is required',
+                'message.required' => 'Message is required',
+                'message.min'      => 'Message must be at least 10 characters',
+            ]
+        );
+
+        $data = [
+            'name'         => $request->name,
+            'email'        => $request->email,
+            'phone'        => $request->phone,
+            'subject'      => $request->subject,
+            'user_message' => $request->message,
+        ];
+
+        Mail::send('emails.contact_us', $data, function ($mail) use ($data) {
+            $mail->to('info@agent24india.com')
+                ->subject($data['subject'])
+                ->replyTo($data['email'], $data['name']);
+        });
+
+        return redirect()
+            ->back()
+            ->with('success', 'Thank you! Your message has been sent successfully.');
     }
 
 

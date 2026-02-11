@@ -237,6 +237,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
 Route::get('/', [Front\HomeController::class, "index"])->name('front.index');
 Route::get('/about-us', [Front\HomeController::class, "aboutus"])->name('front.aboutus');
 Route::get('/contact-us', [Front\HomeController::class, "contactus"])->name('front.contactus');
+Route::post('/contact-us', [Front\HomeController::class, "submitContactus"])->name('front.contactus.submit');
 Route::get('/terms-and-conditions', [Front\HomeController::class, "termsAndConditions"])->name('front.termsAndConditions');
 Route::get('/privacy-policy', [Front\HomeController::class, "privacyPolicy"])->name('front.privacyPolicy');
 Route::get('/vendorlist', [Front\HomeController::class, "vendorlist"])->name('front.vendorlist');
@@ -249,11 +250,8 @@ Route::name('front.')->group(function(){
     // Route::get('/', [Front\HomeController::class, "index"])->name('index');
     Route::post("/login", [Front\HomeController::class, "authenticate"])->name("login");
     Route::get("/logout", [Front\HomeController::class, "destroy"])->name("logout");
-
     Route::post('/signup', [Front\HomeController::class, "signup"])->name('signup');
-
     Route::post('/update-category', [Front\ProfileController::class, 'updateCategory'])->name('updateCategory');
-
     Route::middleware('auth')->group(function(){
         Route::get('/profile', [Front\ProfileController::class, "index"])->name('profile');
         Route::post('/update-profile', [Front\ProfileController::class, "updateProfile"])->name('updateProfile');

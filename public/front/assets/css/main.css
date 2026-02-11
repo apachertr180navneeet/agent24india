@@ -6797,7 +6797,7 @@ textarea {
 .contact-info {
   background: #fff;
   border-radius: 12px;
-  flex: 1;
+  /* flex: 1; */
 }
 
 
