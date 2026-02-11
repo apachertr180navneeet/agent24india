@@ -23,7 +23,7 @@
                     <div class="single-footer f-link">
                         <h3>Support Links</h3>
                         <ul>
-                            <li><a href="javascript:void(0)">Help & Support</a></li>
+                            <li><a href="{{route('front.support')}}">Help & Support</a></li>
                             <li><a href="{{route('front.termsAndConditions')}}">Terms & Conditions</a></li>
                             <li><a href="{{route('front.privacyPolicy')}}">Privacy Policy</a></li>
                         </ul>

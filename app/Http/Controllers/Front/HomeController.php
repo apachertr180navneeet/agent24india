@@ -17,8 +17,12 @@ use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Advertisment;
 use App\Models\Cms;
+use App\Models\SupportForm;
 
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -386,7 +390,6 @@ class HomeController extends Controller
                    ->get();
     }
 
-
     public function vendordetail($id)
     {
         $this->viewData['pageTitle'] = 'Vendor Details';
@@ -421,5 +424,70 @@ class HomeController extends Controller
         $this->viewData['category'] = $category;
 
         return view('front.vendordetail')->with($this->viewData);
+    }
+
+    public function support()
+    {
+        $this->viewData['pageTitle'] = 'Support';
+
+        return view('front.support')->with($this->viewData);
+    }
+
+
+    public function submitSupport(Request $request)
+    {
+        try {
+
+            // ✅ Validation (Laravel auto redirect back with errors)
+            $validated = $request->validate([
+                'name'       => 'required|string|max:50',
+                'email'      => 'required|email',
+                'phone'      => 'required|digits_between:10,15',
+                'subject'    => 'required|string|max:100',
+                'message'    => 'required|string|min:10',
+                'attachment' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            ]);
+
+            $imageUrl = null;
+
+            // ✅ Image upload
+            if ($request->hasFile('attachment')) {
+                $image    = $request->file('attachment');
+                $fileName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+
+                $image->move(public_path('upload/support'), $fileName);
+
+                // Full URL
+                $imageUrl = asset('upload/support/' . $fileName);
+            }
+
+            // ✅ Save data
+            SupportForm::create([
+                'name'    => $validated['name'],
+                'email'   => $validated['email'],
+                'phone'   => $validated['phone'],
+                'subject' => $validated['subject'],
+                'message' => $validated['message'],
+                'image'   => $imageUrl,
+            ]);
+
+            return back()->with('success', 'Support request submitted successfully.');
+
+        }
+        // ✅ IMPORTANT: Let validation redirect back automatically
+        catch (ValidationException $e) {
+            throw $e;
+        }
+        // ✅ Catch all other errors
+        catch (\Throwable $e) {
+
+            Log::error('Support Form Error', [
+                'error' => $e->getMessage(),
+                'line'  => $e->getLine(),
+                'file'  => $e->getFile(),
+            ]);
+
+            return back()->with('error', 'Something went wrong. Please try again later.');
+        }
     }
 }

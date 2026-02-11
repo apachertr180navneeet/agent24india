@@ -77,7 +77,7 @@
         <li><a href="{{route('front.aboutus')}}">About Us</a></li>
         <li><a href="{{route('front.contactus')}}">Contact Us</a></li>
         <li><a href="#">Notice</a></li>
-        <li><a href="supportpage.html">Support & Help</a></li>
+        <li><a href="{{route('front.support')}}">Support & Help</a></li>
         <li><a href="{{route('front.termsAndConditions')}}">Terms & Conditions</a></li>
         <li><a href="{{route('front.privacyPolicy')}}">Privacy Policy</a></li>
         {{--  @if(\Auth::check())
