@@ -90,30 +90,30 @@
                 <!-- small box -->
                 <div class="small-box bg-pink">
                 <div class="inner">
-                    <h3>{{$data["books"]["total"] ?? 0}}</h3>
+                    <h3>{{$supportFormCount ?? 0}}</h3>
                     <p><b>Supporting Form</b></p>
-                    <p class="m-0"><b>Active</b> : {{$data["users"]["active"] ?? 0}}</p>
-                    <p class="m-0"><b>In-Active</b> : {{$data["users"]["inactive"] ?? 0}}</p>
+                    {{--  <p class="m-0"><b>Active</b> : {{$data["users"]["active"] ?? 0}}</p>
+                    <p class="m-0"><b>In-Active</b> : {{$data["users"]["inactive"] ?? 0}}</p>  --}}
                 </div>
                 <div class="icon">
                     <i class="fa fa-users"></i>
                 </div>
-                <a href="javascript;" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('admin.support-form.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <div class="col-lg-3 col-6">
                 <!-- small box -->
                 <div class="small-box bg-pink">
                 <div class="inner">
-                    <h3>{{$data["contests"]["total"] ?? 0}}</h3>
+                    <h3>{{$PaidListingcounts->total ?? 0}}</h3>
                     <p><b>Paid Listing</b></p>
-                    <p class="m-0"><b>Active</b> : {{$data["users"]["active"] ?? 0}}</p>
-                    <p class="m-0"><b>In-Active</b> : {{$data["users"]["inactive"] ?? 0}}</p>
+                    <p class="m-0"><b>Active</b> : {{$PaidListingcounts->approved ?? 0}}</p>
+                    <p class="m-0"><b>In-Active</b> : {{$PaidListingcounts->pending ?? 0}}</p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-users"></i>
                 </div>
-                <a href="javascript;" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('admin.paid-listing.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>

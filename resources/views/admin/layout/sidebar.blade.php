@@ -192,6 +192,18 @@ $currentRoute = request()->route()->getName();
                 @endif
 
                 {{-- Paid Listing --}}
+                @if(auth()->user()->hasPermissionTo('View Support Form'))
+                <li class="nav-item">
+                    <a href="{{ route('admin.support-form.index') }}" 
+                       class="nav-link {{ request()->routeIs('admin.support-form.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>Support Form</p>
+                    </a>
+                </li>
+                @endif
+
+
+                {{-- Paid Listing --}}
                 @if(auth()->user()->hasPermissionTo('View Paid Listing'))
                 <li class="nav-item">
                     <a href="{{ route('admin.paid-listing.index') }}" 

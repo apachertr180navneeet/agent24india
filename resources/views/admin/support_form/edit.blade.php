@@ -27,7 +27,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form role="form" action="{{ route('admin.paid-listing.update', ['id' => $paidlisting->id]) }}" method="post" id="edit-form" enctype="multipart/form-data">
+                    <form role="form" action="" method="post" id="edit-form" enctype="multipart/form-data">
                         @csrf
                         <!-- Card body -->
                         <div class="card-body">
@@ -35,53 +35,53 @@
 
                                 {{-- Row 1 --}}
                                 <div class="row mb-3">
-                                    <div class="col-md-2 font-weight-bold">Business Name</div>
+                                    <div class="col-md-2 font-weight-bold">Name</div>
                                     <div class="col-md-4">
-                                        <input type="text" class="form-control" value="{{ $paidlisting->business_name ?? 'test' }}" readonly>
+                                        <input type="text" class="form-control" value="{{ $supportform->name ?? 'test' }}" readonly>
                                     </div>
 
                                     <div class="col-md-2 font-weight-bold">Mobile Number</div>
                                     <div class="col-md-4">
-                                        <input type="text" class="form-control" value="{{ $paidlisting->mobile ?? 'test' }}" readonly>
+                                        <input type="text" class="form-control" value="{{ $supportform->mobile ?? 'test' }}" readonly>
                                     </div>
                                 </div>
 
                                 {{-- Row 2 --}}
                                 <div class="row mb-3">
-                                    <div class="col-md-2 font-weight-bold">Type</div>
+                                    <div class="col-md-2 font-weight-bold">Email</div>
                                     <div class="col-md-4">
-                                        <input type="text" class="form-control" value="{{ $paidlisting->type ?? '1' }} District" readonly>
+                                        <input type="text" class="form-control" value="{{ $supportform->email ?? '1' }}" readonly>
                                     </div>
 
-                                    <div class="col-md-2 font-weight-bold">Dist.</div>
+                                    <div class="col-md-2 font-weight-bold">Subject</div>
                                     <div class="col-md-4">
-                                        <input type="text" class="form-control" value="{{ $paidlisting->district_names ?? 'Jodhpur, Jaipur, Udaipur, Bikaner' }}" readonly>
+                                        <input type="text" class="form-control" value="{{ $supportform->subject ?? 'Jodhpur, Jaipur, Udaipur, Bikaner' }}" readonly>
                                     </div>
                                 </div>
 
                                 {{-- Row 3 --}}
                                 <div class="row mb-3">
-                                    <div class="col-md-2 font-weight-bold">Home City</div>
+                                    <div class="col-md-2 font-weight-bold">image</div>
                                     <div class="col-md-4">
-                                        <input type="text" class="form-control" value="{{ $paidlisting->home_city ?? 'Osia' }}" readonly>
+                                        <img src="{{ $supportform->image ?? '' }}" alt="">
                                     </div>
 
-                                    <div class="col-md-2 font-weight-bold">Amount</div>
+                                    <div class="col-md-2 font-weight-bold">Message</div>
                                     <div class="col-md-4">
-                                        <input type="text" class="form-control" value="{{ $paidlisting->amount ?? '250' }}" readonly>
+                                        <textarea name="message" id="message" cols="30" rows="10">{{ $supportform->message ?? '' }}</textarea>
                                     </div>
                                 </div>
 
                                 {{-- Row 4 --}}
-                                <div class="row mb-3">
+                                {{--  <div class="row mb-3">
                                     <div class="col-md-2 font-weight-bold">Status</div>
                                     <div class="col-md-4">
                                         <select class="form-control" name="status">
-                                            <option value="1" {{ $paidlisting->status == '1' ? 'selected' : '' }}>Approved</option>
-                                            <option value="0" {{ $paidlisting->status == '0' ? 'selected' : '' }}>Pending</option>
+                                            <option value="1" {{ $supportform->status == '1' ? 'selected' : '' }}>Approved</option>
+                                            <option value="0" {{ $supportform->status == '0' ? 'selected' : '' }}>Pending</option>
                                         </select>
                                     </div>
-                                </div>
+                                </div>  --}}
 
                             </div>
                         </div>
@@ -92,8 +92,8 @@
                             <div class="row row-sm">
                                 <div class="col-md-12 col-lg-12 col-xl-12 text-right">
                                     <div class="form-group">
-                                        <a href="{{route('admin.paid-listing.index')}}" class="btn btn-info">Cancel</a>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <a href="{{route('admin.support-form.index')}}" class="btn btn-info">Cancel</a>
+                                        {{--  <button type="submit" class="btn btn-primary">Submit</button>  --}}
                                     </div>
                                 </div>
                             </div>

@@ -8,6 +8,8 @@ use App\Models\Service;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\District;
+use App\Models\SupportForm;
+use App\Models\PaidListing;
 
 class DashboardController extends Controller
 {
@@ -123,9 +125,20 @@ class DashboardController extends Controller
             'customerCounts'    => $this->getCustomerCounts(),
         ];
 
+        $supportFormCount = SupportForm::count();
+
+        $PaidListingcounts = PaidListing::selectRaw("
+            COUNT(*) as total,
+            SUM(CASE WHEN status = '1' THEN 1 ELSE 0 END) as approved,
+            SUM(CASE WHEN status = '0' THEN 1 ELSE 0 END) as pending
+        ")->first();
+
+
         $this->viewData['pageTitle']  = 'Dashboard';
         $this->viewData['breadcrumb'] = $breadcrumb;
         $this->viewData['data']       = $data;
+        $this->viewData['supportFormCount'] = $supportFormCount;
+        $this->viewData['PaidListingcounts'] = $PaidListingcounts;
 
         return view('admin.dashboard.dashboard')->with($this->viewData);
     }

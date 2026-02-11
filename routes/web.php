@@ -231,6 +231,11 @@ Route::prefix('admin')->name('admin.')->group(function(){
             Route::get("/edit/{id}", [Admin\PaidListingController::class, "edit"])->name("paid-listing.edit");
             Route::post("/update/{id}", [Admin\PaidListingController::class, "update"])->name("paid-listing.update");
         });
+
+        Route::prefix("support-form")->group(function(){
+            Route::get("/", [Admin\SupportFormController::class, "index"])->name("support-form.index");
+            Route::get("/edit/{id}", [Admin\SupportFormController::class, "edit"])->name("support-form.edit");
+        });
     });
 });
 
