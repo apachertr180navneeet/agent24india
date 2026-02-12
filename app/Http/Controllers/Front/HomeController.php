@@ -378,17 +378,19 @@ class HomeController extends Controller
 
     public function getDistricts(Request $request)
     {
-        return District::where('state_id', $request->state_id)
-                        ->select('id', 'name')
-                        ->get();
+        $stateId = $request->state;
+        
+        $districts = District::where('state_id', $stateId)->get();
+        return response()->json($districts);
     }
 
     public function getCities(Request $request)
     {
-        return City::where('district_id', $request->district_id)
-                   ->select('id', 'name')
-                   ->get();
+        $districtId = $request->district;
+        $cities = City::where('district_id', $districtId)->get();
+        return response()->json($cities);
     }
+
 
     public function vendordetail($id)
     {

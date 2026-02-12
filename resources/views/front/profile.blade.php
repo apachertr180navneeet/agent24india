@@ -12,9 +12,9 @@
 
 @section('content')
 @php
-        $categoryModel = new \App\Models\Category();
-        $businessCategory = $categoryModel->select('id', 'name')->whereNull('parent_id')->where('status', 1)->get();
-        @endphp
+    $categoryModel = new \App\Models\Category();
+    $businessCategory = $categoryModel->select('id', 'name')->whereNull('parent_id')->where('status', 1)->get();
+@endphp
     <!-- profile -->
     <div class="profile-wrapper">
         <form  action="{{route('front.updateProfile')}}" method="post" enctype="multipart/form-data" onsubmit="return validateProfileUpdate();">
@@ -153,132 +153,6 @@
             </form>
         </div>
     </div>
-
-
-    <div class="container">
-        <!-- Tab Buttons -->
-        <div class="tab-buttons mb-3">
-            <button class="btn active" id="tab-btn-free" data-target="free">Free Listing Ad</button>
-            <button class="btn" id="tab-btn-paid" data-target="paid">Paid Listing Ad</button>
-            <button class="btn" id="tab-btn-banner" data-target="banner">Banner Ad</button>
-        </div>
-
-        <!-- Forms -->
-        <div class="form-container">
-            <!-- Free Listing Ad Form -->
-            <form id="free" class="ad-form" method="post">
-                @csrf
-
-                <input type="hidden" name="type" value="F" />
-                
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Enter Your Name">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Home City</label>
-                        <input type="text" class="form-control" id="home_city" name="home_city" placeholder="City">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label class="form-label">Phone Number</label>
-                        <input type="text" class="form-control" id="contact_number" name="contact_number" placeholder="Phone Number">
-                    </div>
-                    <div class="col-md-6 mb-2">
-                        <label class="form-label">OTP</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="otp" name="otp" placeholder="OTP" disabled>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-2">
-                        <div class="input-group">
-                            <input type="submit" value="Send OTP" class="btn send-otp-btn">
-                        </div>
-                    </div>
-                </div>
-            </form>
-
-            <!-- Paid Listing Ad Form -->
-            <form id="paid" class="ad-form d-none" method="post" action="{{route('front.paidListing')}}">
-                @csrf
-                <div class="district-box">
-
-                    <!-- District Buttons -->
-                    <div class="district-toggle mb-3">
-                        <button type="button" class="btn btn-outline-dark active" id="oneDistrict">
-                            1 District
-                        </button>
-                        <button type="button" class="btn btn-primary" id="fourDistrict">
-                            4 District
-                        </button>
-                    </div>
-
-                    <!-- Select District -->
-                    <div class="form-group mt-3">
-                        <label>Select 4 Dist.</label>
-                        <select name="districts[]" id="districts" class="form-control" multiple>
-                            @foreach ($districts as $district)
-                                <option value="{{ $district->id }}">{{ $district->name }}</option>
-                            @endforeach
-                        </select>
-                        <small class="text-danger">Dist. Dropdown with search option</small>
-                    </div>
-
-                    <!-- Name -->
-                    <div class="form-group mt-3">
-                        <label>Name</label>
-                        <input type="text" name="name" class="form-control" placeholder="name">
-                    </div>
-
-                    <!-- Home City -->
-                    <div class="form-group mt-3">
-                        <label>Home City</label>
-                        <input type="text" name="city" class="form-control" placeholder="city">
-                    </div>
-
-                    <!-- Price -->
-                    <div class="price-box mt-3">
-                        <strong>1 Month Price :</strong>
-                        <span class="price" id="priceText">250 Rs</span>
-
-                        <input type="hidden" name="price" id="price" value="250">
-                        <input type="hidden" name="type" id="type" value="1">
-                    </div>
-
-                    <!-- Confirm Button -->
-                    <div class="text-end mt-4">
-                        <input type="submit" class="btn confirm-btn" value="Submit Paid Ad">
-                    </div>
-
-                </div>
-            </form>
-
-            <!-- Banner Ad Form -->
-            <form id="banner" class="ad-form d-none" method="post" enctype="multipart/form-data">
-                @csrf
-                <!-- Hidden -->
-                <input type="hidden" name="type" value="B">
-                <!-- Hidden -->
-
-                <div class="mb-3">
-                    <label class="form-label">Banner Title</label>
-                    <input type="text" class="form-control" id="banner_title" name="banner_title" placeholder="Enter Banner Title">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Upload Image</label>
-                    <input type="file" id="banner_image" name="banner_image" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Target URL</label>
-                    <input type="url" class="form-control" id="banner_target_url" name="banner_target_url"  placeholder="Enter URL">
-                </div>
-                
-                <button type="submit" class="btn confirm-btn" data-save-listing-url="{{route('front.saveListing')}}">Submit Banner Ad</button>
-            </form>
-        </div>
-    </div>
 @endsection
 
 @push('scripts')
@@ -353,28 +227,6 @@
             }
         });
     }
-    
-    
-    document.querySelectorAll('.remove').forEach(btn => {
-        btn.onclick = function () {
-            this.parentElement.remove();
-        };
-    });
-    
-    const buttons = document.querySelectorAll('.tab-buttons .btn');
-    const forms = document.querySelectorAll('.ad-form');
-
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        // Remove active class from all buttons
-        buttons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        // Show selected form
-        forms.forEach(f => f.classList.add('d-none'));
-        document.getElementById(btn.dataset.target).classList.remove('d-none');
-      });
-    });
 </script>
 
 <script>

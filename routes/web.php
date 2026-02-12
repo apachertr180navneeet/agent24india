@@ -17,6 +17,11 @@ Route::get('/clear-cache', function () {
     return "All cache is cleared";
 });
 
+Route::get('route-list', function () {
+    $callArtisan = Artisan::call('route:list');
+    return "Route list has been generated in console" . "<br><br><pre>" . Artisan::output() . "</pre>";
+});
+
 Route::get('/storage-link', function () {
     Artisan::call('storage:link');
 });
@@ -270,6 +275,13 @@ Route::name('front.')->group(function(){
 });
 
 
-Route::get('/get-districts', [Front\HomeController::class, 'getDistricts'])->name('get.districts');
-Route::get('/get-cities', [Front\HomeController::class, 'getCities'])->name('get.cities');
+// Route::get('/get-districts/{state}', [Front\HomeController::class, 'getDistricts'])->name('get.districts');
+// Route::get('/get-cities/{district}', [Front\HomeController::class, 'getCities'])->name('get.cities');
+
+// Route::get('/get-districts/{state}', [Front\HomeController::class, 'getDistricts']);
+// Route::get('/get-cities/{district}', [Front\HomeController::class, 'getCities']);
+
+Route::get('/get-districts/{state}', [Front\HomeController::class, 'getDistricts'])->name('get.districts');
+Route::get('/get-cities/{district}', [Front\HomeController::class, 'getCities'])->name('get.cities');
+
 

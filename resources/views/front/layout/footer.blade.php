@@ -182,3 +182,54 @@
         return true;
     }
 </script>
+
+<script>
+    $(document).ready(function () {
+
+        // STATE → DISTRICT
+        $('#state_id').change(function () {
+            let stateId = $(this).val();
+            $('#district_id').html('<option value="">Loading...</option>');
+            $('#city_id').html('<option value="">Select City</option>');
+
+            if (stateId) {
+                $.ajax({
+                    url: "{{ route('get.districts', ['state' => '__STATE__']) }}".replace('__STATE__', stateId),
+                    type: 'GET',
+                    success: function (data) {
+                        let options = '<option value="">Select District</option>';
+                        $.each(data, function (key, value) {
+                            options += `<option value="${value.id}">${value.name}</option>`;
+                        });
+                        $('#district_id').html(options);
+                    }
+                });
+            } else {
+                $('#district_id').html('<option value="">Select District</option>');
+            }
+        });
+
+        // DISTRICT → CITY
+        $('#district_id').change(function () {
+            let districtId = $(this).val();
+            $('#city_id').html('<option value="">Loading...</option>');
+
+            if (districtId) {
+                $.ajax({
+                    url: "{{ route('get.cities', ['district' => '__DISTRICT__']) }}".replace('__DISTRICT__', districtId),
+                    type: 'GET',
+                    success: function (data) {
+                        let options = '<option value="">Select City</option>';
+                        $.each(data, function (key, value) {
+                            options += `<option value="${value.id}">${value.name}</option>`;
+                        });
+                        $('#city_id').html(options);
+                    }
+                });
+            } else {
+                $('#city_id').html('<option value="">Select City</option>');
+            }
+        });
+
+    });
+</script>
