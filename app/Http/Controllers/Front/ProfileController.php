@@ -30,7 +30,11 @@ class ProfileController extends Controller
     public function index(){
         $user = Auth::user();
 
-        $districts = District::where('status', 1)->get();
+        $stateList = State::where('status', 1)->get();
+
+        $districts = District::where('status', 1)->where('state_id', $user->state_id)->get();
+
+        $city = City::where('status', 1)->where('district_id', $user->district_id)->get();
 
         $parentCategories = Category::where('status', 1)->whereNull('parent_id')->get();
 
@@ -42,45 +46,20 @@ class ProfileController extends Controller
         $this->viewData['parentCategories'] = $parentCategories;
         $this->viewData['subCategories'] = $subCategories;
         $this->viewData['districts'] = $districts;
+        $this->viewData['city'] = $city;
+        $this->viewData['stateList'] = $stateList;
         
         return view("front.profile")->with($this->viewData);
     }
 
     public function updateProfile(Request $request){
         
-        $statename = ucfirst(strtolower($request->state_id));
-        $state = State::where('name', $statename)->first();
-
-        if(!$state){
-            $state = State::create([
-                'name' => $statename
-            ]);
-        }
-
-        $state_id = $state->id;
         
-        $cityname = ucfirst(strtolower($request->city_id));
-        $city = City::where('name', $cityname)->where('state_id', $state_id)->first();
+        $state_id = $request->state_id;
         
-        if(!$city){
-            $city = City::create([
-                'name' => $cityname,
-                'state_id' => $state_id
-            ]);
-        }
-        $city_id = $city->id;
+        $city_id = $request->city_id;
 
-        $districtname = ucfirst(strtolower($request->district_id));
-
-        $district = District::where('name', $districtname)->where('state_id', $state_id)->first();
-        if(!$district){
-            $district = District::create([
-                'name' => $districtname,
-                'state_id' => $state_id
-            ]);
-        }
-
-        $district_id = $district->id;
+        $district_id = $request->district_id;
 
         $user = Auth::user();
         
@@ -115,6 +94,7 @@ class ProfileController extends Controller
                 'pincode' => $request->pincode,
                 'profile_photo' => $profileImageUrl,
                 'description' => $request->description,
+                'pick_your_location' => $request->pick_your_location,
             ];
 
             

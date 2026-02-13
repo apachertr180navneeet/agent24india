@@ -295,20 +295,42 @@ class HomeController extends Controller
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'email'    => ['required', 'email'],
             'password' => ['required'],
         ]);
- 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
- 
-            return redirect()->intended('/');
+
+        DB::beginTransaction();
+
+        try {
+            if (Auth::attempt($credentials)) {
+
+                $request->session()->regenerate();
+
+                DB::commit();
+
+                // ✅ Login success
+                return redirect()
+                    ->route('front.index')
+                    ->with('signin_status', true);
+            }
+
+            DB::rollBack();
+
+            // ❌ Login failed
+            return redirect()
+                ->route('front.index')
+                ->with('signin_status', false);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return redirect()
+                ->route('front.index')
+                ->with('signup_status', false);
         }
- 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
     }
+
 
     /**
      * Destroy an authenticated session.

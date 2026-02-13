@@ -3,9 +3,39 @@
 
 @push('styles')
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
 <style>
     img#previewImage {
-        width: 50% !important;
+        width: 50%;
+    }
+
+    /* ===== SELECT2 FIX ===== */
+    .select2-container--default .select2-selection--single {
+        height: 44px;
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    .select2-container--default
+    .select2-selection--single
+    .select2-selection__rendered {
+        padding-left: 12px;
+        padding-right: 30px;
+        line-height: normal;
+    }
+
+    .select2-container--default
+    .select2-selection--single
+    .select2-selection__arrow {
+        height: 100%;
+        right: 8px;
+    }
+
+    /* Multiple select */
+    .select2-container--default .select2-selection--multiple {
+        min-height: 44px;
+        padding: 5px 8px;
     }
 </style>
 @endpush
@@ -17,7 +47,7 @@
 @endphp
     <!-- profile -->
     <div class="profile-wrapper">
-        <form  action="{{route('front.updateProfile')}}" method="post" enctype="multipart/form-data" onsubmit="return validateProfileUpdate();">
+        <form id="profile-form" action="{{route('front.updateProfile')}}" method="post" enctype="multipart/form-data" onsubmit="return validateProfileUpdate();">
             @csrf()
             <div class="profile-card">
                 <!-- Left Image Upload -->
@@ -58,8 +88,8 @@
                             <input type="text" id="business_name" name="business_name" placeholder="Business Name" value="{{$user->business_name}}">
                         </div>
                         <div class="form-group">
-                            <label>District *</label>
-                            <input type="text" id="district_id" name="district_id" placeholder="District" value="{{$user->district->name}}">
+                            <label>Pick Your Location *</label>
+                            <input type="text" placeholder="Pick Your Location" name="pick_your_location" id="pick_your_location" value="{{$user->pick_your_location}}">
                         </div>
                     </div>
                     <div class="form-group full">
@@ -69,24 +99,40 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>City *</label>
-                            <input type="text" id="city_id" name="city_id" placeholder="City" value="{{$user->city->name}}">
+                            <label>State *</label>
+                            <select name="state_id" id="state_id">
+                                <option value="">Select State</option>
+                                @foreach($stateList as $value)
+                                    <option value="{{ $value->id }}" {{ $user->state_id == $value->id ? 'selected' : '' }}>{{ $value->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label>State *</label>
-                            <input type="text" id="state_id" name="state_id" placeholder="State" value="{{$user->state->name}}">
+                            <label>District *</label>
+                            <select name="district_id" id="district_id">
+                                <option value="">Select District</option>
+                                @foreach($districts as $value)
+                                    <option value="{{ $value->id }}" {{ $user->district_id == $value->id ? 'selected' : '' }}>{{ $value->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
+                            <label>City *</label>
+                            <select name="city_id" id="city_id">
+                                <option value="">Select City</option>
+                                @foreach($city as $value)
+                                    <option value="{{ $value->id }}" {{ $user->city_id == $value->id ? 'selected' : '' }}>{{ $value->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>Pincode *</label>
                             <input type="text" id="pincode" name="pincode" placeholder="Pincode" value="{{$user->pincode}}">
                         </div>
-                        <div class="form-group">
-                            <label>Pick Your Location *</label>
-                            <input type="text" placeholder="Pick Your Location">
-                        </div>
+                        
                     </div>
 
                     <div class="form-row">
@@ -107,7 +153,7 @@
                 <div class="tags-row">
                     <div class="tag-field">
                         <label>Category:</label>
-                        <select name="business_category_id" id="business_category_id" disabled>
+                        <select name="business_category_id" id="" disabled>
                             @foreach($parentCategories as $category)
                                 <option value="{{$category->id}}" @if($user->business_category_id == $category->id) selected @endif>{{$category->name}}</option>
                             @endforeach
@@ -156,6 +202,9 @@
 @endsection
 
 @push('scripts')
+<script src="{{ asset('public/plugins/jquery/jquery.min.js') }}" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 
@@ -170,6 +219,25 @@
 
 
 <script>
+$(document).ready(function () {
+    /* SINGLE SELECTS */
+    $('#business_category_id, #state_id, #district_id, #city_id').select2({
+        width: '100%'
+    });
+
+    /* MULTIPLE SELECT */
+    $('#business_sub_category_id').select2({
+        width: '100%',
+        placeholder: 'Select Sub Categories'
+    });
+});
+</script>
+
+<script>
+    function validateProfileUpdate() {
+        return true;
+    }
+
     toastr.options = {
         "closeButton": false,
         "debug": false,
@@ -261,6 +329,90 @@
     });
 </script>
 
+<script>
+$(document).ready(function () {
+    const $profileForm = $('#profile-form');
+    const $state = $profileForm.find('select[name="state_id"]');
+    const $district = $profileForm.find('select[name="district_id"]');
+    const $city = $profileForm.find('select[name="city_id"]');
+
+    function loadDistricts(stateId, selectedDistrict = null) {
+        if (!stateId) return;
+
+        $district.html('<option value="">Loading...</option>');
+
+        $.ajax({
+            url: "{{ route('get.districts', ['state' => '__STATE__']) }}".replace('__STATE__', stateId),
+            type: 'GET',
+            success: function (data) {
+                let options = '<option value="">Select District</option>';
+                $.each(data, function (key, value) {
+                    let selected = selectedDistrict == value.id ? 'selected' : '';
+                    options += `<option value="${value.id}" ${selected}>${value.name}</option>`;
+                });
+                $district.html(options);
+                $district.trigger('change.select2');
+            }
+        });
+    }
+
+    // ON CHANGE
+    $state.change(function () {
+        loadDistricts($(this).val());
+        $city.html('<option value="">Select City</option>');
+    });
+
+    // ON PAGE LOAD
+    let stateId = $state.val();
+    let districtId = "{{ $user->district_id }}";
+
+    if (stateId) {
+        loadDistricts(stateId, districtId);
+    }
+
+});
+</script>
+<script>
+$(document).ready(function () {
+    const $profileForm = $('#profile-form');
+    const $district = $profileForm.find('select[name="district_id"]');
+    const $city = $profileForm.find('select[name="city_id"]');
+
+    function loadCities(districtId, selectedCity = null) {
+        if (!districtId) return;
+
+        $city.html('<option value="">Loading...</option>');
+
+        $.ajax({
+            url: "{{ route('get.cities', ['district' => '__DISTRICT__']) }}".replace('__DISTRICT__', districtId),
+            type: 'GET',
+            success: function (data) {
+                let options = '<option value="">Select City</option>';
+                $.each(data, function (key, value) {
+                    let selected = selectedCity == value.id ? 'selected' : '';
+                    options += `<option value="${value.id}" ${selected}>${value.name}</option>`;
+                });
+                $city.html(options);
+                $city.trigger('change.select2');
+            }
+        });
+    }
+
+    // ON CHANGE
+    $district.change(function () {
+        loadCities($(this).val());
+    });
+
+    // ON PAGE LOAD
+    let districtId = "{{ $user->district_id }}";
+    let cityId = "{{ $user->city_id }}";
+
+    if (districtId) {
+        loadCities(districtId, cityId);
+    }
+
+});
+</script>
 
 
 

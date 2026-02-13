@@ -185,6 +185,18 @@
             </div>
         </div>
 
+        @if(session('signin_status'))
+            @if(session('signin_status') === true)
+                <script>
+                    alert('Login successful');
+                </script>
+            @elseif(session('signin_status') === false)
+                <script>
+                    alert('Invalid email or password');
+                </script>
+            @endif
+        @endif
+
         @if(session('signup_status'))
             @if(session('signup_status') == true)
                 <script>
