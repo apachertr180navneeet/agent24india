@@ -4,20 +4,18 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Carbon;
 use Auth;
 use DB;
-use App\Models\OneTimePassword;
 use App\Models\BusinessListing;
-use App\Models\BusinessCategory;
 use App\Models\District;
 use App\Models\City;
 use App\Models\State;
 use App\Models\Category;
 use App\Http\Traits\UploadImage;
-use App\Http\Traits\UploadFile;
 use App\Models\PaidListing;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
@@ -113,134 +111,6 @@ class ProfileController extends Controller
         }
     }
 
-    public function sendOtp(Request $request){
-        // dd($request->all());
-
-        $user = Auth::user();
-        $status = false;
-        $message = "Oops! Some error occurred, OTP cannot be sent";
-        $data = null;
-
-        DB::beginTransaction();
-        try{
-            $isExists = BusinessListing::where('contact_number', $request['contact_number'])
-            ->where('full_name', $request['full_name'])
-            ->where('user_id', $user->id)
-            ->first();
-
-            if($isExists){
-                // Error show
-                $message = "Oops! the entered 'Full Name' and 'Contact No.' already exists.";
-            }
-            else{
-                // Store user
-                $oneTimePassword = OneTimePassword::updateOrCreate([
-                    'mobile_number'     => $request['contact_number'],
-                ], [
-                    'user_id'           => 1,
-                    'one_time_password' => rand(1000, 9999),
-                    'type'              => 'VERIFICATION',
-                    'request_token'     => (string) Str::uuid(),
-                    'expires_at'        => Carbon::now()->addMinutes(5)
-                ]);
-                //------------------------
-
-                // Send SMS
-                if (!empty($oneTimePassword)) {
-                    // $this->sendSMS($oneTimePassword);
-                    $status = true;
-                    $data = $oneTimePassword->one_time_password;
-                    $message = "OTP sent successfully.";
-                }
-
-                DB::commit();
-            }
-        }
-        catch(\Exception $e){
-            dd($e);
-        }
-
-        $response = [
-            'status' => $status,
-            'message' => $message,
-            'data' => $data
-        ];
-        return response()->json($response);
-    }
-
-    public function saveListing(Request $request){
-        // dd($request->all());
-
-        $user = Auth::user();
-        $status = false;
-        $message = "Oops! Some error occurred, listing cannot be saved.";
-        $data = null;
-
-        DB::beginTransaction();
-        try{
-            $userOtp = OneTimePassword::where('mobile_number',$request['contact_number'])->where('one_time_password',$request['otp'])->first();
-
-            if(empty($userOtp) && $request['type'] == 'F'){
-                $message = "Please enter a valid otp.";
-            }
-            else{
-                $bannerImage = null;
-                if($request['type'] == 'B'){
-                    // Upload image and add to data array
-                    if ($request->hasFile('banner_image'))
-                    {
-                        if(!file_exists(storage_path("app/public/images/banner/"))){
-                            mkdir(storage_path("app/public/images/banner/"), 0777, true);
-                        }
-                        else
-                        {
-                            chmod(storage_path("app/public/images/banner/"), 0777);
-                        }
-
-                        $image = $this->uploadImage($request->file('banner_image'), "images/banner/", 70, null);
-
-                        if ($image['_status']) 
-                        {
-                            $bannerImage = $image['_data'];
-                        }
-                    }
-                }
-
-                BusinessListing::create([
-                    'user_id' => $user->id,
-                    'full_name' => isset($request['full_name']) ? $request['full_name'] : null,
-                    'home_city' => isset($request['home_city']) ? $request['home_city'] : null,
-                    'contact_number' => isset($request['contact_number']) ? $request['contact_number'] : null,
-                    'company_name' => isset($request['company_name']) ? $request['company_name'] : null,
-                    'email' => isset($request['email']) ? $request['email'] : null,
-                    'banner_title' => isset($request['banner_title']) ? $request['banner_title'] : null,
-                    'banner_image' => $bannerImage,
-                    'banner_target_url' => isset($request['banner_target_url']) ? $request['banner_target_url'] : null,
-                    'type' => $request['type'],
-                    'created_by' => $user->id,
-                    'updated_by' => $user->id,
-                    'created_at' => date("Y-m-d H:i:s"),
-                    'updated_at' => date("Y-m-d H:i:s"),
-                ]);
-
-                DB::commit();
-
-                $status = true;
-                $message = "Listing saved successfully.";
-            }
-        }
-        catch(\Exception $e){
-            dd($e);
-        }
-
-        $response = [
-            'status' => $status,
-            'message' => $message,
-            'data' => $data
-        ];
-        return response()->json($response);
-    }
-
     public function updateCategory(Request $request)
     {
         try {
@@ -269,8 +139,20 @@ class ProfileController extends Controller
         }
     }
 
+    public function addListing(){
+    
+        $user = Auth::user();
 
-    public function freeListing(Request $request){
+        $districts = District::where('status', 1)->get();
+
+        $this->viewData['user'] = $user;
+        $this->viewData['districts'] = $districts;
+        $this->viewData['pageTitle'] = 'Add Listing';
+        
+        return view("front.add-listing")->with($this->viewData);
+    }
+
+    public function storeListing(Request $request){
         $user = Auth::user();
         $status = false;
         $message = "Oops! Some error occurred, listing cannot be saved.";
@@ -278,22 +160,32 @@ class ProfileController extends Controller
 
         DB::beginTransaction();
         try{
-            PaidListing::create([
-                'bussines_id' => $user->id,
-                'home_city' => isset($request['home_city']) ? $request['home_city'] : null,
-                'phone' => isset($request['contact_number']) ? $request['contact_number'] : null,
-                'company_name' => isset($request['company_name']) ? $request['company_name'] : null,
-                'type' => '1',
-                'paid_type' => 'free',
-            ]);
-
-            $user->vendor_type = 'free';
-            $user->save();
+            if ($request->type === 'free') {
+                // 🧹 Clear OTP session
+                session()->forget([
+                    'email_otp',
+                    'email_otp_email',
+                    'email_otp_expire',
+                    'email_otp_verified'
+                ]);
+                PaidListing::create([
+                    'bussines_id' => $user->id,
+                    'home_city' => isset($request['home_city']) ? $request['home_city'] : null,
+                    'phone' => isset($request['phone']) ? $request['phone'] : null,
+                    'email' => isset($request['email']) ? $request['email'] : null,
+                    'type' => '1',
+                    'paid_type' => 'free',
+                ]);
+            }elseif($request->type === 'paid'){
+                dd($request->all());
+            }
 
             DB::commit();
 
+            $status = true;
+            $message = "Listing saved successfully.";
             
-            return redirect()->back()->with('success', 'Free listing created successfully.');
+            return redirect()->back()->with('success', 'Listing created successfully.');
             
         }
         catch(\Exception $e){
@@ -309,43 +201,92 @@ class ProfileController extends Controller
     }
 
 
-    public function paidListing(Request $request){
+    public function sendEmailOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email'
+        ]);
 
-        dd($request->all());
-        $user = Auth::user();
-        $status = false;
-        $message = "Oops! Some error occurred, listing cannot be saved.";
-        $data = null;
+        $otp = rand(100000, 999999);
 
-        DB::beginTransaction();
-        try{
-            PaidListing::create([
-                'bussines_id' => $user->id,
-                'home_city' => isset($request['home_city']) ? $request['home_city'] : null,
-                'phone' => isset($request['contact_number']) ? $request['contact_number'] : null,
-                'company_name' => isset($request['company_name']) ? $request['company_name'] : null,
-                'type' => '1',
-                'paid_type' => 'free',
-            ]);
+        Session::put('email_otp', $otp);
+        Session::put('email_otp_email', $request->email);
+        Session::put('email_otp_expire', Carbon::now()->addMinutes(5));
 
-            $user->vendor_type = 'free';
-            $user->save();
+        Mail::send('emails.otp', ['otp' => $otp], function ($message) use ($request) {
+            $message->to($request->email)
+                    ->subject('Your OTP Verification Code');
+        });
 
-            DB::commit();
-
-            
-            return redirect()->back()->with('success', 'Free listing created successfully.');
-            
-        }
-        catch(\Exception $e){
-            dd($e);
-        }
-
-        $response = [
-            'status' => $status,
-            'message' => $message,
-            'data' => $data
-        ];
-        return response()->json($response);
+        return response()->json([
+            'status' => true,
+            'message' => 'OTP sent successfully'
+        ]);
     }
+
+    public function resendEmailOtp(Request $request)
+    {
+        if (!Session::has('email_otp_email')) {
+            return response()->json([
+                'status' => false,
+                'message' => 'OTP session expired'
+            ]);
+        }
+
+        $otp = rand(100000, 999999);
+
+        Session::put('email_otp', $otp);
+        Session::put('email_otp_expire', Carbon::now()->addMinutes(5));
+
+        Mail::send('emails.otp', ['otp' => $otp], function ($message) {
+            $message->to(session('email_otp_email'))
+                    ->subject('Your OTP Verification Code');
+        });
+
+        return response()->json([
+            'status' => true,
+            'message' => 'OTP resent successfully'
+        ]);
+    }
+    
+
+    public function verifyEmailOtp(Request $request)
+    {
+        $request->validate([
+            'otp' => 'required|digits:6'
+        ]);
+
+        // Check OTP exists
+        if (!Session::has('email_otp')) {
+            return response()->json([
+                'status' => false,
+                'message' => 'OTP expired'
+            ]);
+        }
+
+        // Check expiry
+        if (now()->greaterThan(Session::get('email_otp_expire'))) {
+            return response()->json([
+                'status' => false,
+                'message' => 'OTP expired'
+            ]);
+        }
+
+        // Match OTP
+        if ($request->otp != Session::get('email_otp')) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid OTP'
+            ]);
+        }
+
+        // Mark OTP as verified
+        Session::put('email_otp_verified', true);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'OTP verified successfully'
+        ]);
+    }
+    
 }

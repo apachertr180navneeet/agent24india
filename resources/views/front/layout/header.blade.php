@@ -71,7 +71,7 @@
         <li><a href="{{route('front.vendorlist')}}">Vendor List</a></li>
         @if(\Auth::check())
         <li><a href="{{route('front.profile')}}">Profile</a></li>
-        <li><a href="#">Free ad post</a></li>
+        <li><a href="{{route('front.addListing')}}">Ad Post</a></li>
         <li><a href="#">Payment history</a></li>
         @endif
         <li><a href="{{route('front.aboutus')}}">About Us</a></li>

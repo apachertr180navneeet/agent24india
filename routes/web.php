@@ -267,19 +267,18 @@ Route::name('front.')->group(function(){
     Route::middleware('auth')->group(function(){
         Route::get('/profile', [Front\ProfileController::class, "index"])->name('profile');
         Route::post('/update-profile', [Front\ProfileController::class, "updateProfile"])->name('updateProfile');
-        Route::post('/send-otp', [Front\ProfileController::class, "sendOtp"])->name('sendOtp');
-        Route::post('/save-listing', [Front\ProfileController::class, "saveListing"])->name('saveListing');
-        Route::post('/free-listing', [Front\ProfileController::class, "freeListing"])->name('freeListing');
-        Route::post('/paid-listing', [Front\ProfileController::class, "paidListing"])->name('paidListing');
     });
 });
 
+Route::get('/add-listing', [Front\ProfileController::class, "addListing"])->name('front.addListing');
+Route::post('/add-listing', [Front\ProfileController::class, "storeListing"])->name('front.addListing.store');
+Route::post('/send-email-otp', [Front\ProfileController::class, 'sendEmailOtp'])->name('front.sendEmailOtp');
+Route::post('/resend-email-otp', [Front\ProfileController::class, 'resendEmailOtp'])->name('front.resendEmailOtp');
+Route::post('/verify-email-otp', [Front\ProfileController::class, 'verifyEmailOtp'])->name('front.verifyEmailOtp');
 
-// Route::get('/get-districts/{state}', [Front\HomeController::class, 'getDistricts'])->name('get.districts');
-// Route::get('/get-cities/{district}', [Front\HomeController::class, 'getCities'])->name('get.cities');
 
-// Route::get('/get-districts/{state}', [Front\HomeController::class, 'getDistricts']);
-// Route::get('/get-cities/{district}', [Front\HomeController::class, 'getCities']);
+
+
 
 Route::get('/get-districts/{state}', [Front\HomeController::class, 'getDistricts'])->name('get.districts');
 Route::get('/get-cities/{district}', [Front\HomeController::class, 'getCities'])->name('get.cities');
