@@ -152,11 +152,12 @@
                                         </a>
                                     </div>
                                 </div>
-
-                                <p class="item-position">
-                                    <i class="lni lni-bolt"></i> Premium
-                                </p>
-                                <p class="item-position item-position-ai">AI Verified</p>
+                                @if($vendor->vendor_type == 'paid')
+                                    <p class="item-position">
+                                        <i class="lni lni-bolt"></i> Premium
+                                    </p>
+                                    <p class="item-position item-position-ai">AI Verified</p>
+                                @endif
                             </div>
                         </div>
                     @empty

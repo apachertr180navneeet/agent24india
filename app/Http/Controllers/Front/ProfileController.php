@@ -12,6 +12,7 @@ use App\Models\State;
 use App\Models\Category;
 use App\Http\Traits\UploadImage;
 use App\Models\PaidListing;
+use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
@@ -176,6 +177,13 @@ class ProfileController extends Controller
                     'type' => '1',
                     'paid_type' => 'free',
                 ]);
+
+                $bissunessupdate = User::findOrFail($user->id);
+
+                // Update fields
+                $bissunessupdate->vendor_type = 'free';
+                $bissunessupdate->save();
+
             }elseif($request->type === 'paid'){
                 
                 $districtIds = implode(',', $request->district_ids);
@@ -187,6 +195,13 @@ class ProfileController extends Controller
                     'amount' => isset($request['price']) ? $request['price'] : null,
                     'name' => isset($request['name']) ? $request['name'] : null,
                 ]);
+
+
+                $bissunessupdate = User::findOrFail($user->id);
+
+                // Update fields
+                $bissunessupdate->vendor_type = 'paid';
+                $bissunessupdate->save();
             }
 
             DB::commit();

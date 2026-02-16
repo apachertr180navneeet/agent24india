@@ -250,157 +250,54 @@
             </div>
             <div class="single-head">
                 <div class="row">
-                    <div class="col-lg-3 col-md-6 col-6 p-2">
-                        <div class="single-grid wow fadeInUp" data-wow-delay=".2s" data-category="Premium">
-                            <div class="image">
-                                <a href="item-details.html" class="thumbnail"><img src="{{asset('public/front/assets/images/items-grid/img1.jpg')}}" alt="#"></a>
-                                <div class="author">
-                                    <div class="author-image">
-                                        <a href="javascript:void(0)"><img src="{{asset('public/front/assets/images/items-grid/author-1.jpg')}}" alt="#">
-                                            <span>Rahul Sharma</span></a><br>
-                                        <a href="javascript:void(0)" class="tag">Travel Agent</a>
-                                            <ul class="info-list">
-                                        <li><a href="javascript:void(0)"><i class="lni lni-map-marker"></i> 123, Ratanada, Jodhpur</a></li>
-                                    </ul>
-                                    </div>
-                                </div>
-                                <p class="item-position"><i class="lni lni-bolt"></i> Premium</p>
-                            </div> 
-                        </div>
-                    </div>
+                    @foreach($paidlisting as $paidlistingkey => $paidlistingvalue)
 
-                    <div class="col-lg-3 col-md-6 col-6  p-2">
-                        <div class="single-grid wow fadeInUp" data-wow-delay=".2s" data-category="Premium">
-                            <div class="image">
-                                <a href="item-details.html" class="thumbnail"><img src="{{asset('public/front/assets/images/items-grid/img1.jpg')}}" alt="#"></a>
-                                <div class="author">
-                                    <div class="author-image">
-                                        <a href="javascript:void(0)"><img src="{{asset('public/front/assets/images/items-grid/author-1.jpg')}}" alt="#">
-                                            <span>Rahul Sharma</span></a><br>
-                                        <a href="javascript:void(0)" class="tag">Travel Agent</a>
-                                            <ul class="info-list">
-                                        <li><a href="javascript:void(0)"><i class="lni lni-map-marker"></i> 123, Ratanada, Jodhpur</a></li>
-                                    </ul>
+                        @php
+                            $datafree = ($paidlistingvalue->vendor_type == 'free') ? 'Free' : 'Premium';
+                        @endphp
 
-                                    </div>
-                                </div>
-                                <p class="item-position"><i class="lni lni-bolt"></i> Premium</p>
-                            </div> 
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-6  p-2">
-                        <div class="single-grid wow fadeInUp" data-wow-delay=".2s" data-category="Premium">
-                            <div class="image">
-                                <a href="item-details.html" class="thumbnail"><img src="{{asset('public/front/assets/images/items-grid/img1.jpg')}}" alt="#"></a>
-                                <div class="author">
-                                    <div class="author-image">
-                                        <a href="javascript:void(0)"><img src="{{asset('public/front/assets/images/items-grid/author-1.jpg')}}" alt="#">
-                                            <span>Rahul Sharma</span></a><br>
-                                        <a href="javascript:void(0)" class="tag">Travel Agent</a>
-                                            <ul class="info-list">
-                                        <li><a href="javascript:void(0)"><i class="lni lni-map-marker"></i> 123, Ratanada, Jodhpur</a></li>
-                                    </ul>
+                        <div class="col-lg-3 col-md-6 col-6 p-2">
+                            <div class="single-grid wow fadeInUp" 
+                                data-wow-delay=".2s" 
+                                data-category="{{ $datafree }}">
 
-                                    </div>
-                                </div>
-                                <p class="item-position"><i class="lni lni-bolt"></i> Premium</p>
-                            </div> 
-                        </div>
-                    </div>
-                
-                    <div class="col-lg-3 col-md-6 col-6 p-2">
-                        <div class="single-grid wow fadeInUp" data-wow-delay=".2s" data-category="Free">
-                            <div class="image">
-                                <a href="item-details.html" class="thumbnail"><img src="{{asset('public/front/assets/images/items-grid/img1.jpg')}}" alt="#"></a>
-                                <div class="author">
-                                    <div class="author-image">
-                                        <a href="javascript:void(0)"><img src="{{asset('public/front/assets/images/items-grid/author-1.jpg')}}" alt="#">
-                                            <span>Rahul Sharma</span></a><br>
-                                        <a href="javascript:void(0)" class="tag">Travel Agent</a>
-                                            <ul class="info-list">
-                                        <li><a href="javascript:void(0)"><i class="lni lni-map-marker"></i> 123, Ratanada, Jodhpur</a></li>
-                                    </ul>
+                                <div class="image">
+                                    <a href="item-details.html" class="thumbnail">
+                                        <img src="{{ asset('public/front/assets/images/items-grid/img1.jpg') }}" alt="#">
+                                    </a>
 
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>
-                
-                    <div class="col-lg-3 col-md-6 col-6 p-2">
-                        <div class="single-grid wow fadeInUp" data-wow-delay=".2s" data-category="Free">
-                            <div class="image">
-                                <a href="item-details.html" class="thumbnail"><img src="{{asset('public/front/assets/images/items-grid/img1.jpg')}}" alt="#"></a>
-                                <div class="author">
-                                    <div class="author-image">
-                                        <a href="javascript:void(0)"><img src="{{asset('public/front/assets/images/items-grid/author-1.jpg')}}" alt="#">
-                                            <span>Rahul Sharma</span></a><br>
-                                        <a href="javascript:void(0)" class="tag">Travel Agent</a>
-                                            <ul class="info-list">
-                                        <li><a href="javascript:void(0)"><i class="lni lni-map-marker"></i> 123, Ratanada, Jodhpur</a></li>
-                                    </ul>
+                                    <div class="author">
+                                        <div class="author-image">
+                                            <a href="{{ route('front.vendor.details', ['vendor' => $paidlistingvalue->id]) }}">
+                                                <img src="{{ $paidlistingvalue->profile_photo }}" alt="#">
+                                                <span>{{ $paidlistingvalue->name }}</span>
+                                            </a><br>
 
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>
+                                            <a href="{{ route('front.vendor.details', ['vendor' => $paidlistingvalue->id]) }}" class="tag">
+                                                {{ $paidlistingvalue->business_name }}
+                                            </a>
 
-                    <div class="col-lg-3 col-md-6 col-6 p-2">
-                        <div class="single-grid wow fadeInUp" data-wow-delay=".2s" data-category="Free">
-                            <div class="image">
-                                <a href="item-details.html" class="thumbnail"><img src="{{asset('public/front/assets/images/items-grid/img1.jpg')}}" alt="#"></a>
-                                <div class="author">
-                                    <div class="author-image">
-                                            <a href="javascript:void(0)"><img src="{{asset('public/front/assets/images/items-grid/author-1.jpg')}}" alt="#">
-                                            <span>Rahul Sharma</span></a><br>
-                                            <a href="javascript:void(0)" class="tag">Travel Agent</a>
                                             <ul class="info-list">
-                                                <li><a href="javascript:void(0)"><i class="lni lni-map-marker"></i> 123, Ratanada, Jodhpur</a></li>
+                                                <li>
+                                                    <a href="{{ route('front.vendor.details', ['vendor' => $paidlistingvalue->id]) }}">
+                                                        <i class="lni lni-map-marker"></i>
+                                                        {{ $paidlistingvalue->business_address }}
+                                                    </a>
+                                                </li>
                                             </ul>
+                                        </div>
                                     </div>
+
+                                    @if($paidlistingvalue->vendor_type == 'paid')
+                                        <p class="item-position">
+                                            <i class="lni lni-bolt"></i> Premium
+                                        </p>
+                                    @endif
                                 </div>
-                            </div> 
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-lg-3 col-md-6 col-6 p-2">
-                        <div class="single-grid wow fadeInUp" data-wow-delay=".2s" data-category="Free">
-                            <div class="image">
-                                <a href="item-details.html" class="thumbnail"><img src="{{asset('public/front/assets/images/items-grid/img1.jpg')}}" alt="#"></a>
-                                <div class="author">
-                                    <div class="author-image">
-                                        <a href="javascript:void(0)"><img src="{{asset('public/front/assets/images/items-grid/author-1.jpg')}}" alt="#">
-                                            <span>Rahul Sharma</span></a><br>
-                                        <a href="javascript:void(0)" class="tag">Travel Agent</a>
-                                            <ul class="info-list">
-                                        <li><a href="javascript:void(0)"><i class="lni lni-map-marker"></i> 123, Ratanada, Jodhpur</a></li>
-                                    </ul>
-
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 col-6 p-2">
-                        <div class="single-grid wow fadeInUp" data-wow-delay=".2s" data-category="Free">
-                            <div class="image">
-                                <a href="item-details.html" class="thumbnail"><img src="{{asset('public/front/assets/images/items-grid/img1.jpg')}}" alt="#"></a>
-                                <div class="author">
-                                    <div class="author-image">
-                                        <a href="javascript:void(0)"><img src="{{asset('public/front/assets/images/items-grid/author-1.jpg')}}" alt="#">
-                                        <span>Rahul Sharma</span></a><br>
-                                        <a href="javascript:void(0)" class="tag">Travel Agent</a>
-                                        <ul class="info-list">
-                                            <li><a href="javascript:void(0)"><i class="lni lni-map-marker"></i> 123, Ratanada, Jodhpur</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>
-
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -572,5 +469,27 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+</script>
+<script>
+    $(function () {
+        var locationCategoryUrl = "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION_ID_PLACEHOLDER', 'category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
+        var categoryOnlyUrl = "{{ route('front.vendorlist.category', ['category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
+
+        $('#category').on('change', function () {
+            var categoryId = $(this).val();
+            if (!categoryId || categoryId === 'none') {
+                return;
+            }
+
+            var locationId = $('#location_id').val() || "{{ $selectedDistrict->id ?? '' }}";
+            var redirectUrl = locationId
+                ? locationCategoryUrl
+                    .replace('LOCATION_ID_PLACEHOLDER', locationId)
+                    .replace('CATEGORY_ID_PLACEHOLDER', categoryId)
+                : categoryOnlyUrl.replace('CATEGORY_ID_PLACEHOLDER', categoryId);
+
+            window.location.href = redirectUrl;
+        });
+    });
 </script>
 @endpush

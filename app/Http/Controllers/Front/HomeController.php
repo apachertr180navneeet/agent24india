@@ -8,11 +8,8 @@ use Auth;
 use DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use App\Models\Role;
-use App\Models\BusinessCategory;
 use App\Models\District;
 use App\Models\City;
-use App\Models\State;
 use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Advertisment;
@@ -44,12 +41,18 @@ class HomeController extends Controller
 
         $district = District::where('status', 1)->get();
 
+        $paidlisting = User::where('status','1')
+        ->where('is_approved', '1')
+        ->get();
+        
+
 
         $this->viewData['banner'] = $banner;
         $this->viewData['vendoruser'] = $vendoruser;
         $this->viewData['category'] = $category;
         $this->viewData['district'] = $district;
         $this->viewData['districthome'] = $districthome;
+        $this->viewData['paidlisting'] = $paidlisting;
         
         return view("front.index")->with($this->viewData);
     }
@@ -200,6 +203,10 @@ class HomeController extends Controller
 
         $districthome = District::where('status', 1)->where('is_home', 1)->orderBy('district_order', 'asc')->get();
 
+        $paidlisting = User::where('status','1')
+        ->where('is_approved', '1')
+        ->get();
+
         $this->viewData['vendoruser'] = $vendoruser;
         $this->viewData['category'] = $category;
         $this->viewData['district'] = $district;
@@ -208,6 +215,7 @@ class HomeController extends Controller
         $this->viewData['location'] = $location;
         $this->viewData['sideadvertisments'] = $sideadvertisments;
         $this->viewData['districthome'] = $districthome;
+        $this->viewData['paidlisting'] = $paidlisting;
         
         return view("front.vendordistrict")->with($this->viewData);
     }

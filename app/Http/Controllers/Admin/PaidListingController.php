@@ -5,12 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role as SpatieRole;
-use Spatie\Permission\Models\Permission as SpatiePermission;
-use App\Models\User;
-use App\Models\Role;
 use App\Models\PaidListing;
-use Auth;
 
 class PaidListingController extends Controller
 {
