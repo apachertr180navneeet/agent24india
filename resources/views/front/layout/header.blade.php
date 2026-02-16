@@ -26,8 +26,9 @@
     <!-- CENTER : Menu -->
     <ul class="main-menu">
       <li><a href="{{route('front.index')}}">Home</a></li>
-      <li><a href="#">Free Ad Post</a></li>
-
+      @if(\Auth::check())
+      <li><a href="{{route('front.addListing')}}">Free Ad Post</a></li>
+      @endif
       <li class="dropdown">
         <a href="#">Policies ▾</a>
         <ul class="dropdown-menu">
@@ -35,6 +36,9 @@
           <li><a href="{{route('front.termsAndConditions')}}">Terms & Conditions</a></li>
         </ul>
       </li>
+
+      <li><a href="">District Banner</a></li>
+      <li><a href="">Listing Banner</a></li>
     </ul>
 
     <!-- RIGHT : Sign In + Toggle -->
@@ -68,7 +72,7 @@
     </h4>
     <ul>
         <li><a href="{{route('front.index')}}">Home</a></li>
-        <li><a href="{{route('front.vendorlist')}}">Vendor List</a></li>
+        {{--  <li><a href="{{route('front.vendorlist')}}">Vendor List</a></li>  --}}
         @if(\Auth::check())
         <li><a href="{{route('front.profile')}}">Profile</a></li>
         <li><a href="{{route('front.addListing')}}">Ad Post</a></li>
