@@ -91,12 +91,12 @@
 <script type="text/javascript">
     function validateSignin()
     {
-        var email = $("#signin-form").find('#email').val();
+        var loginInput = $("#signin-form").find('#email').val();
         var password = $("#signin-form").find('#password').val();
         // var validEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-        if(!email){
-            alert("Please enter the email.");
+        if(!loginInput){
+            alert("Please enter email, mobile, or username.");
             return false;
         }
         // else if(email && validEmail.test(email)){

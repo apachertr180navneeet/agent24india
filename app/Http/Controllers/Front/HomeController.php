@@ -205,6 +205,7 @@ class HomeController extends Controller
 
         $paidlisting = User::where('status','1')
         ->where('is_approved', '1')
+        ->where('district_id', $location)
         ->get();
 
         $this->viewData['vendoruser'] = $vendoruser;
@@ -302,15 +303,32 @@ class HomeController extends Controller
 
     public function authenticate(Request $request)
     {
-        $credentials = $request->validate([
-            'email'    => ['required', 'email'],
-            'password' => ['required'],
+        $validated = $request->validate([
+            'email'    => ['required', 'string'],
+            'password' => ['required', 'string'],
         ]);
+
+        $loginValue = trim($validated['email']);
+        $password = $validated['password'];
 
         DB::beginTransaction();
 
         try {
-            if (Auth::attempt($credentials)) {
+            $userQuery = User::query();
+
+            if (filter_var($loginValue, FILTER_VALIDATE_EMAIL)) {
+                $userQuery->where('email', $loginValue);
+            } else {
+                $userQuery->where(function ($query) use ($loginValue) {
+                    $query->where('mobile', $loginValue)
+                        ->orWhere('username', $loginValue);
+                });
+            }
+
+            $user = $userQuery->first();
+
+            if ($user && Hash::check($password, $user->password)) {
+                Auth::login($user);
 
                 $request->session()->regenerate();
 

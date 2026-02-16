@@ -107,7 +107,7 @@
                 <form action="{{route('front.login')}}" method="post" id="signin-form" onsubmit="return validateSignin();">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     
-                    <input type="text" name="email" id="email" placeholder="Username" />
+                    <input type="text" name="email" id="email" placeholder="Email or Mobile or Username" />
                     <input type="password" name="password" id="password" placeholder="Password" />
                     <a href="#">Forgot your password?</a>
                     <button type="submit" id="btn-signin">Sign In</button>

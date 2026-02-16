@@ -1,18 +1,9 @@
-{{--  <header class="header">
-    <div class="container header-inner">
-        <!-- Logo -->
-        <a href="{{route('front.index')}}" class="logo">
-            <img src="{{asset('public/front/assets/images/logo/agent-india-logo2.png')}}" alt="Logo">
-        </a>
-        <!-- Toggle Button -->
-        <button class="menu-toggle" id="menuToggle">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </div>
-</header>  --}}
-
+@php
+    $cmsModel = new \App\Models\Cms();
+    $privacy = $cmsModel->where('id', 3)->first();
+    $trem = $cmsModel->where('id', 2)->first();
+    $about = $cmsModel->where('id', 1)->first();
+@endphp
 <header class="header">
   <div class="header-inner">
 
@@ -32,8 +23,12 @@
       <li class="dropdown">
         <a href="#">Policies ▾</a>
         <ul class="dropdown-menu">
-          <li><a href="{{route('front.privacyPolicy')}}">Privacy Policy</a></li>
+          @if($privacy->status == 1)
+            <li><a href="{{route('front.privacyPolicy')}}">Privacy Policy</a></li>
+          @endif
+          @if($trem->status == 1)
           <li><a href="{{route('front.termsAndConditions')}}">Terms & Conditions</a></li>
+          @endif
         </ul>
       </li>
 
@@ -78,12 +73,18 @@
         <li><a href="{{route('front.addListing')}}">Ad Post</a></li>
         <li><a href="#">Payment history</a></li>
         @endif
+        @if($about->status == 1)
         <li><a href="{{route('front.aboutus')}}">About Us</a></li>
+        @endif
         <li><a href="{{route('front.contactus')}}">Contact Us</a></li>
         <li><a href="#">Notice</a></li>
         <li><a href="{{route('front.support')}}">Support & Help</a></li>
+        @if($trem->status == 1)
         <li><a href="{{route('front.termsAndConditions')}}">Terms & Conditions</a></li>
-        <li><a href="{{route('front.privacyPolicy')}}">Privacy Policy</a></li>
+        @endif
+        @if($privacy->status == 1)
+          <li><a href="{{route('front.privacyPolicy')}}">Privacy Policy</a></li>
+        @endif
         {{--  @if(\Auth::check())
             <li><a href="{{route('front.logout')}}">Logout</a></li>    
         @else

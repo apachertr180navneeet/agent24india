@@ -25,28 +25,29 @@ Author: GrayGrids
 const tabButtons = document.querySelectorAll(".tab-btn");
 const cards = document.querySelectorAll(".single-grid");
 
-tabButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
+function applyTabFilter(btn) {
+    // Active tab
+    tabButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
 
-        // Active tab
-        tabButtons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
+    const filter = btn.getAttribute("data-filter");
 
-        const filter = btn.getAttribute("data-filter");
-
-        // Filter cards
-        cards.forEach(card => {
-            const category = card.getAttribute("data-category");
-
-            if (category && category.includes(filter)) {
-                card.parentElement.style.display = "block";
-            } else {
-                card.parentElement.style.display = "none";
-            }
-        });
-
+    // Filter cards
+    cards.forEach(card => {
+        const category = card.getAttribute("data-category");
+        card.parentElement.style.display = (category && category.includes(filter)) ? "block" : "none";
     });
+}
+
+tabButtons.forEach(btn => {
+    btn.addEventListener("click", () => applyTabFilter(btn));
 });
+
+// Apply default tab on first load (Premium button is marked active in Blade).
+if (tabButtons.length && cards.length) {
+    const defaultTab = document.querySelector(".tab-btn.active") || tabButtons[0];
+    applyTabFilter(defaultTab);
+}
 
 const slides = document.querySelectorAll(".slide");
 const prev = document.querySelector(".prev");

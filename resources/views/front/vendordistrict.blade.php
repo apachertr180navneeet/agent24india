@@ -256,7 +256,7 @@
                             $datafree = ($paidlistingvalue->vendor_type == 'free') ? 'Free' : 'Premium';
                         @endphp
 
-                        <div class="col-lg-3 col-md-6 col-6 p-2">
+                        <div class="col-lg-3 col-md-6 col-6 p-2" @if($datafree === 'Free') style="display:none;" @endif>
                             <div class="single-grid wow fadeInUp" 
                                 data-wow-delay=".2s" 
                                 data-category="{{ $datafree }}">

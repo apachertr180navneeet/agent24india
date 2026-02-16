@@ -102,7 +102,7 @@
                 <form action="{{route('front.login')}}" method="post" id="signin-form" onsubmit="return validateSignin();">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     
-                    <input type="text" name="email" id="email" placeholder="Username" />
+                    <input type="text" name="email" id="email" placeholder="Email or Mobile or Username" />
                     <input type="password" name="password" id="password" placeholder="Password" />
                     <a href="#">Forgot your password?</a>
                     <button type="submit" id="btn-signin">Sign In</button>
@@ -135,7 +135,7 @@
                                 <input type="email" name="email" id="email" placeholder="Email">
                             </div>
                             <div class="col-lg-6">
-                                <input type="tel" name="contact_number" id="contact_number" placeholder="Contact Number">
+                                <input type="number" name="contact_number" id="contact_number" placeholder="Contact Number">
                             </div>
                         </div>
                         <input type="text" name="business_address" id="business_address" placeholder="Business Address">
@@ -177,7 +177,7 @@
                             </div>
                         </div>
                         <label class="custom-checkbox">
-                            <input type="checkbox" id="terms_agree" name="terms_agree"> I Agree to Terms and Conditions
+                            <input type="checkbox" id="terms_agree" name="terms_agree" required> I Agree to Terms and Conditions
                         </label>
                         <button type="submit" id="btn-submit-signup">Submit</button>
                     </form>
@@ -185,7 +185,7 @@
             </div>
         </div>
 
-        @if(session('signin_status'))
+        @if(session()->has('signin_status'))
             @if(session('signin_status') === true)
                 <script>
                     alert('Login successful');
