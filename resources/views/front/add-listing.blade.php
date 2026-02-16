@@ -62,7 +62,7 @@
             </button>
         </li>
 
-        <li class="nav-item" role="presentation">
+        {{--  <li class="nav-item" role="presentation">
             <button class="nav-link"
                     id="banner-tab"
                     data-bs-toggle="tab"
@@ -71,7 +71,7 @@
                     role="tab">
                 Banner Ad
             </button>
-        </li>
+        </li>  --}}
     </ul>
 
     <!-- Tab Content -->
@@ -245,9 +245,9 @@
 
 
         <!-- Banner Ad -->
-        <div class="tab-pane fade" id="banner" role="tabpanel">
+        {{--  <div class="tab-pane fade" id="banner" role="tabpanel">
             <h3>Banner Ad</h3>
-        </div>
+        </div>  --}}
 
     </div>
 </div>
@@ -359,120 +359,108 @@
         });
 
     })();
-
-    const districtSelect = document.getElementById('districtSelect');
-    const districtHint   = document.getElementById('districtHint');
-    const $districtSelect = $('#districtSelect');
-
-    $districtSelect.attr('multiple', 'multiple').select2({
-        placeholder: 'Select district',
-        width: '100%',
-        maximumSelectionLength: 1
-    });
-
-    document.getElementById('oneDistrict').addEventListener('click', function () {
-
-        // Button UI
-        this.classList.add('btn-primary');
-        this.classList.remove('btn-outline-primary');
-        fourDistrict.classList.remove('btn-primary');
-        fourDistrict.classList.add('btn-outline-primary');
-
-        // Logic
-        districtSelect.removeAttribute('multiple');
-        districtSelect.value = "";
-        $districtSelect.val(null).trigger('change');
-        $districtSelect.select2('destroy');
-        $districtSelect.removeAttr('multiple').select2({
-            placeholder: 'Select district',
-            width: '100%',
-            maximumSelectionLength: 1
-        });
-        districtHint.innerText = "Select only 1 district";
-
-        document.getElementById('district_type').value = 1;
-        document.getElementById('priceText').innerText = '250 Rs';
-        document.getElementById('price').value = 250;
-    });
-
-    document.getElementById('fourDistrict').addEventListener('click', function () {
-
-        // Button UI
-        this.classList.add('btn-primary');
-        this.classList.remove('btn-outline-primary');
-        oneDistrict.classList.remove('btn-primary');
-        oneDistrict.classList.add('btn-outline-primary');
-
-        // Logic
-        districtSelect.setAttribute('multiple', 'multiple');
-        districtSelect.value = "";
-        $districtSelect.val(null).trigger('change');
-        $districtSelect.select2('destroy');
-        $districtSelect.attr('multiple', 'multiple').select2({
-            placeholder: 'Select district',
-            width: '100%',
-            maximumSelectionLength: 4
-        });
-        districtHint.innerText = "Select exactly 4 districts";
-
-        document.getElementById('district_type').value = 4;
-        document.getElementById('priceText').innerText = '500 Rs';
-        document.getElementById('price').value = 500;
-    });
 </script>
 
 <script>
+(function () {
+    const oneBtn = document.getElementById('oneDistrict');
+    const fourBtn = document.getElementById('fourDistrict');
+    const paidTabBtn = document.getElementById('paid-tab');
+    const districtSelect = document.getElementById('districtSelect');
+    const districtHint = document.getElementById('districtHint');
+    const priceText = document.getElementById('priceText');
+    const priceInput = document.getElementById('price');
+    const $districtSelect = $('#districtSelect');
+    let currentMode = 1;
 
-const oneBtn  = document.getElementById('oneDistrict');
-const fourBtn = document.getElementById('fourDistrict');
+    if (!oneBtn || !fourBtn || !districtSelect || !districtHint || !$districtSelect.length) {
+        return;
+    }
 
-/* ===== 1 DISTRICT ===== */
-oneBtn.addEventListener('click', function () {
+    function initDistrictSelect(mode) {
+        // Destroy only when Select2 is already active
+        if ($districtSelect.hasClass('select2-hidden-accessible')) {
+            $districtSelect.select2('destroy');
+        }
 
-    // button UI
-    oneBtn.classList.add('btn-primary');
-    oneBtn.classList.remove('btn-outline-primary');
-    fourBtn.classList.remove('btn-primary');
-    fourBtn.classList.add('btn-outline-primary');
+        if (mode === 1) {
+            $districtSelect.select2({
+                placeholder: 'Select district',
+                width: '100%',
+                allowClear: true
+            });
+            return;
+        }
 
-    // single select
-    districtSelect.removeAttribute('multiple');
-    districtSelect.selectedIndex = 0;
-    $districtSelect.val(null).trigger('change');
-    $districtSelect.select2('destroy');
-    $districtSelect.removeAttr('multiple').select2({
-        placeholder: 'Select district',
-        width: '100%',
-        maximumSelectionLength: 1
+        $districtSelect.select2({
+            placeholder: 'Select district',
+            width: '100%',
+            closeOnSelect: false,
+            maximumSelectionLength: 4
+        });
+    }
+
+    function setDistrictMode(mode) {
+        currentMode = mode;
+
+        if (mode === 1) {
+            oneBtn.classList.add('btn-primary');
+            oneBtn.classList.remove('btn-outline-primary');
+            fourBtn.classList.remove('btn-primary');
+            fourBtn.classList.add('btn-outline-primary');
+
+            districtSelect.removeAttribute('multiple');
+            districtSelect.value = '';
+            initDistrictSelect(1);
+
+            districtHint.innerText = 'Select only 1 district';
+            document.getElementById('district_type').value = 1;
+            if (priceText) {
+                priceText.innerText = '250 Rs';
+            }
+            if (priceInput) {
+                priceInput.value = 250;
+            }
+            return;
+        }
+
+        fourBtn.classList.add('btn-primary');
+        fourBtn.classList.remove('btn-outline-primary');
+        oneBtn.classList.remove('btn-primary');
+        oneBtn.classList.add('btn-outline-primary');
+
+        districtSelect.setAttribute('multiple', 'multiple');
+        $districtSelect.val(null);
+        initDistrictSelect(4);
+
+        districtHint.innerText = 'Select exactly 4 districts';
+        document.getElementById('district_type').value = 4;
+        if (priceText) {
+            priceText.innerText = '500 Rs';
+        }
+        if (priceInput) {
+            priceInput.value = 500;
+        }
+    }
+
+    // default mode
+    setDistrictMode(1);
+
+    // Re-init when paid tab becomes visible (Select2 behaves better on visible elements)
+    if (paidTabBtn) {
+        paidTabBtn.addEventListener('shown.bs.tab', function () {
+            setDistrictMode(currentMode);
+        });
+    }
+
+    oneBtn.addEventListener('click', function () {
+        setDistrictMode(1);
     });
 
-    districtHint.innerText = 'Select only 1 district';
-    document.getElementById('district_type').value = 1;
-});
-
-/* ===== 4 DISTRICT ===== */
-fourBtn.addEventListener('click', function () {
-
-    // button UI
-    fourBtn.classList.add('btn-primary');
-    fourBtn.classList.remove('btn-outline-primary');
-    oneBtn.classList.remove('btn-primary');
-    oneBtn.classList.add('btn-outline-primary');
-
-    // multiple select
-    districtSelect.setAttribute('multiple', 'multiple');
-    districtSelect.selectedIndex = -1;
-    $districtSelect.val(null).trigger('change');
-    $districtSelect.select2('destroy');
-    $districtSelect.attr('multiple', 'multiple').select2({
-        placeholder: 'Select district',
-        width: '100%',
-        maximumSelectionLength: 4
+    fourBtn.addEventListener('click', function () {
+        setDistrictMode(4);
     });
-
-    districtHint.innerText = 'Select exactly 4 districts';
-    document.getElementById('district_type').value = 4;
-});
+})();
 </script>
 
 

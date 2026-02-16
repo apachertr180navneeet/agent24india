@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
-use App\Models\BusinessListing;
 use App\Models\District;
 use App\Models\City;
 use App\Models\State;
@@ -171,13 +170,23 @@ class ProfileController extends Controller
                 PaidListing::create([
                     'bussines_id' => $user->id,
                     'home_city' => isset($request['home_city']) ? $request['home_city'] : null,
-                    'phone' => isset($request['phone']) ? $request['phone'] : null,
+                    'district_type' => isset($request['phone']) ? $request['phone'] : null,
                     'email' => isset($request['email']) ? $request['email'] : null,
+                    'name' => isset($request['name']) ? $request['name'] : null,
                     'type' => '1',
                     'paid_type' => 'free',
                 ]);
             }elseif($request->type === 'paid'){
-                dd($request->all());
+                
+                $districtIds = implode(',', $request->district_ids);
+                PaidListing::create([
+                    'bussines_id' => $user->id,
+                    'paid_type' => isset($request['type']) ? $request['type'] : null,
+                    'type' => isset($request['district_type']) ? $request['district_type'] : null,
+                    'district' => isset($districtIds) ? $districtIds : null,
+                    'amount' => isset($request['price']) ? $request['price'] : null,
+                    'name' => isset($request['name']) ? $request['name'] : null,
+                ]);
             }
 
             DB::commit();

@@ -107,8 +107,8 @@
                 <div class="inner">
                     <h3>{{$PaidListingcounts->total ?? 0}}</h3>
                     <p><b>Paid Listing</b></p>
-                    <p class="m-0"><b>Active</b> : {{$PaidListingcounts->approved ?? 0}}</p>
-                    <p class="m-0"><b>In-Active</b> : {{$PaidListingcounts->pending ?? 0}}</p>
+                    {{--  <p class="m-0"><b>Active</b> : {{$PaidListingcounts->approved ?? 0}}</p>
+                    <p class="m-0"><b>In-Active</b> : {{$PaidListingcounts->pending ?? 0}}</p>  --}}
                 </div>
                 <div class="icon">
                     <i class="fa fa-users"></i>

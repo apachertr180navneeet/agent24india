@@ -49,10 +49,8 @@
                                     <th>S.no.</th>
                                     <th>Business Name</th>
                                     <th>Mobile Number</th>
-                                    <th>Premium Start date</th>
+                                    <th>Paid Type</th>
                                     <th>Amount</th>
-                                    <th>Expiry Date</th>
-                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -62,10 +60,8 @@
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $item->business_name }}</td>
                                     <td>{{ $item->phone }}</td>
-                                    <td>{{ $item->primium_start_date }}</td>
+                                    <td>{{ $item->paid_type }}</td>
                                     <td>{{ $item->amount }}</td>
-                                    <td>{{ $item->expiry_date }}</td>
-                                    <td>{{ $item->status ? 'Active' : 'Inactive' }}</td>
                                     <td>
                                         @if(auth()->user()->hasPermissionTo('Edit Paid Listing'))
                                             <a href="{{ route('admin.paid-listing.edit', ['id' => $item->id]) }}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
