@@ -431,44 +431,44 @@
     });
 </script>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
 
-    const searchInput = document.getElementById('location_search');
-    const resultsBox = document.getElementById('searchResults');
-    const hiddenId   = document.getElementById('location_id');
-    const items      = document.querySelectorAll('.result-item');
+        const searchInput = document.getElementById('location_search');
+        const resultsBox = document.getElementById('searchResults');
+        const hiddenId   = document.getElementById('location_id');
+        const items      = document.querySelectorAll('.result-item');
 
-    // Show dropdown
-    searchInput.addEventListener('focus', function () {
-        resultsBox.style.display = 'block';
-    });
+        // Show dropdown
+        searchInput.addEventListener('focus', function () {
+            resultsBox.style.display = 'block';
+        });
 
-    // Search filter
-    searchInput.addEventListener('keyup', function () {
-        const value = this.value.toLowerCase();
+        // Search filter
+        searchInput.addEventListener('keyup', function () {
+            const value = this.value.toLowerCase();
 
+            items.forEach(function (item) {
+                const name = item.getAttribute('data-name');
+                item.style.display = name.includes(value) ? 'block' : 'none';
+            });
+        });
+
+        // Select district
         items.forEach(function (item) {
-            const name = item.getAttribute('data-name');
-            item.style.display = name.includes(value) ? 'block' : 'none';
+            item.addEventListener('click', function () {
+                searchInput.value = this.innerText;
+                hiddenId.value = this.getAttribute('data-id');
+                resultsBox.style.display = 'none';
+            });
+        });
+
+        // Hide dropdown on outside click
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.search-input')) {
+                resultsBox.style.display = 'none';
+            }
         });
     });
-
-    // Select district
-    items.forEach(function (item) {
-        item.addEventListener('click', function () {
-            searchInput.value = this.innerText;
-            hiddenId.value = this.getAttribute('data-id');
-            resultsBox.style.display = 'none';
-        });
-    });
-
-    // Hide dropdown on outside click
-    document.addEventListener('click', function (e) {
-        if (!e.target.closest('.search-input')) {
-            resultsBox.style.display = 'none';
-        }
-    });
-});
 </script>
 <script>
     $(function () {

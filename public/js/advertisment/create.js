@@ -7,6 +7,7 @@ var thisJs = (function() {
             thisJs.validateForm();
             thisJs.initializeComponents();
             thisJs.customValidationMethods();
+            thisJs.bindUiRules();
         },
 
         /**
@@ -91,6 +92,92 @@ var thisJs = (function() {
             );
         },
 
+        bindUiRules: function() {
+            var $typeInputs = $("input[name='type']");
+            var $category = $("#category");
+            var $categoryWrapper = $("#category-col");
+            var $district = $("#district");
+            var $districtWrapper = $("#district-col");
+            var $startDate = $("#start_date");
+            var $expiryDate = $("#expiry_date");
+            var $form = $("#add-form");
+
+            var getTypeValue = function() {
+                return $typeInputs.filter(":checked").val() || "";
+            };
+
+            var toggleCategoryByType = function() {
+                if (getTypeValue() === "district_page") {
+                    $categoryWrapper.hide();
+                    $category.val("").trigger("change");
+                    $category.removeClass("is-invalid is-valid");
+                    $category.closest(".form-group").find("span.invalid-feedback").remove();
+                    $districtWrapper.show();
+                } else {
+                    $districtWrapper.hide();
+                    $district.val("").trigger("change");
+                    $district.removeClass("is-invalid is-valid");
+                    $district.closest(".form-group").find("span.invalid-feedback").remove();
+                    $categoryWrapper.show();
+                }
+            };
+
+            var clearTypeError = function() {
+                $("#type-wrapper").find("span.invalid-feedback").remove();
+                $typeInputs.removeClass("is-invalid");
+            };
+
+            var updateConditionalValidation = function() {
+                if (!$form.data("validator")) {
+                    return;
+                }
+                $form.validate().element("input[name='type']");
+                if (getTypeValue() === "district_page") {
+                    $form.validate().element("#district");
+                    clearTypeError();
+                } else {
+                    $form.validate().element("#category");
+                    clearTypeError();
+                }
+            };
+
+            var formatDate = function(date) {
+                var month = String(date.getMonth() + 1).padStart(2, "0");
+                var day = String(date.getDate()).padStart(2, "0");
+                return date.getFullYear() + "-" + month + "-" + day;
+            };
+
+            var setExpiryAfterOneMonth = function() {
+                var startValue = $startDate.val();
+                if (!startValue) {
+                    return;
+                }
+
+                var baseDate = new Date(startValue);
+                if (isNaN(baseDate.getTime())) {
+                    return;
+                }
+
+                var newDate = new Date(baseDate);
+                newDate.setMonth(newDate.getMonth() + 1);
+                $expiryDate.val(formatDate(newDate));
+            };
+
+            $typeInputs.on("change", function() {
+                toggleCategoryByType();
+                updateConditionalValidation();
+            });
+
+            $startDate.on("change", function() {
+                setExpiryAfterOneMonth();
+            });
+
+            toggleCategoryByType();
+            if ($startDate.val() && !$expiryDate.val()) {
+                setExpiryAfterOneMonth();
+            }
+        },
+
         /**
          * Validate country form.
          */
@@ -111,12 +198,6 @@ var thisJs = (function() {
                         required: true,
                     },
                     type: {
-                        required: true,
-                    },
-                    district: {
-                        required: true,
-                    },
-                    category: {
                         required: true,
                     },
                     home_city: {
@@ -147,12 +228,6 @@ var thisJs = (function() {
                         required: "This field is required.",
                     },
                     type: {
-                        required: "This field is required.",
-                    },
-                    district: {
-                        required: "This field is required.",
-                    },
-                    category: {
                         required: "This field is required.",
                     },
                     home_city: {
@@ -193,7 +268,11 @@ var thisJs = (function() {
                         .removeClass("is-invalid");
                 },
                 errorPlacement: function(error, element) {
-                    if($(element).hasClass('select-picker'))
+                    if($(element).attr("name") === "type")
+                    {
+                        error.appendTo($("#type-wrapper"));
+                    }
+                    else if($(element).hasClass('select-picker'))
                     {
                         $(element).on('change', function(){
                             $(this).valid();

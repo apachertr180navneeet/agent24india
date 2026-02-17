@@ -88,13 +88,11 @@
 <!-- End Hero Area -->
 <!-- Category Search -->
 <section class="container select-category">
-    <div class="search-form">
+    <div class="search-form wow " >
         <div class="row">
             <div class="col-lg-12 col-md-12 col-12 p-0">
                 <div class="search-input">
-                    <label for="category">
-                        <i class="lni lni-grid-alt theme-color"></i>
-                    </label>
+                    <label for="category"><i class="lni lni-grid-alt theme-color"></i></label>
                     <select name="category" id="category">
                         <option value="none">Choose Categories</option>
                         @foreach($category as $value)
@@ -311,6 +309,28 @@
             }
         });
 
+    });
+</script>
+<script>
+    $(function () {
+        var locationCategoryUrl = "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION_ID_PLACEHOLDER', 'category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
+        var categoryOnlyUrl = "{{ route('front.vendorlist.category', ['category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
+
+        $('#category').on('change', function () {
+            var categoryId = $(this).val();
+            if (!categoryId || categoryId === 'none') {
+                return;
+            }
+
+            var locationId = $('#location_id').val() || "{{ $selectedDistrict->id ?? '' }}";
+            var redirectUrl = locationId
+                ? locationCategoryUrl
+                    .replace('LOCATION_ID_PLACEHOLDER', locationId)
+                    .replace('CATEGORY_ID_PLACEHOLDER', categoryId)
+                : categoryOnlyUrl.replace('CATEGORY_ID_PLACEHOLDER', categoryId);
+
+            window.location.href = redirectUrl;
+        });
     });
 </script>
 @endpush

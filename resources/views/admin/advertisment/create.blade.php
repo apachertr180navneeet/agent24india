@@ -62,14 +62,19 @@
                                     <div class="col-md-6 col-lg-6 col-xl-6">
                                         <div class="form-group">
                                             <label class="">Type</label>
-                                            <select class="form-control select-picker" id="type" name="type">
-                                                <option value="">-Select-</option>
-                                                <option value="listing_page">Listing Page</option>
-                                                <option value="district_page">Dist. Page</option>
-                                            </select>
+                                            <div class="mt-2" id="type-wrapper">
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input type="radio" id="type_category" name="type" class="custom-control-input" value="listing_page" {{ old('type', 'listing_page') == 'listing_page' ? 'checked' : '' }}>
+                                                    <label class="custom-control-label" for="type_category">Category</label>
+                                                </div>
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input type="radio" id="type_district" name="type" class="custom-control-input" value="district_page" {{ old('type') == 'district_page' ? 'checked' : '' }}>
+                                                    <label class="custom-control-label" for="type_district">District</label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-lg-6 col-xl-6">
+                                    <div class="col-md-6 col-lg-6 col-xl-6" id="district-col">
                                         <div class="form-group">
                                             <label class="">District</label>
                                             <select class="form-control select-picker" id="district" name="district">
@@ -86,7 +91,7 @@
 
                                 <!-- Category and Home City Row -->
                                 <div class="row row-sm">
-                                    <div class="col-md-6 col-lg-6 col-xl-6">
+                                    <div class="col-md-6 col-lg-6 col-xl-6" id="category-col">
                                         <div class="form-group">
                                             <label class="">Category</label>
                                             <select class="form-control" id="category" name="category">
