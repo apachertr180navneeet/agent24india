@@ -159,9 +159,12 @@ class ProfileController extends Controller
         $message = "Oops! Some error occurred, listing cannot be saved.";
         $data = null;
 
+        $request = $request->all();
+
         DB::beginTransaction();
         try{
-            if ($request->type === 'free') {
+            if ($request['type'] === 'free') {
+                
                 // 🧹 Clear OTP session
                 session()->forget([
                     'email_otp',
@@ -172,7 +175,7 @@ class ProfileController extends Controller
                 PaidListing::create([
                     'bussines_id' => $user->id,
                     'home_city' => isset($request['home_city']) ? $request['home_city'] : null,
-                    'district_type' => isset($request['phone']) ? $request['phone'] : null,
+                    'phone' => isset($request['phone']) ? $request['phone'] : null,
                     'email' => isset($request['email']) ? $request['email'] : null,
                     'name' => isset($request['name']) ? $request['name'] : null,
                     'type' => '1',
@@ -232,16 +235,29 @@ class ProfileController extends Controller
             'email' => 'required|email'
         ]);
 
-        $otp = rand(100000, 999999);
+        $otp = 123456;
 
         Session::put('email_otp', $otp);
         Session::put('email_otp_email', $request->email);
         Session::put('email_otp_expire', Carbon::now()->addMinutes(5));
 
         try {
-            Mail::send('emails.otp', ['otp' => $otp], function ($message) use ($request) {
-                $message->to($request->email)
-                        ->subject('Your OTP Verification Code');
+            // Mail::send('emails.otp', ['otp' => $otp], function ($message) use ($request) {
+            //     $message->to($request->email)
+            //             ->subject('Your OTP Verification Code');
+            // });
+
+
+            $data = [
+                'email'        => $request->email,
+                'otp'          => $otp
+            ];
+
+
+            Mail::send('emails.otp', ['otp' => $otp], function ($mail) use ($data) {
+            $mail->to($data['email'])
+                ->subject('Your OTP Verification Code')
+                 ->replyTo($data['email']);
             });
 
             return response()->json([
@@ -249,6 +265,7 @@ class ProfileController extends Controller
                 'message' => 'OTP sent successfully'
             ]);
         } catch (\Throwable $e) {
+            dd($e);
             Log::error('Failed to send OTP email', [
                 'email' => $request->email,
                 'error' => $e->getMessage(),

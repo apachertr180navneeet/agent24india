@@ -25,5 +25,6 @@ class PaidListing extends Model
         'status',
         'paid_type',
         'name',
+        'email',
     ];
 }

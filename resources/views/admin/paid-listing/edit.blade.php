@@ -42,7 +42,7 @@
 
                                     <div class="col-md-2 font-weight-bold">Mobile Number</div>
                                     <div class="col-md-4">
-                                        <input type="text" class="form-control" value="{{ $paidlisting->mobile ?? 'test' }}" readonly>
+                                        <input type="text" class="form-control" value="{{ $paidlisting->phone ?? '' }}" readonly>
                                     </div>
                                 </div>
 
@@ -55,7 +55,7 @@
 
                                     <div class="col-md-2 font-weight-bold">Dist.</div>
                                     <div class="col-md-4">
-                                        <input type="text" class="form-control" value="{{ $paidlisting->district_names ?? 'Jodhpur, Jaipur, Udaipur, Bikaner' }}" readonly>
+                                        <input type="text" class="form-control" value="{{ $paidlisting->area_districts ?? '' }}" readonly>
                                     </div>
                                 </div>
 

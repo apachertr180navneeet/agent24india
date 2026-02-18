@@ -50,6 +50,8 @@
                                     <th>Business Name</th>
                                     <th>Mobile Number</th>
                                     <th>Paid Type</th>
+                                    <th>Premium Start date</th>
+                                    <th>Expiry date</th>
                                     <th>Amount</th>
                                     <th>Action</th>
                                 </tr>
@@ -61,6 +63,8 @@
                                     <td>{{ $item->business_name }}</td>
                                     <td>{{ $item->phone }}</td>
                                     <td>{{ $item->paid_type }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->updated_at)->format('d-m-Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->updated_at)->addMonth()->format('d-m-Y') }}</td>
                                     <td>{{ $item->amount }}</td>
                                     <td>
                                         @if(auth()->user()->hasPermissionTo('Edit Paid Listing'))

@@ -62,16 +62,14 @@ class PaidListingController extends Controller
 
     public function edit(Request $request, $id)
     {
-        
-        // Adding breadcrumb array
+        // Breadcrumbs
         $breadcrumb = [
-            'Dashboard' => route('admin.dashboard'),
+            'Dashboard'    => route('admin.dashboard'),
             'Paid Listing' => route('admin.paid-listing.index'),
-            'Edit' => '',
+            'Edit'         => '',
         ];
 
-        // User to edit
-        $paidlisting = PaidListing::query()
+        $paidlisting = PaidListing::from('paid_listing')
             ->leftJoin('users', 'users.id', '=', 'paid_listing.bussines_id')
 
             // Home city (single district)
@@ -79,38 +77,48 @@ class PaidListingController extends Controller
 
             // Multiple districts (comma-separated)
             ->leftJoin('districts as area_districts', function ($join) {
-                $join->on(
-                    DB::raw('FIND_IN_SET(area_districts.id, paid_listing.district)'),
-                    '>',
-                    DB::raw('0')
+                $join->whereRaw(
+                    'FIND_IN_SET(area_districts.id, paid_listing.district)'
                 );
             })
 
+            ->where('paid_listing.id', $id)
+
             ->select(
-                'paid_listing.*',
+                'paid_listing.id',
+                'paid_listing.bussines_id',
+                'paid_listing.home_city',
+                'paid_listing.district',
+                'paid_listing.status',
+                'paid_listing.created_at',
+                'paid_listing.updated_at',
+                'paid_listing.amount',
+                'paid_listing.phone',
                 'users.name as business_name',
-                'home_district.name as home_city',
-                DB::raw('GROUP_CONCAT(DISTINCT area_districts.name) as district_names')
+                'home_district.name as home_city_name',
+
+                DB::raw('GROUP_CONCAT(DISTINCT area_districts.name ORDER BY area_districts.name SEPARATOR ", ") as district_names')
             )
 
             ->groupBy(
                 'paid_listing.id',
+                'paid_listing.bussines_id',
+                'paid_listing.home_city',
+                'paid_listing.district',
+                'paid_listing.status',
+                'paid_listing.created_at',
+                'paid_listing.updated_at',
                 'users.name',
                 'home_district.name'
             )
 
-            ->orderBy('paid_listing.id', 'desc')
-            ->first();
+            ->firstOrFail();
 
-        // dd($paidlisting);
-        
-        // Send view data
-        $this->viewData['pageTitle'] = $this->pageTitle;
+        $this->viewData['pageTitle']  = $this->pageTitle;
         $this->viewData['breadcrumb'] = $breadcrumb;
         $this->viewData['paidlisting'] = $paidlisting;
 
-
-        return view('admin.paid-listing.edit')->with($this->viewData);
+        return view('admin.paid-listing.edit', $this->viewData);
     }
 
     /**
