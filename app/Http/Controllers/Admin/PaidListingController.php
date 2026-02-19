@@ -12,7 +12,7 @@ class PaidListingController extends Controller
     protected $pageTitle;
 
     public function __construct(){
-        $this->pageTitle = 'Paid Listing Management';
+        $this->pageTitle = 'Listing Management';
     }
     
     public function index()

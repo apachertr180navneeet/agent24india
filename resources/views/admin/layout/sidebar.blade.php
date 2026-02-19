@@ -209,7 +209,7 @@ $currentRoute = request()->route()->getName();
                     <a href="{{ route('admin.paid-listing.index') }}" 
                        class="nav-link {{ request()->routeIs('admin.paid-listing.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-file-alt"></i>
-                        <p>Paid Listing</p>
+                        <p>Listing</p>
                     </a>
                 </li>
                 @endif

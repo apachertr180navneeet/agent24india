@@ -27,6 +27,13 @@
                     <p>{{ $message }}</p>
                 </div>
             @endif
+            <div class="col-md-12">
+                <select id="paidTypeFilter" class="form-control form-control-sm" style="width:200px; float:right;">
+                    <option value="">All Types</option>
+                    <option value="paid">Paid</option>
+                    <option value="free">Free</option>
+                </select>
+            </div>
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
@@ -64,7 +71,11 @@
                                     <td>{{ $item->phone }}</td>
                                     <td>{{ $item->paid_type }}</td>
                                     <td>{{ \Carbon\Carbon::parse($item->updated_at)->format('d-m-Y') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($item->updated_at)->addMonth()->format('d-m-Y') }}</td>
+                                    @if ($item->paid_type == 'free')
+                                        <td>-</td>
+                                    @else   
+                                        <td>{{ \Carbon\Carbon::parse($item->updated_at)->addMonth()->format('d-m-Y') }}</td>
+                                    @endif
                                     <td>{{ $item->amount }}</td>
                                     <td>
                                         @if(auth()->user()->hasPermissionTo('Edit Paid Listing'))
@@ -101,5 +112,27 @@ $editPermission = auth()->user()->hasPermissionTo('Edit CMS');
 </script>
 
 <!-- Internal Chart.Bundle js-->
+
+<script>
+    $(document).ready(function () {
+
+        // Initialize DataTable
+        var table = $('#dataTable').DataTable({
+            responsive: true,
+            autoWidth: false
+        });
+
+        // Paid / Free filter
+        $('#paidTypeFilter').on('change', function () {
+            var value = $(this).val();
+
+            // Paid Type column index (0-based)
+            // Paid Type is the 4th column → index = 3
+            table.column(3).search(value).draw();
+        });
+
+    });
+</script>
+
 
 @endpush
