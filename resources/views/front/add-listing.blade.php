@@ -47,7 +47,7 @@
                     data-bs-target="#free"
                     type="button"
                     role="tab">
-                Free Listing Ad
+                Free Listing
             </button>
         </li>
 
@@ -58,7 +58,7 @@
                     data-bs-target="#paid"
                     type="button"
                     role="tab">
-                Paid Listing Ad
+                Paid Listing
             </button>
         </li>
 

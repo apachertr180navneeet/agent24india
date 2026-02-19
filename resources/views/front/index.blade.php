@@ -96,8 +96,7 @@
     <section class="container">
         <div class="search-form">
             <div class="row">
-                <div class="col-lg-12 p-0">
-
+                <div class="col-lg-6 p-0">
                     <div class="search-input position-relative">
                         <label>
                             <i class="lni lni-map-marker theme-color"></i>
@@ -120,7 +119,6 @@
                         </div>
 
                     </div>
-
                 </div>
             </div>
         </div>

@@ -18,7 +18,8 @@
     <ul class="main-menu">
       <li><a href="{{route('front.index')}}">Home</a></li>
       @if(\Auth::check())
-      <li><a href="{{route('front.addListing')}}">Free Ad Post</a></li>
+      <li><a href="{{route('front.addListing')}}">Free Listing & Paid Listing</a></li>
+      <li><a href="">Banner Ad</a></li>
       @endif
       <li class="dropdown">
         <a href="#">Policies ▾</a>
@@ -31,9 +32,7 @@
           @endif
         </ul>
       </li>
-
-      <li><a href="">District Banner</a></li>
-      <li><a href="">Listing Banner</a></li>
+      <li><a href="{{route('front.support')}}">Support & Help</a></li>
     </ul>
 
     <!-- RIGHT : Sign In + Toggle -->
@@ -69,8 +68,9 @@
         <li><a href="{{route('front.index')}}">Home</a></li>
         {{--  <li><a href="{{route('front.vendorlist')}}">Vendor List</a></li>  --}}
         @if(\Auth::check())
-        <li><a href="{{route('front.profile')}}">Profile</a></li>
-        <li><a href="{{route('front.addListing')}}">Ad Post</a></li>
+        <li><a href="{{route('front.profile')}}">My Profile</a></li>
+        <li><a href="{{route('front.addListing')}}">My Listing</a></li>
+        <li><a href="">My Banner Ad</a></li>
         <li><a href="#">Payment history</a></li>
         @endif
         @if($about->status == 1)

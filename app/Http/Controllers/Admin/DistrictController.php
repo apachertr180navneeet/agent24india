@@ -581,10 +581,10 @@ class DistrictController extends Controller
         // Count how many districts are already set as home
         $homeCount = District::where('is_home', 1)->count();
 
-        if ($request->is_home && $homeCount >= 10) {
+        if ($request->is_home && $homeCount >= 20) {
             return response()->json([
                 '_status' => false,
-                '_message' => 'Maximum of 10 districts can be set as home.',
+                '_message' => 'Maximum of 20 districts can be set as home.',
                 '_type' => 'error',
             ], 200);
         }
