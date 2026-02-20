@@ -173,13 +173,23 @@ class HomeController extends Controller
     }
 
 
-    public function vendorlistByLocation($location){
+    public function vendorlistByLocation(Request $request, $location){
         // Send view data
         $this->viewData['pageTitle'] = 'Vendor List';
 
         $district = District::where('status', 1)->get();
+        $selectedCityId = $request->query('city');
 
-        $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->where('district_id', $location)->paginate(12);
+        $vendoruserQuery = User::where('role_id', config('constants.roles.VENDOR.value'))
+            ->where('status', 1)
+            ->where('is_approved', 1)
+            ->where('district_id', $location);
+
+        if (!empty($selectedCityId)) {
+            $vendoruserQuery->where('city_id', $selectedCityId);
+        }
+
+        $vendoruser = $vendoruserQuery->paginate(12);
         $category = Category::where('status', 1)->whereNull('parent_id')->get();
 
         $banner = Advertisment::where('status', 1)
@@ -203,10 +213,15 @@ class HomeController extends Controller
 
         $districthome = District::where('status', 1)->where('is_home', 1)->orderBy('district_order', 'asc')->get();
 
-        $paidlisting = User::where('status','1')
+        $paidlistingQuery = User::where('status','1')
         ->where('is_approved', '1')
-        ->where('district_id', $location)
-        ->get();
+        ->where('district_id', $location);
+
+        if (!empty($selectedCityId)) {
+            $paidlistingQuery->where('city_id', $selectedCityId);
+        }
+
+        $paidlisting = $paidlistingQuery->get();
 
         $this->viewData['vendoruser'] = $vendoruser;
         $this->viewData['category'] = $category;
@@ -217,6 +232,7 @@ class HomeController extends Controller
         $this->viewData['sideadvertisments'] = $sideadvertisments;
         $this->viewData['districthome'] = $districthome;
         $this->viewData['paidlisting'] = $paidlisting;
+        $this->viewData['selectedCityId'] = $selectedCityId;
         
         return view("front.vendordistrict")->with($this->viewData);
     }

@@ -120,6 +120,16 @@
 
                     </div>
                 </div>
+                <div class="col-lg-6 p-0 mt-2 mt-lg-0">
+                    <div class="search-input">
+                        <label for="city_search">
+                            <i class="lni lni-map theme-color"></i>
+                        </label>
+                        <select id="city_search" class="form-control">
+                            <option value="">Select city</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -313,62 +323,46 @@
     }
 </script>
 <script>
-    $(function () {
-
-        var baseUrl = "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
-
-        // Click on search result
-        $('#searchResults').on('click', '.result-item', function () {
-            var name = $(this).text().trim();
-            var id   = $(this).data('id');
-
-            $('#location_search').val(name);
-            $('#location_id').val(id);
-
-            $('#searchResults').hide();
-
-            // Redirect
-            var url = baseUrl.replace('LOCATION_ID_PLACEHOLDER', id);
-            window.location.href = url;
-        });
-
-    });
-</script>
-<script>
-    // Client-side mapping of district name -> id (populated from server-rendered data)
-    document.addEventListener('DOMContentLoaded', function(){
-        var locMap = {};
-        @foreach($districtList as $d)
-            locMap["{{ addslashes($d->name) }}"] = "{{ $d->id }}";
-        @endforeach
-
-        // When user picks/enters a value in the search input, set the select and trigger change
-        $('#location_search').on('input change', function(){
-            var name = $(this).val();
-            if (locMap[name]){
-                $('#location').val(locMap[name]).trigger('change');
-            }
-        });
-
-        // Optional: pressing Enter when a partial name matches first result
-        $('#location_search').on('keydown', function(e){
-            if (e.key === 'Enter'){
-                var val = $(this).val();
-                if (locMap[val]){
-                    $('#location').val(locMap[val]).trigger('change');
-                } else {
-                    // try case-insensitive partial match
-                    var foundId = null;
-                    var q = val.toLowerCase();
-                    for (var k in locMap){ if (k.toLowerCase().indexOf(q) !== -1){ foundId = locMap[k]; break; } }
-                    if (foundId) $('#location').val(foundId).trigger('change');
-                }
-            }
-        });
-    });
-</script>
-<script>
     $(document).ready(function () {
+        var selectedDistrictId = null;
+        var listUrlTemplate = "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
+        var cityApiTemplate = "{{ route('get.cities', ['district' => 'DISTRICT_ID_PLACEHOLDER']) }}";
+
+        function resetCityDropdown() {
+            $('#city_search').html('<option value="">Select city</option>');
+        }
+
+        function loadCitiesByDistrict(districtId) {
+            resetCityDropdown();
+            if (!districtId) {
+                return;
+            }
+
+            var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
+
+            $.get(cityApiUrl, function (cities) {
+                var options = '<option value="">Select city</option>';
+
+                if (Array.isArray(cities) && cities.length) {
+                    cities.forEach(function (city) {
+                        options += '<option value="' + city.id + '">' + city.name + '</option>';
+                    });
+                } else {
+                    options += '<option value="" disabled>No city found</option>';
+                }
+
+                $('#city_search').html(options);
+            }).fail(function () {
+                resetCityDropdown();
+            });
+        }
+
+        function selectDistrict($item) {
+            $('#location_search').val($item.text().trim());
+            selectedDistrictId = $item.data('id');
+            loadCitiesByDistrict(selectedDistrictId);
+            $('#searchResults').hide();
+        }
 
         $('#searchResults').hide();
 
@@ -391,8 +385,33 @@
 
         // Click select
         $('.result-item').on('click', function () {
-            $('#location_search').val($(this).text());
-            $('#searchResults').hide();
+            selectDistrict($(this));
+        });
+
+        // Select first matched district on Enter
+        $('#location_search').on('keydown', function (e) {
+            if (e.key !== 'Enter') {
+                return;
+            }
+
+            e.preventDefault();
+
+            var $firstVisible = $('.result-item:visible').first();
+            if ($firstVisible.length) {
+                selectDistrict($firstVisible);
+            }
+        });
+
+        // Redirect when city changes
+        $('#city_search').on('change', function () {
+            var cityId = $(this).val();
+
+            if (!selectedDistrictId || !cityId) {
+                return;
+            }
+
+            var redirectUrl = listUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId) + '?city=' + cityId;
+            window.location.href = redirectUrl;
         });
 
         // Click outside close
