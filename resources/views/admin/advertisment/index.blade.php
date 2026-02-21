@@ -49,9 +49,11 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Start Date</th> 
+                                    <th>Start Date</th>
+                                    <th>Type</th>
                                     <th>Business Name</th>
-                                    <th>Created</th>
+                                    <th>District</th>
+                                    <th>Expired</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>

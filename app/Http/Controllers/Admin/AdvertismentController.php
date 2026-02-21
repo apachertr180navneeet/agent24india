@@ -64,13 +64,17 @@ class AdvertismentController extends Controller
             {
                 $start_date = 'N/A';
                 $business_name = 'N/A';
+                $district = 'N/A';
+                $type = '';
                 $created = 'N/A';
                 $status = '';
                 $action = '';
 
                 $start_date = $value->start_date ?? $start_date;
                 $business_name = $value->business_name ?? $business_name;
-                $created = date("d-m-Y H:i", strtotime($value->created_at));
+                $district = $value->district_name ?? $district;
+                $created = date("d-m-Y", strtotime("+1 month", strtotime($value->created_at)));
+                $type = $value->sub_type ?? $type;
 
                 if($value->status == 1){
                     $status = '<label class="badge badge-success">Active</label> &nbsp;';
@@ -93,6 +97,8 @@ class AdvertismentController extends Controller
                     "id" => $value->id,
                     "start_date" => $start_date,
                     "business_name" => $business_name,
+                    "district" => $district,
+                    "type" => $type,
                     "status" => $status,
                     "created" => $created,
                     "action" => $action
@@ -466,3 +472,5 @@ class AdvertismentController extends Controller
         return response()->json($status, 200);
     }
 }
+
+

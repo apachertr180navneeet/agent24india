@@ -203,7 +203,9 @@ var thisJs = (function() {
                         sortable: false
                     },
                     { data: "start_date", name: "start_date", sortable: true },
+                    { data: "type", name: "type", sortable: true },
                     { data: "business_name", name: "business_name", sortable: true },
+                    { data: "district", name: "district", sortable: true },
                     { data: "created", name: "created", sortable: true },
                     { data: "status", name: "status", sortable: true },
                     {

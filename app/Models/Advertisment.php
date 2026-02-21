@@ -34,14 +34,24 @@ class Advertisment extends Model
      */
     public function scopeGetadvertisment($model, $limit = null, $offset = null, $search = null, $filter = array(), $sort = array())
     {
-        $records = Advertisment::select('advertisment.id', 'advertisment.bussines_name', 'advertisment.start_date', 'advertisment.status', 'advertisment.created_at', 'users.business_name as business_name')
+        $records = Advertisment::select(
+            'advertisment.id',
+            'advertisment.bussines_name',
+            'advertisment.start_date',
+            'advertisment.status',
+            'advertisment.created_at',
+            'users.business_name as business_name',
+            'districts.name as district_name',
+            'advertisment.sub_type'
+        )
         ->join('users', 'users.id', '=', 'advertisment.bussines_name')
+        ->leftJoin('districts', 'districts.id', '=', 'advertisment.district')
         ->where(function($query) use($search, $filter, $sort){
             // Search
             if(!(empty($search)))
             {
                 $search = strtolower($search);
-                $query->whereRaw('( lower(users.business_name) LIKE \'%'.$search.'%\' )');
+                $query->whereRaw('( lower(users.business_name) LIKE \'%'.$search.'%\' OR lower(districts.name) LIKE \'%'.$search.'%\' )');
             }
         });
         
@@ -51,10 +61,12 @@ class Advertisment extends Model
             $arr_fields = array(
                 "", 
                 "advertisment.start_date",
+                "advertisment.type",
                 "users.business_name",
+                "districts.name",
                 "advertisment.created_at",
                 "advertisment.status",
-                ""
+                "",
             );
 
             if($arr_fields[$sort['column']] != "")
@@ -186,3 +198,4 @@ class Advertisment extends Model
         return $addvertisment;
     }
 }
+
