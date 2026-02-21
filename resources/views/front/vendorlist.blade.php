@@ -14,6 +14,11 @@
         z-index: 9999;
     }
 
+    .location-selector-row > div {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
     .result-item {
         padding: 10px;
         cursor: pointer;
@@ -21,11 +26,6 @@
 
     .result-item:hover {
         background: #f2f2f2;
-    }
-
-    .location-selector-row > div {
-        flex: 0 0 50%;
-        max-width: 50%;
     }
 
     .search-form .search-input .select2-container {
@@ -57,7 +57,7 @@
         width: 100%;
         background: #fff;
         border-radius: 6px;
-        border: 1px solid #000;
+        border: none;
         padding: 0 25px;
         padding-right: 45px;
         height: 55px;
@@ -98,7 +98,7 @@
     }
 
     .search-form .search-input #location_search.form-control {
-        height: 55px;
+        height: 60px;
         padding: 0 25px;
         padding-right: 45px;
         border-radius: 6px;
@@ -118,6 +118,69 @@
             max-width: 100%;
         }
     }
+    /* Category Section */
+    .categories-section {
+        padding: 40px 0;
+    }
+
+    /* Grid layout */
+    .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr); /* 6 per row */
+        gap: 20px;
+    }
+
+    /* Card style */
+    .category-link {
+        text-decoration: none;
+    }
+
+    .category-card {
+        background: #fff;
+        border-radius: 10px;
+        padding: 15px 10px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        transition: 0.3s;
+    }
+
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .category-card img {
+        width: 60px;
+        height: 60px;
+        object-fit: contain;
+        margin-bottom: 8px;
+    }
+
+    .category-card span {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+        .categories-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .categories-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .categories-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
 </style>
 @endpush
  @php
@@ -135,7 +198,6 @@
 
                 <div class="search-input position-relative">
                     <label>
-                        <i class="lni lni-map-marker theme-color"></i>
                     </label>
 
                     <input type="text"
@@ -164,11 +226,10 @@
 
             </div>
             <div class="col-lg-6 p-0 mt-2 mt-lg-0">
-                <div class="search-input">
+                <div class="search-input" style="border: 1px solid #000000;border-radius: 15px;">
                     <label for="city_search">
-                        <i class="lni lni-map theme-color"></i>
                     </label>
-                    <select id="city_search" class="form-control">
+                    <select id="city_search" class="form-control" style="border: 1px solid #000000;border-radius: 15px;">
                         <option value="">Select city</option>
                     </select>
                 </div>
@@ -195,8 +256,8 @@
     <div class="search-form wow " >
         <div class="row">
             <div class="col-lg-12 col-md-12 col-12 p-0">
-                <div class="search-input">
-                    <label for="category"><i class="lni lni-grid-alt theme-color"></i></label>
+                <div class="search-input" style="border: 1px solid #000000;border-radius: 15px;">
+                    <label for="category"></label>
                     <select name="category" id="category">
                         <option value="none">Choose Categories</option>
                         @foreach($category as $value)

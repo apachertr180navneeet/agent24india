@@ -57,7 +57,7 @@
         width: 100%;
         background: #fff;
         border-radius: 6px;
-        border: 1px solid #000;
+        border: none;
         padding: 0 25px;
         padding-right: 45px;
         height: 55px;
@@ -98,7 +98,7 @@
     }
 
     .search-form .search-input #location_search.form-control {
-        height: 55px;
+        height: 60px;
         padding: 0 25px;
         padding-right: 45px;
         border-radius: 6px;
@@ -218,7 +218,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 p-0 mt-2 mt-lg-0">
-                    <div class="search-input">
+                    <div class="search-input" style="border: 1px solid #000000;border-radius: 15px;">
                         {{--  <label for="city_search">
                             <i class="lni lni-map theme-color"></i>
                         </label>  --}}
@@ -251,7 +251,7 @@
         <div class="search-form wow " >
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-12 p-0">
-                    <div class="search-input">
+                    <div class="search-input" style="border: 1px solid #000000;border-radius: 15px;">
                         {{--  <label for="category"><i class="lni lni-grid-alt theme-color"></i></label>  --}}
                         <select name="category" id="category">
                             <option value="none">Choose Categories</option>

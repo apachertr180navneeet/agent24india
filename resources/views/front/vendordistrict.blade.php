@@ -8,10 +8,15 @@
         position: absolute;
         width: 100%;
         background: #fff;
-        border: 1px solid #ddd;
+        border: 1px solid #000;
         max-height: 200px;
         overflow-y: auto;
         z-index: 9999;
+    }
+
+    .location-selector-row > div {
+        flex: 0 0 50%;
+        max-width: 50%;
     }
 
     .result-item {
@@ -24,11 +29,19 @@
     }
 
     .search-form .search-input .select2-container {
+        display: block;
         width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
     }
 
     #city_search + .select2,
-    #city_search + .select2-container,
+    #city_search + .select2-container {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+    }
+
     #category + .select2,
     #category + .select2-container {
         width: 100% !important;
@@ -36,15 +49,23 @@
         max-width: 100% !important;
     }
 
+    .location-selector-row .search-input {
+        width: 100%;
+    }
+
     .search-form .search-input .select2-container .select2-selection--single {
         width: 100%;
         background: #fff;
         border-radius: 6px;
-        border: 1px solid #000;
+        border: none;
         padding: 0 25px;
         padding-right: 45px;
         height: 55px;
         font-size: 15px;
+    }
+
+    .search-form .search-input .select2-container .select2-selection--single:focus {
+        outline: none !important;
     }
 
     .search-form .search-input .select2-container .select2-selection__rendered {
@@ -62,8 +83,14 @@
         display: none;
     }
 
-    .select2-dropdown {
-        border: 1px solid #000;
+    .select2-container--default .select2-results__option--highlighted[aria-selected] {
+        background-color: #f2f2f2;
+        color: #333;
+    }
+
+    .select2-container--default .select2-results__option[aria-selected=true] {
+        background-color: #f8f9fa;
+        color: #333;
     }
 
     .search-form .search-input input.form-control {
@@ -71,14 +98,25 @@
     }
 
     .search-form .search-input #location_search.form-control {
-        height: 55px;
+        height: 60px;
         padding: 0 25px;
         padding-right: 45px;
         border-radius: 6px;
     }
 
-    .search-form .search-input .select2-container .select2-selection--single {
+    .search-form .search-input select.form-control {
         border: 1px solid #000;
+    }
+
+    .select2-dropdown {
+        border: 1px solid #000;
+    }
+
+    @media (max-width: 991.98px) {
+        .location-selector-row > div {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
     }
     /* Category Section */
     .categories-section {
@@ -158,7 +196,6 @@
                 <div class="col-lg-6 p-0">
                     <div class="search-input position-relative">
                         <label>
-                            <i class="lni lni-map-marker theme-color"></i>
                         </label>
                         <input type="text" 
                             id="location_search" 
@@ -179,9 +216,8 @@
                     </div>
                 </div>
                 <div class="col-lg-6 p-0 mt-2 mt-lg-0">
-                    <div class="search-input">
+                    <div class="search-input" style="border: 1px solid #000000;border-radius: 15px;">
                         <label for="city_search">
-                            <i class="lni lni-map theme-color"></i>
                         </label>
                         <select id="city_search" class="form-control">
                             <option value="">Select city</option>
@@ -212,8 +248,8 @@
         <div class="search-form wow " >
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-12 p-0">
-                    <div class="search-input">
-                        <label for="category"><i class="lni lni-grid-alt theme-color"></i></label>
+                    <div class="search-input" style="border: 1px solid #000000;border-radius: 15px;">
+                        <label for="category"></label>
                         <select name="category" id="category">
                             <option value="none">Choose Categories</option>
                             @foreach($category as $value)
