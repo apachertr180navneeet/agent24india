@@ -17,10 +17,20 @@
     <!-- CENTER : Menu -->
     <ul class="main-menu">
       <li><a href="{{route('front.index')}}">Home</a></li>
-      @if(\Auth::check())
-      <li><a href="{{route('front.addListing')}}">Free Listing & Paid Listing</a></li>
-      <li><a href="">Banner Ad</a></li>
-      @endif
+      <li>
+        @if(\Auth::check())
+          <a href="{{ route('front.addListing') }}">Free Listing</a>
+        @else
+          <a href="javascript:void(0)" class="open-signin">Free Listing</a>
+        @endif
+      </li>
+      <li>
+        @if(\Auth::check())
+          <a href="{{ route('front.addListing') }}">Banner Ad</a>
+        @else
+          <a href="javascript:void(0)" class="open-signin">Banner Ad</a>
+        @endif
+      </li>
       <li class="dropdown">
         <a href="#">Policies ▾</a>
         <ul class="dropdown-menu">

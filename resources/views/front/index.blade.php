@@ -2,15 +2,21 @@
 @section('title', $pageTitle)
 
 @push('styles')
+<link rel="stylesheet" href="{{ asset('public/plugins/select2/css/select2.min.css') }}">
 <style>
     .search-results {
         position: absolute;
         width: 100%;
         background: #fff;
-        border: 1px solid #ddd;
+        border: 1px solid #000;
         max-height: 200px;
         overflow-y: auto;
         z-index: 9999;
+    }
+
+    .location-selector-row > div {
+        flex: 0 0 50%;
+        max-width: 50%;
     }
 
     .result-item {
@@ -20,6 +26,97 @@
 
     .result-item:hover {
         background: #f2f2f2;
+    }
+
+    .search-form .search-input .select2-container {
+        display: block;
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    #city_search + .select2,
+    #city_search + .select2-container {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    #category + .select2,
+    #category + .select2-container {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .location-selector-row .search-input {
+        width: 100%;
+    }
+
+    .search-form .search-input .select2-container .select2-selection--single {
+        width: 100%;
+        background: #fff;
+        border-radius: 6px;
+        border: 1px solid #000;
+        padding: 0 25px;
+        padding-right: 45px;
+        height: 55px;
+        font-size: 15px;
+    }
+
+    .search-form .search-input .select2-container .select2-selection--single:focus {
+        outline: none !important;
+    }
+
+    .search-form .search-input .select2-container .select2-selection__rendered {
+        line-height: 55px;
+        color: #081828;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .search-form .search-input .select2-container .select2-selection__placeholder {
+        color: #6c757d;
+    }
+
+    .search-form .search-input .select2-container .select2-selection__arrow {
+        display: none;
+    }
+
+    .select2-container--default .select2-results__option--highlighted[aria-selected] {
+        background-color: #f2f2f2;
+        color: #333;
+    }
+
+    .select2-container--default .select2-results__option[aria-selected=true] {
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    .search-form .search-input input.form-control {
+        border: 1px solid #000;
+    }
+
+    .search-form .search-input #location_search.form-control {
+        height: 55px;
+        padding: 0 25px;
+        padding-right: 45px;
+        border-radius: 6px;
+    }
+
+    .search-form .search-input select.form-control {
+        border: 1px solid #000;
+    }
+
+    .select2-dropdown {
+        border: 1px solid #000;
+    }
+
+    @media (max-width: 991.98px) {
+        .location-selector-row > div {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
     }
     /* Category Section */
     .categories-section {
@@ -95,12 +192,12 @@
     <!-- Location Selector -->
     <section class="container">
         <div class="search-form">
-            <div class="row">
-                <div class="col-lg-6 p-0">
+            <div class="row location-selector-row">
+                <div class="col-lg-3 p-0">
                     <div class="search-input position-relative">
-                        <label>
-                            <i class="lni lni-map-marker theme-color"></i>
-                        </label>
+                        {{--  <label>
+                           
+                        </label>  --}}
 
                         <input type="text" 
                             id="location_search" 
@@ -122,9 +219,9 @@
                 </div>
                 <div class="col-lg-6 p-0 mt-2 mt-lg-0">
                     <div class="search-input">
-                        <label for="city_search">
+                        {{--  <label for="city_search">
                             <i class="lni lni-map theme-color"></i>
-                        </label>
+                        </label>  --}}
                         <select id="city_search" class="form-control">
                             <option value="">Select city</option>
                         </select>
@@ -155,7 +252,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-12 p-0">
                     <div class="search-input">
-                        <label for="category"><i class="lni lni-grid-alt theme-color"></i></label>
+                        {{--  <label for="category"><i class="lni lni-grid-alt theme-color"></i></label>  --}}
                         <select name="category" id="category">
                             <option value="none">Choose Categories</option>
                             @foreach($category as $value)
@@ -177,7 +274,9 @@
         <div class="container">
             <div class="categories-grid">
                 @foreach($category as $key => $value)
-                    <a href="{{ route('front.vendorlist.category', ['category' => $value->id]) }}" class="category-link">
+                    <a href="javascript:void(0);"
+                        class="category-link js-category-location"
+                        data-category-id="{{ $value->id }}">
                         <div class="category-card">
                             <img src="{{ $value->image }}" alt="{{ $value->name }}">
                             <span>{{ $value->name }}</span>
@@ -187,6 +286,34 @@
             </div>
         </div>
     </section>
+
+    <div class="modal fade" id="categoryDistrictModal" tabindex="-1" role="dialog" aria-labelledby="categoryDistrictModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categoryDistrictModalLabel">Select District And City</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <select id="category_district_id" class="form-control">
+                        <option value="">Choose district</option>
+                        @foreach($districtList as $district)
+                            <option value="{{ $district->id }}">{{ $district->name }}</option>
+                        @endforeach
+                    </select>
+                    <select id="category_city_id" class="form-control mt-3">
+                        <option value="">Choose city</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="goToCategoryListing">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- start locations -->
     <section class="locations-section1">
@@ -218,7 +345,7 @@
 
 
     <!-- Listing -->
-    <section class="items-grid section custom-padding">
+    {{--  <section class="items-grid section custom-padding">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -285,10 +412,11 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section>  --}}
 @endsection
 
 @push('scripts')
+<script src="{{ asset('public/plugins/select2/js/select2.min.js') }}"></script>
 <script>
     //========= Category Slider
     if($("body").find(".category-slider").length) {
@@ -325,11 +453,33 @@
 <script>
     $(document).ready(function () {
         var selectedDistrictId = null;
+        var selectedCategoryId = '';
         var listUrlTemplate = "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
+        var locationCategoryUrlTemplate = "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION_ID_PLACEHOLDER', 'category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
         var cityApiTemplate = "{{ route('get.cities', ['district' => 'DISTRICT_ID_PLACEHOLDER']) }}";
+        var $citySearch = $('#city_search');
+        var $categorySearch = $('#category');
+        var $categoryDistrict = $('#category_district_id');
+        var $categoryCity = $('#category_city_id');
+
+        $citySearch.select2({
+            placeholder: 'Select city',
+            allowClear: true,
+            width: '100%'
+        });
+        $categorySearch.select2({
+            placeholder: 'Choose Categories',
+            allowClear: false,
+            width: '100%'
+        });
+        $citySearch.next('.select2-container').css({
+            width: '100%',
+            minWidth: '100%',
+            maxWidth: '100%'
+        });
 
         function resetCityDropdown() {
-            $('#city_search').html('<option value="">Select city</option>');
+            $citySearch.html('<option value="">Select city</option><option value="all">All City</option>').trigger('change.select2');
         }
 
         function loadCitiesByDistrict(districtId) {
@@ -341,7 +491,7 @@
             var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
 
             $.get(cityApiUrl, function (cities) {
-                var options = '<option value="">Select city</option>';
+                var options = '<option value="">Select city</option><option value="all">All City</option>';
 
                 if (Array.isArray(cities) && cities.length) {
                     cities.forEach(function (city) {
@@ -351,7 +501,7 @@
                     options += '<option value="" disabled>No city found</option>';
                 }
 
-                $('#city_search').html(options);
+                $citySearch.html(options).trigger('change.select2');
             }).fail(function () {
                 resetCityDropdown();
             });
@@ -403,7 +553,7 @@
         });
 
         // Redirect when city changes
-        $('#city_search').on('change', function () {
+        $citySearch.on('change', function () {
             var cityId = $(this).val();
 
             if (!selectedDistrictId || !cityId) {
@@ -419,6 +569,70 @@
             if (!$(e.target).closest('.search-input').length) {
                 $('#searchResults').hide();
             }
+        });
+
+        function resetModalCityDropdown() {
+            $categoryCity.html('<option value="">Choose city</option><option value="all">All City</option>');
+        }
+
+        function loadModalCitiesByDistrict(districtId, preselectedCity) {
+            resetModalCityDropdown();
+            if (!districtId) {
+                return;
+            }
+
+            var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
+
+            $.get(cityApiUrl, function (cities) {
+                var options = '<option value="">Choose city</option><option value="all">All City</option>';
+
+                if (Array.isArray(cities) && cities.length) {
+                    cities.forEach(function (city) {
+                        options += '<option value="' + city.id + '">' + city.name + '</option>';
+                    });
+                }
+
+                $categoryCity.html(options);
+
+                if (preselectedCity) {
+                    $categoryCity.val(String(preselectedCity));
+                }
+            }).fail(function () {
+                resetModalCityDropdown();
+            });
+        }
+
+        $(document).on('click', '.js-category-location', function (e) {
+            e.preventDefault();
+            selectedCategoryId = $(this).data('category-id');
+            var currentDistrict = selectedDistrictId || '';
+            $categoryDistrict.val(currentDistrict);
+            loadModalCitiesByDistrict(currentDistrict, $citySearch.val() || '');
+            $('#categoryDistrictModal').modal('show');
+        });
+
+        $categoryDistrict.on('change', function () {
+            loadModalCitiesByDistrict($(this).val(), '');
+        });
+
+        $('#goToCategoryListing').on('click', function () {
+            var districtId = $categoryDistrict.val();
+            var cityId = $categoryCity.val();
+
+            if (!districtId || !selectedCategoryId) {
+                alert('Please select district');
+                return;
+            }
+
+            var redirectUrl = locationCategoryUrlTemplate
+                .replace('LOCATION_ID_PLACEHOLDER', districtId)
+                .replace('CATEGORY_ID_PLACEHOLDER', selectedCategoryId);
+
+            if (cityId) {
+                redirectUrl += '?city=' + encodeURIComponent(cityId);
+            }
+
+            window.location.href = redirectUrl;
         });
 
     });

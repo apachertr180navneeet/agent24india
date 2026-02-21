@@ -151,6 +151,7 @@ class HomeController extends Controller
 
         $sideadvertisments = Advertisment::where('status', 1)
                 ->where('sub_type', 'side')
+                ->limit(10)
                 ->get();
 
         $districtList = District::where('status', 1)
@@ -179,13 +180,14 @@ class HomeController extends Controller
 
         $district = District::where('status', 1)->get();
         $selectedCityId = $request->query('city');
+        $isAllCitySelected = empty($selectedCityId) || (string) $selectedCityId === 'all';
 
         $vendoruserQuery = User::where('role_id', config('constants.roles.VENDOR.value'))
             ->where('status', 1)
             ->where('is_approved', 1)
             ->where('district_id', $location);
 
-        if (!empty($selectedCityId)) {
+        if (!$isAllCitySelected) {
             $vendoruserQuery->where('city_id', $selectedCityId);
         }
 
@@ -206,10 +208,23 @@ class HomeController extends Controller
             $selectedDistrict = $districtList->where('id', $location)->first();
         }
 
-        $sideadvertisments = Advertisment::where('status', 1)
+        $sideadvertismentsQuery = Advertisment::where('status', 1)
             ->where('sub_type', 'side')
-            ->where('district', $location)
-            ->get();
+            ->where('district', $location);
+
+        if (!$isAllCitySelected) {
+            $sideadvertismentsQuery->where(function ($query) use ($selectedCityId) {
+                $query->where('home_city', (string) $selectedCityId)
+                    ->orWhereNull('home_city')
+                    ->orWhere('home_city', '')
+                    ->orWhere('home_city', '0')
+                    ->orWhere('home_city', 0)
+                    ->orWhere('home_city', 'all')
+                    ->orWhere('home_city', 'ALL');
+            });
+        }
+
+        $sideadvertisments = $sideadvertismentsQuery->limit(10)->get();
 
         $districthome = District::where('status', 1)->where('is_home', 1)->orderBy('district_order', 'asc')->get();
 
@@ -217,7 +232,7 @@ class HomeController extends Controller
         ->where('is_approved', '1')
         ->where('district_id', $location);
 
-        if (!empty($selectedCityId)) {
+        if (!$isAllCitySelected) {
             $paidlistingQuery->where('city_id', $selectedCityId);
         }
 
@@ -252,11 +267,8 @@ class HomeController extends Controller
         $sideadvertisments = Advertisment::where('status', 1)
             ->where('sub_type', 'side')
             ->where('category', $category)
+            ->limit(10)
             ->get();
-
-        $sideadvertisments = Advertisment::where('status', 1)
-                ->where('sub_type', 'side')
-                ->get();
 
         $districtList = District::where('status', 1)
         ->orderBy('name')

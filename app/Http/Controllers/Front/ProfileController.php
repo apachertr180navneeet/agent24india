@@ -235,40 +235,88 @@ class ProfileController extends Controller
             'email' => 'required|email'
         ]);
 
-        $otp = 123456;
-
-        Session::put('email_otp', $otp);
-        Session::put('email_otp_email', $request->email);
-        Session::put('email_otp_expire', Carbon::now()->addMinutes(5));
-
         try {
-            // Mail::send('emails.otp', ['otp' => $otp], function ($message) use ($request) {
-            //     $message->to($request->email)
-            //             ->subject('Your OTP Verification Code');
-            // });
-
-
-            $data = [
-                'email'        => $request->email,
-                'otp'          => $otp
+            $missingMailConfig = [];
+            $requiredMailConfig = [
+                'mail.mailers.smtp.host' => config('mail.mailers.smtp.host'),
+                'mail.mailers.smtp.port' => config('mail.mailers.smtp.port'),
+                'mail.mailers.smtp.username' => config('mail.mailers.smtp.username'),
+                'mail.mailers.smtp.password' => config('mail.mailers.smtp.password'),
+                'mail.from.address' => config('mail.from.address'),
             ];
 
+            foreach ($requiredMailConfig as $key => $value) {
+                if (empty($value)) {
+                    $missingMailConfig[] = $key;
+                }
+            }
 
-            Mail::send('emails.otp', ['otp' => $otp], function ($mail) use ($data) {
-            $mail->to($data['email'])
-                ->subject('Your OTP Verification Code')
-                 ->replyTo($data['email']);
+            if (!empty($missingMailConfig)) {
+                Log::error('sendEmailOtp: incomplete mail configuration', [
+                    'missing' => $missingMailConfig,
+                    'mailer' => config('mail.default'),
+                ]);
+
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Mail configuration is incomplete. Please set SMTP details in .env'
+                ], 500);
+            }
+
+            Log::info('sendEmailOtp: request received', [
+                'email' => $request->email,
+                'mailer' => config('mail.default'),
+                'smtp_host' => config('mail.mailers.smtp.host'),
+                'smtp_port' => config('mail.mailers.smtp.port'),
+                'smtp_scheme' => config('mail.mailers.smtp.scheme'),
+                'mail_encryption_env' => env('MAIL_ENCRYPTION'),
+                'mail_from' => config('mail.from.address'),
+            ]);
+
+            $otp = '123456';
+
+            Session::put('email_otp', $otp);
+            Session::put('email_otp_email', $request->email);
+            Session::put('email_otp_expire', Carbon::now()->addMinutes(5));
+
+            Log::info('sendEmailOtp: session prepared', [
+                'email' => $request->email,
+                'expires_at' => Session::get('email_otp_expire'),
+                'otp_tail' => substr((string) $otp, -2),
+            ]);
+
+            Log::info('sendEmailOtp: attempting mail send', [
+                'to' => $request->email,
+                'view' => 'emails.otp',
+            ]);
+
+            Mail::send('emails.otp', ['otp' => $otp], function ($message) use ($request) {
+                $message->from(
+                    config('mail.from.address'),
+                    config('mail.from.name')
+                );
+                $message->replyTo(
+                    config('mail.from.address'),
+                    config('mail.from.name')
+                );
+                $message->to($request->email)
+                        ->subject('Your OTP Verification Code');
             });
+
+            Log::info('sendEmailOtp: mail sent successfully', [
+                'to' => $request->email,
+            ]);
 
             return response()->json([
                 'status' => true,
                 'message' => 'OTP sent successfully'
             ]);
         } catch (\Throwable $e) {
-            dd($e);
             Log::error('Failed to send OTP email', [
                 'email' => $request->email,
                 'error' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
             ]);
 
             return response()->json([
@@ -294,6 +342,14 @@ class ProfileController extends Controller
 
         try {
             Mail::send('emails.otp', ['otp' => $otp], function ($message) {
+                $message->from(
+                    config('mail.from.address'),
+                    config('mail.from.name')
+                );
+                $message->replyTo(
+                    config('mail.from.address'),
+                    config('mail.from.name')
+                );
                 $message->to(session('email_otp_email'))
                         ->subject('Your OTP Verification Code');
             });
@@ -303,8 +359,6 @@ class ProfileController extends Controller
                 'message' => 'OTP resent successfully'
             ]);
         } catch (\Throwable $e) {
-
-            dd($e);
             Log::error('Failed to resend OTP email', [
                 'email' => session('email_otp_email'),
                 'error' => $e->getMessage(),

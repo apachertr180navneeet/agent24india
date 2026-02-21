@@ -2,12 +2,13 @@
 @section('title', $pageTitle)
 
 @push('styles')
+<link rel="stylesheet" href="{{ asset('public/plugins/select2/css/select2.min.css') }}">
 <style>
     .search-results {
         position: absolute;
         width: 100%;
         background: #fff;
-        border: 1px solid #ddd;
+        border: 1px solid #000;
         max-height: 200px;
         overflow-y: auto;
         z-index: 9999;
@@ -21,6 +22,102 @@
     .result-item:hover {
         background: #f2f2f2;
     }
+
+    .location-selector-row > div {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    .search-form .search-input .select2-container {
+        display: block;
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    #city_search + .select2,
+    #city_search + .select2-container {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    #category + .select2,
+    #category + .select2-container {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .location-selector-row .search-input {
+        width: 100%;
+    }
+
+    .search-form .search-input .select2-container .select2-selection--single {
+        width: 100%;
+        background: #fff;
+        border-radius: 6px;
+        border: 1px solid #000;
+        padding: 0 25px;
+        padding-right: 45px;
+        height: 55px;
+        font-size: 15px;
+    }
+
+    .search-form .search-input .select2-container .select2-selection--single:focus {
+        outline: none !important;
+    }
+
+    .search-form .search-input .select2-container .select2-selection__rendered {
+        line-height: 55px;
+        color: #081828;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .search-form .search-input .select2-container .select2-selection__placeholder {
+        color: #6c757d;
+    }
+
+    .search-form .search-input .select2-container .select2-selection__arrow {
+        display: none;
+    }
+
+    .select2-container--default .select2-results__option--highlighted[aria-selected] {
+        background-color: #f2f2f2;
+        color: #333;
+    }
+
+    .select2-container--default .select2-results__option[aria-selected=true] {
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    .search-form .search-input input.form-control {
+        border: 1px solid #000;
+    }
+
+    .search-form .search-input #location_search.form-control {
+        height: 55px;
+        padding: 0 25px;
+        padding-right: 45px;
+        border-radius: 6px;
+    }
+
+    .search-form .search-input select.form-control {
+        border: 1px solid #000;
+    }
+
+    .select2-dropdown {
+        border: 1px solid #000;
+    }
+
+    @media (max-width: 991.98px) {
+        .location-selector-row > div {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
 </style>
 @endpush
  @php
@@ -33,15 +130,14 @@
 <!-- Location Selector -->
 <section class="container">
     <div class="search-form">
-        <div class="row">
-            <div class="col-lg-12 p-0">
+        <div class="row location-selector-row">
+            <div class="col-lg-6 p-0">
 
                 <div class="search-input position-relative">
                     <label>
                         <i class="lni lni-map-marker theme-color"></i>
                     </label>
 
-                    <!-- Search Input -->
                     <input type="text"
                         id="location_search"
                         class="form-control"
@@ -49,13 +145,11 @@
                         autocomplete="off"
                         value="{{ $selectedDistrict ? $selectedDistrict->name : '' }}">
 
-                    <!-- Hidden ID -->
                     <input type="hidden"
                         name="location"
                         id="location_id"
                         value="{{ $location ?? '' }}">
 
-                    <!-- Dropdown -->
                     <div id="searchResults" class="search-results" style="display:none;">
                         @foreach($districtList as $value)
                             <div class="result-item"
@@ -68,6 +162,16 @@
 
                 </div>
 
+            </div>
+            <div class="col-lg-6 p-0 mt-2 mt-lg-0">
+                <div class="search-input">
+                    <label for="city_search">
+                        <i class="lni lni-map theme-color"></i>
+                    </label>
+                    <select id="city_search" class="form-control">
+                        <option value="">Select city</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
@@ -195,6 +299,7 @@
 @endsection
 
 @push('scripts')
+<script src="{{ asset('public/plugins/select2/js/select2.min.js') }}"></script>
 <script>
     if ($("body").find(".category-slider").length) {
         tns({
@@ -220,67 +325,75 @@
     }
 </script>
 <script>
-    $(function () {
-
-        var baseUrl = "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
-
-        // Click on search result
-        $('#searchResults').on('click', '.result-item', function () {
-            var name = $(this).text().trim();
-            var id   = $(this).data('id');
-
-            $('#location_search').val(name);
-            $('#location_id').val(id);
-
-            $('#searchResults').hide();
-
-            // Redirect
-            var url = baseUrl.replace('LOCATION_ID_PLACEHOLDER', id);
-            window.location.href = url;
-        });
-
-    });
-</script>
-<script>
-    // Client-side mapping of district name -> id (populated from server-rendered data)
-    document.addEventListener('DOMContentLoaded', function(){
-        var locMap = {};
-        @foreach($districtList as $d)
-            locMap["{{ addslashes($d->name) }}"] = "{{ $d->id }}";
-        @endforeach
-
-        // When user picks/enters a value in the search input, set the select and trigger change
-        $('#location_search').on('input change', function(){
-            var name = $(this).val();
-            if (locMap[name]){
-                $('#location').val(locMap[name]).trigger('change');
-            }
-        });
-
-        // Optional: pressing Enter when a partial name matches first result
-        $('#location_search').on('keydown', function(e){
-            if (e.key === 'Enter'){
-                var val = $(this).val();
-                if (locMap[val]){
-                    $('#location').val(locMap[val]).trigger('change');
-                } else {
-                    // try case-insensitive partial match
-                    var foundId = null;
-                    var q = val.toLowerCase();
-                    for (var k in locMap){ if (k.toLowerCase().indexOf(q) !== -1){ foundId = locMap[k]; break; } }
-                    if (foundId) $('#location').val(foundId).trigger('change');
-                }
-            }
-        });
-    });
-</script>
-<script>
     $(document).ready(function () {
+        var selectedDistrictId = "{{ $location ?? '' }}";
+        var selectedCityId = "{{ request()->query('city', '') }}";
+        var listUrlTemplate = "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
+        var locationCategoryUrlTemplate = "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION_ID_PLACEHOLDER', 'category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
+        var categoryOnlyUrlTemplate = "{{ route('front.vendorlist.category', ['category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
+        var cityApiTemplate = "{{ route('get.cities', ['district' => 'DISTRICT_ID_PLACEHOLDER']) }}";
+        var $citySearch = $('#city_search');
+        var $categorySearch = $('#category');
+
+        $citySearch.select2({
+            placeholder: 'Select city',
+            allowClear: true,
+            width: '100%'
+        });
+        $categorySearch.select2({
+            placeholder: 'Choose Categories',
+            allowClear: false,
+            width: '100%'
+        });
+
+        function resetCityDropdown() {
+            $citySearch.html('<option value="">Select city</option><option value="all">All City</option>').trigger('change.select2');
+        }
+
+        function loadCitiesByDistrict(districtId, preselectedCity) {
+            resetCityDropdown();
+            if (!districtId) {
+                return;
+            }
+
+            var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
+
+            $.get(cityApiUrl, function (cities) {
+                var options = '<option value="">Select city</option><option value="all">All City</option>';
+
+                if (Array.isArray(cities) && cities.length) {
+                    cities.forEach(function (city) {
+                        options += '<option value="' + city.id + '">' + city.name + '</option>';
+                    });
+                } else {
+                    options += '<option value="" disabled>No city found</option>';
+                }
+
+                $citySearch.html(options);
+
+                if (preselectedCity) {
+                    $citySearch.val(String(preselectedCity));
+                }
+
+                $citySearch.trigger('change.select2');
+            }).fail(function () {
+                resetCityDropdown();
+            });
+        }
+
+        function selectDistrict($item) {
+            $('#location_search').val($item.text().trim());
+            selectedDistrictId = String($item.data('id'));
+            selectedCityId = '';
+            $('#location_id').val(selectedDistrictId);
+            loadCitiesByDistrict(selectedDistrictId, '');
+            $('#searchResults').hide();
+        }
 
         $('#searchResults').hide();
 
         $('#location_search').on('keyup', function () {
-            let value = $(this).val().toLowerCase();
+            var value = $(this).val().toLowerCase();
 
             if (value.length === 0) {
                 $('#searchResults').hide();
@@ -290,31 +403,43 @@
             $('#searchResults').show();
 
             $('.result-item').filter(function () {
-                $(this).toggle(
-                    $(this).data('name').indexOf(value) > -1
-                );
+                $(this).toggle($(this).data('name').indexOf(value) > -1);
             });
         });
 
-        // Click select
-        $('.result-item').on('click', function () {
-            $('#location_search').val($(this).text());
-            $('#searchResults').hide();
+        $('#searchResults').on('click', '.result-item', function () {
+            selectDistrict($(this));
         });
 
-        // Click outside close
+        $('#location_search').on('keydown', function (e) {
+            if (e.key !== 'Enter') {
+                return;
+            }
+
+            e.preventDefault();
+            var $firstVisible = $('.result-item:visible').first();
+            if ($firstVisible.length) {
+                selectDistrict($firstVisible);
+            }
+        });
+
+        $citySearch.on('change', function () {
+            var cityId = $(this).val();
+            selectedCityId = cityId || '';
+
+            if (!selectedDistrictId || !cityId) {
+                return;
+            }
+
+            var redirectUrl = listUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId) + '?city=' + encodeURIComponent(cityId);
+            window.location.href = redirectUrl;
+        });
+
         $(document).on('click', function (e) {
             if (!$(e.target).closest('.search-input').length) {
                 $('#searchResults').hide();
             }
         });
-
-    });
-</script>
-<script>
-    $(function () {
-        var locationCategoryUrl = "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION_ID_PLACEHOLDER', 'category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
-        var categoryOnlyUrl = "{{ route('front.vendorlist.category', ['category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
 
         $('#category').on('change', function () {
             var categoryId = $(this).val();
@@ -322,15 +447,26 @@
                 return;
             }
 
-            var locationId = $('#location_id').val() || "{{ $selectedDistrict->id ?? '' }}";
+            var locationId = selectedDistrictId || $('#location_id').val() || "{{ $selectedDistrict->id ?? '' }}";
             var redirectUrl = locationId
-                ? locationCategoryUrl
+                ? locationCategoryUrlTemplate
                     .replace('LOCATION_ID_PLACEHOLDER', locationId)
                     .replace('CATEGORY_ID_PLACEHOLDER', categoryId)
-                : categoryOnlyUrl.replace('CATEGORY_ID_PLACEHOLDER', categoryId);
+                : categoryOnlyUrlTemplate.replace('CATEGORY_ID_PLACEHOLDER', categoryId);
+
+            var cityId = $citySearch.val();
+            if (cityId) {
+                redirectUrl += '?city=' + encodeURIComponent(cityId);
+            }
 
             window.location.href = redirectUrl;
         });
+
+        if (selectedDistrictId) {
+            loadCitiesByDistrict(selectedDistrictId, selectedCityId);
+        } else {
+            resetCityDropdown();
+        }
     });
 </script>
 @endpush

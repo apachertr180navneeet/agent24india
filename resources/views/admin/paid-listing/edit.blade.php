@@ -23,7 +23,7 @@
                 <!-- general form elements -->
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">View Paid Listing</h3>
+                        <h3 class="card-title">Listing View</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
@@ -73,7 +73,7 @@
                                 </div>
 
                                 {{-- Row 4 --}}
-                                <div class="row mb-3">
+                                {{--  <div class="row mb-3">
                                     <div class="col-md-2 font-weight-bold">Status</div>
                                     <div class="col-md-4">
                                         <select class="form-control" name="status">
@@ -81,7 +81,7 @@
                                             <option value="0" {{ $paidlisting->status == '0' ? 'selected' : '' }}>Pending</option>
                                         </select>
                                     </div>
-                                </div>
+                                </div>  --}}
 
                             </div>
                         </div>
