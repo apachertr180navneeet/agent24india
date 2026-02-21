@@ -112,14 +112,11 @@ var thisJs = (function() {
                     $category.val("").trigger("change");
                     $category.removeClass("is-invalid is-valid");
                     $category.closest(".form-group").find("span.invalid-feedback").remove();
-                    $districtWrapper.show();
                 } else {
-                    $districtWrapper.hide();
-                    $district.val("").trigger("change");
-                    $district.removeClass("is-invalid is-valid");
-                    $district.closest(".form-group").find("span.invalid-feedback").remove();
                     $categoryWrapper.show();
                 }
+
+                $districtWrapper.show();
             };
 
             var clearTypeError = function() {
