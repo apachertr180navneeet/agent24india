@@ -292,9 +292,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="categoryDistrictModalLabel">Select District And City</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
                 <div class="modal-body">
                     <select id="category_district_id" class="form-control">
@@ -308,7 +305,6 @@
                     </select>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary" id="goToCategoryListing">Continue</button>
                 </div>
             </div>
@@ -479,7 +475,7 @@
         });
 
         function resetCityDropdown() {
-            $citySearch.html('<option value="">Select city</option><option value="all">All City</option>').trigger('change.select2');
+            $citySearch.html('<option value="">Select city</option>').trigger('change.select2');
         }
 
         function loadCitiesByDistrict(districtId) {
@@ -491,7 +487,7 @@
             var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
 
             $.get(cityApiUrl, function (cities) {
-                var options = '<option value="">Select city</option><option value="all">All City</option>';
+                var options = '<option value="all">All City</option><option value="">Select city</option>';
 
                 if (Array.isArray(cities) && cities.length) {
                     cities.forEach(function (city) {
@@ -572,7 +568,7 @@
         });
 
         function resetModalCityDropdown() {
-            $categoryCity.html('<option value="">Choose city</option><option value="all">All City</option>');
+            $categoryCity.html('<option value="">Choose city</option>');
         }
 
         function loadModalCitiesByDistrict(districtId, preselectedCity) {
@@ -584,7 +580,7 @@
             var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
 
             $.get(cityApiUrl, function (cities) {
-                var options = '<option value="">Choose city</option><option value="all">All City</option>';
+                var options = '<option value="all">All City</option><option value="">Choose city</option>';
 
                 if (Array.isArray(cities) && cities.length) {
                     cities.forEach(function (city) {
@@ -609,6 +605,11 @@
             $categoryDistrict.val(currentDistrict);
             loadModalCitiesByDistrict(currentDistrict, $citySearch.val() || '');
             $('#categoryDistrictModal').modal('show');
+        });
+
+        // Bootstrap 5-safe explicit close handlers for X/Cancel
+        $(document).on('click', '#categoryDistrictModal [data-bs-dismiss=\"modal\"], #categoryDistrictModal [data-dismiss=\"modal\"]', function () {
+            $('#categoryDistrictModal').modal('hide');
         });
 
         $categoryDistrict.on('change', function () {

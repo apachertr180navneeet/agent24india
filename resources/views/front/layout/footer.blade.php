@@ -1,3 +1,10 @@
+@php
+    $cmsModel = new \App\Models\Cms();
+    $privacy = $cmsModel->where('id', 3)->first();
+    $trem = $cmsModel->where('id', 2)->first();
+    $about = $cmsModel->where('id', 1)->first();
+@endphp
+
 <footer class="footer">
     <!-- Start Footer Top -->
     <div class="footer-top">
@@ -12,7 +19,9 @@
                         <h3>Quick Links</h3>
                         <ul>
                             <li><a href="{{route('front.index')}}">Home</a></li>
+                            @if($about->status == 1)
                             <li><a href="{{route('front.aboutus')}}">About Us</a></li>
+                            @endif
                             <li><a href="{{route('front.contactus')}}">Contact Us</a></li>
                             <li><a href="{{route('front.profile')}}">Profile</a></li>
                         </ul>
@@ -24,8 +33,13 @@
                         <h3>Support Links</h3>
                         <ul>
                             <li><a href="{{route('front.support')}}">Help & Support</a></li>
+                            @if($trem->status == 1)
                             <li><a href="{{route('front.termsAndConditions')}}">Terms & Conditions</a></li>
+                            @endif
+
+                            @if($privacy->status == 1)
                             <li><a href="{{route('front.privacyPolicy')}}">Privacy Policy</a></li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -35,7 +49,7 @@
                         <h3>Contact</h3>
                         <ul>
                             <li>23 New Design Str,<br> Jodhpur, Rajasthan</li>
-                            <li>Tel. +(123) 1800-567-8990 <br> Mail. support@example.com</li>
+                            <li>Tel. +91 78528 33871 <br> Mail. info@agent24india.com, support@agent24india.com</li>
                         </ul>
                     </div>
                 </div>
