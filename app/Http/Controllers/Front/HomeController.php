@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -175,6 +176,8 @@ class HomeController extends Controller
 
 
     public function vendorlistByLocation(Request $request, $location){
+        $district = $location;
+        $city = $request->city;
         // Send view data
         $this->viewData['pageTitle'] = 'Vendor List';
 
@@ -193,10 +196,11 @@ class HomeController extends Controller
 
         $vendoruser = $vendoruserQuery->paginate(12);
         $category = Category::where('status', 1)->whereNull('parent_id')->get();
-
+        // Top Banner
         $banner = Advertisment::where('status', 1)
             ->where('sub_type', 'top')
             ->where('district', $location)
+            ->whereDate('expiry_date', '>=', Carbon::today())
             ->get();
 
          $districtList = District::where('status', 1)
@@ -210,7 +214,8 @@ class HomeController extends Controller
 
         $sideadvertismentsQuery = Advertisment::where('status', 1)
             ->where('sub_type', 'side')
-            ->where('district', $location);
+            ->where('district', $location)
+            ->whereDate('expiry_date', '>=', Carbon::today());
 
         if (!$isAllCitySelected) {
             $sideadvertismentsQuery->where(function ($query) use ($selectedCityId) {
@@ -238,6 +243,12 @@ class HomeController extends Controller
 
         $paidlisting = $paidlistingQuery->get();
 
+
+        $topadvertisments = Advertisment::where('status', 1)
+            ->where('sub_type', 'top')
+            ->where('district', $location)
+            ->get();
+
         $this->viewData['vendoruser'] = $vendoruser;
         $this->viewData['category'] = $category;
         $this->viewData['district'] = $district;
@@ -248,6 +259,7 @@ class HomeController extends Controller
         $this->viewData['districthome'] = $districthome;
         $this->viewData['paidlisting'] = $paidlisting;
         $this->viewData['selectedCityId'] = $selectedCityId;
+        $this->viewData['topadvertisments'] = $topadvertisments;
         
         return view("front.vendordistrict")->with($this->viewData);
     }
@@ -290,23 +302,51 @@ class HomeController extends Controller
         return view("front.vendorlist")->with($this->viewData);
     }
 
-    public function vendorlistByLocationAndCategory($location , $category){
+    public function vendorlistByLocationAndCategory(Request $request, $location , $category){
         // Send view data
         $this->viewData['pageTitle'] = 'Vendor List';
 
-        $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->where('business_category_id', $category)->where('district_id', $location)->paginate(12);
+        $selectedCityId = $request->query('city');
+        $isAllCitySelected = empty($selectedCityId) || (string) $selectedCityId === 'all';
+
+        $vendoruserQuery = User::where('role_id', config('constants.roles.VENDOR.value'))
+            ->where('status', 1)
+            ->where('is_approved', 1)
+            ->where('business_category_id', $category)
+            ->where('district_id', $location);
+
+        if (!$isAllCitySelected) {
+            $vendoruserQuery->where('city_id', $selectedCityId);
+        }
+
+        $vendoruser = $vendoruserQuery->paginate(12);
         
         $categories = Category::where('status', 1)->whereNull('parent_id')->get();
 
         $topadvertisments = Advertisment::where('status', 1)
             ->where('sub_type', 'top')
             ->where('category', $category)
+            ->orWhere('district', $location)
             ->get();
 
-        $sideadvertisments = Advertisment::where('status', 1)
+        $sideadvertismentsQuery = Advertisment::where('status', 1)
             ->where('sub_type', 'side')
             ->where('category', $category)
-            ->get();
+            ->orWhere('district', $location);
+
+        if (!$isAllCitySelected) {
+            $sideadvertismentsQuery->where(function ($query) use ($selectedCityId) {
+                $query->where('home_city', (string) $selectedCityId)
+                    ->orWhereNull('home_city')
+                    ->orWhere('home_city', '')
+                    ->orWhere('home_city', '0')
+                    ->orWhere('home_city', 0)
+                    ->orWhere('home_city', 'all')
+                    ->orWhere('home_city', 'ALL');
+            });
+        }
+
+        $sideadvertisments = $sideadvertismentsQuery->limit(10)->get();
 
         $districtList = District::where('status', 1)
         ->orderBy('name')
@@ -323,6 +363,7 @@ class HomeController extends Controller
         $this->viewData['sideadvertisments'] = $sideadvertisments;
         $this->viewData['location'] = $location;
         $this->viewData['selectedDistrict'] = $selectedDistrict;
+        $this->viewData['selectedCityId'] = $selectedCityId;
         
 
         

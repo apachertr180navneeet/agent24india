@@ -334,7 +334,7 @@
                     <!-- Pagination -->
                     @if($vendoruser->hasPages())
                         <div class="d-flex justify-content-center mt-5">
-                            {{ $vendoruser->links() }}
+                            {{ $vendoruser->appends(request()->query())->links() }}
                         </div>
                     @endif
 
@@ -393,6 +393,7 @@
         var locationCategoryUrlTemplate = "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION_ID_PLACEHOLDER', 'category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
         var categoryOnlyUrlTemplate = "{{ route('front.vendorlist.category', ['category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
         var cityApiTemplate = "{{ route('get.cities', ['district' => 'DISTRICT_ID_PLACEHOLDER']) }}";
+        var currentCategoryId = "{{ request()->route('category') ?? '' }}";
         var $citySearch = $('#city_search');
         var $categorySearch = $('#category');
 
@@ -492,7 +493,13 @@
                 return;
             }
 
-            var redirectUrl = listUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId) + '?city=' + encodeURIComponent(cityId);
+            var redirectUrl = currentCategoryId
+                ? locationCategoryUrlTemplate
+                    .replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId)
+                    .replace('CATEGORY_ID_PLACEHOLDER', currentCategoryId)
+                : listUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId);
+
+            redirectUrl += '?city=' + encodeURIComponent(cityId);
             window.location.href = redirectUrl;
         });
 

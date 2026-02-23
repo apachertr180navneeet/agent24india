@@ -2,184 +2,245 @@
 @section('title', $pageTitle)
 
 @push('styles')
-<!-- Select2 css-->
-<link href="{{ asset('public/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('public/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
 <link href="{{ asset('public/plugins/dropify/dropify.css') }}" rel="stylesheet">
 <link href="{{ asset('public/plugins/flatpickr/flatpickr.min.css') }}" rel="stylesheet">
 
 <style>
-    .bootstrap-select.btn-group > .dropdown-toggle{
-        padding: 8px 10px !important;
-    }
+.bootstrap-select.btn-group > .dropdown-toggle{
+    padding: 8px 10px !important;
+}
 </style>
 @endpush
 
 @section('content')
 <section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <!-- left column -->
-            <div class="col-md-12">
-                <!-- general form elements -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Edit</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <form role="form" action="{{ route('admin.advertisment.update', ['id' => $advertismentdata->id]) }}" method="post" id="edit-form" enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" name="id" id="id" value="{{ $advertismentdata->id }}">
-                        <!-- Card body -->
-                            <div class="card-body">
-                                <!-- Start Date and Name Row -->
-                                <div class="row row-sm">
-                                    <div class="col-md-6 col-lg-6 col-xl-6">
-                                        <div class="form-group">
-                                            <label class="">Start Date</label>
-                                            <input type="date" class="form-control flatpickr-date" id="start_date" name="start_date" value="{{ old('start_date', $advertismentdata->start_date) }}" placeholder="DD/MM/YYYY"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 col-xl-6">
-                                        <div class="form-group">
-                                            <label class="">Business name</label>
-                                            <select class="form-control select-picker" id="vendor_user_id" name="vendor_user_id">
-                                                <option value="">-Select-</option>
-                                                @if(isset($vendoruser) && count($vendoruser) > 0)
-                                                    @foreach($vendoruser as $key => $value)
-                                                        <option value="{{$value->id}}" {{ old('vendor_user_id', $advertismentdata->bussines_name) == $value->id ? 'selected' : '' }}>{{$value->name}}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+<div class="container-fluid">
+<div class="row">
+<div class="col-md-12">
 
-                                <!-- Type and District Row -->
-                                <div class="row row-sm">
-                                    <div class="col-md-6 col-lg-6 col-xl-6">
-                                        <div class="form-group">
-                                            <label class="">Type</label>
-                                            <select class="form-control select-picker" id="type" name="type">
-                                                <option value="">-Select-</option>
-                                                <option value="listing_page" {{ old('type', $advertismentdata->type) == 'listing_page' ? 'selected' : '' }}>Listing Page</option>
-                                                <option value="district_page" {{ old('type', $advertismentdata->type) == 'district_page' ? 'selected' : '' }}>Dist. Page</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 col-xl-6">
-                                        <div class="form-group">
-                                            <label class="">District</label>
-                                            <select class="form-control select-picker" id="district" name="district">
-                                                <option value="">-Select-</option>
-                                                @if(isset($districts) && count($districts) > 0)
-                                                    @foreach($districts as $key => $value)
-                                                        <option value="{{$value->id}}" {{ old('district', $advertismentdata->district) == $value->id ? 'selected' : '' }}>{{$value->name}}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+<div class="card">
+<div class="card-header">
+    <h3 class="card-title">Edit Advertisement</h3>
+</div>
 
-                                <!-- Category and Home City Row -->
-                                <div class="row row-sm">
-                                    <div class="col-md-6 col-lg-6 col-xl-6">
-                                        <div class="form-group">
-                                            <label class="">Category</label>
-                                            <select class="form-control" id="category" name="category">
-                                                <option value="">-Select-</option>
-                                                @if(isset($parentCategories) && count($parentCategories) > 0)
-                                                    @foreach($parentCategories as $key => $value)
-                                                        <option value="{{$value->id}}" {{ old('category', $advertismentdata->category) == $value->id ? 'selected' : '' }}>{{$value->name}}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 col-xl-6">
-                                        <div class="form-group">
-                                            <label class="">Home City</label>
-                                            <input type="text" class="form-control" id="home_city" name="home_city" value="{{ old('home_city', $advertismentdata->home_city) }}" placeholder="Enter Home City"/>
-                                        </div>
-                                    </div>
-                                </div>
+<form action="{{ route('admin.advertisment.update', $advertismentdata->id) }}"
+      method="POST"
+      enctype="multipart/form-data">
 
-                                <!-- Image and Image ALT Row -->
-                                <div class="row row-sm">
-                                    <div class="col-md-6 col-lg-6 col-xl-6">
-                                        @php
-                                            $image = '';
-                                            if(isset($advertismentdata->image) && !empty($advertismentdata->image))
-                                            {
-                                                $image = $advertismentdata->image;
-                                            }
-                                        @endphp
-                                        <div class="form-group">
-                                            <label class="">Image 
-                                                @if(!empty($image))
-                                                    <!-- <span>
-                                                        <a href="{{$image}}" download><i class="fa fa-download"></i></a>
-                                                    </span> -->
-                                                @endif
-                                            </label>
-                                            <input type="file" class="form-control image-preview" id="image" name="image" data-show-remove="false" data-default-file="{{$image}}"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 col-xl-6">
-                                        <div class="form-group">
-                                            <label class="">Image ALT</label>
-                                            <input type="text" class="form-control" id="image_alt" name="image_alt" value="{{ old('image_alt', $advertismentdata->image_alt) }}" placeholder="Enter Image ALT"/>
-                                        </div>
-                                    </div>
-                                </div>
+@csrf
+<input type="hidden" name="id" value="{{ $advertismentdata->id }}">
 
-                                <!-- Sub Type and Expiry Date Row -->
-                                <div class="row row-sm">
-                                    <div class="col-md-6 col-lg-6 col-xl-6">
-                                        <div class="form-group">
-                                            <label class="">Sub Type</label>
-                                            <select class="form-control select-picker" id="sub_type" name="sub_type">
-                                                <option value="">-Select-</option>
-                                                <option value="top" {{ old('sub_type', $advertismentdata->sub_type) == 'top' ? 'selected' : '' }}>Top</option>
-                                                <option value="side" {{ old('sub_type', $advertismentdata->sub_type) == 'side' ? 'selected' : '' }}>Side</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 col-xl-6">
-                                        <div class="form-group">
-                                            <label class="">Expiry Date</label>
-                                            <input type="date" class="form-control flatpickr-date" id="expiry_date" name="expiry_date" value="{{ old('expiry_date', $advertismentdata->expiry_date) }}" placeholder="DD/MM/YYYY"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.card-body -->
-                            <!-- Card footer -->
-                            <div class="card-footer">
-                                <div class="row row-sm">
-                                    <div class="col-md-12 col-lg-12 col-xl-12 text-right">
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.Card footer -->
-                    </form>
-                </div>
-                <!-- /.card -->
-            </div>
-            <!--/.col (left) -->
+<div class="card-body">
+
+{{-- START DATE + BUSINESS --}}
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Start Date</label>
+            <input type="date"
+                   name="start_date"
+                   class="form-control"
+                   value="{{ old('start_date', $advertismentdata->start_date) }}">
         </div>
     </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Business Name</label>
+            <select name="vendor_user_id" class="form-control">
+                <option value="">-Select-</option>
+                @foreach($vendoruser as $value)
+                    <option value="{{ $value->id }}"
+                        {{ old('vendor_user_id', $advertismentdata->bussines_name) == $value->id ? 'selected' : '' }}>
+                        {{ $value->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</div>
+
+{{-- TYPE RADIO --}}
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Type</label>
+            <div class="mt-2">
+
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio"
+                           id="type_category"
+                           name="type"
+                           value="listing_page"
+                           class="custom-control-input"
+                           {{ old('type', $advertismentdata->type) == 'listing_page' ? 'checked' : '' }}>
+                    <label class="custom-control-label" for="type_category">Category</label>
+                </div>
+
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio"
+                           id="type_district"
+                           name="type"
+                           value="district_page"
+                           class="custom-control-input"
+                           {{ old('type', $advertismentdata->type) == 'district_page' ? 'checked' : '' }}>
+                    <label class="custom-control-label" for="type_district">District</label>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    {{-- DISTRICT --}}
+    <div class="col-md-6" id="district-col">
+        <div class="form-group">
+            <label>District</label>
+            <select name="district" id="district" class="form-control">
+                <option value="">-Select-</option>
+                @foreach($districts as $value)
+                    <option value="{{ $value->id }}"
+                        {{ old('district', $advertismentdata->district) == $value->id ? 'selected' : '' }}>
+                        {{ $value->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</div>
+
+{{-- CATEGORY + HOME CITY --}}
+<div class="row">
+    <div class="col-md-6" id="category-col">
+        <div class="form-group">
+            <label>Category</label>
+            <select name="category" id="category" class="form-control">
+                <option value="">-Select-</option>
+                @foreach($parentCategories as $value)
+                    <option value="{{ $value->id }}"
+                        {{ old('category', $advertismentdata->category) == $value->id ? 'selected' : '' }}>
+                        {{ $value->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Home City</label>
+            <input type="text"
+                   name="home_city"
+                   class="form-control"
+                   value="{{ old('home_city', $advertismentdata->home_city) }}">
+        </div>
+    </div>
+</div>
+
+{{-- IMAGE PREVIEW --}}
+@php
+    $image = '';
+    if(!empty($advertismentdata->image)){
+        $image = $advertismentdata->image;
+    }
+@endphp
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Image</label>
+            <input type="file"
+                   name="image"
+                   class="dropify"
+                   data-default-file="{{ $image }}">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Image ALT</label>
+            <input type="text"
+                   name="image_alt"
+                   class="form-control"
+                   value="{{ old('image_alt', $advertismentdata->image_alt) }}">
+        </div>
+    </div>
+</div>
+
+{{-- SUB TYPE + EXPIRY --}}
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Sub Type</label>
+            <select name="sub_type" class="form-control">
+                <option value="">-Select-</option>
+                <option value="top"
+                    {{ old('sub_type', $advertismentdata->sub_type) == 'top' ? 'selected' : '' }}>
+                    Top
+                </option>
+                <option value="side"
+                    {{ old('sub_type', $advertismentdata->sub_type) == 'side' ? 'selected' : '' }}>
+                    Side
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Expiry Date</label>
+            <input type="date"
+                   name="expiry_date"
+                   class="form-control"
+                   value="{{ old('expiry_date', $advertismentdata->expiry_date) }}">
+        </div>
+    </div>
+</div>
+
+</div>
+
+<div class="card-footer text-right">
+    <button type="submit" class="btn btn-primary">Update</button>
+</div>
+
+</form>
+</div>
+
+</div>
+</div>
+</div>
 </section>
 @endsection
 
+
 @push('scripts')
+<script src="{{ asset('public/plugins/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('public/plugins/dropify/dropify.min.js') }}"></script>
-<script src="{{ asset('public/plugins/jquery-ui/jquery-ui.js') }}"></script>
-<script src="{{ asset('public/plugins/flatpickr/flatpickr.js') }}"></script>
-<script src="{{ asset('public/js/components.js') }}"></script>
-<script src="{{ asset('public/js/category/edit.js') }}"></script>
+
+<script>
+$(document).ready(function () {
+
+    // Dropify Init
+    $('.dropify').dropify();
+
+    function toggleFields() {
+        let selectedType = $("input[name='type']:checked").val();
+
+        if (selectedType === 'listing_page') {
+            $("#category-col").show();
+            $("#district-col").hide();
+        } else if (selectedType === 'district_page') {
+            $("#district-col").show();
+            $("#category-col").hide();
+        }
+    }
+
+    toggleFields();
+
+    $("input[name='type']").change(function () {
+        toggleFields();
+    });
+
+});
+</script>
 @endpush

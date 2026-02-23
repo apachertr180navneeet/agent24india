@@ -448,7 +448,9 @@
 </script>
 <script>
     $(document).ready(function () {
-        var selectedDistrictId = null;
+        var selectedDistrictId = localStorage.getItem('selectedDistrictId') || null;
+        var selectedCityId = localStorage.getItem('selectedCityId') || '';
+        var selectedDistrictName = localStorage.getItem('selectedDistrictName') || '';
         var selectedCategoryId = '';
         var listUrlTemplate = "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
         var locationCategoryUrlTemplate = "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION_ID_PLACEHOLDER', 'category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
@@ -457,6 +459,19 @@
         var $categorySearch = $('#category');
         var $categoryDistrict = $('#category_district_id');
         var $categoryCity = $('#category_city_id');
+
+        function persistSelection(districtId, districtName, cityId) {
+            if (districtId) {
+                localStorage.setItem('selectedDistrictId', String(districtId));
+                localStorage.setItem('selectedDistrictName', districtName || '');
+            }
+
+            if (cityId) {
+                localStorage.setItem('selectedCityId', String(cityId));
+            } else {
+                localStorage.removeItem('selectedCityId');
+            }
+        }
 
         $citySearch.select2({
             placeholder: 'Select city',
@@ -478,7 +493,7 @@
             $citySearch.html('<option value="">Select city</option>').trigger('change.select2');
         }
 
-        function loadCitiesByDistrict(districtId) {
+        function loadCitiesByDistrict(districtId, preselectedCity) {
             resetCityDropdown();
             if (!districtId) {
                 return;
@@ -497,7 +512,13 @@
                     options += '<option value="" disabled>No city found</option>';
                 }
 
-                $citySearch.html(options).trigger('change.select2');
+                $citySearch.html(options);
+
+                if (preselectedCity) {
+                    $citySearch.val(String(preselectedCity));
+                }
+
+                $citySearch.trigger('change.select2');
             }).fail(function () {
                 resetCityDropdown();
             });
@@ -505,8 +526,11 @@
 
         function selectDistrict($item) {
             $('#location_search').val($item.text().trim());
-            selectedDistrictId = $item.data('id');
-            loadCitiesByDistrict(selectedDistrictId);
+            selectedDistrictId = String($item.data('id'));
+            selectedDistrictName = $item.text().trim();
+            selectedCityId = '';
+            persistSelection(selectedDistrictId, selectedDistrictName, '');
+            loadCitiesByDistrict(selectedDistrictId, '');
             $('#searchResults').hide();
         }
 
@@ -551,11 +575,13 @@
         // Redirect when city changes
         $citySearch.on('change', function () {
             var cityId = $(this).val();
+            selectedCityId = cityId || '';
 
             if (!selectedDistrictId || !cityId) {
                 return;
             }
 
+            persistSelection(selectedDistrictId, $('#location_search').val().trim(), selectedCityId);
             var redirectUrl = listUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId) + '?city=' + cityId;
             window.location.href = redirectUrl;
         });
@@ -602,8 +628,9 @@
             e.preventDefault();
             selectedCategoryId = $(this).data('category-id');
             var currentDistrict = selectedDistrictId || '';
+            var currentCity = selectedCityId || $citySearch.val() || '';
             $categoryDistrict.val(currentDistrict);
-            loadModalCitiesByDistrict(currentDistrict, $citySearch.val() || '');
+            loadModalCitiesByDistrict(currentDistrict, currentCity);
             $('#categoryDistrictModal').modal('show');
         });
 
@@ -633,8 +660,15 @@
                 redirectUrl += '?city=' + encodeURIComponent(cityId);
             }
 
+            var districtName = $categoryDistrict.find('option:selected').text();
+            persistSelection(districtId, districtName, cityId);
             window.location.href = redirectUrl;
         });
+
+        if (selectedDistrictId) {
+            $('#location_search').val(selectedDistrictName);
+            loadCitiesByDistrict(selectedDistrictId, selectedCityId);
+        }
 
     });
 </script>

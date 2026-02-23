@@ -1,8 +1,10 @@
 @php
     $cmsModel = new \App\Models\Cms();
+    $districtModel = new \App\Models\District();
     $privacy = $cmsModel->where('id', 3)->first();
     $trem = $cmsModel->where('id', 2)->first();
     $about = $cmsModel->where('id', 1)->first();
+    $districtList = $districtModel->select('id', 'name')->where('status', 1)->orderBy('name')->get();
 @endphp
 <header class="header">
   <div class="header-inner">
@@ -17,6 +19,7 @@
     <!-- CENTER : Menu -->
     <ul class="main-menu">
       <li><a href="{{route('front.index')}}">Home</a></li>
+      <li><a href="javascript:void(0)" class="js-open-district-city-popup">Category</a></li>
       <li>
         @if(\Auth::check())
           <a href="{{ route('front.addListing') }}">Free Listing</a>
@@ -76,6 +79,7 @@
     </h4>
     <ul>
         <li><a href="{{route('front.index')}}">Home</a></li>
+        <li><a href="javascript:void(0)" class="js-open-district-city-popup">Category</a></li>
         {{--  <li><a href="{{route('front.vendorlist')}}">Vendor List</a></li>  --}}
         @if(\Auth::check())
         <li><a href="{{route('front.profile')}}">My Profile</a></li>
@@ -102,3 +106,111 @@
         @endif  --}}
     </ul>
 </div>
+
+<div class="modal fade" id="districtCityModal" tabindex="-1" role="dialog" aria-labelledby="districtCityModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="districtCityModalLabel">Select District And City</h5>
+            </div>
+            <div class="modal-body">
+                <select id="header_district_id" class="form-control">
+                    <option value="">Choose district</option>
+                    @foreach($districtList as $district)
+                        <option value="{{ $district->id }}">{{ $district->name }}</option>
+                    @endforeach
+                </select>
+                <select id="header_city_id" class="form-control mt-3">
+                    <option value="">Choose city</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="goToListingByLocation">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+    $(document).ready(function () {
+        var cityApiTemplate = "{{ route('get.cities', ['district' => 'DISTRICT_ID_PLACEHOLDER']) }}";
+        var locationUrlTemplate = "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
+        var $district = $('#header_district_id');
+        var $city = $('#header_city_id');
+
+        function resetCityDropdown() {
+            $city.html('<option value="">Choose city</option>');
+        }
+
+        function loadCitiesByDistrict(districtId, preselectedCityId) {
+            resetCityDropdown();
+            if (!districtId) {
+                return;
+            }
+
+            var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
+
+            $.get(cityApiUrl, function (cities) {
+                var options = '<option value="">Choose city</option><option value="all">All City</option>';
+
+                if (Array.isArray(cities) && cities.length) {
+                    cities.forEach(function (city) {
+                        options += '<option value="' + city.id + '">' + city.name + '</option>';
+                    });
+                }
+
+                $city.html(options);
+
+                if (preselectedCityId) {
+                    $city.val(String(preselectedCityId));
+                }
+            }).fail(function () {
+                resetCityDropdown();
+            });
+        }
+
+        $(document).on('click', '.js-open-district-city-popup', function (e) {
+            e.preventDefault();
+
+            var selectedDistrictId = localStorage.getItem('selectedDistrictId') || '';
+            var selectedCityId = localStorage.getItem('selectedCityId') || '';
+
+            $district.val(selectedDistrictId);
+            loadCitiesByDistrict(selectedDistrictId, selectedCityId);
+
+            $('#districtCityModal').modal('show');
+        });
+
+        $district.on('change', function () {
+            loadCitiesByDistrict($(this).val(), '');
+        });
+
+        $('#goToListingByLocation').on('click', function () {
+            var districtId = $district.val();
+            var cityId = $city.val();
+
+            if (!districtId) {
+                alert('Please select district');
+                return;
+            }
+
+            localStorage.setItem('selectedDistrictId', String(districtId));
+            localStorage.setItem('selectedDistrictName', $district.find('option:selected').text());
+
+            if (cityId) {
+                localStorage.setItem('selectedCityId', String(cityId));
+            } else {
+                localStorage.removeItem('selectedCityId');
+            }
+
+            var redirectUrl = locationUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', districtId);
+            if (cityId) {
+                redirectUrl += '?city=' + encodeURIComponent(cityId);
+            }
+
+            window.location.href = redirectUrl;
+        });
+    });
+</script>
+@endpush

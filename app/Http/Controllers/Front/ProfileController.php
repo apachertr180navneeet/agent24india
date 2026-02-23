@@ -153,78 +153,87 @@ class ProfileController extends Controller
         return view("front.add-listing")->with($this->viewData);
     }
 
-    public function storeListing(Request $request){
+    public function storeListing(Request $request)
+    {
         $user = Auth::user();
-        $status = false;
-        $message = "Oops! Some error occurred, listing cannot be saved.";
-        $data = null;
-
-        $request = $request->all();
 
         DB::beginTransaction();
-        try{
-            if ($request['type'] === 'free') {
-                
-                // 🧹 Clear OTP session
+        try {
+
+            // 🔍 Check Existing Listing
+            $existingListing = PaidListing::where('bussines_id', $user->id)
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+            /* ================= FREE LISTING ================= */
+            if ($request->type === 'free') {
+
+                // Agar already free listing exist karti hai
+                if ($existingListing && $existingListing->paid_type == 'free') {
+                    return redirect()->back()
+                        ->with('error', 'Free listing already exists.');
+                }
+
+                // Clear OTP Session
                 session()->forget([
                     'email_otp',
                     'email_otp_email',
                     'email_otp_expire',
                     'email_otp_verified'
                 ]);
+
                 PaidListing::create([
                     'bussines_id' => $user->id,
-                    'home_city' => isset($request['home_city']) ? $request['home_city'] : null,
-                    'phone' => isset($request['phone']) ? $request['phone'] : null,
-                    'email' => isset($request['email']) ? $request['email'] : null,
-                    'name' => isset($request['name']) ? $request['name'] : null,
-                    'type' => '1',
-                    'paid_type' => 'free',
+                    'home_city'   => $request->home_city ?? null,
+                    'phone'       => $request->phone ?? null,
+                    'email'       => $request->email ?? null,
+                    'name'        => $request->name ?? null,
+                    'type'        => '1',
+                    'paid_type'   => 'free',
                 ]);
 
-                $bissunessupdate = User::findOrFail($user->id);
+                $user->update(['vendor_type' => 'free']);
+            }
 
-                // Update fields
-                $bissunessupdate->vendor_type = 'free';
-                $bissunessupdate->save();
+            /* ================= PAID LISTING ================= */
+            elseif ($request->type === 'paid') {
 
-            }elseif($request['type'] === 'paid'){
-                $districtIds = implode(',', $request['district_ids']);
+                if ($existingListing && $existingListing->paid_type == 'paid') {
+
+                    $createdDate = Carbon::parse($existingListing->created_at);
+                    $expiryDate  = $createdDate->copy()->addMonth();
+
+                    // Agar 1 month complete nahi hua
+                    if (Carbon::now()->lt($expiryDate)) {
+                        return redirect()->back()
+                            ->with('error', 'Paid listing already exists and is still active.');
+                    }
+                }
+
+                $districtIds = isset($request->district_ids)
+                    ? implode(',', $request->district_ids)
+                    : null;
+
                 PaidListing::create([
                     'bussines_id' => $user->id,
-                    'paid_type' => isset($request['type']) ? $request['type'] : null,
-                    'type' => isset($request['district_type']) ? $request['district_type'] : null,
-                    'district' => isset($districtIds) ? $districtIds : null,
-                    'amount' => isset($request['price']) ? $request['price'] : null,
-                    'name' => isset($request['name']) ? $request['name'] : null,
+                    'paid_type'   => 'paid',
+                    'type'        => $request->district_type ?? null,
+                    'district'    => $districtIds,
+                    'amount'      => $request->price ?? null,
+                    'name'        => $request->name ?? null,
                 ]);
 
-
-                $bissunessupdate = User::findOrFail($user->id);
-
-                // Update fields
-                $bissunessupdate->vendor_type = 'paid';
-                $bissunessupdate->save();
+                $user->update(['vendor_type' => 'paid']);
             }
 
             DB::commit();
 
-            $status = true;
-            $message = "Listing saved successfully.";
-            
             return redirect()->back()->with('success', 'Listing created successfully.');
-            
-        }
-        catch(\Exception $e){
-            dd($e);
-        }
 
-        $response = [
-            'status' => $status,
-            'message' => $message,
-            'data' => $data
-        ];
-        return response()->json($response);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
 
@@ -243,16 +252,24 @@ class ProfileController extends Controller
         Session::put('email_otp_expire', Carbon::now()->addMinutes(5));
 
         try {
-            Mail::send('emails.otp', ['otp' => $otp], function ($message) use ($request) {
-                $message->to($request->email)
-                        ->subject('Your OTP Verification Code');
-            });
+            // Mail::send('emails.otp', ['otp' => $otp], function ($message) use ($request) {
+            //     $message->to($request->email)
+            //             ->subject('Your OTP Verification Code');
+            // });
 
-            return response()->json([
-                'status' => true,
-                'message' => 'OTP sent successfully'
-            ]);
+            $to = "navneetgehlot03061993@gmail.com";
+            $subject = "Your OTP Verification Code";
+            $message = "Hello,\n\nYour OTP is: {$otp}\nThis OTP is valid for 5 minutes.\n\nThank You!";
+            $headers = "From: info@agent24india.com";
+
+            if(mail($to, $subject, $message, $headers)){
+                return response()->json([
+                    'status' => true,
+                    'message' => 'OTP sent successfully'
+                ]);
+            }
         } catch (\Throwable $e) {
+            dd($e->getMessage());
             Log::error('Failed to send OTP email', [
                 'email' => $request->email,
                 'error' => $e->getMessage(),

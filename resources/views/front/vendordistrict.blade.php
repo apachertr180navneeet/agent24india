@@ -273,7 +273,7 @@
                 <div class="vendorlist col-lg-9">
                     <div class="categories-grid">
                         @foreach($category as $key => $value)
-                            <a href="{{ route('front.vendorlist.location.category', ['location' => $selectedDistrict->id ?? '', 'category' => $value->id]) }}" class="category-link">
+                            <a href="{{ route('front.vendorlist.location.category', ['location' => $selectedDistrict->id ?? '', 'category' => $value->id]) }}{{ !empty($selectedCityId) ? '?city=' . urlencode($selectedCityId) : '' }}" class="category-link">
                                 <div class="category-card">
                                     <img src="{{ $value->image }}" alt="{{ $value->name }}">
                                     <span>{{ $value->name }}</span>
@@ -440,6 +440,7 @@
         var locationCategoryUrl = "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION_ID_PLACEHOLDER', 'category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
         var categoryOnlyUrl = "{{ route('front.vendorlist.category', ['category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
         var cityApiTemplate = "{{ route('get.cities', ['district' => 'DISTRICT_ID_PLACEHOLDER']) }}";
+        var currentCategoryId = "{{ request()->route('category') ?? '' }}";
         var $citySearch = $('#city_search');
         var $categorySearch = $('#category');
 
@@ -539,7 +540,13 @@
                 return;
             }
 
-            var redirectUrl = listUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId) + '?city=' + encodeURIComponent(cityId);
+            var redirectUrl = currentCategoryId
+                ? locationCategoryUrl
+                    .replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId)
+                    .replace('CATEGORY_ID_PLACEHOLDER', currentCategoryId)
+                : listUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId);
+
+            redirectUrl += '?city=' + encodeURIComponent(cityId);
             window.location.href = redirectUrl;
         });
 
