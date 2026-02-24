@@ -35,6 +35,14 @@
         max-width: 100% !important;
     }
 
+    span#select2-category_district_id-container {
+        padding-right: 104px;
+    }
+
+    span#select2-category_city_id-container {
+        padding-right: 91px;
+    }
+
     #city_search + .select2,
     #city_search + .select2-container {
         width: 100% !important;
@@ -113,9 +121,14 @@
     }
 
     @media (max-width: 991.98px) {
+        .location-selector-row {
+            display: flex;
+            flex-wrap: nowrap;
+        }
+
         .location-selector-row > div {
-            flex: 0 0 100%;
-            max-width: 100%;
+            flex: 0 0 50%;
+            max-width: 50%;
         }
     }
     /* Category Section */
@@ -128,6 +141,10 @@
         display: grid;
         grid-template-columns: repeat(6, 1fr); /* 6 per row */
         gap: 20px;
+    }
+
+    .row.location-selector-row {
+        margin-top: 5px;
     }
 
     /* Card style */
@@ -202,7 +219,7 @@
                         <input type="text" 
                             id="location_search" 
                             class="form-control"
-                            placeholder="Search or choose district"
+                            placeholder="Search district"
                             autocomplete="off">
 
                         <div id="searchResults" class="search-results">
@@ -217,13 +234,13 @@
 
                     </div>
                 </div>
-                <div class="col-lg-6 p-0 mt-2 mt-lg-0">
+                <div class="col-lg-6 p-0">
                     <div class="search-input" style="border: 1px solid #000000;border-radius: 4px;height: 57px;margin: 2px 7px;width: 96%;">
                         {{--  <label for="city_search">
                             <i class="lni lni-map theme-color"></i>
                         </label>  --}}
                         <select id="city_search" class="form-control">
-                            <option value="">Select city</option>
+                            <option value="">Search city</option>
                         </select>
                     </div>
                 </div>
@@ -294,15 +311,21 @@
                     <h5 class="modal-title" id="categoryDistrictModalLabel">Select District And City</h5>
                 </div>
                 <div class="modal-body">
-                    <select id="category_district_id" class="form-control">
-                        <option value="">Choose district</option>
-                        @foreach($districtList as $district)
-                            <option value="{{ $district->id }}">{{ $district->name }}</option>
-                        @endforeach
-                    </select>
-                    <select id="category_city_id" class="form-control mt-3">
-                        <option value="">Choose city</option>
-                    </select>
+                    <div class="row">
+                        <div class="col-6">
+                            <select id="category_district_id" class="form-control">
+                                <option value="">Choose district</option>
+                                @foreach($districtList as $district)
+                                    <option value="{{ $district->id }}">{{ $district->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <select id="category_city_id" class="form-control">
+                                <option value="">Choose city</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="goToCategoryListing">Continue</button>
@@ -491,6 +514,18 @@
             allowClear: false,
             width: '100%'
         });
+        $categoryDistrict.select2({
+            placeholder: 'Choose district',
+            allowClear: true,
+            width: '92%',
+            dropdownParent: $('#categoryDistrictModal')
+        });
+        $categoryCity.select2({
+            placeholder: 'Choose city',
+            allowClear: true,
+            width: '77%',
+            dropdownParent: $('#categoryDistrictModal')
+        });
         $citySearch.next('.select2-container').css({
             width: '100%',
             minWidth: '100%',
@@ -634,7 +669,7 @@
         });
 
         function resetModalCityDropdown() {
-            $categoryCity.html('<option value="">Choose city</option>');
+            $categoryCity.html('<option value="">Choose city</option>').trigger('change.select2');
         }
 
         function redirectToCategoryListing(categoryId, districtId, cityId) {
@@ -671,6 +706,7 @@
                 if (preselectedCity) {
                     $categoryCity.val(String(preselectedCity));
                 }
+                $categoryCity.trigger('change.select2');
             }).fail(function () {
                 resetModalCityDropdown();
             });
@@ -690,6 +726,7 @@
 
             $categoryDistrict.val('');
             resetModalCityDropdown();
+            $categoryDistrict.trigger('change.select2');
             $('#categoryDistrictModal').modal('show');
         });
 
@@ -742,6 +779,7 @@
 
             $categoryDistrict.val('');
             resetModalCityDropdown();
+            $categoryDistrict.trigger('change.select2');
             $('#categoryDistrictModal').modal('show');
         });
 

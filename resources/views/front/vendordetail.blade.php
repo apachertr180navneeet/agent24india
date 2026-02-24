@@ -32,7 +32,7 @@
 
                 <div class="contact-actions col-lg-12 col-12 mt-3">
                     <a href="tel:{{ $vendoruser->mobile }}" class="call-btn"> <i class="lni lni-phone"></i>Call Now </a>
-                    <a href="mailto:{{ $vendoruser->email }}" class="whatsapp">
+                    <a href="https://wa.me/{{ $vendoruser->mobile ?? '' }}" class="whatsapp">
                         <i class="lni lni-whatsapp"></i>WhatsApp
                     </a>
                     <a href="mailto:{{ $vendoruser->email }}" class="call-btn">
@@ -40,7 +40,7 @@
                     </a>
                 </div>
             </div>
-            <p class="item-position"><i class="lni lni-bolt"></i> Premium</p>
+            {{--  <p class="item-position"><i class="lni lni-bolt"></i> Premium</p>  --}}
         </div>
     </div>
     <div class="features-box">

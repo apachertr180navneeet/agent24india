@@ -113,9 +113,14 @@
     }
 
     @media (max-width: 991.98px) {
+        .location-selector-row {
+            display: flex;
+            flex-wrap: nowrap;
+        }
+
         .location-selector-row > div {
-            flex: 0 0 100%;
-            max-width: 100%;
+            flex: 0 0 50%;
+            max-width: 50%;
         }
     }
     /* Category Section */
@@ -133,6 +138,10 @@
     /* Card style */
     .category-link {
         text-decoration: none;
+    }
+
+    .row.location-selector-row {
+        margin-top: 5px;
     }
 
     .category-card {
@@ -203,7 +212,7 @@
                     <input type="text"
                         id="location_search"
                         class="form-control"
-                        placeholder="Search or choose district"
+                        placeholder="Search district"
                         autocomplete="off"
                         value="{{ $selectedDistrict ? $selectedDistrict->name : '' }}">
 
@@ -225,12 +234,12 @@
                 </div>
 
             </div>
-            <div class="col-lg-6 p-0 mt-2 mt-lg-0">
-                <div class="search-input" style="border: 1px solid #000000;border-radius: 15px;">
+            <div class="col-lg-6 p-0">
+                <div class="search-input" style="border: 1px solid #000000;border-radius: 4px;height: 57px;margin: 2px 7px;width: 96%;">
                     <label for="city_search">
                     </label>
-                    <select id="city_search" class="form-control" style="border: 1px solid #000000;border-radius: 15px;">
-                        <option value="">Select city</option>
+                    <select id="city_search" class="form-control">
+                        <option value="">Search city</option>
                     </select>
                 </div>
             </div>
@@ -256,7 +265,7 @@
     <div class="search-form wow " >
         <div class="row">
             <div class="col-lg-12 col-md-12 col-12 p-0">
-                <div class="search-input" style="border: 1px solid #000000;border-radius: 15px;">
+                <div class="search-input" style="border: 1px solid #000000;border-radius: 4px;height: 57px;margin: 2px 7px;width: 96%;">
                     <label for="category"></label>
                     <select name="category" id="category">
                         <option value="none">Choose Categories</option>
@@ -304,10 +313,10 @@
                                 <!-- Desktop Actions -->
                                 <div class="row desktop">
                                     <div class="contact-actions col-12 mt-3">
-                                        <a href="tel:{{ $vendor->phone ?? '0000000000' }}" class="call-btn">
+                                        <a href="tel:{{ $vendor->mobile ?? '0000000000' }}" class="call-btn">
                                             <i class="lni lni-phone"></i> Call Now
                                         </a>
-                                        <a href="https://wa.me/{{ $vendor->phone ?? '' }}" class="whatsapp">
+                                        <a href="https://wa.me/{{ $vendor->mobile ?? '' }}" class="whatsapp">
                                             <i class="lni lni-whatsapp"></i> WhatsApp
                                         </a>
                                         <a href="mailto:{{ $vendor->email ?? 'info@example.com' }}" class="call-btn">
