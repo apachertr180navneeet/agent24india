@@ -568,16 +568,14 @@
                 return;
             }
 
-            var locationId = selectedDistrictId || "{{ $selectedDistrict->id ?? '' }}";
-            var redirectUrl = locationId
+            var redirectUrl = selectedDistrictId
                 ? locationCategoryUrl
-                    .replace('LOCATION_ID_PLACEHOLDER', locationId)
+                    .replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId)
                     .replace('CATEGORY_ID_PLACEHOLDER', categoryId)
                 : categoryOnlyUrl.replace('CATEGORY_ID_PLACEHOLDER', categoryId);
 
-            var cityId = $citySearch.val();
-            if (cityId) {
-                redirectUrl += '?city=' + encodeURIComponent(cityId);
+            if (selectedDistrictId && selectedCityId) {
+                redirectUrl += '?city=' + encodeURIComponent(selectedCityId);
             }
 
             window.location.href = redirectUrl;

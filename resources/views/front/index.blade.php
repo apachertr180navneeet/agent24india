@@ -218,7 +218,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 p-0 mt-2 mt-lg-0">
-                    <div class="search-input" style="border: 1px solid #000000;border-radius: 15px;">
+                    <div class="search-input" style="border: 1px solid #000000;border-radius: 4px;height: 57px;margin: 2px 7px;width: 96%;">
                         {{--  <label for="city_search">
                             <i class="lni lni-map theme-color"></i>
                         </label>  --}}
@@ -251,7 +251,7 @@
         <div class="search-form wow " >
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-12 p-0">
-                    <div class="search-input" style="border: 1px solid #000000;border-radius: 15px;">
+                    <div class="search-input" style="border: 1px solid #000000;border-radius: 4px;height: 57px;margin: 2px 7px;width: 96%;">
                         {{--  <label for="category"><i class="lni lni-grid-alt theme-color"></i></label>  --}}
                         <select name="category" id="category">
                             <option value="none">Choose Categories</option>
@@ -448,9 +448,9 @@
 </script>
 <script>
     $(document).ready(function () {
-        var selectedDistrictId = localStorage.getItem('selectedDistrictId') || null;
-        var selectedCityId = localStorage.getItem('selectedCityId') || '';
-        var selectedDistrictName = localStorage.getItem('selectedDistrictName') || '';
+        var selectedDistrictId = null;
+        var selectedCityId = '';
+        var selectedDistrictName = '';
         var selectedCategoryId = '';
         var listUrlTemplate = "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
         var locationCategoryUrlTemplate = "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION_ID_PLACEHOLDER', 'category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
@@ -460,16 +460,24 @@
         var $categoryDistrict = $('#category_district_id');
         var $categoryCity = $('#category_city_id');
 
+        function getStoredSelection() {
+            return {
+                districtId: sessionStorage.getItem('selectedDistrictId') || '',
+                districtName: sessionStorage.getItem('selectedDistrictName') || '',
+                cityId: sessionStorage.getItem('selectedCityId') || ''
+            };
+        }
+
         function persistSelection(districtId, districtName, cityId) {
             if (districtId) {
-                localStorage.setItem('selectedDistrictId', String(districtId));
-                localStorage.setItem('selectedDistrictName', districtName || '');
+                sessionStorage.setItem('selectedDistrictId', String(districtId));
+                sessionStorage.setItem('selectedDistrictName', districtName || '');
             }
 
             if (cityId) {
-                localStorage.setItem('selectedCityId', String(cityId));
+                sessionStorage.setItem('selectedCityId', String(cityId));
             } else {
-                localStorage.removeItem('selectedCityId');
+                sessionStorage.removeItem('selectedCityId');
             }
         }
 
@@ -532,6 +540,38 @@
             persistSelection(selectedDistrictId, selectedDistrictName, '');
             loadCitiesByDistrict(selectedDistrictId, '');
             $('#searchResults').hide();
+        }
+
+        function getDistrictNameById(districtId) {
+            var name = '';
+            $('.result-item').each(function () {
+                if (String($(this).data('id')) === String(districtId)) {
+                    name = $(this).text().trim();
+                    return false;
+                }
+            });
+            return name;
+        }
+
+        function initializeFromStoredSelection() {
+            var stored = getStoredSelection();
+            selectedDistrictId = stored.districtId || '';
+            selectedCityId = stored.cityId || '';
+            selectedDistrictName = stored.districtName || '';
+
+            if (!selectedDistrictId) {
+                return;
+            }
+
+            if (!selectedDistrictName) {
+                selectedDistrictName = getDistrictNameById(selectedDistrictId);
+            }
+
+            if (selectedDistrictName) {
+                $('#location_search').val(selectedDistrictName);
+            }
+
+            loadCitiesByDistrict(selectedDistrictId, selectedCityId);
         }
 
         $('#searchResults').hide();
@@ -597,6 +637,18 @@
             $categoryCity.html('<option value="">Choose city</option>');
         }
 
+        function redirectToCategoryListing(categoryId, districtId, cityId) {
+            var redirectUrl = locationCategoryUrlTemplate
+                .replace('LOCATION_ID_PLACEHOLDER', districtId)
+                .replace('CATEGORY_ID_PLACEHOLDER', categoryId);
+
+            if (cityId) {
+                redirectUrl += '?city=' + encodeURIComponent(cityId);
+            }
+
+            window.location.href = redirectUrl;
+        }
+
         function loadModalCitiesByDistrict(districtId, preselectedCity) {
             resetModalCityDropdown();
             if (!districtId) {
@@ -627,10 +679,17 @@
         $(document).on('click', '.js-category-location', function (e) {
             e.preventDefault();
             selectedCategoryId = $(this).data('category-id');
-            var currentDistrict = selectedDistrictId || '';
-            var currentCity = selectedCityId || $citySearch.val() || '';
-            $categoryDistrict.val(currentDistrict);
-            loadModalCitiesByDistrict(currentDistrict, currentCity);
+            var storedSelection = getStoredSelection();
+            var districtId = selectedDistrictId || storedSelection.districtId;
+            var cityId = selectedCityId || storedSelection.cityId;
+
+            if (districtId) {
+                redirectToCategoryListing(selectedCategoryId, districtId, cityId);
+                return;
+            }
+
+            $categoryDistrict.val('');
+            resetModalCityDropdown();
             $('#categoryDistrictModal').modal('show');
         });
 
@@ -665,23 +724,30 @@
             window.location.href = redirectUrl;
         });
 
-        if (selectedDistrictId) {
-            $('#location_search').val(selectedDistrictName);
-            loadCitiesByDistrict(selectedDistrictId, selectedCityId);
-        }
-
-    });
-</script>
-<script>
-    $(document).ready(function () {
         $('#category').on('change', function () {
             var selectedCategory = $(this).val();
-            var selectedLocation = ($('#location_id').val() || $('#location_search').val() || '').trim();
-
-            if (selectedCategory !== 'none' && selectedLocation === '') {
-                alert('Please select location');
+            if (!selectedCategory || selectedCategory === 'none') {
+                return;
             }
+
+            selectedCategoryId = selectedCategory;
+            var storedSelection = getStoredSelection();
+            var districtId = selectedDistrictId || storedSelection.districtId;
+            var cityId = selectedCityId || storedSelection.cityId;
+
+            if (districtId) {
+                redirectToCategoryListing(selectedCategoryId, districtId, cityId);
+                return;
+            }
+
+            $categoryDistrict.val('');
+            resetModalCityDropdown();
+            $('#categoryDistrictModal').modal('show');
         });
+
+        resetCityDropdown();
+        initializeFromStoredSelection();
+
     });
 </script>
 @endpush

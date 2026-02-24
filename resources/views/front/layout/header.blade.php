@@ -139,6 +139,51 @@
         var $district = $('#header_district_id');
         var $city = $('#header_city_id');
 
+        localStorage.removeItem('selectedDistrictId');
+        localStorage.removeItem('selectedDistrictName');
+        localStorage.removeItem('selectedCityId');
+
+        function getSelectionFromUrl() {
+            var path = (window.location.pathname || '').replace(/\/+$/, '');
+            var parts = path.split('/').filter(Boolean);
+            var vendorlistIndex = parts.indexOf('vendorlist');
+            var districtId = '';
+            var cityId = new URLSearchParams(window.location.search).get('city') || '';
+
+            if (vendorlistIndex !== -1 && parts.length > (vendorlistIndex + 1)) {
+                districtId = String(parts[vendorlistIndex + 1]);
+            }
+
+            return {
+                districtId: districtId,
+                cityId: cityId
+            };
+        }
+
+        function syncSelectionFromCurrentUrl() {
+            var selection = getSelectionFromUrl();
+            if (!selection.districtId) {
+                return;
+            }
+
+            var districtName = $district.find('option[value="' + selection.districtId + '"]').text() || '';
+            sessionStorage.setItem('selectedDistrictId', String(selection.districtId));
+            sessionStorage.setItem('selectedDistrictName', districtName);
+
+            if (selection.cityId) {
+                sessionStorage.setItem('selectedCityId', String(selection.cityId));
+            } else {
+                sessionStorage.removeItem('selectedCityId');
+            }
+        }
+
+        function getSelectionFromStorage() {
+            return {
+                districtId: sessionStorage.getItem('selectedDistrictId') || '',
+                cityId: sessionStorage.getItem('selectedCityId') || ''
+            };
+        }
+
         function resetCityDropdown() {
             $city.html('<option value="">Choose city</option>');
         }
@@ -170,15 +215,20 @@
             });
         }
 
+        function prefillModalFromStoredSelection() {
+            var stored = getSelectionFromStorage();
+            $district.val(stored.districtId || '');
+
+            if (stored.districtId) {
+                loadCitiesByDistrict(stored.districtId, stored.cityId || '');
+            } else {
+                resetCityDropdown();
+            }
+        }
+
         $(document).on('click', '.js-open-district-city-popup', function (e) {
             e.preventDefault();
-
-            var selectedDistrictId = localStorage.getItem('selectedDistrictId') || '';
-            var selectedCityId = localStorage.getItem('selectedCityId') || '';
-
-            $district.val(selectedDistrictId);
-            loadCitiesByDistrict(selectedDistrictId, selectedCityId);
-
+            prefillModalFromStoredSelection();
             $('#districtCityModal').modal('show');
         });
 
@@ -195,13 +245,13 @@
                 return;
             }
 
-            localStorage.setItem('selectedDistrictId', String(districtId));
-            localStorage.setItem('selectedDistrictName', $district.find('option:selected').text());
+            sessionStorage.setItem('selectedDistrictId', String(districtId));
+            sessionStorage.setItem('selectedDistrictName', $district.find('option:selected').text());
 
             if (cityId) {
-                localStorage.setItem('selectedCityId', String(cityId));
+                sessionStorage.setItem('selectedCityId', String(cityId));
             } else {
-                localStorage.removeItem('selectedCityId');
+                sessionStorage.removeItem('selectedCityId');
             }
 
             var redirectUrl = locationUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', districtId);
@@ -211,6 +261,8 @@
 
             window.location.href = redirectUrl;
         });
+
+        syncSelectionFromCurrentUrl();
     });
 </script>
 @endpush

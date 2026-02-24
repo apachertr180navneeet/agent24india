@@ -389,13 +389,16 @@
     $(document).ready(function () {
         var selectedDistrictId = "{{ $location ?? '' }}";
         var selectedCityId = "{{ request()->query('city', '') }}";
+        var pendingCategoryId = '';
         var listUrlTemplate = "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
         var locationCategoryUrlTemplate = "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION_ID_PLACEHOLDER', 'category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
-        var categoryOnlyUrlTemplate = "{{ route('front.vendorlist.category', ['category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
         var cityApiTemplate = "{{ route('get.cities', ['district' => 'DISTRICT_ID_PLACEHOLDER']) }}";
         var currentCategoryId = "{{ request()->route('category') ?? '' }}";
         var $citySearch = $('#city_search');
         var $categorySearch = $('#category');
+        var $headerDistrict = $('#header_district_id');
+        var $headerCity = $('#header_city_id');
+        var $headerContinue = $('#goToListingByLocation');
 
         $citySearch.select2({
             placeholder: 'Select city',
@@ -440,6 +443,37 @@
                 $citySearch.trigger('change.select2');
             }).fail(function () {
                 resetCityDropdown();
+            });
+        }
+
+        function resetHeaderCityDropdown() {
+            $headerCity.html('<option value="">Choose city</option>');
+        }
+
+        function loadHeaderCitiesByDistrict(districtId, preselectedCity) {
+            resetHeaderCityDropdown();
+            if (!districtId) {
+                return;
+            }
+
+            var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
+
+            $.get(cityApiUrl, function (cities) {
+                var options = '<option value="">Choose city</option><option value="all">All City</option>';
+
+                if (Array.isArray(cities) && cities.length) {
+                    cities.forEach(function (city) {
+                        options += '<option value="' + city.id + '">' + city.name + '</option>';
+                    });
+                }
+
+                $headerCity.html(options);
+
+                if (preselectedCity) {
+                    $headerCity.val(String(preselectedCity));
+                }
+            }).fail(function () {
+                resetHeaderCityDropdown();
             });
         }
 
@@ -509,20 +543,33 @@
             }
         });
 
-        $('#category').on('change', function () {
-            var categoryId = $(this).val();
-            if (!categoryId || categoryId === 'none') {
+        $headerDistrict.off('change.vendorlist').on('change.vendorlist', function () {
+            loadHeaderCitiesByDistrict($(this).val(), '');
+        });
+
+        $headerContinue.off('click').on('click', function () {
+            var districtId = $headerDistrict.val();
+            var cityId = $headerCity.val();
+
+            if (!districtId) {
+                alert('Please select district');
                 return;
             }
 
-            var locationId = selectedDistrictId || $('#location_id').val() || "{{ $selectedDistrict->id ?? '' }}";
-            var redirectUrl = locationId
-                ? locationCategoryUrlTemplate
-                    .replace('LOCATION_ID_PLACEHOLDER', locationId)
-                    .replace('CATEGORY_ID_PLACEHOLDER', categoryId)
-                : categoryOnlyUrlTemplate.replace('CATEGORY_ID_PLACEHOLDER', categoryId);
+            sessionStorage.setItem('selectedDistrictId', String(districtId));
+            sessionStorage.setItem('selectedDistrictName', $headerDistrict.find('option:selected').text());
+            if (cityId) {
+                sessionStorage.setItem('selectedCityId', String(cityId));
+            } else {
+                sessionStorage.removeItem('selectedCityId');
+            }
 
-            var cityId = $citySearch.val();
+            var redirectUrl = pendingCategoryId
+                ? locationCategoryUrlTemplate
+                    .replace('LOCATION_ID_PLACEHOLDER', districtId)
+                    .replace('CATEGORY_ID_PLACEHOLDER', pendingCategoryId)
+                : listUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', districtId);
+
             if (cityId) {
                 redirectUrl += '?city=' + encodeURIComponent(cityId);
             }
@@ -530,11 +577,34 @@
             window.location.href = redirectUrl;
         });
 
+        $('#category').on('change', function () {
+            var categoryId = $(this).val();
+            if (!categoryId || categoryId === 'none') {
+                return;
+            }
+
+            pendingCategoryId = categoryId;
+            $headerDistrict.val('');
+            resetHeaderCityDropdown();
+            $('#districtCityModal').modal('show');
+        });
+
         if (selectedDistrictId) {
             loadCitiesByDistrict(selectedDistrictId, selectedCityId);
         } else {
             resetCityDropdown();
         }
+
+        $('.js-open-district-city-popup').on('click', function () {
+            pendingCategoryId = '';
+        });
+
+        $('#districtCityModal').on('hidden.bs.modal', function () {
+            if (pendingCategoryId && !$headerDistrict.val()) {
+                pendingCategoryId = '';
+                $categorySearch.val('none').trigger('change.select2');
+            }
+        });
     });
 </script>
 @endpush
