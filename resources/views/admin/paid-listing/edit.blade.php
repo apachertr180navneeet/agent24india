@@ -32,45 +32,71 @@
                         <!-- Card body -->
                         <div class="card-body">
                             <div class="border p-4">
-
-                                {{-- Row 1 --}}
                                 <div class="row mb-3">
                                     <div class="col-md-2 font-weight-bold">Business Name</div>
                                     <div class="col-md-4">
-                                        <input type="text" class="form-control" value="{{ $paidlisting->business_name ?? 'test' }}" readonly>
-                                    </div>
-
-                                    <div class="col-md-2 font-weight-bold">Mobile Number</div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" value="{{ $paidlisting->phone ?? '' }}" readonly>
+                                        <input type="text" class="form-control" value="{{ $paidlisting->business_name ?? '' }}" readonly>
                                     </div>
                                 </div>
 
-                                {{-- Row 2 --}}
-                                <div class="row mb-3">
-                                    <div class="col-md-2 font-weight-bold">Type</div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" value="{{ $paidlisting->type ?? '1' }} District" readonly>
+                                @if($paidlisting->paid_type === 'free')
+                                    {{-- Free Listing --}}
+                                    <div class="row mb-3">
+                                        <div class="col-md-2 font-weight-bold">Name</div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" value="{{ $paidlisting->name ?? '' }}" readonly>
+                                        </div>
+
+                                        <div class="col-md-2 font-weight-bold">Email</div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" value="{{ $paidlisting->email ?? '' }}" readonly>
+                                        </div>
                                     </div>
 
-                                    <div class="col-md-2 font-weight-bold">Dist.</div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" value="{{ $paidlisting->area_districts ?? '' }}" readonly>
-                                    </div>
-                                </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-2 font-weight-bold">Phone</div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" value="{{ $paidlisting->phone ?? '' }}" readonly>
+                                        </div>
 
-                                {{-- Row 3 --}}
-                                <div class="row mb-3">
-                                    <div class="col-md-2 font-weight-bold">Home City</div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" value="{{ $paidlisting->home_city ?? 'Osia' }}" readonly>
+                                        <div class="col-md-2 font-weight-bold">Home City</div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" value="{{ $paidlisting->home_city_name ?? '' }}" readonly>
+                                        </div>
+                                    </div>
+                                @else
+                                    {{-- Paid Listing --}}
+                                    <div class="row mb-3">
+                                        <div class="col-md-2 font-weight-bold">Full Name</div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" value="{{ $paidlisting->name ?? '' }}" readonly>
+                                        </div>
+
+                                        <div class="col-md-2 font-weight-bold">District Type</div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" value="{{ ($paidlisting->type ?? '1') == '4' ? '4 District' : '1 District' }}" readonly>
+                                        </div>
                                     </div>
 
-                                    <div class="col-md-2 font-weight-bold">Amount</div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" value="{{ $paidlisting->amount ?? '250' }}" readonly>
+                                    <div class="row mb-3">
+                                        <div class="col-md-2 font-weight-bold">Selected District</div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" value="{{ $paidlisting->district_names ?? '' }}" readonly>
+                                        </div>
+
+                                        <div class="col-md-2 font-weight-bold">Home City</div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" value="{{ $paidlisting->home_city_name ?? '' }}" readonly>
+                                        </div>
                                     </div>
-                                </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-2 font-weight-bold">Amount</div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" value="{{ $paidlisting->amount ?? '' }}" readonly>
+                                        </div>
+                                    </div>
+                                @endif
 
                                 {{-- Row 4 --}}
                                 {{--  <div class="row mb-3">

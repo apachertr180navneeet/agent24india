@@ -60,6 +60,7 @@
                                     <th>Premium Start date</th>
                                     <th>Expiry date</th>
                                     <th>Amount</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -78,8 +79,17 @@
                                     @endif
                                     <td>{{ $item->amount }}</td>
                                     <td>
+                                        @if((int) $item->status === 1)
+                                            <span class="badge badge-success">Active</span>
+                                        @else
+                                            <span class="badge badge-danger">Expired</span>
+                                        @endif
+                                    </td>
+                                    <td>
                                         @if(auth()->user()->hasPermissionTo('Edit Paid Listing'))
-                                            <a href="{{ route('admin.paid-listing.edit', ['id' => $item->id]) }}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                                            <a href="{{ route('admin.paid-listing.edit', ['id' => $item->id]) }}" class="btn btn-sm btn-info" title="View">
+                                                <i class="fa fa-eye"></i> View
+                                            </a>
                                         @endif
                                     </td>
                                 </tr>

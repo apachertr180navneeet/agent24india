@@ -32,6 +32,16 @@
 .listing-footer .price strong {
     font-size: 20px;
 }
+
+span.selection {
+    width: 100%;
+}
+
+
+span.select2-selection.select2-selection--single {
+    height: 45px;
+    padding: 8px 0px 0px 0px;
+}
 </style>
 @endpush
 
@@ -186,6 +196,14 @@
 
         <!-- Paid Listing -->
         <div class="tab-pane fade {{ !empty($disableFreeListing) ? 'show active' : '' }}" id="paid" role="tabpanel">
+            @php
+                $selectedPaidDistricts = old('district_ids');
+                if (is_null($selectedPaidDistricts) && !empty($existingPaidListing?->district)) {
+                    $selectedPaidDistricts = explode(',', $existingPaidListing->district);
+                }
+                $selectedPaidDistricts = array_map('strval', (array) $selectedPaidDistricts);
+                $initialDistrictType = (int) old('district_type', $existingPaidListing->type ?? 1);
+            @endphp
             @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
                     {{ session('success') }}
@@ -208,7 +226,7 @@
                         </button>
 
                         <!-- hidden input -->
-                        <input type="hidden" name="district_type" id="district_type" value="1">
+                        <input type="hidden" name="district_type" id="district_type" value="{{ $initialDistrictType }}">
                     </div>
 
                     <!-- Form Fields -->
@@ -221,7 +239,9 @@
                             <select name="district_ids[]" id="districtSelect" class="form-select">
                                 <option value="">Select</option>
                                 @foreach($districts as $district)
-                                    <option value="{{ $district->id }}">{{ $district->name }}</option>
+                                    <option value="{{ $district->id }}" {{ in_array((string) $district->id, $selectedPaidDistricts, true) ? 'selected' : '' }}>
+                                        {{ $district->name }}
+                                    </option>
                                 @endforeach
                             </select>
 
@@ -233,13 +253,13 @@
                         <!-- Home City -->
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Home City</label>
-                            <input type="text" name="city" class="form-control" placeholder="city">
+                            <input type="text" name="home_city" class="form-control" placeholder="city" value="{{ old('home_city', $existingPaidListing->home_city ?? '') }}">
                         </div>
 
                         <!-- Name -->
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Name</label>
-                            <input type="text" name="name" class="form-control" placeholder="name">
+                            <input type="text" name="name" class="form-control" placeholder="name" value="{{ old('name', $existingPaidListing->name ?? '') }}">
                         </div>
 
                     </div>
@@ -249,7 +269,7 @@
                         <div class="price">
                             <span>1 Month Price</span>
                             <strong id="priceText">250 Rs</strong>
-                            <input type="hidden" name="price" id="price" value="250">
+                            <input type="hidden" name="price" id="price" value="{{ old('price', $existingPaidListing->amount ?? 250) }}">
                         </div>
 
                         <button type="submit" class="btn btn-primary px-4">
@@ -381,6 +401,8 @@
 
 <script>
 (function () {
+    const initialDistrictType = Number(@json($initialDistrictType ?? 1));
+    const initialDistrictIds = @json($selectedPaidDistricts ?? []);
     const oneBtn = document.getElementById('oneDistrict');
     const fourBtn = document.getElementById('fourDistrict');
     const paidTabBtn = document.getElementById('paid-tab');
@@ -418,7 +440,7 @@
         });
     }
 
-    function setDistrictMode(mode) {
+    function setDistrictMode(mode, selectedValues = []) {
         currentMode = mode;
 
         if (mode === 1) {
@@ -428,8 +450,8 @@
             fourBtn.classList.add('btn-outline-primary');
 
             districtSelect.removeAttribute('multiple');
-            districtSelect.value = '';
             initDistrictSelect(1);
+            $districtSelect.val(selectedValues.length ? String(selectedValues[0]) : '').trigger('change');
 
             districtHint.innerText = 'Select only 1 district';
             document.getElementById('district_type').value = 1;
@@ -448,8 +470,8 @@
         oneBtn.classList.add('btn-outline-primary');
 
         districtSelect.setAttribute('multiple', 'multiple');
-        $districtSelect.val(null);
         initDistrictSelect(4);
+        $districtSelect.val(selectedValues.slice(0, 4)).trigger('change');
 
         districtHint.innerText = 'Select exactly 4 districts';
         document.getElementById('district_type').value = 4;
@@ -461,22 +483,23 @@
         }
     }
 
-    // default mode
-    setDistrictMode(1);
+    // default mode (prefill from existing/old values)
+    setDistrictMode(initialDistrictType === 4 ? 4 : 1, initialDistrictIds);
 
     // Re-init when paid tab becomes visible (Select2 behaves better on visible elements)
     if (paidTabBtn) {
         paidTabBtn.addEventListener('shown.bs.tab', function () {
-            setDistrictMode(currentMode);
+            initDistrictSelect(currentMode);
+            $districtSelect.trigger('change');
         });
     }
 
     oneBtn.addEventListener('click', function () {
-        setDistrictMode(1);
+        setDistrictMode(1, []);
     });
 
     fourBtn.addEventListener('click', function () {
-        setDistrictMode(4);
+        setDistrictMode(4, []);
     });
 })();
 </script>

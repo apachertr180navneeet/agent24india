@@ -89,13 +89,17 @@ class PaidListingController extends Controller
                 'paid_listing.bussines_id',
                 'paid_listing.home_city',
                 'paid_listing.district',
+                'paid_listing.type',
+                'paid_listing.paid_type',
+                'paid_listing.name',
+                'paid_listing.email',
                 'paid_listing.status',
                 'paid_listing.created_at',
                 'paid_listing.updated_at',
                 'paid_listing.amount',
                 'paid_listing.phone',
                 'users.name as business_name',
-                'home_district.name as home_city_name',
+                DB::raw('COALESCE(home_district.name, paid_listing.home_city) as home_city_name'),
 
                 DB::raw('GROUP_CONCAT(DISTINCT area_districts.name ORDER BY area_districts.name SEPARATOR ", ") as district_names')
             )
@@ -105,11 +109,17 @@ class PaidListingController extends Controller
                 'paid_listing.bussines_id',
                 'paid_listing.home_city',
                 'paid_listing.district',
+                'paid_listing.type',
+                'paid_listing.paid_type',
+                'paid_listing.name',
+                'paid_listing.email',
                 'paid_listing.status',
                 'paid_listing.created_at',
                 'paid_listing.updated_at',
+                'paid_listing.amount',
+                'paid_listing.phone',
                 'users.name',
-                'home_district.name'
+                'paid_listing.home_city'
             )
 
             ->firstOrFail();

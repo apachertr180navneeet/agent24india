@@ -158,11 +158,15 @@ class ProfileController extends Controller
             );
         }
         $hasFreeListing = $existingListing && $existingListing->paid_type === 'free';
+        $existingPaidListing = $existingListing && $existingListing->paid_type === 'paid'
+            ? $existingListing
+            : null;
 
         $this->viewData['user'] = $user;
         $this->viewData['districts'] = $districts;
         $this->viewData['pageTitle'] = 'Add Listing';
         $this->viewData['existingListing']  = $existingListing;
+        $this->viewData['existingPaidListing'] = $existingPaidListing;
         $this->viewData['disableFreeListing'] = $hasActivePaidListing;
         $this->viewData['hasFreeListing'] = $hasFreeListing;
         
@@ -258,6 +262,7 @@ class ProfileController extends Controller
                     'paid_type'   => 'paid',
                     'type'        => $request->district_type ?? null,
                     'district'    => $districtIds,
+                    'home_city'   => $request->home_city ?? $request->city ?? null,
                     'amount'      => $request->price ?? null,
                     'name'        => $request->name ?? null,
                 ]);
