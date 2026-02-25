@@ -31,7 +31,9 @@
                 </ul>
 
                 <div class="contact-actions col-lg-12 col-12 mt-3">
-                    <a href="tel:{{ $vendoruser->mobile }}" class="call-btn"> <i class="lni lni-phone"></i>Call Now </a>
+                    @if($vendoruser->vendor_type == 'paid')
+                        <a href="tel:{{ $vendoruser->mobile }}" class="call-btn"> <i class="lni lni-phone"></i>Call Now </a>
+                    @endif
                     <a href="https://wa.me/{{ $vendoruser->mobile ?? '' }}" class="whatsapp">
                         <i class="lni lni-whatsapp"></i>WhatsApp
                     </a>

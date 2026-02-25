@@ -313,9 +313,11 @@
                                 <!-- Desktop Actions -->
                                 <div class="row desktop">
                                     <div class="contact-actions col-12 mt-3">
-                                        <a href="tel:{{ $vendor->mobile ?? '0000000000' }}" class="call-btn">
-                                            <i class="lni lni-phone"></i> Call Now
-                                        </a>
+                                        @if($vendor->vendor_type == 'paid')
+                                            <a href="tel:{{ $vendor->mobile ?? '0000000000' }}" class="call-btn">
+                                                <i class="lni lni-phone"></i> Call Now
+                                            </a>
+                                        @endif
                                         <a href="https://wa.me/{{ $vendor->mobile ?? '' }}" class="whatsapp">
                                             <i class="lni lni-whatsapp"></i> WhatsApp
                                         </a>

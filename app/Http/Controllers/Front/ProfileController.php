@@ -146,9 +146,25 @@ class ProfileController extends Controller
 
         $districts = District::where('status', 1)->get();
 
+
+        $existingListing = PaidListing::where('bussines_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        $hasActivePaidListing = false;
+        if ($existingListing && $existingListing->paid_type === 'paid') {
+            $hasActivePaidListing = Carbon::now()->lt(
+                Carbon::parse($existingListing->created_at)->addMonth()
+            );
+        }
+        $hasFreeListing = $existingListing && $existingListing->paid_type === 'free';
+
         $this->viewData['user'] = $user;
         $this->viewData['districts'] = $districts;
         $this->viewData['pageTitle'] = 'Add Listing';
+        $this->viewData['existingListing']  = $existingListing;
+        $this->viewData['disableFreeListing'] = $hasActivePaidListing;
+        $this->viewData['hasFreeListing'] = $hasFreeListing;
         
         return view("front.add-listing")->with($this->viewData);
     }
@@ -167,11 +183,29 @@ class ProfileController extends Controller
 
             /* ================= FREE LISTING ================= */
             if ($request->type === 'free') {
+                if ($existingListing && $existingListing->paid_type === 'paid') {
+                    $paidExpiryDate = Carbon::parse($existingListing->created_at)->addMonth();
+                    if (Carbon::now()->lt($paidExpiryDate)) {
+                        return redirect()->back()
+                            ->with('error', 'Free listing is disabled while your paid listing is active.');
+                    }
+                }
 
-                // Agar already free listing exist karti hai
+                // If free listing already exists, update it instead of creating duplicate
                 if ($existingListing && $existingListing->paid_type == 'free') {
-                    return redirect()->back()
-                        ->with('error', 'Free listing already exists.');
+                    $existingListing->update([
+                        'home_city'   => $request->home_city ?? $existingListing->home_city,
+                        'phone'       => $request->phone ?? $existingListing->phone,
+                        'email'       => $request->email ?? $existingListing->email,
+                        'name'        => $request->name ?? $existingListing->name,
+                        'type'        => '1',
+                        'paid_type'   => 'free',
+                    ]);
+
+                    $user->update(['vendor_type' => 'free']);
+
+                    DB::commit();
+                    return redirect()->back()->with('success', 'Free listing updated successfully.');
                 }
 
                 // Clear OTP Session
@@ -209,6 +243,11 @@ class ProfileController extends Controller
                             ->with('error', 'Paid listing already exists and is still active.');
                     }
                 }
+
+                // Deactivate all free listings when paid listing is submitted
+                PaidListing::where('bussines_id', $user->id)
+                    ->where('paid_type', 'free')
+                    ->update(['status' => 0]);
 
                 $districtIds = isset($request->district_ids)
                     ? implode(',', $request->district_ids)

@@ -41,18 +41,19 @@
     <!-- Nav Tabs -->
     <ul class="nav nav-tabs mb-3" id="adTabs" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active"
+            <button class="nav-link {{ !empty($disableFreeListing) ? '' : 'active' }}"
                     id="free-tab"
                     data-bs-toggle="tab"
                     data-bs-target="#free"
                     type="button"
-                    role="tab">
+                    role="tab"
+                    @if(!empty($disableFreeListing)) disabled @endif>
                 Free Listing
             </button>
         </li>
 
         <li class="nav-item" role="presentation">
-            <button class="nav-link"
+            <button class="nav-link {{ !empty($disableFreeListing) ? 'active' : '' }}"
                     id="paid-tab"
                     data-bs-toggle="tab"
                     data-bs-target="#paid"
@@ -78,7 +79,12 @@
     <div class="tab-content">
 
         <!-- Free Listing -->
-        <div class="tab-pane fade show active" id="free" role="tabpanel">
+        <div class="tab-pane fade {{ !empty($disableFreeListing) ? '' : 'show active' }}" id="free" role="tabpanel">
+            @if(!empty($disableFreeListing))
+                <div class="alert alert-warning mt-3">
+                    Free listing is disabled because your paid listing is active.
+                </div>
+            @endif
             @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
                     {{ session('success') }}
@@ -104,6 +110,7 @@
                             name="name"
                             class="form-control"
                             placeholder="Enter Your Name"
+                            value="{{ old('name', (!empty($hasFreeListing) ? ($existingListing->name ?? '') : '')) }}"
                             required>
                     </div>
 
@@ -113,6 +120,7 @@
                             name="home_city"
                             class="form-control"
                             placeholder="City"
+                            value="{{ old('home_city', (!empty($hasFreeListing) ? ($existingListing->home_city ?? '') : '')) }}"
                             required>
                     </div>
                 </div>
@@ -126,8 +134,10 @@
                                 id="listing_email"
                                 class="form-control"
                                 placeholder="Enter Email"
+                                value="{{ old('email', (!empty($hasFreeListing) ? ($existingListing->email ?? '') : '')) }}"
+                                @if(!empty($hasFreeListing)) readonly @endif
                                 required>
-                            <button type="button" class="btn btn-primary" id="sendOtpBtn">
+                            <button type="button" class="btn btn-primary" id="sendOtpBtn" @if(!empty($hasFreeListing)) disabled @endif>
                                 Send OTP
                             </button>
                         </div>
@@ -142,6 +152,7 @@
                             name="phone"
                             class="form-control"
                             placeholder="Phone Number"
+                            value="{{ old('phone', (!empty($hasFreeListing) ? ($existingListing->phone ?? '') : '')) }}"
                             required>
                     </div>
                 </div>
@@ -150,8 +161,8 @@
                     <div class="col-md-6">
                         <label class="form-label">OTP</label>
                         <div class="input-group">
-                            <input type="text" name="otp" class="form-control" placeholder="Enter OTP">
-                            <button type="button" class="btn btn-primary" id="verifyOtpBtn">
+                            <input type="text" name="otp" class="form-control" placeholder="Enter OTP" @if(!empty($hasFreeListing)) readonly @endif>
+                            <button type="button" class="btn btn-primary" id="verifyOtpBtn" @if(!empty($hasFreeListing)) disabled @endif>
                                 Verify
                             </button>
                         </div>
@@ -160,20 +171,21 @@
 
                         <button type="button"
                                 class="btn btn-link p-0 d-none"
-                                id="resendOtpBtn">
+                                id="resendOtpBtn"
+                                @if(!empty($hasFreeListing)) disabled @endif>
                             Resend OTP
                         </button>
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-success" id="submitListingBtn" disabled>
+                <button type="submit" class="btn btn-success" id="submitListingBtn" @if(empty($hasFreeListing)) disabled @endif>
                     Submit Free Ad
                 </button>
             </form>
         </div>
 
         <!-- Paid Listing -->
-        <div class="tab-pane fade" id="paid" role="tabpanel">
+        <div class="tab-pane fade {{ !empty($disableFreeListing) ? 'show active' : '' }}" id="paid" role="tabpanel">
             @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
                     {{ session('success') }}
