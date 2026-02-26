@@ -6920,6 +6920,10 @@ textarea {
   margin: 4px 0;
 }
 
+span.selection {
+    width: 100%;
+}
+
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .main-menu {

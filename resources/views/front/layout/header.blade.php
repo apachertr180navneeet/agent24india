@@ -136,12 +136,9 @@
     $(document).ready(function () {
         var cityApiTemplate = "{{ route('get.cities', ['district' => 'DISTRICT_ID_PLACEHOLDER']) }}";
         var locationUrlTemplate = "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
+        var listUrl = "{{ route('front.vendorlist') }}";
         var $district = $('#header_district_id');
         var $city = $('#header_city_id');
-
-        localStorage.removeItem('selectedDistrictId');
-        localStorage.removeItem('selectedDistrictName');
-        localStorage.removeItem('selectedCityId');
 
         function getSelectionFromUrl() {
             var path = (window.location.pathname || '').replace(/\/+$/, '');
@@ -167,20 +164,20 @@
             }
 
             var districtName = $district.find('option[value="' + selection.districtId + '"]').text() || '';
-            sessionStorage.setItem('selectedDistrictId', String(selection.districtId));
-            sessionStorage.setItem('selectedDistrictName', districtName);
+            localStorage.setItem('selectedDistrictId', String(selection.districtId));
+            localStorage.setItem('selectedDistrictName', districtName);
 
             if (selection.cityId) {
-                sessionStorage.setItem('selectedCityId', String(selection.cityId));
+                localStorage.setItem('selectedCityId', String(selection.cityId));
             } else {
-                sessionStorage.removeItem('selectedCityId');
+                localStorage.removeItem('selectedCityId');
             }
         }
 
         function getSelectionFromStorage() {
             return {
-                districtId: sessionStorage.getItem('selectedDistrictId') || '',
-                cityId: sessionStorage.getItem('selectedCityId') || ''
+                districtId: localStorage.getItem('selectedDistrictId') || sessionStorage.getItem('selectedDistrictId') || '',
+                cityId: localStorage.getItem('selectedCityId') || sessionStorage.getItem('selectedCityId') || ''
             };
         }
 
@@ -228,8 +225,22 @@
 
         $(document).on('click', '.js-open-district-city-popup', function (e) {
             e.preventDefault();
-            prefillModalFromStoredSelection();
-            $('#districtCityModal').modal('show');
+
+            var stored = getSelectionFromStorage();
+            var districtId = stored.districtId || '';
+            var cityId = stored.cityId || '';
+
+            if (!districtId) {
+                window.location.href = listUrl;
+                return;
+            }
+
+            var redirectUrl = locationUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', districtId);
+            if (cityId) {
+                redirectUrl += '?city=' + encodeURIComponent(cityId);
+            }
+
+            window.location.href = redirectUrl;
         });
 
         $district.on('change', function () {
@@ -245,12 +256,16 @@
                 return;
             }
 
+            localStorage.setItem('selectedDistrictId', String(districtId));
+            localStorage.setItem('selectedDistrictName', $district.find('option:selected').text());
             sessionStorage.setItem('selectedDistrictId', String(districtId));
             sessionStorage.setItem('selectedDistrictName', $district.find('option:selected').text());
 
             if (cityId) {
+                localStorage.setItem('selectedCityId', String(cityId));
                 sessionStorage.setItem('selectedCityId', String(cityId));
             } else {
+                localStorage.removeItem('selectedCityId');
                 sessionStorage.removeItem('selectedCityId');
             }
 

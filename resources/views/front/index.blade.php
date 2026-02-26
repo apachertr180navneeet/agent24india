@@ -198,6 +198,10 @@
             grid-template-columns: repeat(2, 1fr);
         }
     }
+
+    span.selection {
+        width: 100%;
+    }
 </style>
 @endpush
  @php
@@ -343,8 +347,11 @@
             <div class="locations-grid1">
 
                 <!-- Location Card -->
-                @foreach($districthome as $districtkey => $districtvalue)    
-                    <a href="{{ route('front.vendorlist.location', ['location' => $districtvalue->id]) }}" class="location-card1">
+                @foreach($districthome as $districtkey => $districtvalue)
+                    <a href="{{ route('front.vendorlist.location', ['location' => $districtvalue->id]) }}"
+                        class="location-card1 js-home-location-card"
+                        data-district-id="{{ $districtvalue->id }}"
+                        data-district-name="{{ $districtvalue->name }}">
                         <img 
                             src="{{ $districtvalue->image 
                                 ? $districtvalue->image 
@@ -504,6 +511,25 @@
             }
         }
 
+        function persistSelectionToLocalStorage(districtId, districtName, cityId, cities) {
+            if (districtId) {
+                localStorage.setItem('selectedDistrictId', String(districtId));
+                localStorage.setItem('selectedDistrictName', districtName || '');
+            }
+
+            if (cityId) {
+                localStorage.setItem('selectedCityId', String(cityId));
+            } else {
+                localStorage.removeItem('selectedCityId');
+            }
+
+            if (Array.isArray(cities)) {
+                localStorage.setItem('selectedDistrictCities', JSON.stringify(cities));
+            } else {
+                localStorage.removeItem('selectedDistrictCities');
+            }
+        }
+
         $citySearch.select2({
             placeholder: 'Select city',
             allowClear: true,
@@ -545,7 +571,7 @@
             var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
 
             $.get(cityApiUrl, function (cities) {
-                var options = '<option value="all">All City</option><option value="">Select city</option>';
+                var options = '<option value="">Select city</option><option value="all">All City</option>';
 
                 if (Array.isArray(cities) && cities.length) {
                     cities.forEach(function (city) {
@@ -559,6 +585,8 @@
 
                 if (preselectedCity) {
                     $citySearch.val(String(preselectedCity));
+                } else {
+                    $citySearch.val('');
                 }
 
                 $citySearch.trigger('change.select2');
@@ -693,7 +721,7 @@
             var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
 
             $.get(cityApiUrl, function (cities) {
-                var options = '<option value="all">All City</option><option value="">Choose city</option>';
+                var options = '<option value="">Choose city</option><option value="all">All City</option>';
 
                 if (Array.isArray(cities) && cities.length) {
                     cities.forEach(function (city) {
@@ -705,6 +733,8 @@
 
                 if (preselectedCity) {
                     $categoryCity.val(String(preselectedCity));
+                } else {
+                    $categoryCity.val('');
                 }
                 $categoryCity.trigger('change.select2');
             }).fail(function () {
@@ -781,6 +811,28 @@
             resetModalCityDropdown();
             $categoryDistrict.trigger('change.select2');
             $('#categoryDistrictModal').modal('show');
+        });
+
+        $(document).on('click', '.js-home-location-card', function (e) {
+            e.preventDefault();
+
+            var $card = $(this);
+            var districtId = String($card.data('district-id') || '');
+            var districtName = ($card.data('district-name') || '').toString().trim();
+            var targetUrl = $card.attr('href');
+
+            if (!districtId || !targetUrl) {
+                return;
+            }
+
+            persistSelection(districtId, districtName, 'all');
+
+            var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
+            $.get(cityApiUrl, function (cities) {
+                persistSelectionToLocalStorage(districtId, districtName, 'all', cities);
+            }).always(function () {
+                window.location.href = targetUrl;
+            });
         });
 
         resetCityDropdown();

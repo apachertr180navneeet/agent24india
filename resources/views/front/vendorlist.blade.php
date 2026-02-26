@@ -595,6 +595,23 @@
             }
 
             pendingCategoryId = categoryId;
+
+            var activeDistrictId = selectedDistrictId || sessionStorage.getItem('selectedDistrictId') || '';
+            var activeCityId = selectedCityId || sessionStorage.getItem('selectedCityId') || '';
+
+            if (activeDistrictId) {
+                var redirectUrl = locationCategoryUrlTemplate
+                    .replace('LOCATION_ID_PLACEHOLDER', activeDistrictId)
+                    .replace('CATEGORY_ID_PLACEHOLDER', categoryId);
+
+                if (activeCityId) {
+                    redirectUrl += '?city=' + encodeURIComponent(activeCityId);
+                }
+
+                window.location.href = redirectUrl;
+                return;
+            }
+
             $headerDistrict.val('');
             resetHeaderCityDropdown();
             $('#districtCityModal').modal('show');
@@ -619,3 +636,4 @@
     });
 </script>
 @endpush
+
