@@ -169,11 +169,24 @@
                                     </div>
                                     <div class="col-md-6 col-lg-6 col-xl-6">
                                         <div class="form-group">
-                                            <label class="">Sub Category</label>
-                                            <select class="form-control select-picker" id="sub_category_id" name="sub_category_id">
-                                                <option value="">Select</option>
-                                                @foreach($subCategories as $key => $value)
-                                                    <option value="{{$value->id}}" {{$user->business_sub_category_id == $value->id ? 'selected' : ''}}>{{$value->name}}</option>
+                                            <label>Sub Category</label>
+
+                                            @php
+                                                // Convert comma separated string to array
+                                                $selectedSubCategories = $user->business_sub_category_id 
+                                                    ? explode(',', $user->business_sub_category_id) 
+                                                    : [];
+                                            @endphp
+
+                                            <select class="form-control select-picker" 
+                                                    id="sub_category_id" 
+                                                    name="sub_category_id[]" 
+                                                    multiple>
+                                                @foreach($subCategories as $value)
+                                                    <option value="{{ $value->id }}"
+                                                        {{ in_array($value->id, $selectedSubCategories) ? 'selected' : '' }}>
+                                                        {{ $value->name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>

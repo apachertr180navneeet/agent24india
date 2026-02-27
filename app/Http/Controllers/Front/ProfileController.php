@@ -84,6 +84,7 @@ class ProfileController extends Controller
                 // 'role_id' => config('constants.roles.VENDOR.value'),
                 'business_category_id' => $request->business_category_id,
                 'name' => $request->business_name,
+                'email' => $request->email,
                 'business_name' => $request->business_name,
                 'mobile' => $request->contact_number,
                 'business_address' => $request->business_address,
@@ -94,6 +95,7 @@ class ProfileController extends Controller
                 'profile_photo' => $profileImageUrl,
                 'description' => $request->description,
                 'pick_your_location' => $request->pick_your_location,
+                'whats_app' => $request->whats_app,
             ];
 
             

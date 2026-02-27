@@ -225,7 +225,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 p-0">
-                    <div class="search-input" style="border: 1px solid #000000;border-radius: 4px;height: 57px;margin: 2px 7px;width: 96%;">
+                    <div class="search-input" style="border: 1px solid #000000;border-radius: 4px;height: 60px;margin: 1px 7px;width: 100%;">
                         <label for="city_search">
                         </label>
                         <select id="city_search" class="form-control">
@@ -257,7 +257,7 @@
         <div class="search-form wow " >
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-12 p-0">
-                    <div class="search-input" style="border: 1px solid #000000;border-radius: 4px;height: 57px;margin: 2px 7px;width: 96%;">
+                    <div class="search-input" style="border: 1px solid #000000;border-radius: 4px;height: 60px;margin: 1px 7px;width: 100%;">
                         <label for="category"></label>
                         <select name="category" id="category">
                             <option value="none">Choose Categories</option>

@@ -195,6 +195,8 @@ class HomeController extends Controller
         }
 
         $vendoruser = $vendoruserQuery->paginate(12);
+
+        
         $category = Category::where('status', 1)->whereNull('parent_id')->get();
         // Top Banner
         $banner = Advertisment::where('status', 1)
@@ -268,7 +270,7 @@ class HomeController extends Controller
         // Send view data
         $this->viewData['pageTitle'] = 'Vendor List';
 
-        $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->where('business_category_id', $category)->paginate(12);
+        $vendoruser = User::where('status', 1)->where('is_approved', 1)->where('business_category_id', $category)->paginate(12);
         $categories = Category::where('status', 1)->whereNull('parent_id')->get();
 
         $topadvertisments = Advertisment::where('status', 1)
@@ -303,14 +305,14 @@ class HomeController extends Controller
     }
 
     public function vendorlistByLocationAndCategory(Request $request, $location , $category){
+
         // Send view data
         $this->viewData['pageTitle'] = 'Vendor List';
 
         $selectedCityId = $request->query('city');
         $isAllCitySelected = empty($selectedCityId) || (string) $selectedCityId === 'all';
 
-        $vendoruserQuery = User::where('role_id', config('constants.roles.VENDOR.value'))
-            ->where('status', 1)
+        $vendoruserQuery = User::where('status', 1)
             ->where('is_approved', 1)
             ->where('business_category_id', $category)
             ->where('district_id', $location);

@@ -80,6 +80,14 @@
                             <label>Contact Number *</label>
                             <input type="text" id="contact_number" name="contact_number" placeholder="Contact Number" value="{{$user->mobile}}">
                         </div>
+                        <div class="form-group">
+                            <label>Whats APP Number *</label>
+                            <input type="text" id="whats_app" name="whats_app" placeholder="Whats APP Number" value="{{$user->whats_app}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="text" id="email" name="email" placeholder="email" value="{{$user->email}}">
+                        </div>
                     </div>
 
                     <div class="form-row">

@@ -144,10 +144,10 @@ span.select2-selection.select2-selection--single {
                                 id="listing_email"
                                 class="form-control"
                                 placeholder="Enter Email"
-                                value="{{ old('email', (!empty($hasFreeListing) ? ($existingListing->email ?? '') : '')) }}"
+                                value="{{ old('email', (!empty($hasFreeListing) ? ($user->email ?? '') : '')) }}"
                                 @if(!empty($hasFreeListing)) readonly @endif
                                 required>
-                            <button type="button" class="btn btn-primary" id="sendOtpBtn" @if(!empty($hasFreeListing)) disabled @endif>
+                            <button type="button" class="btn btn-primary" id="sendOtpBtn">
                                 Send OTP
                             </button>
                         </div>
@@ -162,7 +162,7 @@ span.select2-selection.select2-selection--single {
                             name="phone"
                             class="form-control"
                             placeholder="Phone Number"
-                            value="{{ old('phone', (!empty($hasFreeListing) ? ($existingListing->phone ?? '') : '')) }}"
+                            value="{{ old('phone', (!empty($hasFreeListing) ? ($user->whats_app ?? '') : '')) }}"
                             required>
                     </div>
                 </div>

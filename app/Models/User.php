@@ -56,6 +56,7 @@ class User extends Authenticatable implements OAuthenticatable
         'description',
         'pick_your_location',
         'vendor_type',
+        'whats_app',
     ];
 
     /**
