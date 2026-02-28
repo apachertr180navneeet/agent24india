@@ -99,7 +99,7 @@
                                     <div class="col-md-12 col-lg-12 col-xl-12">
                                         <div class="form-group">
                                             <label class="">Address</label>
-                                            <input type="text" class="form-control" id="address" name="address" value="{{ $user->address }}" placeholder="Enter Address"/>
+                                            <input type="text" class="form-control" id="address" name="address" value="{{ $user->business_address }}" placeholder="Enter Address"/>
                                             @error('address')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror

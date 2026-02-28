@@ -304,7 +304,7 @@
                                 <h4>
                                     <a href="{{ route('front.vendor.details', ['vendor' => $vendor->id]) }}">{{ $vendor->name }}</a>
                                 </h4>
-                                <p>{{ $vendor->business_name }}</p>
+                                {{--  <p>{{ $vendor->business_name }}</p>  --}}
                                 <label class="text-dark">
                                     <i class="lni lni-map-marker"></i>
                                     {{ $vendor->business_address }}

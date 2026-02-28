@@ -23,7 +23,9 @@
                             <li><a href="{{route('front.aboutus')}}">About Us</a></li>
                             @endif
                             <li><a href="{{route('front.contactus')}}">Contact Us</a></li>
+                            @if(\Auth::check())
                             <li><a href="{{route('front.profile')}}">Profile</a></li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -49,7 +51,7 @@
                         <h3>Contact</h3>
                         <ul>
                             <li>23 New Design Str,<br> Jodhpur, Rajasthan</li>
-                            <li>Tel. +91 78528 33871 <br> Mail. info@agent24india.com, support@agent24india.com</li>
+                            <li>Tel. +91 91193 36617 <br> Mail. info@agent24india.com, support@agent24india.com</li>
                         </ul>
                     </div>
                 </div>

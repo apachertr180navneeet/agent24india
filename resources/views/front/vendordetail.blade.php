@@ -9,8 +9,8 @@
  <div class="container my-3">
     <div class="vendorhead">
         <p class="service">{{ $vendoruser->business_category_name }}</p>
-        <h2>{{ $vendoruser->name }}</h2>
-        <p class="service">{{ $vendoruser->business_name }}</p>
+        <h2>{{ $vendoruser->business_name }}</h2>
+        {{--  <p class="service">{{ $vendoruser->business_name }}</p>  --}}
         <p class="location"><i class="lni lni-map-marker"></i>{{ $vendoruser->business_address }}, {{ $vendoruser->city_name }}, {{ $vendoruser->district_name }} ,{{ $vendoruser->state_name }}</p>
     </div>
     <div class="row product-container">

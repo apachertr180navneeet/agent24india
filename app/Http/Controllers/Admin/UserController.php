@@ -764,6 +764,11 @@ class UserController extends Controller
                 $profileImageUrl = asset('public/upload/user_profile/' . $imageName);
             }
 
+            // Convert sub_category_id array to comma separated string
+            $subCategoryIds = is_array($request->sub_category_id) 
+                ? implode(',', $request->sub_category_id) 
+                : $request->sub_category_id;
+
             // ---------- Update Data ----------
             $data = [
                 'name'            => $request->business_name,
@@ -776,7 +781,7 @@ class UserController extends Controller
                 'business_address'         => $request->address,
                 'pincode'         => $request->pincode,
                 'business_category_id'     => $request->category_id,
-                'business_sub_category_id' => $request->sub_category_id,
+                'business_sub_category_id' => $subCategoryIds, // 👈 updated
                 'description'     => $request->description,
                 'pick_your_location'    => $request->pick_your_location,
                 'status'          => $request->status,

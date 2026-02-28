@@ -120,7 +120,8 @@ span.select2-selection.select2-selection--single {
                             name="name"
                             class="form-control"
                             placeholder="Enter Your Name"
-                            value="{{ old('name', (!empty($hasFreeListing) ? ($existingListing->name ?? '') : '')) }}"
+                            value="{{ $user->business_name }}"
+                            readonly
                             required>
                     </div>
 
@@ -144,8 +145,8 @@ span.select2-selection.select2-selection--single {
                                 id="listing_email"
                                 class="form-control"
                                 placeholder="Enter Email"
-                                value="{{ old('email', (!empty($hasFreeListing) ? ($user->email ?? '') : '')) }}"
-                                @if(!empty($hasFreeListing)) readonly @endif
+                                value="{{ old('email', $user->email) }}"
+                                readonly
                                 required>
                             <button type="button" class="btn btn-primary" id="sendOtpBtn">
                                 Send OTP
@@ -157,12 +158,13 @@ span.select2-selection.select2-selection--single {
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label">Phone Number</label>
+                        <label class="form-label">Whatsapp Number</label>
                         <input type="text"
                             name="phone"
                             class="form-control"
-                            placeholder="Phone Number"
-                            value="{{ old('phone', (!empty($hasFreeListing) ? ($user->whats_app ?? '') : '')) }}"
+                            placeholder="Whatsapp Number"
+                            value="{{ old('phone', $user->whats_app) }}"
+                            readonly
                             required>
                     </div>
                 </div>
