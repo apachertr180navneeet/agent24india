@@ -57,6 +57,16 @@
         max-width: 100% !important;
     }
 
+    #category_district_id + .select2,
+    #category_district_id + .select2-container,
+    #category_city_id + .select2,
+    #category_city_id + .select2-container {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        display: block;
+    }
+
     .location-selector-row .search-input {
         width: 100%;
     }
@@ -116,6 +126,14 @@
         border: 1px solid #000;
     }
 
+    .search-dropdown-box {
+        border: 1px solid #000000;
+        border-radius: 4px;
+        height: 60px;
+        margin: 1px 7px;
+        width: 100%;
+    }
+
     .select2-dropdown {
         border: 1px solid #000;
     }
@@ -129,6 +147,10 @@
         .location-selector-row > div {
             flex: 0 0 50%;
             max-width: 50%;
+        }
+
+        .search-dropdown-box {
+            margin: 1px 0;
         }
     }
     /* Category Section */
@@ -195,7 +217,7 @@
 
     @media (max-width: 480px) {
         .categories-grid {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
         }
     }
 
@@ -239,7 +261,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 p-0">
-                    <div class="search-input" style="border: 1px solid #000000;border-radius: 4px;height: 60px;margin: 1px 7px;width: 100%;">
+                    <div class="search-input search-dropdown-box">
                         {{--  <label for="city_search">
                             <i class="lni lni-map theme-color"></i>
                         </label>  --}}
@@ -272,7 +294,7 @@
         <div class="search-form wow " >
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-12 p-0">
-                    <div class="search-input" style="border: 1px solid #000000;border-radius: 4px;height: 60px;margin: 1px 7px;width: 100%;">
+                    <div class="search-input search-dropdown-box">
                         {{--  <label for="category"><i class="lni lni-grid-alt theme-color"></i></label>  --}}
                         <select name="category" id="category">
                             <option value="none">Choose Categories</option>
@@ -316,7 +338,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-12 mb-3">
                             <select id="category_district_id" class="form-control">
                                 <option value="">Choose district</option>
                                 @foreach($districtList as $district)
@@ -324,7 +346,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-6">
+                        <div class="col-12">
                             <select id="category_city_id" class="form-control">
                                 <option value="">Choose city</option>
                             </select>

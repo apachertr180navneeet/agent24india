@@ -140,7 +140,7 @@
 
                 <ul>
                     <li><i class="fa fa-location-dot"></i> 23 New Design Str, Jodhpur, Rajasthan</li>
-                    <li><i class="fa fa-phone"></i> +91 78528 33871</li>
+                    <li><i class="fa fa-phone"></i> +91 91193 36617</li>
                     <li><i class="fa fa-envelope"></i> info@agent24india.com, support@agent24india.com</li>
                 </ul>
             </div>

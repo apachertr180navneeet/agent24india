@@ -140,7 +140,7 @@
         var pincode = $("#signup-form").find('#pincode').val();
         var password = $("#signup-form").find('#password').val();
         var confirmPassword = $("#signup-form").find('#confirm_password').val();
-        // var validEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        var validEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
         if(!businessCategoryId){
             alert("Please select the business category.");
@@ -154,8 +154,16 @@
             alert("Please enter the email.");
             return false;
         }
+        else if(!validEmail.test(email)){
+            alert("Please enter a valid email.");
+            return false;
+        }
         else if(!contactNumber){
             alert("Please enter the contact number.");
+            return false;
+        }
+        else if(!/^\d{10,15}$/.test(contactNumber)){
+            alert("Contact number must be 10 to 15 digits.");
             return false;
         }
         else if(!businessAddress){
@@ -192,6 +200,40 @@
         }
         else if(password !== confirmPassword){
             alert("Password and confirm password must be same.");
+            return false;
+        }
+
+        var uniqueValidationPassed = true;
+        $.ajax({
+            url: "{{ route('front.signup.checkUnique') }}",
+            type: "POST",
+            dataType: "json",
+            async: false,
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                email: email,
+                contact_number: contactNumber
+            },
+            success: function (response) {
+                if (response.email_exists) {
+                    alert("This email is already registered.");
+                    uniqueValidationPassed = false;
+                    return;
+                }
+
+                if (response.contact_exists) {
+                    alert("This contact number is already registered.");
+                    uniqueValidationPassed = false;
+                    return;
+                }
+            },
+            error: function () {
+                alert("Unable to validate email/contact number. Please try again.");
+                uniqueValidationPassed = false;
+            }
+        });
+
+        if (!uniqueValidationPassed) {
             return false;
         }
 

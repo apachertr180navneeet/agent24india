@@ -451,53 +451,84 @@ class HomeController extends Controller
         return redirect()->route('front.index');
     }
 
-    public function signup(Request $request){
-
-        $state_id = $request->state_id;
-        
-        
-        $city_id = $request->city_id;
-
-        
-        $district_id = $request->district_id;
+    public function signup(Request $request)
+    {
+        // Validate request data
+        $request->validate([
+            'business_name'        => 'required|string|max:255',
+            'email'                => 'required|email|unique:users,email',
+            'contact_number'       => 'required|digits_between:10,15|unique:users,mobile',
+            'password'             => 'required|min:6',
+            'business_address'     => 'required',
+            'state_id'             => 'required',
+            'city_id'              => 'required',
+            'district_id'          => 'required',
+            'pincode'              => 'required|digits:6'
+        ]);
 
         DB::beginTransaction();
-        try{
-            // Create User
-            $data = [
-                'role_id' => config('constants.roles.VENDOR.value'),
+
+        try {
+
+            // Create new user/vendor
+            $user = User::create([
+                'role_id'              => config('constants.roles.VENDOR.value'),
                 'business_category_id' => $request->business_category_id,
-                'name' => $request->business_name,
-                'business_name' => $request->business_name,
-                'email' => $request->email,
-                'mobile' => $request->contact_number,
-                'business_address' => $request->business_address,
-                // 'district_id' => $request->district_id,
-                // 'city_id' => $request->city_id,
-                // 'state_id' => $request->state_id,
-                'district_id' => $district_id,
-                'city_id' => $city_id,
-                'state_id' => $state_id,
-                'pincode' => $request->pincode,
-                'password' => Hash::make($request->password),
-                // 'terms_agree' => $request->terms_agree,
-                'terms_agree' => true,
-            ];
+                'name'                 => $request->business_name,
+                'business_name'        => $request->business_name,
+                'email'                => $request->email,
+                'mobile'               => $request->contact_number,
+                'business_address'     => $request->business_address,
+                'district_id'          => $request->district_id,
+                'city_id'              => $request->city_id,
+                'state_id'             => $request->state_id,
+                'pincode'              => $request->pincode,
+                'password'             => Hash::make($request->password),
+                'terms_agree'          => true
+            ]);
 
-            $user = User::create($data);
-            // dd($user);
+            // Auto login after signup
+            Auth::login($user);
 
-            if($user){
-                DB::commit();
-                return redirect()->route('front.index')->with('signup_status', true);
-            }
+            // Regenerate session for security
+            $request->session()->regenerate();
 
-            return redirect()->route('front.index')->with('signup_status', false);
+            DB::commit();
+
+            return redirect()
+                    ->route('front.index')
+                    ->with('signin_status', true);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            // Optional: log error
+            \Log::error('Signup Error: '.$e->getMessage());
+
+            return redirect()
+                    ->route('front.index')
+                    ->with('signup_status', false);
         }
-        catch(\Exception $e){
-            DB::rollback();
-            // dd($e);
+    }
+
+    public function checkSignupUnique(Request $request)
+    {
+        $emailExists = false;
+        $mobileExists = false;
+
+        if ($request->filled('email')) {
+            $emailExists = User::where('email', trim($request->email))->exists();
         }
+
+        if ($request->filled('contact_number')) {
+            $mobileExists = User::where('mobile', trim($request->contact_number))->exists();
+        }
+
+        return response()->json([
+            'email_exists' => $emailExists,
+            'contact_exists' => $mobileExists,
+        ], 200);
     }
 
     public function getDistricts(Request $request)

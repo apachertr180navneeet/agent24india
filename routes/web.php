@@ -263,6 +263,7 @@ Route::name('front.')->group(function(){
     Route::post("/login", [Front\HomeController::class, "authenticate"])->name("login");
     Route::get("/logout", [Front\HomeController::class, "destroy"])->name("logout");
     Route::post('/signup', [Front\HomeController::class, "signup"])->name('signup');
+    Route::post('/signup/check-unique', [Front\HomeController::class, "checkSignupUnique"])->name('signup.checkUnique');
     Route::post('/update-category', [Front\ProfileController::class, 'updateCategory'])->name('updateCategory');
     Route::middleware('auth')->group(function(){
         Route::get('/profile', [Front\ProfileController::class, "index"])->name('profile');
