@@ -43,11 +43,13 @@ class Advertisment extends Model
             'advertisment.status',
             'advertisment.created_at',
             'users.business_name as business_name',
+            'categories.name as category_name',
             'districts.name as district_name',
             'cities.name as city_name',
             'advertisment.sub_type'
         )
         ->join('users', 'users.id', '=', 'advertisment.bussines_name')
+        ->leftJoin('categories', 'categories.id', '=', 'advertisment.category')
         ->leftJoin('districts', 'districts.id', '=', 'advertisment.district')
         ->leftJoin('cities', 'cities.id', '=', 'advertisment.city')
 
@@ -59,6 +61,7 @@ class Advertisment extends Model
 
                 $query->whereRaw('(
                     lower(users.business_name) LIKE "%' . $search . '%"
+                    OR lower(categories.name) LIKE "%' . $search . '%"
                     OR lower(districts.name) LIKE "%' . $search . '%"
                     OR lower(cities.name) LIKE "%' . $search . '%"
                 )');
@@ -74,6 +77,7 @@ class Advertisment extends Model
                 "",
                 "advertisment.start_date",
                 "advertisment.type",
+                "categories.name",
                 "users.business_name",
                 "districts.name",
                 "cities.name",

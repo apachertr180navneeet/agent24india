@@ -51,6 +51,7 @@
                                     <th></th>
                                     <th>Start Date</th>
                                     <th>Type</th>
+                                    <th>Category</th>
                                     <th>Business Name</th>
                                     <th>District</th>
                                     <th>City</th>

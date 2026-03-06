@@ -65,6 +65,7 @@ class AdvertismentController extends Controller
             {
                 $start_date = 'N/A';
                 $business_name = 'N/A';
+                $category = 'N/A';
                 $district = 'N/A';
                 $city = 'N/A';
                 $type = '';
@@ -74,6 +75,7 @@ class AdvertismentController extends Controller
 
                 $start_date = $value->start_date ?? $start_date;
                 $business_name = $value->business_name ?? $business_name;
+                $category = $value->category_name ?? $category;
                 $district = $value->district_name ?? $district;
                 $city = $value->city_name ?? $city;
                 $created = date("d-m-Y", strtotime("+1 month", strtotime($value->created_at)));
@@ -100,6 +102,7 @@ class AdvertismentController extends Controller
                     "id" => $value->id,
                     "start_date" => $start_date,
                     "business_name" => $business_name,
+                    "category" => $category,
                     "district" => $district,
                     "city" => $city,
                     "type" => $type,

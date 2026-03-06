@@ -177,13 +177,12 @@ class HomeController extends Controller
 
     public function vendorlistByLocation(Request $request, $location){
         $district = $location;
-        $city = $request->city;
         // Send view data
         $this->viewData['pageTitle'] = 'Vendor List';
 
         $district = District::where('status', 1)->get();
         $selectedCityId = $request->query('city');
-        $isAllCitySelected = empty($selectedCityId) || (string) $selectedCityId === 'all';
+        $isAllCitySelected = empty($selectedCityId) || strtolower((string) $selectedCityId) === 'all';
 
         $vendoruserQuery = User::where('role_id', config('constants.roles.VENDOR.value'))
             ->where('status', 1)
@@ -202,8 +201,14 @@ class HomeController extends Controller
         $banner = Advertisment::where('status', 1)
             ->where('sub_type', 'top')
             ->where('district', $location)
-            ->whereDate('expiry_date', '>=', Carbon::today())
-            ->get();
+            ->whereDate('expiry_date', '>=', Carbon::today());
+
+        if (!$isAllCitySelected) {
+            $banner->where('city', $selectedCityId);
+        }
+
+
+        $banner = $banner->get();
 
          $districtList = District::where('status', 1)
         ->orderBy('name')
@@ -218,6 +223,10 @@ class HomeController extends Controller
             ->where('sub_type', 'side')
             ->where('district', $location)
             ->whereDate('expiry_date', '>=', Carbon::today());
+
+        if (!$isAllCitySelected) {
+            $sideadvertismentsQuery->where('city', $selectedCityId);
+        }
 
         if (!$isAllCitySelected) {
             $sideadvertismentsQuery->where(function ($query) use ($selectedCityId) {
@@ -305,12 +314,11 @@ class HomeController extends Controller
     }
 
     public function vendorlistByLocationAndCategory(Request $request, $location , $category){
-
         // Send view data
         $this->viewData['pageTitle'] = 'Vendor List';
-
+        
         $selectedCityId = $request->query('city');
-        $isAllCitySelected = empty($selectedCityId) || (string) $selectedCityId === 'all';
+        $isAllCitySelected = empty($selectedCityId) || strtolower((string) $selectedCityId) === 'all';
 
         $vendoruserQuery = User::query()
             ->join('paid_listing', 'paid_listing.bussines_id', '=', 'users.id')
@@ -333,13 +341,22 @@ class HomeController extends Controller
         $topadvertisments = Advertisment::where('status', 1)
             ->where('sub_type', 'top')
             ->where('category', $category)
-            ->orWhere('district', $location)
-            ->get();
+            ->where('district', $location);
+
+        if (!$isAllCitySelected) {
+            $topadvertisments->where('city', $selectedCityId);
+        }
+
+        $topadvertisments = $topadvertisments->get();
 
         $sideadvertismentsQuery = Advertisment::where('status', 1)
             ->where('sub_type', 'side')
             ->where('category', $category)
-            ->orWhere('district', $location);
+            ->where('district', $location);
+
+        if (!$isAllCitySelected) {
+            $sideadvertismentsQuery->where('city', $selectedCityId);
+        }
 
         if (!$isAllCitySelected) {
             $sideadvertismentsQuery->where(function ($query) use ($selectedCityId) {

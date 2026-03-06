@@ -204,6 +204,7 @@ var thisJs = (function() {
                     },
                     { data: "start_date", name: "start_date", sortable: true },
                     { data: "type", name: "type", sortable: true },
+                    { data: "category", name: "category", sortable: true },
                     { data: "business_name", name: "business_name", sortable: true },
                     { data: "district", name: "district", sortable: true },
                     { data: "city", name: "city", sortable: true },
