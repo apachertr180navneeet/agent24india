@@ -5,13 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Http\Traits\Orderable;
-use App\Http\Traits\Statusable;
 use App\Http\Traits\StatusToggleable;
 
 class Advertisment extends Model
 {
-    use HasFactory, SoftDeletes, StatusToggleable; // <-- Added SoftDeletes
+    use HasFactory, SoftDeletes, StatusToggleable;
 
     protected $table = 'advertisment';
 
@@ -20,6 +18,7 @@ class Advertisment extends Model
         'bussines_name',
         'type',
         'district',
+        'city',
         'category',
         'home_city',
         'image',
@@ -27,13 +26,16 @@ class Advertisment extends Model
         'sub_type',
         'expiry_date',
         'status',
+        'created_by',
+        'updated_by'
     ];
 
-     /**
-     * Get list
+    /**
+     * Get Advertisment List
      */
-    public function scopeGetadvertisment($model, $limit = null, $offset = null, $search = null, $filter = array(), $sort = array())
+    public function scopeGetadvertisment($model, $limit = null, $offset = null, $search = null, $filter = [], $sort = [])
     {
+
         $records = Advertisment::select(
             'advertisment.id',
             'advertisment.bussines_name',
@@ -42,89 +44,101 @@ class Advertisment extends Model
             'advertisment.created_at',
             'users.business_name as business_name',
             'districts.name as district_name',
+            'cities.name as city_name',
             'advertisment.sub_type'
         )
         ->join('users', 'users.id', '=', 'advertisment.bussines_name')
         ->leftJoin('districts', 'districts.id', '=', 'advertisment.district')
-        ->where(function($query) use($search, $filter, $sort){
-            // Search
-            if(!(empty($search)))
-            {
+        ->leftJoin('cities', 'cities.id', '=', 'advertisment.city')
+
+        ->where(function ($query) use ($search) {
+
+            if (!empty($search)) {
+
                 $search = strtolower($search);
-                $query->whereRaw('( lower(users.business_name) LIKE \'%'.$search.'%\' OR lower(districts.name) LIKE \'%'.$search.'%\' )');
+
+                $query->whereRaw('(
+                    lower(users.business_name) LIKE "%' . $search . '%"
+                    OR lower(districts.name) LIKE "%' . $search . '%"
+                    OR lower(cities.name) LIKE "%' . $search . '%"
+                )');
             }
         });
-        
-        // Sort Columns Conditions
-        if((!(empty($sort)) && $sort['column'] > 0) || !empty($search))
-        {
-            $arr_fields = array(
-                "", 
+
+        /**
+         * Sorting
+         */
+        if ((!empty($sort) && $sort['column'] > 0) || !empty($search)) {
+
+            $arr_fields = [
+                "",
                 "advertisment.start_date",
                 "advertisment.type",
                 "users.business_name",
                 "districts.name",
+                "cities.name",
                 "advertisment.created_at",
                 "advertisment.status",
-                "",
-            );
+                ""
+            ];
 
-            if($arr_fields[$sort['column']] != "")
-            {
+            if (!empty($arr_fields[$sort['column']])) {
                 $records->orderBy($arr_fields[$sort['column']], $sort['dir']);
             }
-        }
-        else
-        {
+
+        } else {
+
             $records->orderBy('advertisment.id', 'desc');
+
         }
 
-        // Set final limit and records
-        if(!empty($limit))
-        {
-            $records = $records->skip($offset)->take($limit);
-            return $records->get();
-        }
-        else
-        {
-            return $records->get()->count();
+        /**
+         * Pagination
+         */
+        if (!empty($limit)) {
+
+            return $records->skip($offset)->take($limit)->get();
+
+        } else {
+
+            return $records->count();
+
         }
     }
 
+
     /**
-     * Save New Record
+     * Save New Advertisment
      */
     public function scopeSaveRecord($model, $request)
     {
-        // dd($request->all());
-        // Get user
+
         $authUser = auth()->user();
-        //----------
 
         $requestArray = $request->all();
 
-
         $data = [
-            'start_date' => $requestArray['start_date'],
-            'bussines_name' => $requestArray['vendor_user_id'],
-            'type' => $requestArray['type'],
-            'district' => $requestArray['district'] ?? 0,
-            'category' => $requestArray['category'] ?? 0,
-            'home_city' => $requestArray['home_city'],
-            'status' => 1,
-            'image_alt' => $requestArray['image_alt'],
-            'sub_type' => $requestArray['sub_type'],
-            'expiry_date' => $requestArray['expiry_date'],
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-            'created_by' => $authUser->id,
-            'updated_by' => $authUser->id
+            'start_date'   => $requestArray['start_date'],
+            'bussines_name'=> $requestArray['vendor_user_id'],
+            'type'         => $requestArray['type'],
+            'district'     => $requestArray['district'] ?? 0,
+            'city'         => $requestArray['city'] ?? 0,
+            'category'     => $requestArray['category'] ?? 0,
+            'home_city'    => $requestArray['home_city'],
+            'status'       => 1,
+            'image_alt'    => $requestArray['image_alt'],
+            'sub_type'     => $requestArray['sub_type'],
+            'expiry_date'  => $requestArray['expiry_date'],
+            'created_at'   => now(),
+            'updated_at'   => now(),
         ];
 
-        // Upload image
+        /**
+         * Upload Image
+         */
         if ($request->hasFile('image')) {
 
-            $path = public_path('upload/district');
+            $path = public_path('upload/advertisment');
 
             if (!file_exists($path)) {
                 mkdir($path, 0777, true);
@@ -132,54 +146,51 @@ class Advertisment extends Model
 
             $file     = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
+
             $file->move($path, $filename);
 
-            // Full URL save in DB
-            $data['image'] = asset('public/upload/district/' . $filename);
+            $data['image'] = asset('public/upload/advertisment/' . $filename);
         }
 
-
-        $record = $this->create($data);
-
-        return $record;
+        return $this->create($data);
     }
 
+
     /**
-     * Update Record
+     * Update Advertisment
      */
     public function scopeUpdateRecord($model, $request)
     {
+
         $authUser = auth()->user();
-        $district = null;
-        
+
         $requestArray = $request->all();
 
-        // Get User
-        $addvertismentData = Advertisment::where('id', $requestArray['id'])->first();
+        $advertismentData = Advertisment::where('id', $requestArray['id'])->first();
 
-        if(!empty($addvertismentData))
-        {
+        if ($advertismentData) {
+
             $data = [
-                'start_date' => $requestArray['start_date'],
-                'bussines_name' => $requestArray['vendor_user_id'],
-                'type' => $requestArray['type'],
-                'district' => $requestArray['district'] ?? 0,
-                'category' => $requestArray['category'] ?? 0,
-                'home_city' => $requestArray['home_city'],
-                'status' => 1,
-                'image_alt' => $requestArray['image_alt'],
-                'sub_type' => $requestArray['sub_type'],
-                'expiry_date' => $requestArray['expiry_date'],
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-                'created_by' => $authUser->id,
-                'updated_by' => $authUser->id
+                'start_date'   => $requestArray['start_date'],
+                'bussines_name'=> $requestArray['vendor_user_id'],
+                'type'         => $requestArray['type'],
+                'district'     => $requestArray['district'] ?? 0,
+                'city'         => $requestArray['city'] ?? 0,
+                'category'     => $requestArray['category'] ?? 0,
+                'home_city'    => $requestArray['home_city'],
+                'status'       => 1,
+                'image_alt'    => $requestArray['image_alt'],
+                'sub_type'     => $requestArray['sub_type'],
+                'expiry_date'  => $requestArray['expiry_date'],
+                'updated_at'   => now(),
             ];
-            
-            // Upload image
+
+            /**
+             * Upload Image
+             */
             if ($request->hasFile('image')) {
 
-                $path = public_path('upload/district');
+                $path = public_path('upload/advertisment');
 
                 if (!file_exists($path)) {
                     mkdir($path, 0777, true);
@@ -187,15 +198,15 @@ class Advertisment extends Model
 
                 $file     = $request->file('image');
                 $filename = time() . '_' . $file->getClientOriginalName();
+
                 $file->move($path, $filename);
 
-                // Full URL save in DB
-                $data['image'] = asset('public/upload/district/' . $filename);
+                $data['image'] = asset('public/upload/advertisment/' . $filename);
             }
-            $addvertisment = $addvertismentData->update($data);
+
+            return $advertismentData->update($data);
         }
 
-        return $addvertisment;
+        return false;
     }
 }
-

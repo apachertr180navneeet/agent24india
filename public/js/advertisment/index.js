@@ -206,6 +206,7 @@ var thisJs = (function() {
                     { data: "type", name: "type", sortable: true },
                     { data: "business_name", name: "business_name", sortable: true },
                     { data: "district", name: "district", sortable: true },
+                    { data: "city", name: "city", sortable: true },
                     { data: "created", name: "created", sortable: true },
                     { data: "status", name: "status", sortable: true },
                     {

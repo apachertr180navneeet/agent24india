@@ -105,6 +105,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
             Route::get('/list', [Admin\AdvertismentController::class, 'getAdvertisments'])->name('advertisment.getAdvertisments');
             Route::get("/create", [Admin\AdvertismentController::class, "create"])->name("advertisment.create");
             Route::post("/store", [Admin\AdvertismentController::class, "store"])->name("advertisment.store");
+            Route::post("/get-cities", [Admin\AdvertismentController::class, "getCitiesByDistrict"])->name("advertisment.getCitiesByDistrict");
             Route::get("/edit/{id}", [Admin\AdvertismentController::class, "edit"])->name("advertisment.edit");
             Route::post("/update/{id}", [Admin\AdvertismentController::class, "update"])->name("advertisment.update");
             Route::post("/change-status", [Admin\AdvertismentController::class, "changeStatus"])->name("advertisment.changeStatus");

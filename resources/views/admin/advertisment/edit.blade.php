@@ -48,7 +48,7 @@
     <div class="col-md-6">
         <div class="form-group">
             <label>Business Name</label>
-            <select name="vendor_user_id" class="form-control">
+            <select name="vendor_user_id" id="vendor_user_id" class="form-control select2">
                 <option value="">-Select-</option>
                 @foreach($vendoruser as $value)
                     <option value="{{ $value->id }}"
@@ -96,7 +96,10 @@
     <div class="col-md-6" id="district-col">
         <div class="form-group">
             <label>District</label>
-            <select name="district" id="district" class="form-control">
+            <select name="district"
+                    id="district"
+                    class="form-control select2"
+                    data-get-cities-url="{{ route('admin.advertisment.getCitiesByDistrict') }}">
                 <option value="">-Select-</option>
                 @foreach($districts as $value)
                     <option value="{{ $value->id }}"
@@ -109,12 +112,12 @@
     </div>
 </div>
 
-{{-- CATEGORY + HOME CITY --}}
+{{-- CATEGORY + CITY --}}
 <div class="row">
     <div class="col-md-6" id="category-col">
         <div class="form-group">
             <label>Category</label>
-            <select name="category" id="category" class="form-control">
+            <select name="category" id="category" class="form-control select2">
                 <option value="">-Select-</option>
                 @foreach($parentCategories as $value)
                     <option value="{{ $value->id }}"
@@ -126,6 +129,29 @@
         </div>
     </div>
 
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>City</label>
+            <select name="city"
+                    id="city"
+                    class="form-control select2"
+                    data-old-city="{{ old('city', $advertismentdata->city) }}">
+                <option value="">-Select-</option>
+                @if(isset($cities) && count($cities) > 0)
+                    @foreach($cities as $value)
+                        <option value="{{ $value->id }}"
+                            {{ old('city', $advertismentdata->city) == $value->id ? 'selected' : '' }}>
+                            {{ $value->name }}
+                        </option>
+                    @endforeach
+                @endif
+            </select>
+        </div>
+    </div>
+</div>
+
+{{-- HOME CITY --}}
+<div class="row">
     <div class="col-md-6">
         <div class="form-group">
             <label>Home City</label>
@@ -172,7 +198,7 @@
     <div class="col-md-6">
         <div class="form-group">
             <label>Sub Type</label>
-            <select name="sub_type" class="form-control">
+            <select name="sub_type" id="sub_type" class="form-control select2">
                 <option value="">-Select-</option>
                 <option value="top"
                     {{ old('sub_type', $advertismentdata->sub_type) == 'top' ? 'selected' : '' }}>
@@ -222,17 +248,50 @@ $(document).ready(function () {
 
     // Dropify Init
     $('.dropify').dropify();
+    $('.select2').select2({
+        width: '100%'
+    });
+
+    let $district = $("#district");
+    let $city = $("#city");
+
+    function loadCitiesByDistrict(selectedCity) {
+        let districtId = $district.val();
+
+        if (!districtId) {
+            $city.html('<option value="">-Select-</option>');
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: $district.data("get-cities-url"),
+            data: {
+                district_id: districtId,
+                _token: "{{ csrf_token() }}"
+            },
+            success: function (response) {
+                $city.html(response.data || '<option value="">-Select-</option>');
+
+                if (selectedCity !== undefined && selectedCity !== null && String(selectedCity) !== '') {
+                    $city.val(String(selectedCity));
+                }
+
+                $city.trigger("change.select2");
+            }
+        });
+    }
 
     function toggleFields() {
         let selectedType = $("input[name='type']:checked").val();
 
-        if (selectedType === 'listing_page') {
-            $("#category-col").show();
-            $("#district-col").hide();
-        } else if (selectedType === 'district_page') {
-            $("#district-col").show();
+        if (selectedType === 'district_page') {
             $("#category-col").hide();
+        } else {
+            $("#category-col").show();
         }
+
+        $("#district-col").show();
     }
 
     toggleFields();
@@ -240,6 +299,14 @@ $(document).ready(function () {
     $("input[name='type']").change(function () {
         toggleFields();
     });
+
+    $district.on("change", function () {
+        loadCitiesByDistrict("");
+    });
+
+    if ($district.val() && $city.find("option").length <= 1) {
+        loadCitiesByDistrict($city.data("old-city"));
+    }
 
 });
 </script>

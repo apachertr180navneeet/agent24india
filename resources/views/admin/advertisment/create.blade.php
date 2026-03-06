@@ -49,7 +49,7 @@
                                                 <option value="">-Select-</option>
                                                 @if(isset($vendoruser) && count($vendoruser) > 0)
                                                     @foreach($vendoruser as $key => $value)
-                                                        <option value="{{$value->id}}">{{$value->name}}</option>
+                                                        <option value="{{$value->id}}" {{ old('vendor_user_id') == $value->id ? 'selected' : '' }}>{{$value->name}}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
@@ -77,11 +77,11 @@
                                     <div class="col-md-6 col-lg-6 col-xl-6" id="district-col">
                                         <div class="form-group">
                                             <label class="">District</label>
-                                            <select class="form-control select-picker" id="district" name="district">
+                                            <select class="form-control select-picker" id="district" name="district" data-get-cities-url="{{ route('admin.advertisment.getCitiesByDistrict') }}">
                                                 <option value="">-Select-</option>
                                                 @if(isset($districts) && count($districts) > 0)
                                                     @foreach($districts as $key => $value)
-                                                        <option value="{{$value->id}}">{{$value->name}}</option>
+                                                        <option value="{{$value->id}}" {{ old('district') == $value->id ? 'selected' : '' }}>{{$value->name}}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
@@ -89,7 +89,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Category and Home City Row -->
+                                <!-- Category and City Row -->
                                 <div class="row row-sm">
                                     <div class="col-md-6 col-lg-6 col-xl-6" id="category-col">
                                         <div class="form-group">
@@ -98,12 +98,24 @@
                                                 <option value="">-Select-</option>
                                                 @if(isset($parentCategories) && count($parentCategories) > 0)
                                                     @foreach($parentCategories as $key => $value)
-                                                        <option value="{{$value->id}}">{{$value->name}}</option>
+                                                        <option value="{{$value->id}}" {{ old('category') == $value->id ? 'selected' : '' }}>{{$value->name}}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-md-6 col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                            <label class="">City</label>
+                                            <select class="form-control select-picker" id="city" name="city" data-old-city="{{ old('city') }}">
+                                                <option value="">-Select-</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Home City Row -->
+                                <div class="row row-sm">
                                     <div class="col-md-6 col-lg-6 col-xl-6">
                                         <div class="form-group">
                                             <label class="">Home City</label>
@@ -135,8 +147,8 @@
                                             <label class="">Sub Type</label>
                                             <select class="form-control select-picker" id="sub_type" name="sub_type">
                                                 <option value="">-Select-</option>
-                                                <option value="top">Top</option>
-                                                <option value="side">Side</option>
+                                                <option value="top" {{ old('sub_type') == 'top' ? 'selected' : '' }}>Top</option>
+                                                <option value="side" {{ old('sub_type') == 'side' ? 'selected' : '' }}>Side</option>
                                             </select>
                                         </div>
                                     </div>

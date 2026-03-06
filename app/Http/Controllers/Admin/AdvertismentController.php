@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Advertisment;
 use App\Models\Category;
 use App\Models\District;
+use App\Models\City;
 use App\Models\User;
 
 class AdvertismentController extends Controller
@@ -65,6 +66,7 @@ class AdvertismentController extends Controller
                 $start_date = 'N/A';
                 $business_name = 'N/A';
                 $district = 'N/A';
+                $city = 'N/A';
                 $type = '';
                 $created = 'N/A';
                 $status = '';
@@ -73,6 +75,7 @@ class AdvertismentController extends Controller
                 $start_date = $value->start_date ?? $start_date;
                 $business_name = $value->business_name ?? $business_name;
                 $district = $value->district_name ?? $district;
+                $city = $value->city_name ?? $city;
                 $created = date("d-m-Y", strtotime("+1 month", strtotime($value->created_at)));
                 $type = $value->sub_type ?? $type;
 
@@ -98,6 +101,7 @@ class AdvertismentController extends Controller
                     "start_date" => $start_date,
                     "business_name" => $business_name,
                     "district" => $district,
+                    "city" => $city,
                     "type" => $type,
                     "status" => $status,
                     "created" => $created,
@@ -157,6 +161,39 @@ class AdvertismentController extends Controller
         $this->viewData['vendoruser'] = $vendoruser;
 
         return view('admin.advertisment.create')->with($this->viewData);
+    }
+
+    /**
+     * Get cities by district.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getCitiesByDistrict(Request $request)
+    {
+        $status = false;
+        $message = "Cities not found.";
+        $data = view('admin.advertisment.get_cities')->with(['cities' => collect([])])->render();
+
+        if ($request->district_id) {
+            $cities = City::where('district_id', $request->district_id)
+                ->where('status', 1)
+                ->get();
+
+            if ($cities->count() > 0) {
+                $status = true;
+                $message = "Cities found successfully.";
+            }
+
+            $data = view('admin.advertisment.get_cities')->with(['cities' => $cities])->render();
+        }
+
+        $response = [
+            'status' => $status,
+            'message' => $message,
+            'data' => $data
+        ];
+
+        return response()->json($response, 200);
     }
 
     /**
@@ -242,6 +279,15 @@ class AdvertismentController extends Controller
 
         // Category to edit
         $advertismentdata = Advertisment::where('advertisment.id', $id)->first();
+
+        $selectedDistrictId = old('district', $advertismentdata->district ?? null);
+        $cities = collect([]);
+        if (!empty($selectedDistrictId)) {
+            $cities = City::select('id', 'name')
+                ->where('district_id', $selectedDistrictId)
+                ->where('status', 1)
+                ->get();
+        }
         
         // Send view data
         $this->viewData['pageTitle'] = 'Advertisment';
@@ -249,6 +295,7 @@ class AdvertismentController extends Controller
         $this->viewData['parentCategories'] = $parentCategories;
         $this->viewData['advertismentdata'] = $advertismentdata;
         $this->viewData['districts'] = $districts;
+        $this->viewData['cities'] = $cities;
         $this->viewData['vendoruser'] = $vendoruser;
 
         return view('admin.advertisment.edit')->with($this->viewData);

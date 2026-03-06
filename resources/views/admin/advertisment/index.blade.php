@@ -53,6 +53,7 @@
                                     <th>Type</th>
                                     <th>Business Name</th>
                                     <th>District</th>
+                                    <th>City</th>
                                     <th>Expired</th>
                                     <th>Status</th>
                                     <th>Action</th>

@@ -98,6 +98,7 @@ var thisJs = (function() {
             var $categoryWrapper = $("#category-col");
             var $district = $("#district");
             var $districtWrapper = $("#district-col");
+            var $city = $("#city");
             var $startDate = $("#start_date");
             var $expiryDate = $("#expiry_date");
             var $form = $("#add-form");
@@ -160,9 +161,49 @@ var thisJs = (function() {
                 $expiryDate.val(formatDate(newDate));
             };
 
+            var getOldCity = function() {
+                return String($city.data("old-city") || "");
+            };
+
+            var loadCitiesByDistrict = function(selectedCity) {
+                var districtId = $district.val();
+
+                if (!districtId) {
+                    $city.html('<option value="">-Select-</option>').trigger("change");
+                    if ($city.hasClass("select-picker")) {
+                        $city.selectpicker("refresh");
+                    }
+                    return;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: $district.data("get-cities-url"),
+                    async: true,
+                    data: { district_id: districtId },
+                    success: function(response) {
+                        $city.html(response.data || '<option value="">-Select-</option>');
+
+                        if (selectedCity) {
+                            $city.val(String(selectedCity));
+                        }
+
+                        $city.trigger("change");
+
+                        if ($city.hasClass("select-picker")) {
+                            $city.selectpicker("refresh");
+                        }
+                    }
+                });
+            };
+
             $typeInputs.on("change", function() {
                 toggleCategoryByType();
                 updateConditionalValidation();
+            });
+
+            $district.on("change", function() {
+                loadCitiesByDistrict("");
             });
 
             $startDate.on("change", function() {
@@ -170,6 +211,9 @@ var thisJs = (function() {
             });
 
             toggleCategoryByType();
+            if ($district.val()) {
+                loadCitiesByDistrict(getOldCity());
+            }
             if ($startDate.val() && !$expiryDate.val()) {
                 setExpiryAfterOneMonth();
             }
@@ -200,6 +244,11 @@ var thisJs = (function() {
                     home_city: {
                         required: true,
                     },
+                    city: {
+                        required: function() {
+                            return $("#district").val() !== "";
+                        }
+                    },
                     image_alt: {
                         required: true,
                     },
@@ -228,6 +277,9 @@ var thisJs = (function() {
                         required: "This field is required.",
                     },
                     home_city: {
+                        required: "This field is required.",
+                    },
+                    city: {
                         required: "This field is required.",
                     },
                     image_alt: {
