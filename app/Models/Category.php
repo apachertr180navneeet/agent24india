@@ -147,6 +147,53 @@ class Category extends Model
         }
     }
 
+    /**
+     * Save New Category
+     */
+    // public function scopeSaveRecord($model, $request)
+    // {
+    //     // dd($request->all());
+    //     // Get user
+    //     $authUser = auth()->user();
+    //     //----------
+
+    //     $requestArray = $request->all();
+
+    //     $data = [
+    //         'parent_id' => !empty($requestArray['parent_id']) ? $requestArray['parent_id'] : null,
+    //         'name' => $requestArray['name'],
+    //         'status' => $requestArray['status'],
+    //         'created_at' => date('Y-m-d H:i:s'),
+    //         'updated_at' => date('Y-m-d H:i:s'),
+    //         'created_by' => $authUser->id,
+    //         'updated_by' => $authUser->id
+    //     ];
+
+    //     // Upload image and add to data array
+    //     if ($request->hasFile('image'))
+    //     {
+    //         if(!file_exists(storage_path("app/public/images/category/"))){
+    //             mkdir(storage_path("app/public/images/category/"), 0777, true);
+    //         }
+    //         else
+    //         {
+    //             chmod(storage_path("app/public/images/category/"), 0777);
+    //         }
+
+    //         $image = $this->uploadImage($request->file('image'), "images/category/", 70, null);
+
+    //         if ($image['_status']) 
+    //         {
+    //             $imageName = $image['_data'];
+    //             $data['image'] = $imageName;
+    //         }
+    //     }
+
+    //     $record = $this->create($data);
+
+    //     return $record;
+    // }
+
 
     public function scopeSaveRecord($model, $request)
     {

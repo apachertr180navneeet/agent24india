@@ -312,16 +312,21 @@ class HomeController extends Controller
         $selectedCityId = $request->query('city');
         $isAllCitySelected = empty($selectedCityId) || (string) $selectedCityId === 'all';
 
-        $vendoruserQuery = User::where('status', 1)
-            ->where('is_approved', 1)
-            ->where('business_category_id', $category)
-            ->where('district_id', $location);
+        $vendoruserQuery = User::query()
+            ->join('paid_listing', 'paid_listing.bussines_id', '=', 'users.id')
+            ->where('users.status', 1)
+            ->where('users.is_approved', 1)
+            ->where('users.business_category_id', $category)
+            ->where('users.district_id', $location);
 
         if (!$isAllCitySelected) {
-            $vendoruserQuery->where('city_id', $selectedCityId);
+            $vendoruserQuery->where('users.city_id', $selectedCityId);
         }
 
-        $vendoruser = $vendoruserQuery->paginate(12);
+        // If you want all user columns only
+        $vendoruser = $vendoruserQuery
+            ->select('users.*')
+            ->paginate(12);
         
         $categories = Category::where('status', 1)->whereNull('parent_id')->get();
 

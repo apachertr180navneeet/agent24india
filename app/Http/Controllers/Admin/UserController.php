@@ -789,7 +789,37 @@ class UserController extends Controller
                 'profile_photo'  => $profileImageUrl ?? $imagePath,
             ];
 
+            $oldStatus = $user->is_approved;
+
             $user->update($data);
+
+            // ✅ Mail only when status becomes 1
+            if ($oldStatus != 1 && $request->is_approved == 1 && $user->email) {
+
+                $to = $user->email;
+                $subject = "Your Vendor Account Has Been Approved";
+
+                $message = "
+                <html>
+                <head>
+                    <title>Vendor Approved</title>
+                </head>
+                <body>
+                    <h2>Hello {$user->name},</h2>
+                    <p>Congratulations! Your vendor account has been approved.</p>
+                    <p>You can now login and start using your dashboard.</p>
+                    <br>
+                    <p>Thanks & Regards,<br>" . "agent24india" . "</p>
+                </body>
+                </html>
+                ";
+
+                $headers = "MIME-Version: 1.0" . "\r\n";
+                $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+                $headers .= "From: " . "agent24india" . " <info@agent24india.com>" . "\r\n";
+
+                mail($to, $subject, $message, $headers);
+            }
 
             DB::commit();
 
@@ -802,6 +832,7 @@ class UserController extends Controller
                 ]);
 
         } catch (\Exception $e) {
+
             DB::rollback();
 
             return back()
