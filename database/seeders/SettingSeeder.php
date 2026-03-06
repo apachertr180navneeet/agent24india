@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Setting;
 
@@ -13,115 +12,21 @@ class SettingSeeder extends Seeder
      */
     public function run(): void
     {
-        $settingsData = [
-            [
-                'title' => 'Site Title',
-                'slug' => 'site-title',
-                'value' => 'AgentIndia',
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ],
-            [
-                'title' => 'Site Logo',
-                'slug' => 'site-logo',
-                'value' => 'verified_image.jpg',
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ],
-            [
-                'title' => 'Logo Title',
-                'slug' => 'logo-title',
-                'value' => 'AgentIndia',
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ],
-            [
-                'title' => 'Reserved Right',
-                'slug' => 'reserved-right',
-                'value' => '&copy; AgentIndia',
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ],
-            [
-                'title' => 'SMTP',
-                'slug' => 'smtp',
-                'value' => null,
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ],
-            [
-                'title' => 'SMTP Host',
-                'slug' => 'smtp-host',
-                'value' => null,
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ],
-            [
-                'title' => 'SMTP Port',
-                'slug' => 'smtp-port',
-                'value' => null,
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ],
-            [
-                'title' => 'SMTP Username',
-                'slug' => 'smtp-username',
-                'value' => null,
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ],
-            [
-                'title' => 'SMTP Password',
-                'slug' => 'smtp-password',
-                'value' => null,
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ],
-            [
-                'title' => 'From Email',
-                'slug' => 'from-email',
-                'value' => null,
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ],
-            [
-                'title' => 'From Name',
-                'slug' => 'from-name',
-                'value' => null,
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ],
-            [
-                'title' => 'Show Items Per Page',
-                'slug' => 'show-items-per-page',
-                'value' => '10',
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ],
-            [
-                'title' => 'App Version',
-                'slug' => 'app-version',
-                'value' => '1.0',
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ],
-            [
-                'title' => 'Android Legacy Key',
-                'slug' => 'android-legacy-key',
-                'value' => null,
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ],
-        ];
+        $setting = Setting::orderBy('id', 'asc')->first();
 
-        foreach($settingsData as $key => $value)
-        {
-            $isSettingExists = Setting::where('title', $value['title'])->exists();
-
-            if(!$isSettingExists)
-            {
-                Setting::create($value);
-            }
+        if (!$setting) {
+            Setting::create([
+                'site_title' => 'agent24india',
+                'logo_title' => 'agent24india',
+                'payment_gateway' => '',
+                'demo_1_video_url' => null,
+                'demo_2_video_url' => null,
+                'demo_3_video_url' => null,
+                'logo_image' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
         }
     }
 }
+

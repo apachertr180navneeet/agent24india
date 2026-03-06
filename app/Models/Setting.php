@@ -12,11 +12,13 @@ class Setting extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'title',
-        'slug',
-        'value',
-        'created_by',
-        'updated_by',
+        'site_title',
+        'logo_title',
+        'payment_gateway',
+        'demo_1_video_url',
+        'demo_2_video_url',
+        'demo_3_video_url',
+        'logo_image',
         'created_at',
         'updated_at'
     ];

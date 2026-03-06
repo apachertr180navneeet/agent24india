@@ -215,6 +215,15 @@ $currentRoute = request()->route()->getName();
                 @endif
 
 
+                <li class="nav-item">
+                    <a href="{{ route('admin.setting.index') }}" 
+                       class="nav-link {{ request()->routeIs('admin.setting.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>Setting</p>
+                    </a>
+                </li>
+
+
                 {{-- Logout --}}
                 <li class="nav-item">
                     <a href="{{ route('admin.logout') }}" class="nav-link">

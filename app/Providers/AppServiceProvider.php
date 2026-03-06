@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Setting;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 
@@ -20,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $siteTitle = getSettingBySlug('site-title');
-        View::share('siteTitle', $siteTitle->value ?? '');
+        $setting = Setting::orderBy('id', 'asc')->first();
+        View::share('siteTitle', $setting->site_title ?? '');
     }
 }

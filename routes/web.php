@@ -242,6 +242,11 @@ Route::prefix('admin')->name('admin.')->group(function(){
             Route::get("/", [Admin\SupportFormController::class, "index"])->name("support-form.index");
             Route::get("/edit/{id}", [Admin\SupportFormController::class, "edit"])->name("support-form.edit");
         });
+
+        Route::prefix("seeting")->group(function(){
+            Route::get("/", [Admin\SettingController::class, "index"])->name("setting.index");
+            Route::post("/edit", [Admin\SettingController::class, "edit"])->name("setting.edit");
+        });
     });
 });
 
