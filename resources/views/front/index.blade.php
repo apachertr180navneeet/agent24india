@@ -2,234 +2,280 @@
 @section('title', $pageTitle)
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('public/plugins/select2/css/select2.min.css') }}">
-<style>
-    .search-results {
-        position: absolute;
-        width: 100%;
-        background: #fff;
-        border: 1px solid #000;
-        max-height: 200px;
-        overflow-y: auto;
-        z-index: 9999;
-    }
-
-    .location-selector-row > div {
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
-
-    .result-item {
-        padding: 10px;
-        cursor: pointer;
-    }
-
-    .result-item:hover {
-        background: #f2f2f2;
-    }
-
-    .search-form .search-input .select2-container {
-        display: block;
-        width: 100% !important;
-        min-width: 100% !important;
-        max-width: 100% !important;
-    }
-
-    span#select2-category_district_id-container {
-        padding-right: 104px;
-    }
-
-    span#select2-category_city_id-container {
-        padding-right: 91px;
-    }
-
-    #city_search + .select2,
-    #city_search + .select2-container {
-        width: 100% !important;
-        min-width: 100% !important;
-        max-width: 100% !important;
-    }
-
-    #category + .select2,
-    #category + .select2-container {
-        width: 100% !important;
-        min-width: 100% !important;
-        max-width: 100% !important;
-    }
-
-    #category_district_id + .select2,
-    #category_district_id + .select2-container,
-    #category_city_id + .select2,
-    #category_city_id + .select2-container {
-        width: 100% !important;
-        min-width: 100% !important;
-        max-width: 100% !important;
-        display: block;
-    }
-
-    .location-selector-row .search-input {
-        width: 100%;
-    }
-
-    .search-form .search-input .select2-container .select2-selection--single {
-        width: 100%;
-        background: #fff;
-        border-radius: 6px;
-        border: none;
-        padding: 0 25px;
-        padding-right: 45px;
-        height: 55px;
-        font-size: 15px;
-    }
-
-    .search-form .search-input .select2-container .select2-selection--single:focus {
-        outline: none !important;
-    }
-
-    .search-form .search-input .select2-container .select2-selection__rendered {
-        line-height: 55px;
-        color: #081828;
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    .search-form .search-input .select2-container .select2-selection__placeholder {
-        color: #6c757d;
-    }
-
-    .search-form .search-input .select2-container .select2-selection__arrow {
-        display: none;
-    }
-
-    .select2-container--default .select2-results__option--highlighted[aria-selected] {
-        background-color: #f2f2f2;
-        color: #333;
-    }
-
-    .select2-container--default .select2-results__option[aria-selected=true] {
-        background-color: #f8f9fa;
-        color: #333;
-    }
-
-    .search-form .search-input input.form-control {
-        border: 1px solid #000;
-    }
-
-    .search-form .search-input #location_search.form-control {
-        height: 60px;
-        padding: 0 25px;
-        padding-right: 45px;
-        border-radius: 6px;
-    }
-
-    .search-form .search-input select.form-control {
-        border: 1px solid #000;
-    }
-
-    .search-dropdown-box {
-        border: 1px solid #000000;
-        border-radius: 4px;
-        height: 60px;
-        margin: 1px 7px;
-        width: 100%;
-    }
-
-    .select2-dropdown {
-        border: 1px solid #000;
-    }
-
-    @media (max-width: 991.98px) {
-        .location-selector-row {
-            display: flex;
-            flex-wrap: nowrap;
+    <link rel="stylesheet" href="{{ asset('public/plugins/select2/css/select2.min.css') }}">
+    <style>
+        .search-results {
+            position: absolute;
+            width: 100%;
+            background: #fff;
+            border: 1px solid #000;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 9999;
         }
 
-        .location-selector-row > div {
+        .location-selector-row>div {
             flex: 0 0 50%;
             max-width: 50%;
         }
 
+        .result-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .result-item:hover {
+            background: #f2f2f2;
+        }
+
+        .search-form .search-input .select2-container {
+            display: block;
+            width: 100% !important;
+            min-width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        span#select2-category_district_id-container {
+            padding-right: 104px;
+        }
+
+        span#select2-category_city_id-container {
+            padding-right: 91px;
+        }
+
+        #city_search+.select2,
+        #city_search+.select2-container {
+            width: 100% !important;
+            min-width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        #category+.select2,
+        #category+.select2-container {
+            width: 100% !important;
+            min-width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        #category_district_id+.select2,
+        #category_district_id+.select2-container,
+        #category_city_id+.select2,
+        #category_city_id+.select2-container {
+            width: 100% !important;
+            min-width: 100% !important;
+            max-width: 100% !important;
+            display: block;
+        }
+
+        .location-selector-row .search-input {
+            width: 100%;
+        }
+
+        .search-form .search-input .select2-container .select2-selection--single {
+            width: 100%;
+            background: #fff;
+            border-radius: 6px;
+            border: none;
+            padding: 0 25px;
+            padding-right: 45px;
+            height: 55px;
+            font-size: 15px;
+        }
+
+        .search-form .search-input .select2-container .select2-selection--single:focus {
+            outline: none !important;
+        }
+
+        .search-form .search-input .select2-container .select2-selection__rendered {
+            line-height: 55px;
+            color: #081828;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .search-form .search-input .select2-container .select2-selection__placeholder {
+            color: #6c757d;
+        }
+
+        .search-form .search-input .select2-container .select2-selection__arrow {
+            display: none;
+        }
+
+        .select2-container--default .select2-results__option--highlighted[aria-selected] {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        .select2-container--default .select2-results__option[aria-selected=true] {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .search-form .search-input input.form-control {
+            border: 1px solid #000;
+        }
+
+        .search-form .search-input #location_search.form-control {
+            height: 60px;
+            padding: 0 25px;
+            padding-right: 45px;
+            border-radius: 6px;
+        }
+
+        .search-form .search-input select.form-control {
+            border: 1px solid #000;
+        }
+
         .search-dropdown-box {
-            margin: 1px 0;
+            border: 1px solid #000000;
+            border-radius: 4px;
+            height: 60px;
+            margin: 1px 7px;
+            width: 100%;
         }
-    }
-    /* Category Section */
-    .categories-section {
-        padding: 40px 0;
-    }
 
-    /* Grid layout */
-    .categories-grid {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr); /* 6 per row */
-        gap: 20px;
-    }
+        .select2-dropdown {
+            border: 1px solid #000;
+        }
 
-    .row.location-selector-row {
-        margin-top: 5px;
-    }
+        @media (max-width: 991.98px) {
+            .location-selector-row {
+                display: flex;
+                flex-wrap: nowrap;
+            }
 
-    /* Card style */
-    .category-link {
-        text-decoration: none;
-    }
+            .location-selector-row>div {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
 
-    .category-card {
-        background: #fff;
-        border-radius: 10px;
-        padding: 15px 10px;
-        text-align: center;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-        transition: 0.3s;
-    }
+            .search-dropdown-box {
+                margin: 1px 0;
+            }
+        }
 
-    .category-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-    }
+        /* Category Section */
+        .categories-section {
+            padding: 40px 0;
+        }
 
-    .category-card img {
-        width: 60px;
-        height: 60px;
-        object-fit: contain;
-        margin-bottom: 8px;
-    }
-
-    .category-card span {
-        display: block;
-        font-size: 13px;
-        font-weight: 600;
-        color: #333;
-    }
-
-    /* Responsive */
-    @media (max-width: 1200px) {
+        /* Grid layout */
         .categories-grid {
-            grid-template-columns: repeat(4, 1fr);
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            /* 6 per row */
+            gap: 20px;
         }
-    }
 
-    @media (max-width: 768px) {
-        .categories-grid {
-            grid-template-columns: repeat(3, 1fr);
+        .row.location-selector-row {
+            margin-top: 5px;
         }
-    }
 
-    @media (max-width: 480px) {
-        .categories-grid {
-            grid-template-columns: repeat(3, 1fr);
+        /* Card style */
+        .category-link {
+            text-decoration: none;
         }
-    }
 
-    span.selection {
-        width: 100%;
-    }
-</style>
+        .category-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 15px 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transition: 0.3s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-card img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 8px;
+        }
+
+        .category-card span {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .categories-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .categories-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .categories-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        span.selection {
+            width: 100%;
+        }
+
+        .video-thumbnail{
+            position:relative;
+            overflow:hidden;
+        }
+
+        .video-thumbnail img{
+            width:100%;
+            border-radius:8px;
+        }
+
+        .play-btn{
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            font-size:40px;
+            color:#fff;
+            background:rgba(0,0,0,0.6);
+            width:70px;
+            height:70px;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
+        /* hover effect */
+
+        .video-thumbnail:hover .play-btn{
+            background:#ff0000;
+        }
+
+        /* mobile spacing */
+
+        @media(max-width:768px){
+
+        .video-thumbnail img{
+            height:auto;
+        }
+
+        }
+    </style>
 @endpush
- @php
+@php
     $districtModel = new \App\Models\District();
     $cityModel = new \App\Models\City();
+    $settingModel = new \App\Models\Setting();
     $districtList = $districtModel->select('id', 'name')->where('status', 1)->get();
+    $setting = $settingModel->where('id', 1)->first();
 @endphp
 @section('content')
     <!-- Location Selector -->
@@ -242,16 +288,12 @@
                            
                         </label>  --}}
 
-                        <input type="text" 
-                            id="location_search" 
-                            class="form-control"
-                            placeholder="Search district"
+                        <input type="text" id="location_search" class="form-control" placeholder="Search district"
                             autocomplete="off">
 
                         <div id="searchResults" class="search-results">
-                            @foreach($districtList as $value)
-                                <div class="result-item" 
-                                    data-id="{{ $value->id }}"
+                            @foreach ($districtList as $value)
+                                <div class="result-item" data-id="{{ $value->id }}"
                                     data-name="{{ strtolower($value->name) }}">
                                     {{ $value->name }}
                                 </div>
@@ -277,8 +319,8 @@
     <section class="hero-area">
         <div class="hero-slider">
             @foreach ($banner as $key => $value)
-                <div class="slide {{($key == 0) ? 'active' : ''}}">
-                    <img src="{{ $value->image}}" alt="Slide {{($key + 1)}}">
+                <div class="slide {{ $key == 0 ? 'active' : '' }}">
+                    <img src="{{ $value->image }}" alt="Slide {{ $key + 1 }}">
                 </div>
             @endforeach
             <button class="arrow prev">&#10094;</button>
@@ -291,14 +333,14 @@
 
     <!-- Location Search -->
     <section class="container select-category">
-        <div class="search-form wow " >
+        <div class="search-form wow ">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-12 p-0">
                     <div class="search-input search-dropdown-box">
                         {{--  <label for="category"><i class="lni lni-grid-alt theme-color"></i></label>  --}}
                         <select name="category" id="category">
                             <option value="none">Choose Categories</option>
-                            @foreach($category as $value)
+                            @foreach ($category as $value)
                                 <option value="{{ $value->id }}"
                                     {{ request()->route('category') == $value->id ? 'selected' : '' }}>
                                     {{ $value->name }}
@@ -316,9 +358,8 @@
     <section class="categories-section">
         <div class="container">
             <div class="categories-grid">
-                @foreach($category as $key => $value)
-                    <a href="javascript:void(0);"
-                        class="category-link js-category-location"
+                @foreach ($category as $key => $value)
+                    <a href="javascript:void(0);" class="category-link js-category-location"
                         data-category-id="{{ $value->id }}">
                         <div class="category-card">
                             <img src="{{ $value->image }}" alt="{{ $value->name }}">
@@ -330,7 +371,8 @@
         </div>
     </section>
 
-    <div class="modal fade" id="categoryDistrictModal" tabindex="-1" role="dialog" aria-labelledby="categoryDistrictModalLabel" aria-hidden="true">
+    <div class="modal fade" id="categoryDistrictModal" tabindex="-1" role="dialog"
+        aria-labelledby="categoryDistrictModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -341,7 +383,7 @@
                         <div class="col-12 mb-3">
                             <select id="category_district_id" class="form-control">
                                 <option value="">Choose district</option>
-                                @foreach($districtList as $district)
+                                @foreach ($districtList as $district)
                                     <option value="{{ $district->id }}">{{ $district->name }}</option>
                                 @endforeach
                             </select>
@@ -369,23 +411,19 @@
             <div class="locations-grid1">
 
                 <!-- Location Card -->
-                @foreach($districthome as $districtkey => $districtvalue)
+                @foreach ($districthome as $districtkey => $districtvalue)
                     <a href="{{ route('front.vendorlist.location', ['location' => $districtvalue->id]) }}"
-                        class="location-card1 js-home-location-card"
-                        data-district-id="{{ $districtvalue->id }}"
+                        class="location-card1 js-home-location-card" data-district-id="{{ $districtvalue->id }}"
                         data-district-name="{{ $districtvalue->name }}">
-                        <img 
-                            src="{{ $districtvalue->image 
-                                ? $districtvalue->image 
-                                : 'https://media.istockphoto.com/id/481776206/photo/cityscape-of-blue-city-and-mehrangarh-fort-jodhpur-india.jpg?s=2048x2048&w=is&k=20&c=gWUiWwsZpLsSoBSgLOvnhZbR6pwQpcPEqMLDYUTaIt0=' }}" 
-                            alt="{{ $districtvalue->name }}"
-                        >
+                        <img src="{{ $districtvalue->image
+                            ? $districtvalue->image
+                            : 'https://media.istockphoto.com/id/481776206/photo/cityscape-of-blue-city-and-mehrangarh-fort-jodhpur-india.jpg?s=2048x2048&w=is&k=20&c=gWUiWwsZpLsSoBSgLOvnhZbR6pwQpcPEqMLDYUTaIt0=' }}"
+                            alt="{{ $districtvalue->name }}">
 
                         <div class="overlay1">
                             <h3 class="text-light">{{ $districtvalue->name }}</h3>
                         </div>
                     </a>
-    
                 @endforeach
             </div>
         </div>
@@ -397,27 +435,86 @@
         <div class="container">
             <div class="single-head">
                 <div class="row">
+
                     <div class="col-12">
-                        <h3 class="mb-3">Demo Videos</h3>
+                        <h3 class="mb-4">Demo Videos</h3>
                     </div>
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <a href="https://youtube.com/shorts/NamjMqaqrcU?si=DYIJJDAiBFR0f68X" target="_blank" rel="noopener" class="d-block text-decoration-none">
-                            <img src="https://i.ytimg.com/vi/NamjMqaqrcU/hqdefault.jpg" alt="Demo Video 1 Thumbnail" class="img-fluid rounded mb-2">
-                            <h6 class="mb-0">Demo Video 1</h6>
+
+                    @php
+
+                    $demoVideos = [
+                        1 => $setting->demo_1_video_url ?? '',
+                        2 => $setting->demo_2_video_url ?? '',
+                        3 => $setting->demo_3_video_url ?? '',
+                    ];
+
+                    function getYoutubeThumbnail($url){
+
+                        if(!$url){
+                            return 'https://via.placeholder.com/480x360?text=Demo+Video';
+                        }
+
+                        $videoId = null;
+
+                        $parsedUrl = parse_url($url);
+
+                        // youtu.be format
+                        if(isset($parsedUrl['host']) && strpos($parsedUrl['host'],'youtu.be') !== false){
+                            $videoId = trim($parsedUrl['path'],'/');
+                        }
+
+                        // youtube watch?v=
+                        if(isset($parsedUrl['query'])){
+                            parse_str($parsedUrl['query'],$queryParams);
+                            $videoId = $queryParams['v'] ?? $videoId;
+                        }
+
+                        // youtube embed
+                        if(!$videoId && preg_match('/youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/',$url,$matches)){
+                            $videoId = $matches[1];
+                        }
+
+                        // youtube shorts
+                        if(!$videoId && preg_match('/youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/',$url,$matches)){
+                            $videoId = $matches[1];
+                        }
+
+                        return $videoId
+                            ? "https://img.youtube.com/vi/".$videoId."/hqdefault.jpg"
+                            : 'https://via.placeholder.com/480x360?text=Demo+Video';
+                    }
+
+                    @endphp
+
+
+                    @foreach ($demoVideos as $index => $videoUrl)
+
+                    <div class="col-lg-4 col-md-6 col-12 mb-4">
+
+                        <a href="{{ $videoUrl }}" target="_blank" class="video-card text-decoration-none">
+
+                            <div class="video-thumbnail position-relative">
+
+                                <img src="{{ getYoutubeThumbnail($videoUrl) }}" 
+                                    alt="Demo Video {{ $index }}" 
+                                    class="img-fluid rounded">
+
+                                <div class="play-btn">
+                                    ▶
+                                </div>
+
+                            </div>
+
+                            <h6 class="mt-2 text-dark">
+                                Demo Video {{ $index }}
+                            </h6>
+
                         </a>
+
                     </div>
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <a href="https://youtube.com/shorts/UdrExXg62Qw?si=ebXORnmIH46_WxwY" target="_blank" rel="noopener" class="d-block text-decoration-none">
-                            <img src="https://i.ytimg.com/vi/UdrExXg62Qw/hqdefault.jpg" alt="Demo Video 2 Thumbnail" class="img-fluid rounded mb-2">
-                            <h6 class="mb-0">Demo Video 2</h6>
-                        </a>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <a href="https://youtube.com/shorts/pxYtgcx1mZI?si=4QnFr8SHzFbpmeBE" target="_blank" rel="noopener" class="d-block text-decoration-none">
-                            <img src="https://i.ytimg.com/vi/pxYtgcx1mZI/hqdefault.jpg" alt="Demo Video 3 Thumbnail" class="img-fluid rounded mb-2">
-                            <h6 class="mb-0">Demo Video 3</h6>
-                        </a>
-                    </div>
+
+                    @endforeach
+
                 </div>
             </div>
         </div>
@@ -425,402 +522,409 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('public/plugins/select2/js/select2.min.js') }}"></script>
-<script>
-    //========= Category Slider
-    if($("body").find(".category-slider").length) {
-        tns({
-            container: '.category-slider',
-            items: 3,
-            slideBy: 'page',
-            autoplay: false,
-            mouseDrag: true,
-            gutter: 0,
-            nav: false,
-            controls: true,
-            controlsText: ['<i class="lni lni-chevron-left"></i>', '<i class="lni lni-chevron-right"></i>'],
-            responsive: {
-                0: {
-                    items: 1,
-                },
-                540: {
-                    items: 2,
-                },
-                768: {
-                    items: 4,
-                },
-                992: {
-                    items: 5,
-                },
-                1170: {
-                    items: 6,
+    <script src="{{ asset('public/plugins/select2/js/select2.min.js') }}"></script>
+    <script>
+        //========= Category Slider
+        if ($("body").find(".category-slider").length) {
+            tns({
+                container: '.category-slider',
+                items: 3,
+                slideBy: 'page',
+                autoplay: false,
+                mouseDrag: true,
+                gutter: 0,
+                nav: false,
+                controls: true,
+                controlsText: ['<i class="lni lni-chevron-left"></i>', '<i class="lni lni-chevron-right"></i>'],
+                responsive: {
+                    0: {
+                        items: 1,
+                    },
+                    540: {
+                        items: 2,
+                    },
+                    768: {
+                        items: 4,
+                    },
+                    992: {
+                        items: 5,
+                    },
+                    1170: {
+                        items: 6,
+                    }
                 }
-            }
-        });
-    }
-</script>
-<script>
-    $(document).ready(function () {
-        var selectedDistrictId = null;
-        var selectedCityId = '';
-        var selectedDistrictName = '';
-        var selectedCategoryId = '';
-        var listUrlTemplate = "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
-        var locationCategoryUrlTemplate = "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION_ID_PLACEHOLDER', 'category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
-        var cityApiTemplate = "{{ route('get.cities', ['district' => 'DISTRICT_ID_PLACEHOLDER']) }}";
-        var $citySearch = $('#city_search');
-        var $categorySearch = $('#category');
-        var $categoryDistrict = $('#category_district_id');
-        var $categoryCity = $('#category_city_id');
-
-        function getStoredSelection() {
-            return {
-                districtId: sessionStorage.getItem('selectedDistrictId') || '',
-                districtName: sessionStorage.getItem('selectedDistrictName') || '',
-                cityId: sessionStorage.getItem('selectedCityId') || ''
-            };
+            });
         }
+    </script>
+    <script>
+        $(document).ready(function() {
+            var selectedDistrictId = null;
+            var selectedCityId = '';
+            var selectedDistrictName = '';
+            var selectedCategoryId = '';
+            var listUrlTemplate =
+                "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
+            var locationCategoryUrlTemplate =
+                "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION_ID_PLACEHOLDER', 'category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
+            var cityApiTemplate = "{{ route('get.cities', ['district' => 'DISTRICT_ID_PLACEHOLDER']) }}";
+            var $citySearch = $('#city_search');
+            var $categorySearch = $('#category');
+            var $categoryDistrict = $('#category_district_id');
+            var $categoryCity = $('#category_city_id');
 
-        function persistSelection(districtId, districtName, cityId) {
-            if (districtId) {
-                sessionStorage.setItem('selectedDistrictId', String(districtId));
-                sessionStorage.setItem('selectedDistrictName', districtName || '');
+            function getStoredSelection() {
+                return {
+                    districtId: sessionStorage.getItem('selectedDistrictId') || '',
+                    districtName: sessionStorage.getItem('selectedDistrictName') || '',
+                    cityId: sessionStorage.getItem('selectedCityId') || ''
+                };
             }
 
-            if (cityId) {
-                sessionStorage.setItem('selectedCityId', String(cityId));
-            } else {
-                sessionStorage.removeItem('selectedCityId');
-            }
-        }
+            function persistSelection(districtId, districtName, cityId) {
+                if (districtId) {
+                    sessionStorage.setItem('selectedDistrictId', String(districtId));
+                    sessionStorage.setItem('selectedDistrictName', districtName || '');
+                }
 
-        function persistSelectionToLocalStorage(districtId, districtName, cityId, cities) {
-            if (districtId) {
-                localStorage.setItem('selectedDistrictId', String(districtId));
-                localStorage.setItem('selectedDistrictName', districtName || '');
-            }
-
-            if (cityId) {
-                localStorage.setItem('selectedCityId', String(cityId));
-            } else {
-                localStorage.removeItem('selectedCityId');
-            }
-
-            if (Array.isArray(cities)) {
-                localStorage.setItem('selectedDistrictCities', JSON.stringify(cities));
-            } else {
-                localStorage.removeItem('selectedDistrictCities');
-            }
-        }
-
-        $citySearch.select2({
-            placeholder: 'Select city',
-            allowClear: true,
-            width: '100%'
-        });
-        $categorySearch.select2({
-            placeholder: 'Choose Categories',
-            allowClear: false,
-            width: '100%'
-        });
-        $categoryDistrict.select2({
-            placeholder: 'Choose district',
-            allowClear: true,
-            width: '92%',
-            dropdownParent: $('#categoryDistrictModal')
-        });
-        $categoryCity.select2({
-            placeholder: 'Choose city',
-            allowClear: true,
-            width: '77%',
-            dropdownParent: $('#categoryDistrictModal')
-        });
-        $citySearch.next('.select2-container').css({
-            width: '100%',
-            minWidth: '100%',
-            maxWidth: '100%'
-        });
-
-        function resetCityDropdown() {
-            $citySearch.html('<option value="">Select city</option>').trigger('change.select2');
-        }
-
-        function loadCitiesByDistrict(districtId, preselectedCity) {
-            resetCityDropdown();
-            if (!districtId) {
-                return;
-            }
-
-            var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
-
-            $.get(cityApiUrl, function (cities) {
-                var options = '<option value="">Select city</option><option value="all">All City</option>';
-
-                if (Array.isArray(cities) && cities.length) {
-                    cities.forEach(function (city) {
-                        options += '<option value="' + city.id + '">' + city.name + '</option>';
-                    });
+                if (cityId) {
+                    sessionStorage.setItem('selectedCityId', String(cityId));
                 } else {
-                    options += '<option value="" disabled>No city found</option>';
+                    sessionStorage.removeItem('selectedCityId');
+                }
+            }
+
+            function persistSelectionToLocalStorage(districtId, districtName, cityId, cities) {
+                if (districtId) {
+                    localStorage.setItem('selectedDistrictId', String(districtId));
+                    localStorage.setItem('selectedDistrictName', districtName || '');
                 }
 
-                $citySearch.html(options);
-
-                if (preselectedCity) {
-                    $citySearch.val(String(preselectedCity));
+                if (cityId) {
+                    localStorage.setItem('selectedCityId', String(cityId));
                 } else {
-                    $citySearch.val('');
+                    localStorage.removeItem('selectedCityId');
                 }
 
-                $citySearch.trigger('change.select2');
-            }).fail(function () {
+                if (Array.isArray(cities)) {
+                    localStorage.setItem('selectedDistrictCities', JSON.stringify(cities));
+                } else {
+                    localStorage.removeItem('selectedDistrictCities');
+                }
+            }
+
+            $citySearch.select2({
+                placeholder: 'Select city',
+                allowClear: true,
+                width: '100%'
+            });
+            $categorySearch.select2({
+                placeholder: 'Choose Categories',
+                allowClear: false,
+                width: '100%'
+            });
+            $categoryDistrict.select2({
+                placeholder: 'Choose district',
+                allowClear: true,
+                width: '92%',
+                dropdownParent: $('#categoryDistrictModal')
+            });
+            $categoryCity.select2({
+                placeholder: 'Choose city',
+                allowClear: true,
+                width: '77%',
+                dropdownParent: $('#categoryDistrictModal')
+            });
+            $citySearch.next('.select2-container').css({
+                width: '100%',
+                minWidth: '100%',
+                maxWidth: '100%'
+            });
+
+            function resetCityDropdown() {
+                $citySearch.html('<option value="">Select city</option>').trigger('change.select2');
+            }
+
+            function loadCitiesByDistrict(districtId, preselectedCity) {
                 resetCityDropdown();
-            });
-        }
+                if (!districtId) {
+                    return;
+                }
 
-        function selectDistrict($item) {
-            $('#location_search').val($item.text().trim());
-            selectedDistrictId = String($item.data('id'));
-            selectedDistrictName = $item.text().trim();
-            selectedCityId = '';
-            persistSelection(selectedDistrictId, selectedDistrictName, '');
-            loadCitiesByDistrict(selectedDistrictId, '');
+                var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
+
+                $.get(cityApiUrl, function(cities) {
+                    var options =
+                        '<option value="">Select city</option><option value="all">All City</option>';
+
+                    if (Array.isArray(cities) && cities.length) {
+                        cities.forEach(function(city) {
+                            options += '<option value="' + city.id + '">' + city.name + '</option>';
+                        });
+                    } else {
+                        options += '<option value="" disabled>No city found</option>';
+                    }
+
+                    $citySearch.html(options);
+
+                    if (preselectedCity) {
+                        $citySearch.val(String(preselectedCity));
+                    } else {
+                        $citySearch.val('');
+                    }
+
+                    $citySearch.trigger('change.select2');
+                }).fail(function() {
+                    resetCityDropdown();
+                });
+            }
+
+            function selectDistrict($item) {
+                $('#location_search').val($item.text().trim());
+                selectedDistrictId = String($item.data('id'));
+                selectedDistrictName = $item.text().trim();
+                selectedCityId = '';
+                persistSelection(selectedDistrictId, selectedDistrictName, '');
+                loadCitiesByDistrict(selectedDistrictId, '');
+                $('#searchResults').hide();
+            }
+
+            function getDistrictNameById(districtId) {
+                var name = '';
+                $('.result-item').each(function() {
+                    if (String($(this).data('id')) === String(districtId)) {
+                        name = $(this).text().trim();
+                        return false;
+                    }
+                });
+                return name;
+            }
+
+            function initializeFromStoredSelection() {
+                var stored = getStoredSelection();
+                selectedDistrictId = stored.districtId || '';
+                selectedCityId = stored.cityId || '';
+                selectedDistrictName = stored.districtName || '';
+
+                if (!selectedDistrictId) {
+                    return;
+                }
+
+                if (!selectedDistrictName) {
+                    selectedDistrictName = getDistrictNameById(selectedDistrictId);
+                }
+
+                if (selectedDistrictName) {
+                    $('#location_search').val(selectedDistrictName);
+                }
+
+                loadCitiesByDistrict(selectedDistrictId, selectedCityId);
+            }
+
             $('#searchResults').hide();
-        }
 
-        function getDistrictNameById(districtId) {
-            var name = '';
-            $('.result-item').each(function () {
-                if (String($(this).data('id')) === String(districtId)) {
-                    name = $(this).text().trim();
-                    return false;
+            $('#location_search').on('keyup', function() {
+                let value = $(this).val().toLowerCase();
+
+                if (value.length === 0) {
+                    $('#searchResults').hide();
+                    return;
+                }
+
+                $('#searchResults').show();
+
+                $('.result-item').filter(function() {
+                    $(this).toggle(
+                        $(this).data('name').indexOf(value) > -1
+                    );
+                });
+            });
+
+            // Click select
+            $('.result-item').on('click', function() {
+                selectDistrict($(this));
+            });
+
+            // Select first matched district on Enter
+            $('#location_search').on('keydown', function(e) {
+                if (e.key !== 'Enter') {
+                    return;
+                }
+
+                e.preventDefault();
+
+                var $firstVisible = $('.result-item:visible').first();
+                if ($firstVisible.length) {
+                    selectDistrict($firstVisible);
                 }
             });
-            return name;
-        }
 
-        function initializeFromStoredSelection() {
-            var stored = getStoredSelection();
-            selectedDistrictId = stored.districtId || '';
-            selectedCityId = stored.cityId || '';
-            selectedDistrictName = stored.districtName || '';
+            // Redirect when city changes
+            $citySearch.on('change', function() {
+                var cityId = $(this).val();
+                selectedCityId = cityId || '';
 
-            if (!selectedDistrictId) {
-                return;
-            }
+                if (!selectedDistrictId || !cityId) {
+                    return;
+                }
 
-            if (!selectedDistrictName) {
-                selectedDistrictName = getDistrictNameById(selectedDistrictId);
-            }
-
-            if (selectedDistrictName) {
-                $('#location_search').val(selectedDistrictName);
-            }
-
-            loadCitiesByDistrict(selectedDistrictId, selectedCityId);
-        }
-
-        $('#searchResults').hide();
-
-        $('#location_search').on('keyup', function () {
-            let value = $(this).val().toLowerCase();
-
-            if (value.length === 0) {
-                $('#searchResults').hide();
-                return;
-            }
-
-            $('#searchResults').show();
-
-            $('.result-item').filter(function () {
-                $(this).toggle(
-                    $(this).data('name').indexOf(value) > -1
-                );
+                persistSelection(selectedDistrictId, $('#location_search').val().trim(), selectedCityId);
+                var redirectUrl = listUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId) +
+                    '?city=' + cityId;
+                window.location.href = redirectUrl;
             });
-        });
 
-        // Click select
-        $('.result-item').on('click', function () {
-            selectDistrict($(this));
-        });
+            // Click outside close
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.search-input').length) {
+                    $('#searchResults').hide();
+                }
+            });
 
-        // Select first matched district on Enter
-        $('#location_search').on('keydown', function (e) {
-            if (e.key !== 'Enter') {
-                return;
+            function resetModalCityDropdown() {
+                $categoryCity.html('<option value="">Choose city</option>').trigger('change.select2');
             }
 
-            e.preventDefault();
+            function redirectToCategoryListing(categoryId, districtId, cityId) {
+                var redirectUrl = locationCategoryUrlTemplate
+                    .replace('LOCATION_ID_PLACEHOLDER', districtId)
+                    .replace('CATEGORY_ID_PLACEHOLDER', categoryId);
 
-            var $firstVisible = $('.result-item:visible').first();
-            if ($firstVisible.length) {
-                selectDistrict($firstVisible);
-            }
-        });
-
-        // Redirect when city changes
-        $citySearch.on('change', function () {
-            var cityId = $(this).val();
-            selectedCityId = cityId || '';
-
-            if (!selectedDistrictId || !cityId) {
-                return;
-            }
-
-            persistSelection(selectedDistrictId, $('#location_search').val().trim(), selectedCityId);
-            var redirectUrl = listUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId) + '?city=' + cityId;
-            window.location.href = redirectUrl;
-        });
-
-        // Click outside close
-        $(document).on('click', function (e) {
-            if (!$(e.target).closest('.search-input').length) {
-                $('#searchResults').hide();
-            }
-        });
-
-        function resetModalCityDropdown() {
-            $categoryCity.html('<option value="">Choose city</option>').trigger('change.select2');
-        }
-
-        function redirectToCategoryListing(categoryId, districtId, cityId) {
-            var redirectUrl = locationCategoryUrlTemplate
-                .replace('LOCATION_ID_PLACEHOLDER', districtId)
-                .replace('CATEGORY_ID_PLACEHOLDER', categoryId);
-
-            if (cityId) {
-                redirectUrl += '?city=' + encodeURIComponent(cityId);
-            }
-
-            window.location.href = redirectUrl;
-        }
-
-        function loadModalCitiesByDistrict(districtId, preselectedCity) {
-            resetModalCityDropdown();
-            if (!districtId) {
-                return;
-            }
-
-            var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
-
-            $.get(cityApiUrl, function (cities) {
-                var options = '<option value="">Choose city</option><option value="all">All City</option>';
-
-                if (Array.isArray(cities) && cities.length) {
-                    cities.forEach(function (city) {
-                        options += '<option value="' + city.id + '">' + city.name + '</option>';
-                    });
+                if (cityId) {
+                    redirectUrl += '?city=' + encodeURIComponent(cityId);
                 }
 
-                $categoryCity.html(options);
+                window.location.href = redirectUrl;
+            }
 
-                if (preselectedCity) {
-                    $categoryCity.val(String(preselectedCity));
-                } else {
-                    $categoryCity.val('');
-                }
-                $categoryCity.trigger('change.select2');
-            }).fail(function () {
+            function loadModalCitiesByDistrict(districtId, preselectedCity) {
                 resetModalCityDropdown();
+                if (!districtId) {
+                    return;
+                }
+
+                var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
+
+                $.get(cityApiUrl, function(cities) {
+                    var options =
+                        '<option value="">Choose city</option><option value="all">All City</option>';
+
+                    if (Array.isArray(cities) && cities.length) {
+                        cities.forEach(function(city) {
+                            options += '<option value="' + city.id + '">' + city.name + '</option>';
+                        });
+                    }
+
+                    $categoryCity.html(options);
+
+                    if (preselectedCity) {
+                        $categoryCity.val(String(preselectedCity));
+                    } else {
+                        $categoryCity.val('');
+                    }
+                    $categoryCity.trigger('change.select2');
+                }).fail(function() {
+                    resetModalCityDropdown();
+                });
+            }
+
+            $(document).on('click', '.js-category-location', function(e) {
+                e.preventDefault();
+                selectedCategoryId = $(this).data('category-id');
+                var storedSelection = getStoredSelection();
+                var districtId = selectedDistrictId || storedSelection.districtId;
+                var cityId = selectedCityId || storedSelection.cityId;
+
+                if (districtId) {
+                    redirectToCategoryListing(selectedCategoryId, districtId, cityId);
+                    return;
+                }
+
+                $categoryDistrict.val('');
+                resetModalCityDropdown();
+                $categoryDistrict.trigger('change.select2');
+                $('#categoryDistrictModal').modal('show');
             });
-        }
 
-        $(document).on('click', '.js-category-location', function (e) {
-            e.preventDefault();
-            selectedCategoryId = $(this).data('category-id');
-            var storedSelection = getStoredSelection();
-            var districtId = selectedDistrictId || storedSelection.districtId;
-            var cityId = selectedCityId || storedSelection.cityId;
+            // Bootstrap 5-safe explicit close handlers for X/Cancel
+            $(document).on('click',
+                '#categoryDistrictModal [data-bs-dismiss=\"modal\"], #categoryDistrictModal [data-dismiss=\"modal\"]',
+                function() {
+                    $('#categoryDistrictModal').modal('hide');
+                });
 
-            if (districtId) {
-                redirectToCategoryListing(selectedCategoryId, districtId, cityId);
-                return;
-            }
-
-            $categoryDistrict.val('');
-            resetModalCityDropdown();
-            $categoryDistrict.trigger('change.select2');
-            $('#categoryDistrictModal').modal('show');
-        });
-
-        // Bootstrap 5-safe explicit close handlers for X/Cancel
-        $(document).on('click', '#categoryDistrictModal [data-bs-dismiss=\"modal\"], #categoryDistrictModal [data-dismiss=\"modal\"]', function () {
-            $('#categoryDistrictModal').modal('hide');
-        });
-
-        $categoryDistrict.on('change', function () {
-            loadModalCitiesByDistrict($(this).val(), '');
-        });
-
-        $('#goToCategoryListing').on('click', function () {
-            var districtId = $categoryDistrict.val();
-            var cityId = $categoryCity.val();
-
-            if (!districtId || !selectedCategoryId) {
-                alert('Please select district');
-                return;
-            }
-
-            var redirectUrl = locationCategoryUrlTemplate
-                .replace('LOCATION_ID_PLACEHOLDER', districtId)
-                .replace('CATEGORY_ID_PLACEHOLDER', selectedCategoryId);
-
-            if (cityId) {
-                redirectUrl += '?city=' + encodeURIComponent(cityId);
-            }
-
-            var districtName = $categoryDistrict.find('option:selected').text();
-            persistSelection(districtId, districtName, cityId);
-            window.location.href = redirectUrl;
-        });
-
-        $('#category').on('change', function () {
-            var selectedCategory = $(this).val();
-            if (!selectedCategory || selectedCategory === 'none') {
-                return;
-            }
-
-            selectedCategoryId = selectedCategory;
-            var storedSelection = getStoredSelection();
-            var districtId = selectedDistrictId || storedSelection.districtId;
-            var cityId = selectedCityId || storedSelection.cityId;
-
-            if (districtId) {
-                redirectToCategoryListing(selectedCategoryId, districtId, cityId);
-                return;
-            }
-
-            $categoryDistrict.val('');
-            resetModalCityDropdown();
-            $categoryDistrict.trigger('change.select2');
-            $('#categoryDistrictModal').modal('show');
-        });
-
-        $(document).on('click', '.js-home-location-card', function (e) {
-            e.preventDefault();
-
-            var $card = $(this);
-            var districtId = String($card.data('district-id') || '');
-            var districtName = ($card.data('district-name') || '').toString().trim();
-            var targetUrl = $card.attr('href');
-
-            if (!districtId || !targetUrl) {
-                return;
-            }
-
-            persistSelection(districtId, districtName, 'all');
-
-            var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
-            $.get(cityApiUrl, function (cities) {
-                persistSelectionToLocalStorage(districtId, districtName, 'all', cities);
-            }).always(function () {
-                window.location.href = targetUrl;
+            $categoryDistrict.on('change', function() {
+                loadModalCitiesByDistrict($(this).val(), '');
             });
+
+            $('#goToCategoryListing').on('click', function() {
+                var districtId = $categoryDistrict.val();
+                var cityId = $categoryCity.val();
+
+                if (!districtId || !selectedCategoryId) {
+                    alert('Please select district');
+                    return;
+                }
+
+                var redirectUrl = locationCategoryUrlTemplate
+                    .replace('LOCATION_ID_PLACEHOLDER', districtId)
+                    .replace('CATEGORY_ID_PLACEHOLDER', selectedCategoryId);
+
+                if (cityId) {
+                    redirectUrl += '?city=' + encodeURIComponent(cityId);
+                }
+
+                var districtName = $categoryDistrict.find('option:selected').text();
+                persistSelection(districtId, districtName, cityId);
+                window.location.href = redirectUrl;
+            });
+
+            $('#category').on('change', function() {
+                var selectedCategory = $(this).val();
+                if (!selectedCategory || selectedCategory === 'none') {
+                    return;
+                }
+
+                selectedCategoryId = selectedCategory;
+                var storedSelection = getStoredSelection();
+                var districtId = selectedDistrictId || storedSelection.districtId;
+                var cityId = selectedCityId || storedSelection.cityId;
+
+                if (districtId) {
+                    redirectToCategoryListing(selectedCategoryId, districtId, cityId);
+                    return;
+                }
+
+                $categoryDistrict.val('');
+                resetModalCityDropdown();
+                $categoryDistrict.trigger('change.select2');
+                $('#categoryDistrictModal').modal('show');
+            });
+
+            $(document).on('click', '.js-home-location-card', function(e) {
+                e.preventDefault();
+
+                var $card = $(this);
+                var districtId = String($card.data('district-id') || '');
+                var districtName = ($card.data('district-name') || '').toString().trim();
+                var targetUrl = $card.attr('href');
+
+                if (!districtId || !targetUrl) {
+                    return;
+                }
+
+                persistSelection(districtId, districtName, 'all');
+
+                var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
+                $.get(cityApiUrl, function(cities) {
+                    persistSelectionToLocalStorage(districtId, districtName, 'all', cities);
+                }).always(function() {
+                    window.location.href = targetUrl;
+                });
+            });
+
+            resetCityDropdown();
+            initializeFromStoredSelection();
+
         });
-
-        resetCityDropdown();
-        initializeFromStoredSelection();
-
-    });
-</script>
+    </script>
 @endpush

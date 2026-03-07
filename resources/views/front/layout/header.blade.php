@@ -1,9 +1,11 @@
 @php
     $cmsModel = new \App\Models\Cms();
     $districtModel = new \App\Models\District();
+    $settingModel = new \App\Models\Setting();
     $privacy = $cmsModel->where('id', 3)->first();
     $trem = $cmsModel->where('id', 2)->first();
     $about = $cmsModel->where('id', 1)->first();
+    $setting = $settingModel->where('id', 1)->first();
     $districtList = $districtModel->select('id', 'name')->where('status', 1)->orderBy('name')->get();
 @endphp
 <header class="header">
@@ -12,7 +14,7 @@
     <!-- LEFT : Logo -->
     <div class="nav-left">
       <a href="{{route('front.index')}}" class="logo">
-        <img src="{{asset('public/front/assets/images/logo/agent-india-logo2.png')}}" alt="Logo">
+        <img src="{{ $setting->logo_image }}" alt="{{ $setting->logo_title }}">
       </a>
     </div>
 
