@@ -142,37 +142,45 @@ class ProfileController extends Controller
         }
     }
 
-    public function addListing(){
-    
+    public function addListing()
+    {
         $user = Auth::user();
 
+        // Get active districts
         $districts = District::where('status', 1)->get();
 
-
+        // Get latest listing of the user
         $existingListing = PaidListing::where('bussines_id', $user->id)
-            ->orderBy('created_at', 'desc')
-            ->first();
+                            ->latest()
+                            ->first();
+
+        // Check listing types
+        $hasFreeListing = optional($existingListing)->paid_type === 'free';
 
         $hasActivePaidListing = false;
+        $existingPaidListing = null;
+
         if ($existingListing && $existingListing->paid_type === 'paid') {
+
+            $existingPaidListing = $existingListing;
+
+            // Check if paid listing is still active (1 month validity)
             $hasActivePaidListing = Carbon::now()->lt(
-                Carbon::parse($existingListing->created_at)->addMonth()
+                $existingListing->created_at->copy()->addMonth()
             );
         }
-        $hasFreeListing = $existingListing && $existingListing->paid_type === 'free';
-        $existingPaidListing = $existingListing && $existingListing->paid_type === 'paid'
-            ? $existingListing
-            : null;
 
-        $this->viewData['user'] = $user;
-        $this->viewData['districts'] = $districts;
-        $this->viewData['pageTitle'] = 'Add Listing';
-        $this->viewData['existingListing']  = $existingListing;
-        $this->viewData['existingPaidListing'] = $existingPaidListing;
-        $this->viewData['disableFreeListing'] = $hasActivePaidListing;
-        $this->viewData['hasFreeListing'] = $hasFreeListing;
-        
-        return view("front.add-listing")->with($this->viewData);
+        $this->viewData = [
+            'user'                => $user,
+            'districts'           => $districts,
+            'pageTitle'           => 'Add Listing',
+            'existingListing'     => $existingListing,
+            'existingPaidListing' => $existingPaidListing,
+            'disableFreeListing'  => $hasActivePaidListing,
+            'hasFreeListing'      => $hasFreeListing,
+        ];
+
+        return view('front.add-listing', $this->viewData);
     }
 
     public function storeListing(Request $request)
