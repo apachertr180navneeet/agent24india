@@ -2,512 +2,397 @@
 @section('title', $pageTitle)
 
 @push('styles')
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<style>
-.district-switch .btn {
-    border-radius: 8px;
-    margin-right: 10px;
-    min-width: 120px;
-}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .district-switch .btn {
+            border-radius: 8px;
+            margin-right: 10px;
+            min-width: 120px;
+        }
 
-.form-control,
-.form-select {
-    background: #e0e0e0;
-    border: none;
-    border-radius: 6px;
-    padding: 10px;
-}
+        .form-control,
+        .form-select {
+            background: #e0e0e0;
+            border: none;
+            border-radius: 6px;
+            padding: 10px;
+        }
 
-.listing-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        .listing-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-.listing-footer .price span {
-    font-weight: 600;
-    margin-right: 10px;
-}
+        .listing-footer .price span {
+            font-weight: 600;
+            margin-right: 10px;
+        }
 
-.listing-footer .price strong {
-    font-size: 20px;
-}
+        .listing-footer .price strong {
+            font-size: 20px;
+        }
 
-span.selection {
-    width: 100%;
-}
+        span.selection {
+            width: 100%;
+        }
 
-
-span.select2-selection.select2-selection--single {
-    height: 45px;
-    padding: 8px 0px 0px 0px;
-}
-</style>
+        span.select2-selection.select2-selection--single {
+            height: 45px;
+            padding: 8px 0px 0px 0px;
+        }
+    </style>
 @endpush
 
+
 @section('content')
-<div class="container mt-4">
+    <div class="container mt-4">
 
-    <!-- Nav Tabs -->
-    <ul class="nav nav-tabs mb-3" id="adTabs" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link {{ !empty($disableFreeListing) ? '' : 'active' }}"
-                    id="free-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#free"
-                    type="button"
-                    role="tab"
-                    @if(!empty($disableFreeListing)) disabled @endif>
-                Free Listing
-            </button>
-        </li>
+        <!-- Nav Tabs -->
+        <ul class="nav nav-tabs mb-3" id="adTabs" role="tablist">
 
-        <li class="nav-item" role="presentation">
-            <button class="nav-link {{ !empty($disableFreeListing) ? 'active' : '' }}"
-                    id="paid-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#paid"
-                    type="button"
-                    role="tab">
-                Paid Listing
-            </button>
-        </li>
-
-        {{--  <li class="nav-item" role="presentation">
-            <button class="nav-link"
-                    id="banner-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#banner"
-                    type="button"
-                    role="tab">
-                Banner Ad
-            </button>
-        </li>  --}}
-    </ul>
-
-    <!-- Tab Content -->
-    <div class="tab-content">
-
-        <!-- Free Listing -->
-        <div class="tab-pane fade {{ !empty($disableFreeListing) ? '' : 'show active' }}" id="free" role="tabpanel">
-            @if(!empty($disableFreeListing))
-                <div class="alert alert-warning mt-3">
-                    Free listing is disabled because your paid listing is active.
-                </div>
-            @endif
-            @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            @endif
-            @if(session('error'))
-                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                    {{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            @endif
-            <form method="POST" action="{{ route('front.addListing.store') }}">
-                @csrf
-
-                <!-- TYPE FIELD (Hidden) -->
-                <input type="hidden" name="type" value="free">
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label class="form-label">Full Name</label>
-                        <input type="text"
-                            name="name"
-                            class="form-control"
-                            placeholder="Enter Your Name"
-                            value="{{ $user->business_name }}"
-                            readonly
-                            required>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Home City</label>
-                        <input type="text"
-                            name="home_city"
-                            class="form-control"
-                            placeholder="City"
-                            value="{{ old('home_city', (!empty($hasFreeListing) ? ($existingListing->home_city ?? '') : '')) }}"
-                            required>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label class="form-label">Email</label>
-                        <div class="input-group">
-                            <input type="email"
-                                name="email"
-                                id="listing_email"
-                                class="form-control"
-                                placeholder="Enter Email"
-                                value="{{ old('email', $user->email) }}"
-                                readonly
-                                required>
-                            <button type="button" class="btn btn-primary" id="sendOtpBtn">
-                                Send OTP
-                            </button>
-                        </div>
-                        <small class="text-success d-none" id="otpSuccess">
-                            OTP sent successfully
-                        </small>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Whatsapp Number</label>
-                        <input type="text"
-                            name="phone"
-                            class="form-control"
-                            placeholder="Whatsapp Number"
-                            value="{{ old('phone', $user->whats_app) }}"
-                            readonly
-                            required>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label class="form-label">OTP</label>
-                        <div class="input-group">
-                            <input type="text" name="otp" class="form-control" placeholder="Enter OTP" @if(!empty($hasFreeListing)) readonly @endif>
-                            <button type="button" class="btn btn-primary" id="verifyOtpBtn" @if(!empty($hasFreeListing)) disabled @endif>
-                                Verify
-                            </button>
-                        </div>
-
-                        <small id="timerText" class="text-muted mt-1"></small>
-
-                        <button type="button"
-                                class="btn btn-link p-0 d-none"
-                                id="resendOtpBtn"
-                                @if(!empty($hasFreeListing)) disabled @endif>
-                            Resend OTP
-                        </button>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-success" id="submitListingBtn" @if(empty($hasFreeListing)) disabled @endif>
-                    Submit Free Ad
+            <li class="nav-item" role="presentation">
+                <button class="nav-link {{ !empty($disableFreeListing) ? '' : 'active' }}" id="free-tab" data-bs-toggle="tab"
+                    data-bs-target="#free" type="button" role="tab" @if (!empty($disableFreeListing)) disabled @endif>
+                    Free Listing
                 </button>
-            </form>
+            </li>
+
+            <li class="nav-item" role="presentation">
+                <button class="nav-link {{ !empty($disableFreeListing) ? 'active' : '' }}" id="paid-tab"
+                    data-bs-toggle="tab" data-bs-target="#paid" type="button" role="tab">
+                    Paid Listing
+                </button>
+            </li>
+
+        </ul>
+
+
+        <div class="tab-content">
+
+            <!-- FREE LISTING -->
+            <div class="tab-pane fade {{ !empty($disableFreeListing) ? '' : 'show active' }}" id="free">
+
+                @if (!empty($disableFreeListing))
+                    <div class="alert alert-warning mt-3">
+                        Free listing is disabled because your paid listing is active.
+                    </div>
+                @endif
+
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show mt-3">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show mt-3">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
+                <form method="POST" action="{{ route('front.addListing.store') }}">
+                    @csrf
+
+                    <input type="hidden" name="type" value="free">
+
+                    <div class="row mb-3">
+
+                        <div class="col-md-6">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" name="name" class="form-control" value="{{ $user->business_name }}"
+                                readonly>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Home City</label>
+                            <input type="text" name="home_city" class="form-control"
+                                value="{{ old('home_city', !empty($hasFreeListing) ? $existingListing->home_city ?? '' : '') }}"
+                                required>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row mb-3">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">Email</label>
+
+                            <div class="input-group">
+
+                                <input type="email" name="email" id="listing_email" class="form-control"
+                                    value="{{ old('email', $user->email) }}" readonly>
+
+                                <button type="button" class="btn btn-primary" id="sendOtpBtn">
+                                    Send OTP
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">Whatsapp Number</label>
+
+                            <input type="text" name="phone" class="form-control"
+                                value="{{ old('phone', $user->whats_app) }}" readonly>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row mb-3">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">OTP</label>
+
+                            <div class="input-group">
+
+                                <input type="text" name="otp" class="form-control" placeholder="Enter OTP"
+                                    @if (!empty($hasFreeListing)) readonly @endif>
+
+                                <button type="button" class="btn btn-primary" id="verifyOtpBtn"
+                                    @if (!empty($hasFreeListing)) disabled @endif>
+                                    Verify
+                                </button>
+
+                            </div>
+
+                            <small id="timerText" class="text-muted"></small>
+
+                            <button type="button" class="btn btn-link p-0 d-none" id="resendOtpBtn">
+                                Resend OTP
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <button type="submit" class="btn btn-success" id="submitListingBtn"
+                        @if (empty($hasFreeListing)) disabled @endif>
+                        Submit Free Ad
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- PAID LISTING -->
+            <div class="tab-pane fade {{ !empty($disableFreeListing) ? 'show active' : '' }}" id="paid">
+
+                <form action="{{ route('front.addListing.store') }}" method="POST">
+
+                    @csrf
+
+                    <input type="hidden" name="type" value="paid">
+
+                    <div class="paid-listing-box">
+
+                        <div class="row g-4">
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Home City</label>
+                                <input type="text" name="home_city" class="form-control"
+                                    value="{{ old('home_city', $existingPaidListing->home_city ?? '') }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Name</label>
+                                <input type="text" name="name" class="form-control"
+                                    value="{{ old('name', $existingPaidListing->name ?? '') }}">
+                            </div>
+
+                        </div>
+
+
+                        <div class="listing-footer mt-4">
+
+                            <div class="price">
+                                <span>1 Month Price</span>
+                                <strong>250 Rs</strong>
+
+                                <input type="hidden" name="price" value="250">
+
+                            </div>
+
+                            <button type="submit" class="btn btn-primary px-4">
+                                Confirm
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
         </div>
-
-        <!-- Paid Listing -->
-        <div class="tab-pane fade {{ !empty($disableFreeListing) ? 'show active' : '' }}" id="paid" role="tabpanel">
-            @php
-                $selectedPaidDistricts = old('district_ids');
-                if (is_null($selectedPaidDistricts) && !empty($existingPaidListing?->district)) {
-                    $selectedPaidDistricts = explode(',', $existingPaidListing->district);
-                }
-                $selectedPaidDistricts = array_map('strval', (array) $selectedPaidDistricts);
-                $initialDistrictType = (int) old('district_type', $existingPaidListing->type ?? 1);
-            @endphp
-            @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            @endif
-            <form action="{{ route('front.addListing.store') }}" method="POST">
-                @csrf
-                 <!-- TYPE FIELD (Hidden) -->
-                <input type="hidden" name="type" value="paid">
-                <div class="paid-listing-box">
-
-                    <!-- District Type -->
-                    <div class="district-switch mb-4">
-                        <button type="button" class="btn btn-primary" id="oneDistrict">
-                            1 District
-                        </button>
-                        <button type="button" class="btn btn-outline-primary" id="fourDistrict">
-                            4 District
-                        </button>
-
-                        <!-- hidden input -->
-                        <input type="hidden" name="district_type" id="district_type" value="{{ $initialDistrictType }}">
-                    </div>
-
-                    <!-- Form Fields -->
-                    <div class="row g-4">
-
-                        <!-- Select District -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold">Select Dist.</label>
-
-                            <select name="district_ids[]" id="districtSelect" class="form-select">
-                                <option value="">Select</option>
-                                @foreach($districts as $district)
-                                    <option value="{{ $district->id }}" {{ in_array((string) $district->id, $selectedPaidDistricts, true) ? 'selected' : '' }}>
-                                        {{ $district->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-
-                            <small class="text-danger" id="districtHint">
-                                Select only 1 district
-                            </small>
-                        </div>
-
-                        <!-- Home City -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold">Home City</label>
-                            <input type="text" name="home_city" class="form-control" placeholder="city" value="{{ old('home_city', $existingPaidListing->home_city ?? '') }}">
-                        </div>
-
-                        <!-- Name -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold">Name</label>
-                            <input type="text" name="name" class="form-control" placeholder="name" value="{{ old('name', $existingPaidListing->name ?? '') }}">
-                        </div>
-
-                    </div>
-
-                    <!-- Footer -->
-                    <div class="listing-footer mt-4">
-                        <div class="price">
-                            <span>1 Month Price</span>
-                            <strong id="priceText">250 Rs</strong>
-                            <input type="hidden" name="price" id="price" value="{{ old('price', $existingPaidListing->amount ?? 250) }}">
-                        </div>
-
-                        <button type="submit" class="btn btn-primary px-4">
-                            Confirm
-                        </button>
-                    </div>
-
-                </div>
-            </form>
-        </div>
-
-
-        <!-- Banner Ad -->
-        {{--  <div class="tab-pane fade" id="banner" role="tabpanel">
-            <h3>Banner Ad</h3>
-        </div>  --}}
 
     </div>
-</div>
-
 @endsection
 
+
 @push('scripts')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-    (function () {
+    <script>
+        (function() {
 
-        let otpTimer = 60;
-        let otpInterval = null;
+            let otpTimer = 60;
+            let otpInterval = null;
 
-        function startOtpTimer() {
-            otpTimer = 60;
-            $('#resendOtpBtn').addClass('d-none');
+            function startOtpTimer() {
 
-            if (otpInterval) {
-                clearInterval(otpInterval);
-            }
+                otpTimer = 60;
 
-            otpInterval = setInterval(function () {
-                $('#timerText').text(`Resend OTP in ${otpTimer}s`);
-                otpTimer--;
+                $('#resendOtpBtn').addClass('d-none');
 
-                if (otpTimer < 0) {
+                if (otpInterval) {
                     clearInterval(otpInterval);
-                    $('#timerText').text('');
-                    $('#resendOtpBtn').removeClass('d-none');
-                }
-            }, 1000);
-        }
-
-        $('#sendOtpBtn').on('click', function () {
-            let email = $('#listing_email').val();
-
-            if (!email) {
-                alert('Enter email first');
-                return;
-            }
-
-            $.post("{{ route('front.sendEmailOtp') }}", {
-                email: email,
-                _token: "{{ csrf_token() }}"
-            }, function (res) {
-                if (res.status) {
-                    startOtpTimer();
-                    alert('OTP sent');
-                }
-            });
-        });
-
-        $('#resendOtpBtn').on('click', function () {
-            $.post("{{ route('front.resendEmailOtp') }}", {
-                _token: "{{ csrf_token() }}"
-            }, function (res) {
-                if (res.status) {
-                    startOtpTimer();
-                    alert('OTP resent');
-                } else {
-                    alert(res.message);
-                }
-            });
-        });
-
-    })();
-    
-    (function () {
-
-        $('#verifyOtpBtn').on('click', function () {
-
-            let otp = $('input[name="otp"]').val();
-
-            if (!otp) {
-                alert('Please enter OTP');
-                return;
-            }
-
-            $.post("{{ route('front.verifyEmailOtp') }}", {
-                otp: otp,
-                _token: "{{ csrf_token() }}"
-            }, function (res) {
-
-                if (res.status) {
-
-                    alert('OTP Verified ✅');
-
-                    // Lock OTP field
-                    $('input[name="otp"]').prop('readonly', true);
-                    $('#verifyOtpBtn').prop('disabled', true);
-
-                    // Enable Submit Button ✅
-                    $('#submitListingBtn').prop('disabled', false);
-
-                    // UI cleanup
-                    $('#resendOtpBtn').addClass('d-none');
-                    $('#timerText').text('OTP verified successfully');
-
-                } else {
-                    alert(res.message);
                 }
 
-            }).fail(function () {
-                alert('Server error');
-            });
-        });
+                otpInterval = setInterval(function() {
 
-    })();
-</script>
+                    $('#timerText').text(`Resend OTP in ${otpTimer}s`);
 
-<script>
-(function () {
-    const initialDistrictType = Number(@json($initialDistrictType ?? 1));
-    const initialDistrictIds = @json($selectedPaidDistricts ?? []);
-    const oneBtn = document.getElementById('oneDistrict');
-    const fourBtn = document.getElementById('fourDistrict');
-    const paidTabBtn = document.getElementById('paid-tab');
-    const districtSelect = document.getElementById('districtSelect');
-    const districtHint = document.getElementById('districtHint');
-    const priceText = document.getElementById('priceText');
-    const priceInput = document.getElementById('price');
-    const $districtSelect = $('#districtSelect');
-    let currentMode = 1;
+                    otpTimer--;
 
-    if (!oneBtn || !fourBtn || !districtSelect || !districtHint || !$districtSelect.length) {
-        return;
-    }
+                    if (otpTimer < 0) {
 
-    function initDistrictSelect(mode) {
-        // Destroy only when Select2 is already active
-        if ($districtSelect.hasClass('select2-hidden-accessible')) {
-            $districtSelect.select2('destroy');
-        }
+                        clearInterval(otpInterval);
 
-        if (mode === 1) {
-            $districtSelect.select2({
-                placeholder: 'Select district',
-                width: '100%',
-                allowClear: true
-            });
-            return;
-        }
+                        $('#timerText').text('');
 
-        $districtSelect.select2({
-            placeholder: 'Select district',
-            width: '100%',
-            closeOnSelect: false,
-            maximumSelectionLength: 4
-        });
-    }
+                        $('#resendOtpBtn').removeClass('d-none');
 
-    function setDistrictMode(mode, selectedValues = []) {
-        currentMode = mode;
+                    }
 
-        if (mode === 1) {
-            oneBtn.classList.add('btn-primary');
-            oneBtn.classList.remove('btn-outline-primary');
-            fourBtn.classList.remove('btn-primary');
-            fourBtn.classList.add('btn-outline-primary');
+                }, 1000);
 
-            districtSelect.removeAttribute('multiple');
-            initDistrictSelect(1);
-            $districtSelect.val(selectedValues.length ? String(selectedValues[0]) : '').trigger('change');
-
-            districtHint.innerText = 'Select only 1 district';
-            document.getElementById('district_type').value = 1;
-            if (priceText) {
-                priceText.innerText = '250 Rs';
             }
-            if (priceInput) {
-                priceInput.value = 250;
-            }
-            return;
-        }
-
-        fourBtn.classList.add('btn-primary');
-        fourBtn.classList.remove('btn-outline-primary');
-        oneBtn.classList.remove('btn-primary');
-        oneBtn.classList.add('btn-outline-primary');
-
-        districtSelect.setAttribute('multiple', 'multiple');
-        initDistrictSelect(4);
-        $districtSelect.val(selectedValues.slice(0, 4)).trigger('change');
-
-        districtHint.innerText = 'Select exactly 4 districts';
-        document.getElementById('district_type').value = 4;
-        if (priceText) {
-            priceText.innerText = '500 Rs';
-        }
-        if (priceInput) {
-            priceInput.value = 500;
-        }
-    }
-
-    // default mode (prefill from existing/old values)
-    setDistrictMode(initialDistrictType === 4 ? 4 : 1, initialDistrictIds);
-
-    // Re-init when paid tab becomes visible (Select2 behaves better on visible elements)
-    if (paidTabBtn) {
-        paidTabBtn.addEventListener('shown.bs.tab', function () {
-            initDistrictSelect(currentMode);
-            $districtSelect.trigger('change');
-        });
-    }
-
-    oneBtn.addEventListener('click', function () {
-        setDistrictMode(1, []);
-    });
-
-    fourBtn.addEventListener('click', function () {
-        setDistrictMode(4, []);
-    });
-})();
-</script>
 
 
 
+            $('#sendOtpBtn').on('click', function() {
+
+                let email = $('#listing_email').val();
+
+                if (!email) {
+
+                    alert('Enter email first');
+
+                    return;
+
+                }
+
+                $.post("{{ route('front.sendEmailOtp') }}", {
+
+                    email: email,
+
+                    _token: "{{ csrf_token() }}"
+
+                }, function(res) {
+
+                    if (res.status) {
+
+                        startOtpTimer();
+
+                        alert('OTP sent');
+
+                    }
+
+                });
+
+            });
 
 
+
+            $('#resendOtpBtn').on('click', function() {
+
+                $.post("{{ route('front.resendEmailOtp') }}", {
+
+                    _token: "{{ csrf_token() }}"
+
+                }, function(res) {
+
+                    if (res.status) {
+
+                        startOtpTimer();
+
+                        alert('OTP resent');
+
+                    } else {
+
+                        alert(res.message);
+
+                    }
+
+                });
+
+            });
+
+        })();
+
+
+
+
+        (function() {
+
+            $('#verifyOtpBtn').on('click', function() {
+
+                let otp = $('input[name="otp"]').val();
+
+                if (!otp) {
+
+                    alert('Please enter OTP');
+
+                    return;
+
+                }
+
+                $.post("{{ route('front.verifyEmailOtp') }}", {
+
+                    otp: otp,
+
+                    _token: "{{ csrf_token() }}"
+
+                }, function(res) {
+
+                    if (res.status) {
+
+                        alert('OTP Verified');
+
+                        $('input[name="otp"]').prop('readonly', true);
+
+                        $('#verifyOtpBtn').prop('disabled', true);
+
+                        $('#submitListingBtn').prop('disabled', false);
+
+                        $('#resendOtpBtn').addClass('d-none');
+
+                        $('#timerText').text('OTP verified successfully');
+
+                    } else {
+
+                        alert(res.message);
+
+                    }
+
+                });
+
+            });
+
+        })();
+    </script>
 @endpush

@@ -270,8 +270,6 @@ class ProfileController extends Controller
                 PaidListing::create([
                     'bussines_id' => $user->id,
                     'paid_type'   => 'paid',
-                    'type'        => $request->district_type ?? null,
-                    'district'    => $districtIds,
                     'home_city'   => $request->home_city ?? $request->city ?? null,
                     'amount'      => $request->price ?? null,
                     'name'        => $request->name ?? null,

@@ -50,8 +50,8 @@
                     <div class="single-footer f-contact">
                         <h3>Contact</h3>
                         <ul>
-                            <li>23 New Design Str,<br> Jodhpur, Rajasthan</li>
-                            <li>Tel. +91 91193 36617 <br> Mail. info@agent24india.com, support@agent24india.com</li>
+                            {{--  <li>23 New Design Str,<br> Jodhpur, Rajasthan</li>
+                            <li>Tel. +91 91193 36617 <br> Mail. info@agent24india.com, support@agent24india.com</li>  --}}
                         </ul>
                     </div>
                 </div>
@@ -66,9 +66,9 @@
                 <div class="row d-flex">
                     <div class="col-lg-6 col-12">
                         <div class="content">
-                            <p class="copyright-text">Designed and Developed by <a href="https://syspoly.com/"
+                            {{--  <p class="copyright-text">Designed and Developed by <a href="https://syspoly.com/"
                                     rel="nofollow" target="_blank">SYSPOLY</a>
-                            </p>
+                            </p>  --}}
                             </div>
                             </div>
 

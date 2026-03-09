@@ -314,18 +314,24 @@ class HomeController extends Controller
     }
 
     public function vendorlistByLocationAndCategory(Request $request, $location , $category){
+
         // Send view data
         $this->viewData['pageTitle'] = 'Vendor List';
-        
+
         $selectedCityId = $request->query('city');
-        $isAllCitySelected = empty($selectedCityId) || strtolower((string) $selectedCityId) === 'all';
+        $isAllCitySelected = empty($selectedCityId) || (string) $selectedCityId === 'all';
+        $vendorType = $request->query('vendor_type');
 
         $vendoruserQuery = User::query()
-            ->join('paid_listing', 'paid_listing.bussines_id', '=', 'users.id')
             ->where('users.status', 1)
             ->where('users.is_approved', 1)
             ->where('users.business_category_id', $category)
-            ->where('users.district_id', $location);
+            ->where('users.district_id', $location)
+            ->orderByRaw("CASE WHEN users.vendor_type = 'paid' THEN 0 ELSE 1 END");
+
+        if (!empty($vendorType)) {
+            $vendoruserQuery->where('users.vendor_type', $vendorType);
+        }
 
         if (!$isAllCitySelected) {
             $vendoruserQuery->where('users.city_id', $selectedCityId);
@@ -334,29 +340,20 @@ class HomeController extends Controller
         // If you want all user columns only
         $vendoruser = $vendoruserQuery
             ->select('users.*')
-            ->paginate(12);
+            ->get();
         
         $categories = Category::where('status', 1)->whereNull('parent_id')->get();
 
         $topadvertisments = Advertisment::where('status', 1)
             ->where('sub_type', 'top')
             ->where('category', $category)
-            ->where('district', $location);
-
-        if (!$isAllCitySelected) {
-            $topadvertisments->where('city', $selectedCityId);
-        }
-
-        $topadvertisments = $topadvertisments->get();
+            ->orWhere('district', $location)
+            ->get();
 
         $sideadvertismentsQuery = Advertisment::where('status', 1)
             ->where('sub_type', 'side')
             ->where('category', $category)
-            ->where('district', $location);
-
-        if (!$isAllCitySelected) {
-            $sideadvertismentsQuery->where('city', $selectedCityId);
-        }
+            ->orWhere('district', $location);
 
         if (!$isAllCitySelected) {
             $sideadvertismentsQuery->where(function ($query) use ($selectedCityId) {
@@ -388,6 +385,7 @@ class HomeController extends Controller
         $this->viewData['location'] = $location;
         $this->viewData['selectedDistrict'] = $selectedDistrict;
         $this->viewData['selectedCityId'] = $selectedCityId;
+        $this->viewData['selectedCategory'] = $category;
         
 
         

@@ -264,7 +264,7 @@
 <section class="container select-category">
     <div class="search-form wow " >
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-12 p-0">
+            <div class="col-lg-12 col-md-12 col-12 p-0 mb-2">
                 <div class="search-input" style="border: 1px solid #000000;border-radius: 4px;height: 60px;margin: 1px 7px;width: 100%;">
                     <label for="category"></label>
                     <select name="category" id="category">
@@ -277,6 +277,14 @@
                         @endforeach
                     </select>
                 </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-6 p-0">
+                <label for="vendor_type_filter"></label>
+                <select id="vendor_type_filter">
+                    <option value="">All Vendors</option>
+                    <option value="paid" {{ request('vendor_type') == 'paid' ? 'selected' : '' }}>Paid Vendors</option>
+                    <option value="free" {{ request('vendor_type') == 'free' ? 'selected' : '' }}>Free Vendors</option>
+                </select>
             </div>
         </div>
     </div>
@@ -342,12 +350,12 @@
                         </div>
                     @endforelse
 
-                    <!-- Pagination -->
+                    {{--  <!-- Pagination -->
                     @if($vendoruser->hasPages())
                         <div class="d-flex justify-content-center mt-5">
                             {{ $vendoruser->appends(request()->query())->links() }}
                         </div>
-                    @endif
+                    @endif  --}}
 
                 </div>
                 <!-- /Vendor List -->
@@ -633,6 +641,36 @@
                 $categorySearch.val('none').trigger('change.select2');
             }
         });
+    });
+</script>
+<script>
+    $('#vendor_type_filter').on('change', function () {
+
+        var vendorType = $(this).val();
+        var districtId = "{{ $location }}";
+        var categoryId = "{{ $selectedCategory }}";
+        var cityId = "{{ $selectedCityId }}";
+
+        var url = "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION', 'category' => 'CATEGORY']) }}";
+
+        url = url.replace('LOCATION', districtId);
+        url = url.replace('CATEGORY', categoryId);
+
+        var params = [];
+
+        if (cityId) {
+            params.push('city=' + cityId);
+        }
+
+        if (vendorType) {
+            params.push('vendor_type=' + vendorType);
+        }
+
+        if (params.length) {
+            url += '?' + params.join('&');
+        }
+
+        window.location.href = url;
     });
 </script>
 @endpush
