@@ -27,7 +27,8 @@ class Advertisment extends Model
         'expiry_date',
         'status',
         'created_by',
-        'updated_by'
+        'updated_by',
+        'price'
     ];
 
     /**

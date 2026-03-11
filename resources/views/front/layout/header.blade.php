@@ -31,7 +31,7 @@
       </li>
       <li>
         @if(\Auth::check())
-          <a href="{{ route('front.addListing') }}">Banner Ad</a>
+          <a href="{{ route('front.addbanner') }}">Banner Ad</a>
         @else
           <a href="javascript:void(0)" class="open-signin">Banner Ad</a>
         @endif

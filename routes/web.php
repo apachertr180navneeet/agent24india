@@ -282,6 +282,8 @@ Route::post('/add-listing', [Front\ProfileController::class, "storeListing"])->n
 Route::post('/send-email-otp', [Front\ProfileController::class, 'sendEmailOtp'])->name('front.sendEmailOtp');
 Route::post('/resend-email-otp', [Front\ProfileController::class, 'resendEmailOtp'])->name('front.resendEmailOtp');
 Route::post('/verify-email-otp', [Front\ProfileController::class, 'verifyEmailOtp'])->name('front.verifyEmailOtp');
+Route::get('/add-banner', [Front\ProfileController::class, "addbanner"])->name('front.addbanner');
+Route::post('/add-banner', [Front\ProfileController::class, "storebanner"])->name('front.addbanner.store');
 
 
 

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use App\Models\Advertisment;
 
 class ProfileController extends Controller
 {
@@ -451,6 +452,83 @@ class ProfileController extends Controller
             'status' => true,
             'message' => 'OTP verified successfully'
         ]);
+    }
+
+    public function addbanner()
+    {
+        $user = Auth::user();
+
+        // Get active districts
+        $districts = District::where('status', 1)->get();
+
+        $records_count = Advertisment::where('expiry_date', '>', Carbon::now())->count();
+
+        $parentCategories = Category::where('status', 1)->whereNull('parent_id')->get();
+
+
+        $this->viewData = [
+            'user'                => $user,
+            'bannercount'         => $records_count,
+            'pageTitle'           => 'Add Banner',
+            'districts'           => $districts,
+            'categories'           => $parentCategories,
+        ];
+
+        return view('front.add-banner', $this->viewData);
+    }
+
+
+    public function storebanner(Request $request)
+    {
+        $user = Auth::user();
+        $requestArray = $request->all();
+
+        // Current date
+        $startDate = Carbon::now();
+
+        // Expiry date = start date + 1 month
+        $expiryDate = $startDate->copy()->addMonth();
+
+        $data = [
+            'start_date'   => $startDate,
+            'bussines_name'=> $user->id,
+            'type'         => $requestArray['type'],
+            'district'     => $requestArray['district'] ?? 0,
+            'city'         => $requestArray['city'] ?? 0,
+            'category'     => $requestArray['category'] ?? 0,
+            'home_city'    => $requestArray['home_city'],
+            'status'       => 1,
+            'image_alt'    => $requestArray['image_alt'],
+            'sub_type'     => $requestArray['sub_type'],
+            'expiry_date'  => $expiryDate,
+            'price'        => $requestArray['price'],
+            'created_at'   => now(),
+            'updated_at'   => now(),
+        ];
+
+        /**
+         * Upload Image
+         */
+        if ($request->hasFile('image')) {
+
+            $path = public_path('upload/advertisment');
+
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+
+            $file     = $request->file('image');
+            $filename = time().'_'.$file->getClientOriginalName();
+
+            $file->move($path, $filename);
+
+            $data['image'] = 'upload/advertisment/'.$filename;
+        }
+
+        // Insert Data
+        Advertisment::create($data);
+
+        return redirect()->back()->with('success','Banner added successfully');
     }
     
 }
