@@ -13,6 +13,8 @@ use App\Models\Category;
 use App\Http\Traits\UploadImage;
 use App\Models\PaidListing;
 use App\Models\User;
+use App\Models\Orders;
+use App\Models\PaymentTransactions;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
@@ -186,44 +188,75 @@ class ProfileController extends Controller
 
     public function storeListing(Request $request)
     {
+        // Get logged in user
         $user = Auth::user();
 
+        // Start database transaction
         DB::beginTransaction();
+
         try {
 
-            // 🔍 Check Existing Listing
+            /*
+            |--------------------------------------------------------------------------
+            | Check Last Listing of User
+            |--------------------------------------------------------------------------
+            | We check the last listing to decide whether free or paid listing
+            | is allowed or not.
+            */
             $existingListing = PaidListing::where('bussines_id', $user->id)
                 ->orderBy('created_at', 'desc')
                 ->first();
 
-            /* ================= FREE LISTING ================= */
+
+            /* ===============================================================
+            | FREE LISTING PROCESS
+            =============================================================== */
             if ($request->type === 'free') {
+
+                /*
+                |--------------------------------------------------------------------------
+                | Prevent free listing if paid listing is still active
+                |--------------------------------------------------------------------------
+                */
                 if ($existingListing && $existingListing->paid_type === 'paid') {
+
                     $paidExpiryDate = Carbon::parse($existingListing->created_at)->addMonth();
+
                     if (Carbon::now()->lt($paidExpiryDate)) {
                         return redirect()->back()
                             ->with('error', 'Free listing is disabled while your paid listing is active.');
                     }
                 }
 
-                // If free listing already exists, update it instead of creating duplicate
+                /*
+                |--------------------------------------------------------------------------
+                | Update existing free listing instead of creating duplicate
+                |--------------------------------------------------------------------------
+                */
                 if ($existingListing && $existingListing->paid_type == 'free') {
+
                     $existingListing->update([
-                        'home_city'   => $request->home_city ?? $existingListing->home_city,
-                        'phone'       => $request->phone ?? $existingListing->phone,
-                        'email'       => $request->email ?? $existingListing->email,
-                        'name'        => $request->name ?? $existingListing->name,
-                        'type'        => '1',
-                        'paid_type'   => 'free',
+                        'home_city' => $request->home_city ?? $existingListing->home_city,
+                        'phone'     => $request->phone ?? $existingListing->phone,
+                        'email'     => $request->email ?? $existingListing->email,
+                        'name'      => $request->name ?? $existingListing->name,
+                        'type'      => '1',
+                        'paid_type' => 'free',
                     ]);
 
+                    // Update vendor type
                     $user->update(['vendor_type' => 'free']);
 
                     DB::commit();
+
                     return redirect()->back()->with('success', 'Free listing updated successfully.');
                 }
 
-                // Clear OTP Session
+                /*
+                |--------------------------------------------------------------------------
+                | Clear OTP session after successful listing
+                |--------------------------------------------------------------------------
+                */
                 session()->forget([
                     'email_otp',
                     'email_otp_email',
@@ -231,6 +264,11 @@ class ProfileController extends Controller
                     'email_otp_verified'
                 ]);
 
+                /*
+                |--------------------------------------------------------------------------
+                | Create new free listing
+                |--------------------------------------------------------------------------
+                */
                 PaidListing::create([
                     'bussines_id' => $user->id,
                     'home_city'   => $request->home_city ?? null,
@@ -239,44 +277,127 @@ class ProfileController extends Controller
                     'name'        => $request->name ?? null,
                     'type'        => '1',
                     'paid_type'   => 'free',
+                    'status'      => 1
                 ]);
 
+                // Update user vendor type
                 $user->update(['vendor_type' => 'free']);
             }
 
-            /* ================= PAID LISTING ================= */
+
+            /* ===============================================================
+            | PAID LISTING PROCESS
+            =============================================================== */
             elseif ($request->type === 'paid') {
-
+                
+                /*
+                |--------------------------------------------------------------------------
+                | Prevent duplicate paid listing within 30 days
+                |--------------------------------------------------------------------------
+                */
                 if ($existingListing && $existingListing->paid_type == 'paid') {
-
                     $createdDate = Carbon::parse($existingListing->created_at);
                     $expiryDate  = $createdDate->copy()->addMonth();
 
-                    // Agar 1 month complete nahi hua
                     if (Carbon::now()->lt($expiryDate)) {
                         return redirect()->back()
                             ->with('error', 'Paid listing already exists and is still active.');
                     }
                 }
 
-                // Deactivate all free listings when paid listing is submitted
-                PaidListing::where('bussines_id', $user->id)
-                    ->where('paid_type', 'free')
-                    ->update(['status' => 0]);
+                // Listing amount
+                $amount = $request->price;
 
-                $districtIds = isset($request->district_ids)
-                    ? implode(',', $request->district_ids)
-                    : null;
+                /*
+                |--------------------------------------------------------------------------
+                | Razorpay API Keys
+                |--------------------------------------------------------------------------
+                */
+                $key_id     = env('RAZORPAY_KEY');
+                $key_secret = env('RAZORPAY_SECRET');
 
+                $receipt = 'listing_' . time();
+
+                /*
+                |--------------------------------------------------------------------------
+                | Create Razorpay Order using cURL
+                |--------------------------------------------------------------------------
+                */
+                $curl = curl_init();
+
+                curl_setopt_array($curl, [
+                    CURLOPT_URL => "https://api.razorpay.com/v1/orders",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_CUSTOMREQUEST => "POST",
+                    CURLOPT_POSTFIELDS => json_encode([
+                        "amount" => $amount * 100, // amount must be in paisa
+                        "currency" => "INR",
+                        "receipt" => $receipt,
+                        "payment_capture" => 1
+                    ]),
+                    CURLOPT_HTTPHEADER => [
+                        "Content-Type: application/json"
+                    ],
+                    CURLOPT_USERPWD => $key_id . ":" . $key_secret
+                ]);
+
+                $response = curl_exec($curl);
+                curl_close($curl);
+
+                $razorpayOrder = json_decode($response, true);
+
+                /*
+                |--------------------------------------------------------------------------
+                | Create Order Record
+                |--------------------------------------------------------------------------
+                */
+                $order = Orders::create([
+                    'user_id'            => $user->id,
+                    'order_number'       => $receipt,
+                    'razorpay_order_id'  => $razorpayOrder['id'],
+                    'total_amount'       => $amount,
+                    'status'             => 'pending'
+                ]);
+
+                /*
+                |--------------------------------------------------------------------------
+                | Store Payment Transaction Attempt
+                |--------------------------------------------------------------------------
+                */
+                PaymentTransactions::create([
+                    'order_id'           => $order->id,
+                    'razorpay_order_id'  => $razorpayOrder['id'],
+                    'amount'             => $amount,
+                    'status'             => 'created'
+                ]);
+
+                /*
+                |--------------------------------------------------------------------------
+                | Save Listing (inactive until payment success)
+                |--------------------------------------------------------------------------
+                */
                 PaidListing::create([
                     'bussines_id' => $user->id,
                     'paid_type'   => 'paid',
                     'home_city'   => $request->home_city ?? $request->city ?? null,
-                    'amount'      => $request->price ?? null,
+                    'amount'      => $amount,
                     'name'        => $request->name ?? null,
+                    'status'      => 0,
+                    'order_id'    => $order->id
                 ]);
 
-                $user->update(['vendor_type' => 'paid']);
+                DB::commit();
+
+                /*
+                |--------------------------------------------------------------------------
+                | Redirect user to Razorpay payment page
+                |--------------------------------------------------------------------------
+                */
+                return view('payment.checkout', [
+                    'order_id' => $razorpayOrder['id'],
+                    'amount' => $amount,
+                    'razorpay_key' => $key_id
+                ]);
             }
 
             DB::commit();
@@ -284,7 +405,12 @@ class ProfileController extends Controller
             return redirect()->back()->with('success', 'Listing created successfully.');
 
         } catch (\Exception $e) {
+
+            dd($e);
+
+            // Rollback transaction if any error occurs
             DB::rollBack();
+
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -478,16 +604,137 @@ class ProfileController extends Controller
     }
 
 
+    // public function storebanner(Request $request)
+    // {
+    //     $user = Auth::user();
+    //     $requestArray = $request->all();
+
+    //     // Current date
+    //     $startDate = Carbon::now();
+
+    //     // Expiry date = start date + 1 month
+    //     $expiryDate = $startDate->copy()->addMonth();
+
+    //     $data = [
+    //         'start_date'   => $startDate,
+    //         'bussines_name'=> $user->id,
+    //         'type'         => $requestArray['type'],
+    //         'district'     => $requestArray['district'] ?? 0,
+    //         'city'         => $requestArray['city'] ?? 0,
+    //         'category'     => $requestArray['category'] ?? 0,
+    //         'home_city'    => $requestArray['home_city'],
+    //         'status'       => 1,
+    //         'image_alt'    => $requestArray['image_alt'],
+    //         'sub_type'     => $requestArray['sub_type'],
+    //         'expiry_date'  => $expiryDate,
+    //         'price'        => $requestArray['price'],
+    //         'created_at'   => now(),
+    //         'updated_at'   => now(),
+    //     ];
+
+    //     /**
+    //      * Upload Image
+    //      */
+    //     if ($request->hasFile('image')) {
+
+    //         $path = public_path('upload/advertisment');
+
+    //         if (!file_exists($path)) {
+    //             mkdir($path, 0777, true);
+    //         }
+
+    //         $file     = $request->file('image');
+    //         $filename = time().'_'.$file->getClientOriginalName();
+
+    //         $file->move($path, $filename);
+
+    //         $data['image'] = 'upload/advertisment/'.$filename;
+    //     }
+
+    //     // Insert Data
+    //     Advertisment::create($data);
+
+    //     return redirect()->back()->with('success','Banner added successfully');
+    // }
+
+
+
     public function storebanner(Request $request)
     {
         $user = Auth::user();
         $requestArray = $request->all();
 
-        // Current date
         $startDate = Carbon::now();
-
-        // Expiry date = start date + 1 month
         $expiryDate = $startDate->copy()->addMonth();
+
+        /*
+        |--------------------------------------------------------------------------
+        | 1. Create Razorpay Order using cURL
+        |--------------------------------------------------------------------------
+        */
+
+        $key_id     = env('RAZORPAY_KEY');
+        $key_secret = env('RAZORPAY_SECRET');
+
+        $amount = $requestArray['price']; // price from form
+
+        $receipt = 'banner_' . time();
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => "https://api.razorpay.com/v1/orders",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => json_encode([
+                "amount" => $amount * 100,
+                "currency" => "INR",
+                "receipt" => $receipt,
+                "payment_capture" => 1
+            ]),
+            CURLOPT_HTTPHEADER => [
+                "Content-Type: application/json"
+            ],
+            CURLOPT_USERPWD => $key_id . ":" . $key_secret
+        ]);
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        $razorpayOrder = json_decode($response, true);
+
+        /*
+        |--------------------------------------------------------------------------
+        | 2. Save Order in Orders Table
+        |--------------------------------------------------------------------------
+        */
+
+        $order = Orders::create([
+            'user_id' => $user->id,
+            'order_number' => $receipt,
+            'razorpay_order_id' => $razorpayOrder['id'],
+            'total_amount' => $amount,
+            'status' => 'pending'
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | 3. Save Payment Attempt
+        |--------------------------------------------------------------------------
+        */
+
+        PaymentTransactions::create([
+            'order_id' => $order->id,
+            'razorpay_order_id' => $razorpayOrder['id'],
+            'amount' => $amount,
+            'status' => 'created'
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | 4. Save Banner Data
+        |--------------------------------------------------------------------------
+        */
 
         $data = [
             'start_date'   => $startDate,
@@ -497,18 +744,22 @@ class ProfileController extends Controller
             'city'         => $requestArray['city'] ?? 0,
             'category'     => $requestArray['category'] ?? 0,
             'home_city'    => $requestArray['home_city'],
-            'status'       => 1,
+            'status'       => 0, // pending until payment
             'image_alt'    => $requestArray['image_alt'],
             'sub_type'     => $requestArray['sub_type'],
             'expiry_date'  => $expiryDate,
-            'price'        => $requestArray['price'],
+            'price'        => $amount,
+            'order_id'     => $order->id,
             'created_at'   => now(),
             'updated_at'   => now(),
         ];
 
-        /**
-         * Upload Image
-         */
+        /*
+        |--------------------------------------------------------------------------
+        | Upload Banner Image
+        |--------------------------------------------------------------------------
+        */
+
         if ($request->hasFile('image')) {
 
             $path = public_path('upload/advertisment');
@@ -525,10 +776,75 @@ class ProfileController extends Controller
             $data['image'] = 'upload/advertisment/'.$filename;
         }
 
-        // Insert Data
         Advertisment::create($data);
 
-        return redirect()->back()->with('success','Banner added successfully');
+        /*
+        |--------------------------------------------------------------------------
+        | 5. Return Payment Page
+        |--------------------------------------------------------------------------
+        */
+
+        return view('payment.checkout', [
+            'order_id' => $razorpayOrder['id'],
+            'amount' => $amount,
+            'razorpay_key' => $key_id
+        ]);
+    }
+
+
+    public function paymentSuccess(Request $request)
+    {
+        $payment_id = $request->payment_id;
+        $order_id   = $request->order_id;
+        $signature  = $request->signature;
+
+        /*
+        |--------------------------------------------------------------------------
+        | Verify Razorpay Signature
+        |--------------------------------------------------------------------------
+        */
+
+        $generated_signature = hash_hmac(
+            'sha256',
+            $order_id . "|" . $payment_id,
+            env('RAZORPAY_SECRET')
+        );
+
+        if ($generated_signature == $signature) {
+
+            /*
+            |--------------------------------------------------------------------------
+            | Update Payment Transaction
+            |--------------------------------------------------------------------------
+            */
+
+            $transaction = PaymentTransactions::where('razorpay_order_id',$order_id)->first();
+
+            if($transaction){
+                $transaction->update([
+                    'razorpay_payment_id' => $payment_id,
+                    'razorpay_signature'  => $signature,
+                    'status' => 'captured'
+                ]);
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Update Order Status
+            |--------------------------------------------------------------------------
+            */
+
+            Orders::where('razorpay_order_id',$order_id)
+            ->update(['status'=>'paid']);
+
+            return redirect()->route('front.index')
+            ->with('success','Payment Successful');
+
+        } else {
+
+            return redirect()->route('front.index')
+            ->with('error','Payment Verification Failed');
+        }
     }
     
 }

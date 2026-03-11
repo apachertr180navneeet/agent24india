@@ -284,6 +284,7 @@ Route::post('/resend-email-otp', [Front\ProfileController::class, 'resendEmailOt
 Route::post('/verify-email-otp', [Front\ProfileController::class, 'verifyEmailOtp'])->name('front.verifyEmailOtp');
 Route::get('/add-banner', [Front\ProfileController::class, "addbanner"])->name('front.addbanner');
 Route::post('/add-banner', [Front\ProfileController::class, "storebanner"])->name('front.addbanner.store');
+Route::get('/payment-success', [Front\ProfileController::class,'paymentSuccess'])->name('payment.success');
 
 
 
