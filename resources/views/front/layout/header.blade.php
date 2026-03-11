@@ -21,7 +21,7 @@
     <!-- CENTER : Menu -->
     <ul class="main-menu">
       <li><a href="{{route('front.index')}}">Home</a></li>
-      <li><a href="javascript:void(0)" class="js-open-district-city-popup">Category</a></li>
+      {{--  <li><a href="javascript:void(0)" class="js-open-district-city-popup">Category</a></li>  --}}
       <li>
         @if(\Auth::check())
           <a href="{{ route('front.addListing') }}">Free Listing</a>

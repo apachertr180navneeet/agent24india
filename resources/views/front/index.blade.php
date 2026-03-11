@@ -268,6 +268,25 @@
         }
 
         }
+        .locations-grid1{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Desktop 4 */
+            gap: 20px;
+        }
+
+        /* Tablet */
+        @media (max-width: 992px){
+            .locations-grid1{
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 576px){
+            .locations-grid1{
+                grid-template-columns: repeat(3, 1fr); /* Mobile 3 */
+            }
+        }
     </style>
 @endpush
 @php
@@ -516,6 +535,22 @@
                     @endforeach
 
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="locations-section1">
+        <div class="container">
+            
+            <div class="locations-grid1">
+
+                <!-- Google Ad -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-9918904470832571"
+                    data-ad-slot="YOUR_AD_SLOT_ID"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
             </div>
         </div>
     </section>
@@ -926,5 +961,8 @@
             initializeFromStoredSelection();
 
         });
+    </script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
 @endpush

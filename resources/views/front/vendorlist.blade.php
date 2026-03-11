@@ -281,9 +281,9 @@
             <div class="col-lg-6 col-md-6 col-6 p-0">
                 <label for="vendor_type_filter"></label>
                 <select id="vendor_type_filter">
-                    <option value="">All Vendors</option>
-                    <option value="paid" {{ request('vendor_type') == 'paid' ? 'selected' : '' }}>Paid Vendors</option>
-                    <option value="free" {{ request('vendor_type') == 'free' ? 'selected' : '' }}>Free Vendors</option>
+                    <option value="">All Agent</option>
+                    <option value="paid" {{ request('vendor_type') == 'paid' ? 'selected' : '' }}>Paid Agent</option>
+                    <option value="free" {{ request('vendor_type') == 'free' ? 'selected' : '' }}>Free Agent</option>
                 </select>
             </div>
         </div>

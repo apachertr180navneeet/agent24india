@@ -61,6 +61,12 @@
         </style>
 
         @stack('styles')
+
+        <!-- Google AdSense -->
+        <script async 
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9918904470832571"
+            crossorigin="anonymous">
+        </script>
     </head>
     <body>
         <!-- Preloader -->
