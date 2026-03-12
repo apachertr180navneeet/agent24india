@@ -87,7 +87,7 @@
         <li><a href="{{route('front.profile')}}">My Profile</a></li>
         <li><a href="{{route('front.addListing')}}">My Listing</a></li>
         <li><a href="">My Banner Ad</a></li>
-        <li><a href="#">Payment history</a></li>
+        <li><a href="{{route('payment.histroy')}}">Payment history</a></li>
         @endif
         @if($about->status == 1)
         <li><a href="{{route('front.aboutus')}}">About Us</a></li>

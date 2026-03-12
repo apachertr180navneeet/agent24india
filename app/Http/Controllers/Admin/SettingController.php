@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Models\Setting;
+use App\Models\Orders;
 
 class SettingController extends Controller
 {
@@ -72,5 +73,27 @@ class SettingController extends Controller
         $setting->save();
 
         return redirect()->route('admin.setting.index')->with('success', 'Settings updated successfully.');
+    }
+
+
+    public function history()
+    {
+        // Page Title
+        $this->viewData['pageTitle'] = 'Payment History';
+
+        // Get all orders for payment history
+        $orders = Orders::select(
+                    'orders.*',
+                    'users.name as user_name',
+                    'users.email as user_email'
+                )
+                ->join('users', 'users.id', '=', 'orders.user_id')
+                ->orderBy('orders.id', 'desc')
+                ->paginate(10);
+
+        // Send data to view
+        $this->viewData['orders'] = $orders;
+
+        return view("admin.settings.payment")->with($this->viewData);
     }
 }

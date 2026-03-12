@@ -846,5 +846,16 @@ class ProfileController extends Controller
             ->with('error','Payment Verification Failed');
         }
     }
+
+
+    public function paymenthistroy()
+    {
+        $user = Auth::user();
+        $order = Orders::where('user_id', $user->id)->get();
+
+        return view('front.payment_history', [
+            'orders' => $order
+        ]);
+    }
     
 }

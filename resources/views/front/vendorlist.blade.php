@@ -376,6 +376,23 @@
 </section>
 <!-- End Items Grid Area -->
 
+
+<section class="locations-section1">
+    <div class="container">
+        
+        <div class="locations-grid1">
+
+            <!-- Google Ad -->
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-9918904470832571"
+                data-ad-slot="2104355202"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+</section>
+
 @endsection
 
 @push('scripts')
@@ -672,6 +689,9 @@
 
         window.location.href = url;
     });
+</script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 @endpush
 

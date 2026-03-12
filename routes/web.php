@@ -243,9 +243,13 @@ Route::prefix('admin')->name('admin.')->group(function(){
             Route::get("/edit/{id}", [Admin\SupportFormController::class, "edit"])->name("support-form.edit");
         });
 
-        Route::prefix("seeting")->group(function(){
+        Route::prefix("setting")->group(function(){
             Route::get("/", [Admin\SettingController::class, "index"])->name("setting.index");
             Route::post("/edit", [Admin\SettingController::class, "edit"])->name("setting.edit");
+        });
+
+        Route::prefix("payment")->group(function(){
+            Route::get("/", [Admin\SettingController::class, "history"])->name("history");
         });
     });
 });
@@ -285,6 +289,7 @@ Route::post('/verify-email-otp', [Front\ProfileController::class, 'verifyEmailOt
 Route::get('/add-banner', [Front\ProfileController::class, "addbanner"])->name('front.addbanner');
 Route::post('/add-banner', [Front\ProfileController::class, "storebanner"])->name('front.addbanner.store');
 Route::get('/payment-success', [Front\ProfileController::class,'paymentSuccess'])->name('payment.success');
+Route::get('/payment-histroy', [Front\ProfileController::class,'paymenthistroy'])->name('payment.histroy');
 
 
 

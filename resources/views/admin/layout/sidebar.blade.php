@@ -214,6 +214,14 @@ $currentRoute = request()->route()->getName();
                 </li>
                 @endif
 
+                <li class="nav-item">
+                    <a href="{{ route('admin.history') }}" 
+                       class="nav-link {{ request()->routeIs('admin.setting.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>Payment History</p>
+                    </a>
+                </li>
+
 
                 <li class="nav-item">
                     <a href="{{ route('admin.setting.index') }}" 
