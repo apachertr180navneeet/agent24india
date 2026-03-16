@@ -265,7 +265,7 @@
         <div class="dots"></div>
 
     </div>
-</section>g
+</section>
 <!-- End Hero Area -->
 <!-- Category Search -->
 <section class="container select-category">
