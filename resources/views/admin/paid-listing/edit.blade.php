@@ -71,22 +71,17 @@
                                         <div class="col-md-4">
                                             <input type="text" class="form-control" value="{{ $paidlisting->name ?? '' }}" readonly>
                                         </div>
-
-                                        <div class="col-md-2 font-weight-bold">District Type</div>
+                                        <div class="col-md-2 font-weight-bold">Phone</div>
                                         <div class="col-md-4">
-                                            <input type="text" class="form-control" value="{{ ($paidlisting->type ?? '1') == '4' ? '4 District' : '1 District' }}" readonly>
+                                            <input type="text" class="form-control" value="{{ $paidlisting->mobile ?? '' }}" readonly>
                                         </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <div class="col-md-2 font-weight-bold">Selected District</div>
-                                        <div class="col-md-4">
-                                            <input type="text" class="form-control" value="{{ $paidlisting->district_names ?? '' }}" readonly>
-                                        </div>
-
                                         <div class="col-md-2 font-weight-bold">Home City</div>
                                         <div class="col-md-4">
                                             <input type="text" class="form-control" value="{{ $paidlisting->home_city_name ?? '' }}" readonly>
+                                        </div>
+                                        <div class="col-md-2 font-weight-bold">Address</div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" value="{{ $paidlisting->business_address ?? '' }}" readonly>
                                         </div>
                                     </div>
 

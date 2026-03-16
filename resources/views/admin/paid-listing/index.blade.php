@@ -69,7 +69,7 @@
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $item->business_name }}</td>
-                                    <td>{{ $item->phone }}</td>
+                                    <td>{{ $item->user_mobile }}</td>
                                     <td>{{ $item->paid_type }}</td>
                                     <td>{{ \Carbon\Carbon::parse($item->updated_at)->format('d-m-Y') }}</td>
                                     @if ($item->paid_type == 'free')

@@ -40,6 +40,7 @@ class PaidListingController extends Controller
             ->select(
                 'paid_listing.*',
                 'users.name as business_name',
+                'users.mobile as user_mobile',
                 'home_district.name as home_city',
                 DB::raw('GROUP_CONCAT(DISTINCT area_districts.name) as district_names')
             )
@@ -99,6 +100,8 @@ class PaidListingController extends Controller
                 'paid_listing.amount',
                 'paid_listing.phone',
                 'users.name as business_name',
+                'users.mobile as mobile',
+                'users.business_address as business_address',
                 DB::raw('COALESCE(home_district.name, paid_listing.home_city) as home_city_name'),
 
                 DB::raw('GROUP_CONCAT(DISTINCT area_districts.name ORDER BY area_districts.name SEPARATOR ", ") as district_names')
@@ -119,6 +122,8 @@ class PaidListingController extends Controller
                 'paid_listing.amount',
                 'paid_listing.phone',
                 'users.name',
+                'users.mobile',
+                'users.business_address',
                 'paid_listing.home_city'
             )
 

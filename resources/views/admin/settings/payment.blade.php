@@ -9,8 +9,34 @@
         .bootstrap-select.btn-group>.dropdown-toggle {
             padding: 8px 10px !important;
         }
+
+        .badge {
+            padding: 6px 10px;
+            font-size: 12px;
+        }
+
+        .badge-success {
+            background: #28a745;
+            color: #fff;
+        }
+
+        .badge-warning {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .badge-danger {
+            background: #dc3545;
+            color: #fff;
+        }
+
+        .badge-secondary {
+            background: #6c757d;
+            color: #fff;
+        }
     </style>
 @endpush
+
 
 @section('content')
 
@@ -27,12 +53,14 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Order ID</th>
-                                <th>User</th>
-                                <th>Amount</th>
-                                <th>Payment Status</th>
                                 <th>Date</th>
+                                <th>Party Name</th>
+                                <th>Mobile number</th>
+                                <th>Payment Type</th>
+                                <th>Order number</th>
+                                <th>Amount</th>
+                                <th>UTR ID</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
 
@@ -40,36 +68,80 @@
 
                             @if ($orders->count())
 
-                                @foreach ($orders as $key => $order)
+                                @foreach ($orders as $order)
                                     <tr>
-                                        <td>{{ $key + 1 }}</td>
-                                        <td>{{ $order->order_number }}</td>
-                                        <td>{{ $order->user_name ?? '-' }}</td>
-                                        <td>₹{{ number_format($order->total_amount, 2) }}</td>
+
                                         <td>
-                                            @if ($order->status == 'paid')
-                                                <span class="badge badge-success">Paid</span>
-                                            @else
-                                                <span class="badge badge-danger">Pending</span>
-                                            @endif
+                                            {{ date('d/m/Y', strtotime($order->created_at)) }}
                                         </td>
-                                        <td>{{ date('d M Y', strtotime($order->created_at)) }}</td>
+
+                                        <td>
+                                            {{ $order->user_name ?? '-' }}
+                                        </td>
+
+                                        <td>
+                                            {{ $order->user_mobile ?? '-' }}
+                                        </td>
+
+                                        <td>
+                                            {{ $order->order_number }}
+                                        </td>
+
+                                        <td>
+                                            {{ ucfirst(explode('_', $order->order_number)[0]) }}
+                                        </td>
+
+                                        <td>
+                                            ₹ {{ number_format($order->total_amount, 2) }}
+                                        </td>
+
+                                        <td>
+                                            {{ $order->utr_id ?? '-' }}
+                                        </td>
+
+                                        <td>
+
+                                            @if ($order->status == 'paid')
+                                                <span class="badge badge-success">
+                                                    Paid
+                                                </span>
+                                            @elseif($order->status == 'pending')
+                                                <span class="badge badge-warning">
+                                                    Pending
+                                                </span>
+                                            @elseif($order->status == 'failed')
+                                                <span class="badge badge-danger">
+                                                    Failed
+                                                </span>
+                                            @elseif($order->status == 'cancelled')
+                                                <span class="badge badge-secondary">
+                                                    Cancelled
+                                                </span>
+                                            @else
+                                                -
+                                            @endif
+
+                                        </td>
+
                                     </tr>
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="7" class="text-center">No Payment Found</td>
+                                    <td colspan="7" class="text-center">
+                                        No Payment Found
+                                    </td>
                                 </tr>
 
                             @endif
 
                         </tbody>
-
                     </table>
 
-                    <div class="mt-3">
+
+                    {{--  <div class="d-flex justify-content-center mt-3">
                         {{ $orders->links() }}
-                    </div>
+                    </div>  --}}
+
 
                 </div>
             </div>
@@ -78,6 +150,7 @@
     </section>
 
 @endsection
+
 
 
 @push('scripts')

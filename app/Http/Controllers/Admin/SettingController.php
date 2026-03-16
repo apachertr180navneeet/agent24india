@@ -83,13 +83,15 @@ class SettingController extends Controller
 
         // Get all orders for payment history
         $orders = Orders::select(
-                    'orders.*',
-                    'users.name as user_name',
-                    'users.email as user_email'
-                )
-                ->join('users', 'users.id', '=', 'orders.user_id')
-                ->orderBy('orders.id', 'desc')
-                ->paginate(10);
+                'orders.*',
+                'users.name as user_name',
+                'users.mobile as user_mobile',
+                'payment_transactions.razorpay_payment_id as utr_id'
+            )
+            ->join('users', 'users.id', '=', 'orders.user_id')
+            ->leftJoin('payment_transactions', 'payment_transactions.order_id', '=', 'orders.id')
+            ->orderBy('orders.id', 'desc')
+            ->get();
 
         // Send data to view
         $this->viewData['orders'] = $orders;

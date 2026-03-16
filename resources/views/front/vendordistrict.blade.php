@@ -187,7 +187,21 @@
 
     @media (max-width: 480px) {
         .categories-grid {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr); /* mobile me 3 category */
+            gap: 10px;
+        }
+
+        .category-card {
+            padding: 10px 5px;
+        }
+
+        .category-card img {
+            width: 45px;
+            height: 45px;
+        }
+
+        .category-card span {
+            font-size: 11px;
         }
     }
 </style>
@@ -239,11 +253,21 @@
     <!-- Start Hero Area -->
     <section class="hero-area">
         <div class="hero-slider">
-            @foreach ($banner as $key => $value)
-                <div class="slide {{($key == 0) ? 'active' : ''}}">
-                    <img src="{{ $value->image}}" alt="Slide {{($key + 1)}}">
+
+            @if($banner && count($banner) > 0)
+
+                @foreach ($banner as $key => $value)
+                    <div class="slide {{ ($key == 0) ? 'active' : '' }}">
+                        <img src="{{ $value->image }}" alt="Slide {{ $key + 1 }}">
+                    </div>
+                @endforeach
+
+            @else
+                <div class="slide active">
+                    <img src="https://agent24india.com/public/upload/banner/1771654878_Property%20Solutions%20You%20Can%20Trust%20(2).png" alt="Default Banner">
                 </div>
-            @endforeach
+            @endif
+
             <button class="arrow prev">&#10094;</button>
             <button class="arrow next">&#10095;</button>
 

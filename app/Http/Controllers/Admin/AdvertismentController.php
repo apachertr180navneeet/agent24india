@@ -210,40 +210,69 @@ class AdvertismentController extends Controller
     public function store(Request $request)
     {
         $authUser = auth()->user();
-        $user = null;
-        $errorMessage = null;
+
         $notification = [
             '_status' => false,
             '_message' => __('messages.record_creation_failed', ['record' => 'Advertisment']),
             '_type' => 'error',
         ];
+
         $redirectRoute = 'admin.advertisment.create';
-        
-        // Begin Transaction
+
         DB::beginTransaction();
-        
-        // Create User
+
         try {
-            $user = Advertisment::saveRecord($request);
+
+            $districtId = $request->district;
+            $cityId     = $request->city;
+            $position   = $request->sub_type; // side or top
+
+            // Count existing ads
+            $adsCount = Advertisment::where('district', $districtId)
+                        ->where('city', $cityId)
+                        ->where('sub_type', $position)
+                        ->count();
+
+            
+            // Check limit
+            if ($position == 'side' && $adsCount >= 10) {
+                return back()->with([
+                    'notification' => [
+                        '_status' => false,
+                        '_message' => 'Maximum 10 side advertisements allowed for this city.',
+                        '_type' => 'error'
+                    ]
+                ]);
+            }
+
+            if ($position == 'top' && $adsCount >= 5) {
+                return back()->with([
+                    'notification' => [
+                        '_status' => false,
+                        '_message' => 'Maximum 5 top advertisements allowed for this city.',
+                        '_type' => 'error'
+                    ]
+                ]);
+            }
+
+            // Save Advertisement
+            $advertisement = Advertisment::saveRecord($request);
 
             DB::commit();
 
-        } catch (\Exception $e) {
-            $user = null;
-            $errorMessage = $e->getMessage();
-            DB::rollback();
-            dd($e);
-        }
-        //------------
-
-        if (!is_null($user)) 
-        {
             $notification = [
                 '_status' => true,
                 '_message' => __('messages.record_created', ['record' => 'Advertisment']),
                 '_type' => 'success',
             ];
+
             $redirectRoute = 'admin.advertisment.index';
+
+        } catch (\Exception $e) {
+
+            DB::rollback();
+            dd($e);
+
         }
 
         return redirect()->route($redirectRoute)->with(['notification' => $notification]);
@@ -451,7 +480,6 @@ class AdvertismentController extends Controller
     {
         $category = Advertisment::where('id', $id)->first();
 
-        dd($category);
         
         // Delete Category
         if($category)
@@ -471,7 +499,7 @@ class AdvertismentController extends Controller
             ];
             //---------------
 
-            return redirect()->route('admin.category.index')->with(['notification' => $notification]);
+            return redirect()->route('admin.advertisment.index')->with(['notification' => $notification]);
         } 
         else 
         {
@@ -483,7 +511,7 @@ class AdvertismentController extends Controller
             ];
             //---------------
 
-            return redirect()->route('admin.category.index')->with(['notification' => $notification]);
+            return redirect()->route('admin.advertisment.index')->with(['notification' => $notification]);
         }
         //-------------
 

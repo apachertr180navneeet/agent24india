@@ -249,16 +249,23 @@
 <!-- Start Hero Area -->
 <section class="hero-area">
     <div class="hero-slider">
-        @foreach ($topadvertisments as $topadvertisment)
-            <div class="slide active">
+
+        @forelse ($topadvertisments as $key => $topadvertisment)
+            <div class="slide {{ ($key == 0) ? 'active' : '' }}">
                 <img src="{{ $topadvertisment->image }}" alt="{{ $topadvertisment->image_alt }}">
             </div>
-        @endforeach
+        @empty
+            <div class="slide active">
+                <img src="https://agent24india.com/public/upload/banner/1771654878_Property%20Solutions%20You%20Can%20Trust%20(2).png" alt="Default Banner">
+            </div>
+        @endforelse
+
         <button class="arrow prev">&#10094;</button>
         <button class="arrow next">&#10095;</button>
         <div class="dots"></div>
+
     </div>
-</section>
+</section>g
 <!-- End Hero Area -->
 <!-- Category Search -->
 <section class="container select-category">
@@ -278,14 +285,14 @@
                     </select>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-6 p-0">
+            {{--  <div class="col-lg-6 col-md-6 col-6 p-0">
                 <label for="vendor_type_filter"></label>
                 <select id="vendor_type_filter">
                     <option value="">All Agent</option>
                     <option value="paid" {{ request('vendor_type') == 'paid' ? 'selected' : '' }}>Paid Agent</option>
                     <option value="free" {{ request('vendor_type') == 'free' ? 'selected' : '' }}>Free Agent</option>
                 </select>
-            </div>
+            </div>  --}}
         </div>
     </div>
 </section>

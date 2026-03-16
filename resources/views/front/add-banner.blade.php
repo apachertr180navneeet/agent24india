@@ -32,6 +32,18 @@
             Banner Ad
         </div>
 
+        @if(session('notification'))
+
+            <div class="alert alert-{{ session('notification._type') == 'success' ? 'success' : 'danger' }} alert-dismissible fade show">
+
+                {{ session('notification._message') }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+            </div>
+
+        @endif
+
         <form action="{{ route('front.addbanner.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
@@ -221,7 +233,7 @@
 
             <div class="card-footer text-end">
 
-                <button type="submit" class="btn btn-primary px-4" {{ $bannercount >= 10 ? 'disabled' : '' }}>
+                <button type="submit" class="btn btn-primary px-4">
 
                     Submit
 
@@ -230,28 +242,6 @@
             </div>
 
         </form>
-
-
-        {{-- Availability UI --}}
-        <div class="p-3">
-
-            <strong>Check Availability</strong>
-
-            @if($bannercount >= 10)
-
-            <p class="text-danger mb-0">
-                Slot Full (Maximum 10 banners allowed)
-            </p>
-
-            @else
-
-            <p class="text-success mb-0">
-                Available Slots : {{ 10 - $bannercount }}
-            </p>
-
-            @endif
-
-        </div>
 
     </div>
 

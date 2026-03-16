@@ -95,6 +95,18 @@
 
                 </div>
 
+                <div class="contact-actions col-lg-12 col-12 mt-3">
+                    <!-- AddToAny BEGIN -->
+                    <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+                    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+                    <a class="a2a_button_facebook"></a>
+                    <a class="a2a_button_mastodon"></a>
+                    <a class="a2a_button_email"></a>
+                    </div>
+                    <script defer src="https://static.addtoany.com/menu/page.js"></script>
+                    <!-- AddToAny END -->
+                </div>
+
             </div>
 
             {{-- PREMIUM TAG --}}
@@ -136,6 +148,13 @@
             <strong>Location:</strong>
             <span>{{ $vendoruser->pick_your_location }}</span>
         </div>
+
+    </div>
+
+
+    <div class="row my-5 vendordetails">
+
+        
 
     </div>
 

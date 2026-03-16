@@ -242,6 +242,7 @@ class ProfileController extends Controller
                         'name'      => $request->name ?? $existingListing->name,
                         'type'      => '1',
                         'paid_type' => 'free',
+                        'status'      => '1'
                     ]);
 
                     // Update vendor type
@@ -277,7 +278,7 @@ class ProfileController extends Controller
                     'name'        => $request->name ?? null,
                     'type'        => '1',
                     'paid_type'   => 'free',
-                    'status'      => 1
+                    'status'      => '1'
                 ]);
 
                 // Update user vendor type
@@ -382,8 +383,13 @@ class ProfileController extends Controller
                     'home_city'   => $request->home_city ?? $request->city ?? null,
                     'amount'      => $amount,
                     'name'        => $request->name ?? null,
-                    'status'      => 0,
+                    'status'      => 1,
                     'order_id'    => $order->id
+                ]);
+
+
+                $user->update([
+                    'vendor_type'  => 'paid',
                 ]);
 
                 DB::commit();
@@ -664,20 +670,56 @@ class ProfileController extends Controller
         $user = Auth::user();
         $requestArray = $request->all();
 
-        $startDate = Carbon::now();
-        $expiryDate = $startDate->copy()->addMonth();
+        $district = $requestArray['district'] ?? 0;
+        $city     = $requestArray['city'] ?? 0;
+        $subType  = $requestArray['sub_type']; // side or top
 
         /*
         |--------------------------------------------------------------------------
-        | 1. Create Razorpay Order using cURL
+        | 1. Check Banner Limit
         |--------------------------------------------------------------------------
         */
+
+        $bannerCount = Advertisment::where('district', $district)
+            ->where('city', $city)
+            ->where('sub_type', $subType)
+            ->count();
+
+        if ($subType == 'side' && $bannerCount >= 10) {
+
+            return back()->with([
+                'notification' => [
+                    '_status' => false,
+                    '_message' => 'Maximum 10 Side banners allowed for this city.',
+                    '_type' => 'error'
+                ]
+            ]);
+        }
+
+        if ($subType == 'top' && $bannerCount >= 5) {
+
+            return back()->with([
+                'notification' => [
+                    '_status' => false,
+                    '_message' => 'Maximum 5 Top banners allowed for this city.',
+                    '_type' => 'error'
+                ]
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Continue Existing Code
+        |--------------------------------------------------------------------------
+        */
+
+        $startDate = Carbon::now();
+        $expiryDate = $startDate->copy()->addMonth();
 
         $key_id     = env('RAZORPAY_KEY');
         $key_secret = env('RAZORPAY_SECRET');
 
-        $amount = $requestArray['price']; // price from form
-
+        $amount = $requestArray['price'];
         $receipt = 'banner_' . time();
 
         $curl = curl_init();
@@ -705,7 +747,7 @@ class ProfileController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | 2. Save Order in Orders Table
+        | Save Order
         |--------------------------------------------------------------------------
         */
 
@@ -717,12 +759,6 @@ class ProfileController extends Controller
             'status' => 'pending'
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | 3. Save Payment Attempt
-        |--------------------------------------------------------------------------
-        */
-
         PaymentTransactions::create([
             'order_id' => $order->id,
             'razorpay_order_id' => $razorpayOrder['id'],
@@ -732,7 +768,7 @@ class ProfileController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | 4. Save Banner Data
+        | Save Banner
         |--------------------------------------------------------------------------
         */
 
@@ -740,25 +776,19 @@ class ProfileController extends Controller
             'start_date'   => $startDate,
             'bussines_name'=> $user->id,
             'type'         => $requestArray['type'],
-            'district'     => $requestArray['district'] ?? 0,
-            'city'         => $requestArray['city'] ?? 0,
+            'district'     => $district,
+            'city'         => $city,
             'category'     => $requestArray['category'] ?? 0,
             'home_city'    => $requestArray['home_city'],
-            'status'       => 0, // pending until payment
+            'status'       => 0,
             'image_alt'    => $requestArray['image_alt'],
-            'sub_type'     => $requestArray['sub_type'],
+            'sub_type'     => $subType,
             'expiry_date'  => $expiryDate,
             'price'        => $amount,
             'order_id'     => $order->id,
             'created_at'   => now(),
             'updated_at'   => now(),
         ];
-
-        /*
-        |--------------------------------------------------------------------------
-        | Upload Banner Image
-        |--------------------------------------------------------------------------
-        */
 
         if ($request->hasFile('image')) {
 
@@ -768,7 +798,7 @@ class ProfileController extends Controller
                 mkdir($path, 0777, true);
             }
 
-            $file     = $request->file('image');
+            $file = $request->file('image');
             $filename = time().'_'.$file->getClientOriginalName();
 
             $file->move($path, $filename);
@@ -780,7 +810,7 @@ class ProfileController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | 5. Return Payment Page
+        | Payment Page
         |--------------------------------------------------------------------------
         */
 
