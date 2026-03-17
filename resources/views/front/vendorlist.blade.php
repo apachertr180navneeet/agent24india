@@ -333,7 +333,7 @@
                                                 <i class="lni lni-phone"></i> Call Now
                                             </a>
                                         @endif
-                                        <a href="https://wa.me/{{ $vendor->mobile ?? '' }}" class="whatsapp">
+                                        <a href="https://wa.me/{{ $vendor->whats_app ?? '' }}" class="whatsapp">
                                             <i class="lni lni-whatsapp"></i> WhatsApp
                                         </a>
                                         <a href="mailto:{{ $vendor->email ?? 'info@example.com' }}" class="call-btn">

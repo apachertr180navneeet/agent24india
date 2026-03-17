@@ -668,58 +668,72 @@ class ProfileController extends Controller
     public function storebanner(Request $request)
     {
         $user = Auth::user();
-        $requestArray = $request->all();
-
-        $district = $requestArray['district'] ?? 0;
-        $city     = $requestArray['city'] ?? 0;
-        $subType  = $requestArray['sub_type']; // side or top
 
         /*
-        |--------------------------------------------------------------------------
-        | 1. Check Banner Limit
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
+        | Validate Request
+        |----------------------------------------------------------------------
         */
+        $request->validate([
+            'sub_type'   => 'required|in:side,top',
+            'price'      => 'required|numeric|min:1',
+            'type'       => 'required|string',
+            'home_city'  => 'required',
+            'image_alt'  => 'nullable|string',
+            'image'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
 
+        $district = $request->district ?? 0;
+        $city     = $request->city ?? 0;
+        $subType  = $request->sub_type;
+
+        /*
+        |----------------------------------------------------------------------
+        | 1. Check Banner Limit
+        |----------------------------------------------------------------------
+        */
         $bannerCount = Advertisment::where('district', $district)
             ->where('city', $city)
             ->where('sub_type', $subType)
             ->count();
 
         if ($subType == 'side' && $bannerCount >= 10) {
-
             return back()->with([
                 'notification' => [
-                    '_status' => false,
+                    '_status'  => false,
                     '_message' => 'Maximum 10 Side banners allowed for this city.',
-                    '_type' => 'error'
+                    '_type'    => 'error'
                 ]
             ]);
         }
 
         if ($subType == 'top' && $bannerCount >= 5) {
-
             return back()->with([
                 'notification' => [
-                    '_status' => false,
+                    '_status'  => false,
                     '_message' => 'Maximum 5 Top banners allowed for this city.',
-                    '_type' => 'error'
+                    '_type'    => 'error'
                 ]
             ]);
         }
 
         /*
-        |--------------------------------------------------------------------------
-        | Continue Existing Code
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
+        | 2. Dates (Formatted)
+        |----------------------------------------------------------------------
         */
+        $startDate  = Carbon::now()->format('Y-m-d');
+        $expiryDate = Carbon::now()->addMonth()->format('Y-m-d');
 
-        $startDate = Carbon::now();
-        $expiryDate = $startDate->copy()->addMonth();
-
+        /*
+        |----------------------------------------------------------------------
+        | 3. Razorpay Order Create
+        |----------------------------------------------------------------------
+        */
         $key_id     = env('RAZORPAY_KEY');
         $key_secret = env('RAZORPAY_SECRET');
 
-        $amount = $requestArray['price'];
+        $amount  = $request->price;
         $receipt = 'banner_' . time();
 
         $curl = curl_init();
@@ -741,54 +755,57 @@ class ProfileController extends Controller
         ]);
 
         $response = curl_exec($curl);
+
+        if (curl_errno($curl)) {
+            return back()->with([
+                'notification' => [
+                    '_status'  => false,
+                    '_message' => 'Payment gateway error. Try again.',
+                    '_type'    => 'error'
+                ]
+            ]);
+        }
+
         curl_close($curl);
 
         $razorpayOrder = json_decode($response, true);
 
-        /*
-        |--------------------------------------------------------------------------
-        | Save Order
-        |--------------------------------------------------------------------------
-        */
+        if (!isset($razorpayOrder['id'])) {
+            return back()->with([
+                'notification' => [
+                    '_status'  => false,
+                    '_message' => 'Unable to create order. Try again.',
+                    '_type'    => 'error'
+                ]
+            ]);
+        }
 
+        /*
+        |----------------------------------------------------------------------
+        | 4. Save Order
+        |----------------------------------------------------------------------
+        */
         $order = Orders::create([
-            'user_id' => $user->id,
-            'order_number' => $receipt,
-            'razorpay_order_id' => $razorpayOrder['id'],
-            'total_amount' => $amount,
-            'status' => 'pending'
+            'user_id'            => $user->id,
+            'order_number'       => $receipt,
+            'razorpay_order_id'  => $razorpayOrder['id'],
+            'total_amount'       => $amount,
+            'status'             => 'pending'
         ]);
 
         PaymentTransactions::create([
-            'order_id' => $order->id,
-            'razorpay_order_id' => $razorpayOrder['id'],
-            'amount' => $amount,
-            'status' => 'created'
+            'order_id'           => $order->id,
+            'razorpay_order_id'  => $razorpayOrder['id'],
+            'amount'             => $amount,
+            'status'             => 'created'
         ]);
 
         /*
-        |--------------------------------------------------------------------------
-        | Save Banner
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
+        | 5. Upload Image
+        |----------------------------------------------------------------------
         */
-
-        $data = [
-            'start_date'   => $startDate,
-            'bussines_name'=> $user->id,
-            'type'         => $requestArray['type'],
-            'district'     => $district,
-            'city'         => $city,
-            'category'     => $requestArray['category'] ?? 0,
-            'home_city'    => $requestArray['home_city'],
-            'status'       => 0,
-            'image_alt'    => $requestArray['image_alt'],
-            'sub_type'     => $subType,
-            'expiry_date'  => $expiryDate,
-            'price'        => $amount,
-            'order_id'     => $order->id,
-            'created_at'   => now(),
-            'updated_at'   => now(),
-        ];
+        $imagePath = null;
 
         if ($request->hasFile('image')) {
 
@@ -799,24 +816,45 @@ class ProfileController extends Controller
             }
 
             $file = $request->file('image');
-            $filename = time().'_'.$file->getClientOriginalName();
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
 
             $file->move($path, $filename);
 
-            $data['image'] = 'upload/advertisment/'.$filename;
+            // Full URL
+            $imagePath = url('public/upload/advertisment/' . $filename);
         }
 
-        Advertisment::create($data);
+        /*
+        |----------------------------------------------------------------------
+        | 6. Save Banner
+        |----------------------------------------------------------------------
+        */
+        Advertisment::create([
+            'start_date'    => $startDate,
+            'bussines_name' => $user->id,
+            'type'          => $request->type,
+            'district'      => $district,
+            'city'          => $city,
+            'category'      => $request->category ?? 0,
+            'home_city'     => $request->home_city,
+            'image_alt'     => $request->image_alt,
+            'sub_type'      => $subType,
+            'expiry_date'   => $expiryDate,
+            'price'         => $amount,
+            'order_id'      => $order->id,
+            'image'         => $imagePath,
+            'created_at'    => now(),
+            'updated_at'    => now(),
+        ]);
 
         /*
-        |--------------------------------------------------------------------------
-        | Payment Page
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
+        | 7. Redirect to Payment Page
+        |----------------------------------------------------------------------
         */
-
         return view('payment.checkout', [
-            'order_id' => $razorpayOrder['id'],
-            'amount' => $amount,
+            'order_id'     => $razorpayOrder['id'],
+            'amount'       => $amount,
             'razorpay_key' => $key_id
         ]);
     }

@@ -66,7 +66,7 @@
                 <li><a href="#">Notice</a></li>
                 <li><a href="supportpage.html">Support & Help</a></li>
                 @if(\Auth::check())
-                    <li><a href="{{route('front.logout')}}">Logout</a></li>    
+                    <li><a href="{{route('front.logout')}}" onclick="return confirm('Are you sure you want to logout?')">Logout</a></li>    
                 @else
                     <li><a href="javascript:void(0)" class="open-signin">Sign In</a></li>
                 @endif

@@ -53,7 +53,7 @@
     <!-- RIGHT : Sign In + Toggle -->
     <div class="nav-right">
        @if(\Auth::check())
-            <a href="{{route('front.logout')}}" class="sign-btn">Logout</a>  
+            <a href="{{route('front.logout')}}" class="sign-btn" onclick="return confirm('Are you sure you want to logout?')">Logout</a>  
         @else
             <a href="javascript:void(0)" class="sign-btn open-signin">Sign In</a>
         @endif
@@ -102,7 +102,7 @@
           <li><a href="{{route('front.privacyPolicy')}}">Privacy Policy</a></li>
         @endif
         {{--  @if(\Auth::check())
-            <li><a href="{{route('front.logout')}}">Logout</a></li>    
+            <li><a href="{{route('front.logout')}}" onclick="return confirm('Are you sure you want to logout?')">Logout</a></li>    
         @else
             <li><a href="javascript:void(0)" class="open-signin">Sign In</a></li>
         @endif  --}}

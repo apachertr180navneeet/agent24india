@@ -83,7 +83,7 @@
 
 
                     {{-- WHATSAPP --}}
-                    <a href="https://wa.me/{{ $vendoruser->mobile }}" class="whatsapp">
+                    <a href="https://wa.me/{{ $vendoruser->whats_app }}" class="whatsapp">
                         <i class="lni lni-whatsapp"></i> WhatsApp
                     </a>
 

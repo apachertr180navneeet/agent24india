@@ -76,12 +76,16 @@ class PaidListingController extends Controller
             // Home city (single district)
             ->leftJoin('districts as home_district', 'home_district.id', '=', 'paid_listing.home_city')
 
-            // Multiple districts (comma-separated)
+            // Multiple districts
             ->leftJoin('districts as area_districts', function ($join) {
-                $join->whereRaw(
-                    'FIND_IN_SET(area_districts.id, paid_listing.district)'
-                );
+                $join->whereRaw('FIND_IN_SET(area_districts.id, paid_listing.district)');
             })
+
+            // User district
+            ->leftJoin('districts as user_district', 'user_district.id', '=', 'users.district_id')
+
+            // User city
+            ->leftJoin('cities as user_city', 'user_city.id', '=', 'users.city_id')
 
             ->where('paid_listing.id', $id)
 
@@ -99,9 +103,15 @@ class PaidListingController extends Controller
                 'paid_listing.updated_at',
                 'paid_listing.amount',
                 'paid_listing.phone',
+
                 'users.name as business_name',
                 'users.mobile as mobile',
-                'users.business_address as business_address',
+                'users.business_address',
+
+                // user district & city
+                'user_district.name as user_district_name',
+                'user_city.name as user_city_name',
+
                 DB::raw('COALESCE(home_district.name, paid_listing.home_city) as home_city_name'),
 
                 DB::raw('GROUP_CONCAT(DISTINCT area_districts.name ORDER BY area_districts.name SEPARATOR ", ") as district_names')
@@ -124,6 +134,8 @@ class PaidListingController extends Controller
                 'users.name',
                 'users.mobile',
                 'users.business_address',
+                'user_district.name',
+                'user_city.name',
                 'paid_listing.home_city'
             )
 
