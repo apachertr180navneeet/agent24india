@@ -204,6 +204,10 @@
             font-size: 11px;
         }
     }
+    .sideadvertismentimage
+    {
+        width: 100%;
+    }
 </style>
 @endpush
  @php
@@ -320,7 +324,7 @@
                 <div class="col-lg-3 col-md-12 col-right">
                     @foreach($sideadvertisments as $sideadvertisment)
                         <div class="sidebar-box mb-3">
-                            <img src="{{ $sideadvertisment->image }}" alt="{{ $sideadvertisment->image_alt }}">
+                            <img src="{{ $sideadvertisment->image }}" class="sideadvertismentimage" alt="{{ $sideadvertisment->image_alt }}">
                         </div>
                     @endforeach
                 </div>

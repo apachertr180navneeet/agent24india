@@ -198,17 +198,13 @@ class HomeController extends Controller
         
         $category = Category::where('status', 1)->whereNull('parent_id')->get();
         // Top Banner
-        $banner = Advertisment::where('status', 1)
+        $ids = Advertisment::where('status', 1)
             ->where('sub_type', 'top')
             ->where('district', $location)
-            ->whereDate('expiry_date', '>=', Carbon::today());
+            ->pluck('id')
+            ->random(5);
 
-        if (!$isAllCitySelected) {
-            $banner->where('city', $selectedCityId);
-        }
-
-
-        $banner = $banner->get();
+        $banner = Advertisment::whereIn('id', $ids)->get();
 
          $districtList = District::where('status', 1)
         ->orderBy('name')
@@ -227,19 +223,6 @@ class HomeController extends Controller
         if (!$isAllCitySelected) {
             $sideadvertismentsQuery->where('city', $selectedCityId);
         }
-
-        if (!$isAllCitySelected) {
-            $sideadvertismentsQuery->where(function ($query) use ($selectedCityId) {
-                $query->where('home_city', (string) $selectedCityId)
-                    ->orWhereNull('home_city')
-                    ->orWhere('home_city', '')
-                    ->orWhere('home_city', '0')
-                    ->orWhere('home_city', 0)
-                    ->orWhere('home_city', 'all')
-                    ->orWhere('home_city', 'ALL');
-            });
-        }
-
         $sideadvertisments = $sideadvertismentsQuery->limit(10)->get();
 
         $districthome = District::where('status', 1)->where('is_home', 1)->orderBy('district_order', 'asc')->get();
@@ -360,15 +343,16 @@ class HomeController extends Controller
         */
         $topadvertisments = Advertisment::where('status', 1)
             ->where('sub_type', 'top')
-            ->where('category', $category)
             ->where('district', $location);
 
         if (!$isAllCitySelected) {
             $topadvertisments->where('city', $selectedCityId);
         }
 
-
-        $topadvertisments = $topadvertisments->get();
+        $topadvertisments = $topadvertisments
+            ->inRandomOrder() // random records
+            ->limit(5)        // limit to 5
+            ->get();
 
         /*
         |--------------------------------------------------------------------------
@@ -378,7 +362,6 @@ class HomeController extends Controller
 
         $sideQuery = Advertisment::where('status', 1)
             ->where('sub_type', 'side')
-            ->where('category', $category)
             ->where('district', $location);
 
         if (!$isAllCitySelected) {

@@ -42,7 +42,7 @@ class Advertisment extends Model
             'advertisment.bussines_name',
             'advertisment.start_date',
             'advertisment.status',
-            'advertisment.created_at',
+            'advertisment.expiry_date',
             'users.business_name as business_name',
             'categories.name as category_name',
             'districts.name as district_name',
@@ -82,7 +82,7 @@ class Advertisment extends Model
                 "users.business_name",
                 "districts.name",
                 "cities.name",
-                "advertisment.created_at",
+                "advertisment.expiry_date",
                 "advertisment.status",
                 ""
             ];

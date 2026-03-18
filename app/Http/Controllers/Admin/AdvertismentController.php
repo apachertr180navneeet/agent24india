@@ -69,7 +69,7 @@ class AdvertismentController extends Controller
                 $district = 'N/A';
                 $city = 'N/A';
                 $type = '';
-                $created = 'N/A';
+                $expiry_date = 'N/A';
                 $status = '';
                 $action = '';
 
@@ -78,7 +78,7 @@ class AdvertismentController extends Controller
                 $category = $value->category_name ?? $category;
                 $district = $value->district_name ?? $district;
                 $city = $value->city_name ?? $city;
-                $created = date("d-m-Y", strtotime("+1 month", strtotime($value->created_at)));
+                $expiry_date = $value->expiry_date ?? $expiry_date;
                 $type = $value->sub_type ?? $type;
 
                 if($value->status == 1){
@@ -107,7 +107,7 @@ class AdvertismentController extends Controller
                     "city" => $city,
                     "type" => $type,
                     "status" => $status,
-                    "created" => $created,
+                    "expiry_date" => $expiry_date,
                     "action" => $action
                 );
             }

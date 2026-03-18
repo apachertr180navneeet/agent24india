@@ -208,7 +208,7 @@ var thisJs = (function() {
                     { data: "business_name", name: "business_name", sortable: true },
                     { data: "district", name: "district", sortable: true },
                     { data: "city", name: "city", sortable: true },
-                    { data: "created", name: "created", sortable: true },
+                    { data: "expiry_date", name: "expiry_date", sortable: true },
                     { data: "status", name: "status", sortable: true },
                     {
                         data: "action",
