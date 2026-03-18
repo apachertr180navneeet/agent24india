@@ -198,13 +198,12 @@ class HomeController extends Controller
         
         $category = Category::where('status', 1)->whereNull('parent_id')->get();
         // Top Banner
-        $ids = Advertisment::where('status', 1)
-            ->where('sub_type', 'top')
-            ->where('district', $location)
-            ->pluck('id')
-            ->random(5);
-
-        $banner = Advertisment::whereIn('id', $ids)->get();
+        $banner = Advertisment::where('status', 1)
+                ->where('sub_type', 'top')
+                ->where('district', $location)
+                ->inRandomOrder()
+                ->limit(5)
+                ->get();
 
          $districtList = District::where('status', 1)
         ->orderBy('name')

@@ -194,6 +194,12 @@
     {
         width: 100%;
     }
+
+    .locations-section1 .adsbygoogle {
+        display: block;
+        width: 100%;
+        min-height: 250px;
+    }
 </style>
 @endpush
  @php
@@ -395,12 +401,12 @@
 
             <!-- Google Ad -->
             <ins class="adsbygoogle"
-                style="display:block;min-height:250px;"
+                style="display:block"
                 data-ad-client="ca-pub-9918904470832571"
                 data-ad-slot="2104355202"
                 data-ad-format="auto"
-                data-full-width-responsive="true"
-                @if(app()->environment('local')) data-adtest="on" @endif></ins>
+                data-full-width-responsive="true">
+            </ins>
         </div>
     </div>
 </section>
@@ -703,9 +709,13 @@
     });
 </script>
 <script>
-    if (window.adsbygoogle && document.querySelector('.locations-section1 .adsbygoogle')) {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    }
+    window.addEventListener('load', function () {
+        try {
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {
+            console.log('Adsense error:', e);
+        }
+    });
 </script>
 @endpush
 
