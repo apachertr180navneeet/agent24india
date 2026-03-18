@@ -395,11 +395,12 @@
 
             <!-- Google Ad -->
             <ins class="adsbygoogle"
-                style="display:block"
+                style="display:block;min-height:250px;"
                 data-ad-client="ca-pub-9918904470832571"
                 data-ad-slot="2104355202"
                 data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
+                data-full-width-responsive="true"
+                @if(app()->environment('local')) data-adtest="on" @endif></ins>
         </div>
     </div>
 </section>
@@ -702,7 +703,9 @@
     });
 </script>
 <script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
+    if (window.adsbygoogle && document.querySelector('.locations-section1 .adsbygoogle')) {
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    }
 </script>
 @endpush
 
