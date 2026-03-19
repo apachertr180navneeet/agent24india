@@ -49,8 +49,10 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>Type</th>
                             <th>Order No</th>
                             <th>Amount</th>
+                            <th>Banner Type</th>
                             <th>Status</th>
                             <th>Date</th>
                         </tr>
@@ -61,16 +63,31 @@
                         @if ($orders->count() > 0)
 
                             @foreach ($orders as $key => $order)
+
+                                @php
+                                    // Split order number (e.g. ABC_12345)
+                                    $parts = explode('_', $order->order_number);
+                                    $orderType = $parts[0] ?? '';
+                                    $orderNo   = $parts[1] ?? '';
+
+                                    $advertisement = \App\Models\Advertisment::where('order_id', $order->id)->first();
+                                @endphp
+
                                 <tr>
 
                                     <td>{{ $key + 1 }}</td>
 
-                                    <td>{{ $order->order_number }}</td>
+                                    <td>
+                                        <strong>{{ $orderType }}</strong>
+                                    </td>
+
+                                    <td>{{ $orderNo }}</td>
 
                                     <td>₹ {{ number_format($order->total_amount, 2) }}</td>
 
-                                    <td>
+                                    <td>{{ $advertisement->sub_type }}</td>
 
+                                    <td>
                                         @if ($order->status == 'paid')
                                             <span class="badge badge-success">Paid</span>
                                         @elseif($order->status == 'pending')
@@ -78,18 +95,17 @@
                                         @else
                                             <span class="badge badge-danger">Failed</span>
                                         @endif
-
                                     </td>
 
                                     <td>{{ $order->created_at->format('d M Y') }}</td>
 
                                 </tr>
                             @endforeach
+
                         @else
                             <tr>
-                                <td colspan="5" class="text-center">No payment history found</td>
+                                <td colspan="6" class="text-center">No payment history found</td>
                             </tr>
-
                         @endif
 
                     </tbody>

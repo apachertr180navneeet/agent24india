@@ -379,18 +379,17 @@ class ProfileController extends Controller
                 */
                 PaidListing::create([
                     'bussines_id' => $user->id,
-                    'paid_type'   => 'paid',
                     'home_city'   => $request->home_city ?? $request->city ?? null,
                     'amount'      => $amount,
                     'name'        => $request->name ?? null,
-                    'status'      => 1,
+                    'status'      => 0,
                     'order_id'    => $order->id
                 ]);
 
 
-                $user->update([
-                    'vendor_type'  => 'paid',
-                ]);
+                // $user->update([
+                //     'vendor_type'  => 'paid',
+                // ]);
 
                 DB::commit();
 
@@ -843,8 +842,10 @@ class ProfileController extends Controller
             'price'         => $amount,
             'order_id'      => $order->id,
             'image'         => $imagePath,
+            'status'        => '0',
             'created_at'    => now(),
             'updated_at'    => now(),
+            'order_id'      => $order->id
         ]);
 
         /*
@@ -902,8 +903,32 @@ class ProfileController extends Controller
             |--------------------------------------------------------------------------
             */
 
+            $orderDetail = Orders::where('razorpay_order_id',$order_id)->first();
+
+            $userId = $orderDetail->user_id;
+
+            $firstPart = explode('_', $orderDetail->order_number)[0];
+
             Orders::where('razorpay_order_id',$order_id)
             ->update(['status'=>'paid']);
+
+
+            if($firstPart == "listing"){
+                $user = User::find($userId);
+                if ($user) {
+                    $user->update(['vendor_type' => 'paid']);
+                }
+
+                $orderdata = PaidListing::where('order_id',$orderDetail->id);
+                if ($orderdata) {
+                    $orderdata->update(['status' => '1' , 'paid_type' => 'paid' ]);
+                }
+            }else{
+                $advertismentdata = Advertisment::where('order_id',$orderDetail->id);
+                if ($advertismentdata) {
+                    $advertismentdata->update(['status' => '1']);
+                }
+            }
 
             return redirect()->route('front.index')
             ->with('success','Payment Successful');

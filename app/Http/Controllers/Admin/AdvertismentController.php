@@ -85,7 +85,7 @@ class AdvertismentController extends Controller
                     $status = '<label class="badge badge-success">Active</label> &nbsp;';
                 } 
                 else{
-                    $status = '<label class="badge badge-warning">Inactive</label> &nbsp;';
+                    $status = '<label class="badge badge-warning">Payment Pending</label> &nbsp;';
                 }
 
                 $action = '<div class="btn-group">

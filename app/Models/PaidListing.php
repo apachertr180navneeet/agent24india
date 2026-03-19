@@ -26,5 +26,6 @@ class PaidListing extends Model
         'paid_type',
         'name',
         'email',
+        'order_id'
     ];
 }

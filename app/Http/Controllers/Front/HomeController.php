@@ -199,11 +199,13 @@ class HomeController extends Controller
         $category = Category::where('status', 1)->whereNull('parent_id')->get();
         // Top Banner
         $banner = Advertisment::where('status', 1)
-                ->where('sub_type', 'top')
-                ->where('district', $location)
-                ->inRandomOrder()
-                ->limit(5)
-                ->get();
+            ->where('sub_type', 'top')
+            ->where('district', $location)
+            ->where('start_date', '<=', now())
+            ->where('expiry_date', '>=', now())
+            ->inRandomOrder()
+            ->limit(5)
+            ->get();
 
          $districtList = District::where('status', 1)
         ->orderBy('name')
@@ -217,14 +219,22 @@ class HomeController extends Controller
         $sideadvertismentsQuery = Advertisment::where('status', 1)
             ->where('sub_type', 'side')
             ->where('district', $location)
-            ->whereDate('expiry_date', '>=', Carbon::today());
+            ->where('start_date', '<=', now())   // started
+            ->where('expiry_date', '>=', now()); // not expired
 
         if (!$isAllCitySelected) {
             $sideadvertismentsQuery->where('city', $selectedCityId);
         }
-        $sideadvertisments = $sideadvertismentsQuery->limit(10)->get();
 
-        $districthome = District::where('status', 1)->where('is_home', 1)->orderBy('district_order', 'asc')->get();
+        $sideadvertisments = $sideadvertismentsQuery
+            ->inRandomOrder()   // optional (if you want random ads)
+            ->limit(10)
+            ->get();
+
+        $districthome = District::where('status', 1)
+            ->where('is_home', 1)
+            ->orderBy('district_order', 'asc')
+            ->get();
 
         $paidlistingQuery = User::where('status','1')
         ->where('is_approved', '1')
@@ -314,6 +324,7 @@ class HomeController extends Controller
                 'business_category_id' => $category,
                 'district_id' => $location
             ])
+            ->whereNotNull('vendor_type')
             ->orderByRaw("CASE WHEN vendor_type = 'paid' THEN 0 ELSE 1 END");
 
         if ($vendorType) {

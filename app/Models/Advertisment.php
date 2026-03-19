@@ -28,7 +28,8 @@ class Advertisment extends Model
         'status',
         'created_by',
         'updated_by',
-        'price'
+        'price',
+        'order_id'
     ];
 
     /**
