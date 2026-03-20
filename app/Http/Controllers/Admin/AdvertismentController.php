@@ -226,12 +226,21 @@ class AdvertismentController extends Controller
             $districtId = $request->district;
             $cityId     = $request->city;
             $position   = $request->sub_type; // side or top
+            $categoryId = $request->category ?? 0 ;
+            
+            // Base query
+            $adsQuery = Advertisment::where('district', $districtId)
+                        ->where('sub_type', $position);
 
-            // Count existing ads
-            $adsCount = Advertisment::where('district', $districtId)
-                        ->where('city', $cityId)
-                        ->where('sub_type', $position)
-                        ->count();
+            // ✅ If category selected, add condition
+            if (!empty($categoryId)) {
+                $adsQuery->where('category', $categoryId);
+            }else{
+                $adsQuery->where('category', '0');
+            }
+
+            // Count ads
+            $adsCount = $adsQuery->count();
 
             
             // Check limit

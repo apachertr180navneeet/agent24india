@@ -590,11 +590,16 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         // Get active districts
-        $districts = District::where('status', 1)->get();
+        $districts = District::where('status', 1)
+        ->orderBy('name', 'asc') // A to Z
+        ->get();
 
         $records_count = Advertisment::where('expiry_date', '>', Carbon::now())->count();
 
-        $parentCategories = Category::where('status', 1)->whereNull('parent_id')->get();
+        $parentCategories = Category::where('status', 1)
+        ->whereNull('parent_id')
+        ->orderBy('name', 'asc') // A to Z
+        ->get();
 
 
         $this->viewData = [
@@ -685,22 +690,33 @@ class ProfileController extends Controller
         $district = $request->district ?? 0;
         $city     = $request->city ?? 0;
         $subType  = $request->sub_type;
+        $categoryId = $request->category ?? 0 ;
 
         /*
         |----------------------------------------------------------------------
         | 1. Check Banner Limit
         |----------------------------------------------------------------------
         */
-        $bannerCount = Advertisment::where('district', $district)
-            ->where('city', $city)
-            ->where('sub_type', $subType)
-            ->count();
+        // Base query
+        $adsQuery = Advertisment::where('district', $district)
+                    ->where('sub_type', $subType);
+
+        // ✅ If category selected, add condition
+        if (!empty($categoryId)) {
+            $adsQuery->where('category', $categoryId);
+        }else{
+            $adsQuery->where('category', '0');
+        }
+
+        // Count ads
+        $bannerCount = $adsQuery->count();
+
 
         if ($subType == 'side' && $bannerCount >= 10) {
             return back()->with([
                 'notification' => [
                     '_status'  => false,
-                    '_message' => 'Maximum 10 Side banners allowed for this city.',
+                    '_message' => 'Already 5 Banner Exist. maximum 5 banner allowed. contact to admin.',
                     '_type'    => 'error'
                 ]
             ]);
@@ -710,7 +726,7 @@ class ProfileController extends Controller
             return back()->with([
                 'notification' => [
                     '_status'  => false,
-                    '_message' => 'Maximum 5 Top banners allowed for this city.',
+                    '_message' => 'Already 5 Banner Exist. maximum 5 banner allowed. contact to admin.',
                     '_type'    => 'error'
                 ]
             ]);

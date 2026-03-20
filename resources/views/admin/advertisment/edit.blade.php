@@ -174,7 +174,7 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <label>Image</label>
+            <label>Image (Top :- 2060 × 741 px , side :- 364 × 208 px)</label>
             <input type="file"
                    name="image"
                    class="dropify"

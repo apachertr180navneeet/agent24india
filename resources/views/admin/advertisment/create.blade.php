@@ -128,7 +128,7 @@
                                 <div class="row row-sm">
                                     <div class="col-md-6 col-lg-6 col-xl-6">
                                         <div class="form-group">
-                                            <label class="">Image</label>
+                                            <label class="">Image (Top :- 2060 × 741 px , side :- 364 × 208 px)</label>
                                             <input type="file" class="form-control image-preview" id="image" name="image"/>
                                         </div>
                                     </div>

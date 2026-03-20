@@ -141,7 +141,7 @@
 
                             <div class="col-md-6">
 
-                                <label class="form-label">Whatsapp Number</label>
+                                <label class="form-label">Whatsapp Number (Update In profile)</label>
 
                                 <input type="text" name="phone" class="form-control"
                                     value="{{ old('phone', $user->whats_app) }}" readonly>
@@ -155,7 +155,7 @@
 
                             <div class="col-md-6">
 
-                                <label class="form-label">OTP</label>
+                                <label class="form-label">Email OTP Verify</label>
 
                                 <div class="input-group">
 

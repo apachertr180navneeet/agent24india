@@ -1143,7 +1143,7 @@ class UserController extends Controller
                     ->with(['notification' => $notification]);
             }
 
-            $user->delete();
+            $user->forceDelete();
 
             $notification = [
                 '_status' => true,

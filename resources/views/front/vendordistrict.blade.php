@@ -322,11 +322,18 @@
 
                 <!-- Sidebar -->
                 <div class="col-lg-3 col-md-12 col-right">
-                    @foreach($sideadvertisments as $sideadvertisment)
+                    @if($sideadvertisments && count($sideadvertisments) > 0)
+                        @foreach($sideadvertisments as $sideadvertisment)
+                            <div class="sidebar-box mb-3">
+                                <img src="{{ $sideadvertisment->image }}" class="sideadvertismentimage" alt="{{ $sideadvertisment->image_alt }}">
+                            </div>
+                        @endforeach
+
+                    @else
                         <div class="sidebar-box mb-3">
-                            <img src="{{ $sideadvertisment->image }}" class="sideadvertismentimage" alt="{{ $sideadvertisment->image_alt }}">
+                            <img src="{{ asset('public/images/sideiamge.jpeg') }}" alt="Default Banner" style="width: 100%;">
                         </div>
-                    @endforeach
+                    @endif
                 </div>
                 <!-- /Sidebar -->
             </div>

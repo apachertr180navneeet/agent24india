@@ -29,6 +29,8 @@ class HomeController extends Controller
     }
 
     public function index(){
+
+        Advertisment::whereDate('expiry_date', '<=', Carbon::today())->forceDelete();
         // Send view data
         $this->viewData['pageTitle'] = 'Home';
 
@@ -201,6 +203,7 @@ class HomeController extends Controller
         $banner = Advertisment::where('status', 1)
             ->where('sub_type', 'top')
             ->where('district', $location)
+            ->where('category', 0)
             ->where('start_date', '<=', now())
             ->where('expiry_date', '>=', now())
             ->inRandomOrder()
@@ -219,12 +222,9 @@ class HomeController extends Controller
         $sideadvertismentsQuery = Advertisment::where('status', 1)
             ->where('sub_type', 'side')
             ->where('district', $location)
+            ->where('category', 0)
             ->where('start_date', '<=', now())   // started
             ->where('expiry_date', '>=', now()); // not expired
-
-        if (!$isAllCitySelected) {
-            $sideadvertismentsQuery->where('city', $selectedCityId);
-        }
 
         $sideadvertisments = $sideadvertismentsQuery
             ->inRandomOrder()   // optional (if you want random ads)
@@ -353,7 +353,8 @@ class HomeController extends Controller
         */
         $topadvertisments = Advertisment::where('status', 1)
             ->where('sub_type', 'top')
-            ->where('district', $location);
+            ->where('district', $location)
+            ->where('category', $category);
 
         if (!$isAllCitySelected) {
             $topadvertisments->where('city', $selectedCityId);
@@ -372,7 +373,8 @@ class HomeController extends Controller
 
         $sideQuery = Advertisment::where('status', 1)
             ->where('sub_type', 'side')
-            ->where('district', $location);
+            ->where('district', $location)
+            ->where('category', $category);
 
         if (!$isAllCitySelected) {
             $sideQuery->where('city', $selectedCityId);
@@ -575,7 +577,9 @@ class HomeController extends Controller
     public function getCities(Request $request)
     {
         $districtId = $request->district;
-        $cities = City::where('district_id', $districtId)->get();
+        $cities = City::where('district_id', $districtId)
+            ->orderBy('name', 'asc') // A to Z
+            ->get();
         return response()->json($cities);
     }
 
