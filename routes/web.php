@@ -284,6 +284,7 @@ Route::name('front.')->group(function(){
     Route::middleware('auth')->group(function(){
         Route::get('/profile', [Front\ProfileController::class, "index"])->name('profile');
         Route::post('/update-profile', [Front\ProfileController::class, "updateProfile"])->name('updateProfile');
+        Route::post('/change-password', [Front\ProfileController::class, "changePassword"])->name('changePassword');
     });
 });
 

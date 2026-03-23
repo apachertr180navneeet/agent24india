@@ -37,6 +37,25 @@
         min-height: 44px;
         padding: 5px 8px;
     }
+
+    .password-card {
+        margin-top: 24px;
+        padding: 24px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    .password-card h4 {
+        margin-bottom: 20px;
+    }
+
+    .password-card .error-text {
+        display: block;
+        margin-top: 6px;
+        color: #dc3545;
+        font-size: 13px;
+    }
 </style>
 @endpush
 
@@ -203,6 +222,37 @@
                             </span>
                         @endif
                     @endforeach
+                </div>
+            </form>
+        </div>
+
+        <div class="password-card">
+            <h4>Change Password</h4>
+            <form action="{{ route('front.changePassword') }}" method="post">
+                @csrf
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Current Password *</label>
+                        <input type="password" name="current_password" placeholder="Current Password">
+                        @if ($errors->changePassword->has('current_password'))
+                            <span class="error-text">{{ $errors->changePassword->first('current_password') }}</span>
+                        @endif
+                    </div>
+                    <div class="form-group">
+                        <label>New Password *</label>
+                        <input type="password" name="password" placeholder="New Password">
+                        @if ($errors->changePassword->has('password'))
+                            <span class="error-text">{{ $errors->changePassword->first('password') }}</span>
+                        @endif
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password *</label>
+                        <input type="password" name="password_confirmation" placeholder="Confirm Password">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit">Change Password</button>
                 </div>
             </form>
         </div>

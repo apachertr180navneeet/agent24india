@@ -18,6 +18,7 @@ use App\Models\PaymentTransactions;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Models\Advertisment;
 
@@ -143,6 +144,28 @@ class ProfileController extends Controller
                 'message' => 'Failed to update category'
             ]);
         }
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        $user = Auth::user();
+
+        if (!$user || !Hash::check($request->current_password, $user->password)) {
+            return redirect()->back()->withErrors([
+                'current_password' => 'Current password is incorrect.',
+            ], 'changePassword');
+        }
+
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('front.profile')->with('success', 'Password changed successfully.');
     }
 
     public function addListing()
