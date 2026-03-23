@@ -18,6 +18,16 @@
         display: none;
     }
 
+    .required-mark {
+        color: #dc3545;
+    }
+
+    .type-group.is-invalid {
+        border: 1px solid #dc3545;
+        border-radius: 6px;
+        padding: 10px 12px;
+    }
+
 </style>
 @endpush
 
@@ -47,7 +57,7 @@
 
                 @endif
 
-                <form action="{{ route('front.addbanner.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('front.addbanner.store') }}" method="POST" enctype="multipart/form-data" id="banner-form">
                     @csrf
 
                     <div class="card-body">
@@ -57,13 +67,13 @@
                             {{-- TYPE --}}
                             <div class="col-md-6">
 
-                                <label class="form-label">Type</label>
+                                <label class="form-label">Type <span class="required-mark">*</span></label>
 
-                                <div>
+                                <div class="type-group {{ $errors->has('type') ? 'is-invalid' : '' }}">
 
                                     <div class="form-check form-check-inline">
 
-                                        <input class="form-check-input type-radio" type="radio" name="type" value="listing_page" {{ old('type','listing_page')=='listing_page'?'checked':'' }}>
+                                        <input class="form-check-input type-radio" type="radio" name="type" value="listing_page" {{ old('type','listing_page')=='listing_page'?'checked':'' }} required>
 
                                         <label class="form-check-label">
                                             Category
@@ -73,7 +83,7 @@
 
                                     <div class="form-check form-check-inline">
 
-                                        <input class="form-check-input type-radio" type="radio" name="type" value="district_page" {{ old('type')=='district_page'?'checked':'' }}>
+                                        <input class="form-check-input type-radio" type="radio" name="type" value="district_page" {{ old('type')=='district_page'?'checked':'' }} required>
 
                                         <label class="form-check-label">
                                             District
@@ -83,15 +93,19 @@
 
                                 </div>
 
+                                @error('type')
+                                    <small class="text-danger d-block mt-1">{{ $message }}</small>
+                                @enderror
+
                             </div>
 
 
                             {{-- DISTRICT --}}
                             <div class="col-md-6" id="district-col">
 
-                                <label class="form-label">District</label>
+                                <label class="form-label">District <span class="required-mark">*</span></label>
 
-                                <select class="form-select" id="district" name="district" data-get-cities-url="{{ route('get.cities',':id') }}">
+                                <select class="form-select @error('district') is-invalid @enderror" id="district" name="district" data-get-cities-url="{{ route('get.cities',':id') }}" required>
 
                                     <option value="">Select District</option>
 
@@ -111,15 +125,19 @@
 
                                 </select>
 
+                                @error('district')
+                                    <small class="text-danger d-block mt-1">{{ $message }}</small>
+                                @enderror
+
                             </div>
 
 
                             {{-- CATEGORY --}}
                             <div class="col-md-6" id="category-col">
 
-                                <label class="form-label">Category</label>
+                                <label class="form-label">Category <span class="required-mark">*</span></label>
 
-                                <select class="form-select" name="category">
+                                <select class="form-select @error('category') is-invalid @enderror" id="category" name="category">
 
                                     <option value="">Select Category</option>
 
@@ -139,19 +157,27 @@
 
                                 </select>
 
+                                @error('category')
+                                    <small class="text-danger d-block mt-1">{{ $message }}</small>
+                                @enderror
+
                             </div>
 
 
                             {{-- CITY --}}
                             <div class="col-md-6">
 
-                                <label class="form-label">City</label>
+                                <label class="form-label">City <span class="required-mark">*</span></label>
 
-                                <select class="form-select" id="city" name="city" data-old-city="{{ old('city') }}">
+                                <select class="form-select @error('city') is-invalid @enderror" id="city" name="city" data-old-city="{{ old('city') }}" required>
 
                                     <option value="">Select City</option>
 
                                 </select>
+
+                                @error('city')
+                                    <small class="text-danger d-block mt-1">{{ $message }}</small>
+                                @enderror
 
                             </div>
 
@@ -160,10 +186,14 @@
                             <div class="col-md-6">
 
                                 <label class="form-label">
-                                    Home City
+                                    Home City <span class="required-mark">*</span>
                                 </label>
 
-                                <input type="text" class="form-control" name="home_city" value="{{ old('home_city') }}" placeholder="Enter Home City">
+                                <input type="text" class="form-control @error('home_city') is-invalid @enderror" name="home_city" value="{{ old('home_city') }}" placeholder="Enter Home City" required>
+
+                                @error('home_city')
+                                    <small class="text-danger d-block mt-1">{{ $message }}</small>
+                                @enderror
 
                             </div>
 
@@ -175,9 +205,13 @@
                                     Image (Top :- 2060 × 741 px , side :- 364 × 208 px)
                                 </label>
 
-                                <input type="file" class="form-control" name="image" id="image">
+                                <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image" required>
 
                                 <img id="preview">
+
+                                @error('image')
+                                    <small class="text-danger d-block mt-1">{{ $message }}</small>
+                                @enderror
 
                             </div>
 
@@ -186,10 +220,14 @@
                             <div class="col-md-6">
 
                                 <label class="form-label">
-                                    Image ALT
+                                    Image ALT <span class="required-mark">*</span>
                                 </label>
 
-                                <input type="text" class="form-control" name="image_alt" value="{{ old('image_alt') }}" placeholder="Enter Image ALT">
+                                <input type="text" class="form-control @error('image_alt') is-invalid @enderror" name="image_alt" value="{{ old('image_alt') }}" placeholder="Enter Image ALT" required>
+
+                                @error('image_alt')
+                                    <small class="text-danger d-block mt-1">{{ $message }}</small>
+                                @enderror
 
                             </div>
 
@@ -198,10 +236,10 @@
                             <div class="col-md-6">
 
                                 <label class="form-label">
-                                    Sub Type
+                                    Sub Type <span class="required-mark">*</span>
                                 </label>
 
-                                <select class="form-select" name="sub_type">
+                                <select class="form-select @error('sub_type') is-invalid @enderror" name="sub_type" required>
 
                                     <option value="">Select</option>
 
@@ -214,6 +252,10 @@
                                     </option>
 
                                 </select>
+
+                                @error('sub_type')
+                                    <small class="text-danger d-block mt-1">{{ $message }}</small>
+                                @enderror
 
                             </div>
 
@@ -270,8 +312,11 @@
         function toggleFields() {
 
             let type = $('input[name="type"]:checked').val();
+            let isListingPage = type === 'listing_page';
 
-            if (type === 'listing_page') {
+            $('#category').prop('required', isListingPage);
+
+            if (isListingPage) {
 
                 $('#district-col').show();
                 $('#category-col').show();
@@ -289,6 +334,7 @@
 
         $('.type-radio').change(function() {
             toggleFields();
+            $('.type-group').removeClass('is-invalid');
         });
 
 
@@ -361,6 +407,14 @@
 
         $('#image').change(function() {
 
+            if (!this.files.length) {
+                $(this).addClass('is-invalid');
+                $('#preview').hide();
+                return;
+            }
+
+            $(this).removeClass('is-invalid');
+
             let reader = new FileReader();
 
             reader.onload = function(e) {
@@ -371,6 +425,20 @@
 
             reader.readAsDataURL(this.files[0]);
 
+        });
+
+        $('#banner-form').on('submit', function() {
+            $(this).find('input[required], select[required]').each(function() {
+                $(this).toggleClass('is-invalid', !this.checkValidity());
+            });
+
+            $('.type-group').toggleClass('is-invalid', $('input[name="type"]:checked').length === 0);
+        });
+
+        $('#banner-form').on('input change', 'input, select', function() {
+            if ($(this).attr('type') !== 'radio' && this.checkValidity()) {
+                $(this).removeClass('is-invalid');
+            }
         });
 
     });

@@ -218,7 +218,7 @@
             <input type="date"
                    name="expiry_date"
                    class="form-control"
-                   value="{{ old('expiry_date', $advertismentdata->expiry_date) }}">
+                   value="{{ old('expiry_date', $advertismentdata->expiry_date) }}" readonly>
         </div>
     </div>
 </div>

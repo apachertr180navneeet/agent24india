@@ -107,7 +107,7 @@
                     
                     <input type="text" name="email" id="email" placeholder="Email or Mobile or Username" />
                     <input type="password" name="password" id="password" placeholder="Password" />
-                    <a href="#">Forgot your password?</a>
+                    <a href="{{ route('forgotPassword') }}">Forgot your password?</a>
                     <button type="submit" id="btn-signin">Sign In</button>
                 </form>
                 

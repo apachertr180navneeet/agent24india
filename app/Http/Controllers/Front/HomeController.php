@@ -684,4 +684,126 @@ class HomeController extends Controller
             return back()->with('error', 'Something went wrong. Please try again later.');
         }
     }
+
+    // Show Forgot Password Page
+    public function forgotPassword()
+    {
+        return view('front.forgot-password'); // blade file create karo
+    }
+
+    // Send OTP on Email
+    public function sendOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email'
+        ]);
+
+        $email = $request->email;
+
+        // Generate OTP
+        $otp = rand(100000, 999999);
+
+        // Save OTP
+        DB::table('password_resets')->updateOrInsert(
+            ['email' => $email],
+            [
+                'token' => $otp,
+                'created_at' => Carbon::now()
+            ]
+        );
+
+        // ✅ Store email in session
+        session(['forgot_email' => $email]);
+
+        // ✅ Core PHP Mail
+        $subject = "Password Reset OTP";
+        $message = "Your OTP for password reset is: $otp";
+
+        $headers = "From: no-reply@agent24india.com\r\n";
+        $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+
+        if (!mail($email, $subject, $message, $headers)) {
+            return back()->withErrors(['email' => 'Failed to send OTP']);
+        }
+
+        return redirect()->route('forgotPassword.otpPage')->with('email', $email);
+    }
+
+    public function verifyOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'otp'   => 'required|digits:6'
+        ]);
+
+        $record = DB::table('password_resets')
+            ->where('email', $request->email)
+            ->where('token', $request->otp)
+            ->where('created_at', '>=', Carbon::now()->subMinutes(5)) // expiry
+            ->first();
+
+        if (!$record) {
+            return back()->withErrors(['otp' => 'Invalid or expired OTP']);
+        }
+
+        // OTP correct → go to reset password page
+        return redirect()->route('forgotPassword.resetPage')->with('email', $request->email);
+    }
+
+
+    public function otpPage()
+    {
+        if (!session()->has('email')) {
+            return redirect()->route('forgotPassword');
+        }
+
+        return view('front.otppage'); // your blade path
+    }
+
+
+    public function resetPage()
+    {
+        if (!session()->has('email')) {
+            return redirect()->route('forgotPassword');
+        }
+
+        return view('front.reset-password'); // blade file
+    }
+
+    public function updatePassword(Request $request)
+    {
+        // ✅ Validation
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|min:6|confirmed'
+        ]);
+
+        // ✅ Check if OTP session exists (security)
+        if (!session()->has('forgot_email')) {
+            return redirect()->route('forgotPassword')
+                ->withErrors(['email' => 'Unauthorized access']);
+        }
+
+        $email = session('forgot_email');
+
+        // ✅ Update Password
+        DB::table('users')
+            ->where('email', $email)
+            ->update([
+                'password' => bcrypt($request->password),
+                'updated_at' => now()
+            ]);
+
+        // ✅ Delete OTP record (cleanup)
+        DB::table('password_resets')
+            ->where('email', $request->email)
+            ->delete();
+
+        // ✅ Remove session
+        session()->forget('email');
+
+        // ✅ Redirect to login
+        return redirect()->route('front.index')
+            ->with('success', 'Password updated successfully. Please login.');
+    }
 }

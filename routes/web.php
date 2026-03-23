@@ -267,6 +267,12 @@ Route::get('/vendorlist/{location}/{category}', [Front\HomeController::class, "v
 Route::get('/vendordetail/{vendor}', [Front\HomeController::class, "vendordetail"])->name('front.vendor.details');
 Route::get('/support', [Front\HomeController::class, "support"])->name('front.support');
 Route::post('/support', [Front\HomeController::class, "submitSupport"])->name('front.support.submit');
+Route::get('/forgot-password', [Front\HomeController::class, 'forgotPassword'])->name('forgotPassword');
+Route::post('/forgot-password', [Front\HomeController::class, 'sendOtp'])->name('forgotPassword.sendOtp');
+Route::post('/forgot-password/verify-otp', [Front\HomeController::class, 'verifyOtp'])->name('forgotPassword.verifyOtp');
+Route::get('/forgot-password/otp', [Front\HomeController::class, 'otpPage'])->name('forgotPassword.otpPage');
+Route::get('/forgot-password/reset', [Front\HomeController::class, 'resetPage'])->name('forgotPassword.resetPage');
+Route::post('/forgot-password/update', [Front\HomeController::class, 'updatePassword'])->name('forgotPassword.updatePassword');
 
 Route::name('front.')->group(function(){
     // Route::get('/', [Front\HomeController::class, "index"])->name('index');

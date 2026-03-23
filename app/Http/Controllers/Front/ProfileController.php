@@ -684,7 +684,7 @@ class ProfileController extends Controller
             'type'       => 'required|string',
             'home_city'  => 'required',
             'image_alt'  => 'nullable|string',
-            'image'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'image'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
         ]);
 
         $district = $request->district ?? 0;
@@ -716,7 +716,7 @@ class ProfileController extends Controller
             return back()->with([
                 'notification' => [
                     '_status'  => false,
-                    '_message' => 'Already 5 Banner Exist. maximum 5 banner allowed. contact to admin.',
+                    '_message' => 'Already 10 Banner Exist. maximum 10 banner allowed. contact to admin.',
                     '_type'    => 'error'
                 ]
             ]);

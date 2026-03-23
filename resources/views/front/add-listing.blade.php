@@ -206,12 +206,12 @@
                                 <div class="col-md-6">
                                     <label class="form-label fw-semibold">Name</label>
                                     <input type="text" name="name" class="form-control"
-                                        value="{{ old('name', $existingPaidListing->name ?? '') }}">
+                                        value="{{ old('name', $existingPaidListing->name ?? '') }}" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-semibold">Home City</label>
                                     <input type="text" name="home_city" class="form-control"
-                                        value="{{ old('home_city', $existingPaidListing->home_city ?? '') }}">
+                                        value="{{ old('home_city', $existingPaidListing->home_city ?? '') }}" required>
                                 </div>
 
 
