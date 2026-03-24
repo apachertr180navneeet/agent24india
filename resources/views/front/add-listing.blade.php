@@ -104,16 +104,15 @@
                         <div class="row mb-3">
 
                             <div class="col-md-6">
-                                <label class="form-label">Full Name</label>
+                                <label class="form-label">Business name</label>
                                 <input type="text" name="name" class="form-control" value="{{ $user->business_name }}"
                                     readonly>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6 d-none">
                                 <label class="form-label">Home City</label>
                                 <input type="text" name="home_city" class="form-control"
-                                    value="{{ old('home_city', !empty($hasFreeListing) ? $existingListing->home_city ?? '' : '') }}"
-                                    required>
+                                    value="{{ old('home_city', !empty($hasFreeListing) ? $existingListing->home_city ?? '' : '') }}">
                             </div>
 
                         </div>

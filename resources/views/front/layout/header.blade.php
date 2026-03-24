@@ -81,7 +81,7 @@
     </h4>
     <ul>
         <li><a href="{{route('front.index')}}">Home</a></li>
-        <li><a href="javascript:void(0)" class="js-open-district-city-popup">Category</a></li>
+        {{--  <li><a href="javascript:void(0)" class="js-open-district-city-popup">Category</a></li>  --}}
         {{--  <li><a href="{{route('front.vendorlist')}}">Vendor List</a></li>  --}}
         @if(\Auth::check())
         <li><a href="{{route('front.profile')}}">My Profile</a></li>

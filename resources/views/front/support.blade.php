@@ -16,6 +16,11 @@
     background: #f8d7da;
     color: #721c24;
 }
+.alert-info {
+    background: #e7f3ff;
+    color: #0c5460;
+    border-left: 4px solid #007bff;
+}
 .text-danger {
     color: red;
     font-size: 13px;
@@ -28,15 +33,46 @@
 .form-row div {
     width: 100%;
 }
+.file-upload {
+    width: 100%;
+    cursor: pointer;
+}
+.upload-box {
+    border: 2px dashed #ccc;
+    padding: 15px;
+    text-align: center;
+    border-radius: 6px;
+    background: #fafafa;
+}
+.upload-box span {
+    display: block;
+    font-size: 13px;
+}
+textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 10px;
+    margin-top: 10px;
+}
+.form-actions {
+    margin-top: 10px;
+}
+.form-actions button {
+    background: #007bff;
+    color: #fff;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 5px;
+}
 </style>
-
 @endpush
 
 @section('content')
 <section class="contact-section">
     <div class="container">
         <div class="row">
-            <!-- Right Box -->
+
+            <!-- Left Info -->
             <div class="support-info col-lg-6 col-12">
                 <h3>Need Help? We're Here for You</h3>
                 <p>
@@ -51,12 +87,36 @@
                     <li>Secure data handling</li>
                 </ul>
             </div>
+
+            <!-- Right Form -->
             <div class="contact-form col-lg-6 col-12">
                 <h3>Support</h3>
+
                 <p class="sub-text">
                     If you have any questions, issues, or need assistance, please don't hesitate to contact us.
                     Our support team is always ready to help you.
                 </p>
+
+                <!-- ✅ Support Instructions Box -->
+                <div class="alert alert-info">
+                    <p><strong>Support Instructions:</strong></p>
+                    <p>
+                        For help and support, please fill out the form. Our team will contact you by phone or email 
+                        after receiving your request (within <strong>1 to 3 days</strong>).
+                    </p>
+                    <p><strong>Timings:</strong> 10:00 AM to 6:00 PM</p>
+                    <p>
+                        Our team will call you only after you submit the form. Direct calls will not be accepted.
+                    </p>
+                    <p>
+                        <strong>Official Support Number:</strong> 
+                        <a href="tel:9119336617">9119336617</a>
+                    </p>
+                    <p style="color:red; font-weight:500;">
+                        ⚠ Please do not share your personal information with any unknown number. 
+                        This is our verified support number.
+                    </p>
+                </div>
 
                 @if (session('success'))
                     <div class="alert alert-success">{{ session('success') }}</div>
@@ -112,10 +172,10 @@
                     </div>
                 </form>
             </div>
+
         </div>
     </div>
 </section>
-
 @endsection
 
 @push('scripts')

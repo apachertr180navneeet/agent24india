@@ -65,6 +65,7 @@ class AdvertismentController extends Controller
             {
                 $start_date = 'N/A';
                 $business_name = 'N/A';
+                $business_email= 'N/A';
                 $category = 'N/A';
                 $district = 'N/A';
                 $city = 'N/A';
@@ -75,6 +76,7 @@ class AdvertismentController extends Controller
 
                 $start_date = $value->start_date ?? $start_date;
                 $business_name = $value->business_name ?? $business_name;
+                $business_email = $value->business_email ?? $business_email;
                 $category = $value->category_name ?? $category;
                 $district = $value->district_name ?? $district;
                 $city = $value->city_name ?? $city;
@@ -102,6 +104,7 @@ class AdvertismentController extends Controller
                     "id" => $value->id,
                     "start_date" => $start_date,
                     "business_name" => $business_name,
+                    "business_email" => $business_email,
                     "category" => $category,
                     "district" => $district,
                     "city" => $city,

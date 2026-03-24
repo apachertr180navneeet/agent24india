@@ -50,8 +50,18 @@
                     <div class="single-footer f-contact">
                         <h3>Contact</h3>
                         <ul>
-                            <li>23 New Design Str,<br> Jodhpur, Rajasthan</li>
-                            <li>Tel. +91 91193 36617 <br> Mail. info@agent24india.com, support@agent24india.com</li>
+                            <li>
+                                <strong>AGENT 24 INDIA</strong><br>
+                                Advertising Agency<br>
+                                Jodhpur, Rajasthan
+                            </li>
+
+                            <li>
+                                Email:<br>
+                                info@agent24india.com<br>
+                                contact@agent24india.com<br>
+                                support@agent24india.com
+                            </li>
                         </ul>
                     </div>
                 </div>

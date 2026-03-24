@@ -53,6 +53,7 @@
                                     <th>Type</th>
                                     <th>Category</th>
                                     <th>Business Name</th>
+                                    <th>Email</th>
                                     <th>District</th>
                                     <th>City</th>
                                     <th>Expired</th>
