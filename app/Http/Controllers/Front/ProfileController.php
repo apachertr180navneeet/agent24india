@@ -727,6 +727,7 @@ class ProfileController extends Controller
         // ✅ If category selected, add condition
         if (!empty($categoryId)) {
             $adsQuery->where('category', $categoryId);
+            $adsQuery->where('city', $city);
         }else{
             $adsQuery->where('category', '0');
         }

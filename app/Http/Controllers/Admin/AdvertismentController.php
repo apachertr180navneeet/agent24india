@@ -238,6 +238,7 @@ class AdvertismentController extends Controller
             // ✅ If category selected, add condition
             if (!empty($categoryId)) {
                 $adsQuery->where('category', $categoryId);
+                $adsQuery->where('city', $cityId);
             }else{
                 $adsQuery->where('category', '0');
             }
