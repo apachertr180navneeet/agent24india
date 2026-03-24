@@ -190,10 +190,11 @@ class ProfileController extends Controller
 
             $existingPaidListing = $existingListing;
 
-            // Check if paid listing is still active (1 month validity)
-            $hasActivePaidListing = Carbon::now()->lt(
-                $existingListing->created_at->copy()->addMonth()
-            );
+            $expiryDate = $this->parseListingExpiryDate($existingListing);
+
+            if ($expiryDate) {
+                $hasActivePaidListing = Carbon::now()->startOfDay()->lte($expiryDate->copy()->endOfDay());
+            }
         }
 
         $this->viewData = [
@@ -243,9 +244,9 @@ class ProfileController extends Controller
                 */
                 if ($existingListing && $existingListing->paid_type === 'paid') {
 
-                    $paidExpiryDate = Carbon::parse($existingListing->created_at)->addMonth();
+                    $paidExpiryDate = $this->parseListingExpiryDate($existingListing);
 
-                    if (Carbon::now()->lt($paidExpiryDate)) {
+                    if ($paidExpiryDate && Carbon::now()->startOfDay()->lte($paidExpiryDate->copy()->endOfDay())) {
                         return redirect()->back()
                             ->with('error', 'Free listing is disabled while your paid listing is active.');
                     }
@@ -313,6 +314,10 @@ class ProfileController extends Controller
             | PAID LISTING PROCESS
             =============================================================== */
             elseif ($request->type === 'paid') {
+                $duration = (int) $request->input('duration', 1);
+                $duration = in_array($duration, [1, 2, 3], true) ? $duration : 1;
+                $premiumStartDate = Carbon::now();
+                $expiryDate = $premiumStartDate->copy()->addMonths($duration);
                 
                 /*
                 |--------------------------------------------------------------------------
@@ -320,10 +325,9 @@ class ProfileController extends Controller
                 |--------------------------------------------------------------------------
                 */
                 if ($existingListing && $existingListing->paid_type == 'paid') {
-                    $createdDate = Carbon::parse($existingListing->created_at);
-                    $expiryDate  = $createdDate->copy()->addMonth();
+                    $activeExpiryDate = $this->parseListingExpiryDate($existingListing);
 
-                    if (Carbon::now()->lt($expiryDate)) {
+                    if ($activeExpiryDate && Carbon::now()->startOfDay()->lte($activeExpiryDate->copy()->endOfDay())) {
                         return redirect()->back()
                             ->with('error', 'Paid listing already exists and is still active.');
                     }
@@ -401,12 +405,14 @@ class ProfileController extends Controller
                 |--------------------------------------------------------------------------
                 */
                 PaidListing::create([
-                    'bussines_id' => $user->id,
-                    'home_city'   => $request->home_city ?? $request->city ?? null,
-                    'amount'      => $amount,
-                    'name'        => $request->name ?? null,
-                    'status'      => 0,
-                    'order_id'    => $order->id
+                    'bussines_id'        => $user->id,
+                    'primium_start_date' => $premiumStartDate->format('Y-m-d'),
+                    'expiry_date'        => $expiryDate->format('Y-m-d'),
+                    'home_city'          => $request->home_city ?? $request->city ?? null,
+                    'amount'             => $amount,
+                    'name'               => $request->name ?? null,
+                    'status'             => 0,
+                    'order_id'           => $order->id
                 ]);
 
 
@@ -441,6 +447,31 @@ class ProfileController extends Controller
 
             return redirect()->back()->with('error', $e->getMessage());
         }
+    }
+
+    private function parseListingExpiryDate(PaidListing $listing): ?Carbon
+    {
+        if (!empty($listing->expiry_date)) {
+            try {
+                return Carbon::createFromFormat('Y-m-d', $listing->expiry_date);
+            } catch (\Throwable $e) {
+                try {
+                    return Carbon::createFromFormat('d/m/Y', $listing->expiry_date);
+                } catch (\Throwable $e) {
+                    try {
+                        return Carbon::parse($listing->expiry_date);
+                    } catch (\Throwable $e) {
+                        return null;
+                    }
+                }
+            }
+        }
+
+        if (!empty($listing->created_at)) {
+            return Carbon::parse($listing->created_at)->addMonth();
+        }
+
+        return null;
     }
 
 

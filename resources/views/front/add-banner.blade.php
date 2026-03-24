@@ -267,7 +267,17 @@
                                     Price
                                 </label>
 
-                                <input type="text" class="form-control" name="price" value="100" readonly>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="price"
+                                    id="price"
+                                    value="{{ old('sub_type') == 'top' ? '590' : (old('sub_type') == 'side' ? '118' : '') }}"
+                                    data-top-price="500"
+                                    data-side-price="100"
+                                    readonly
+                                >
+                                <small class="text-muted d-block mt-1" id="price-note"></small>
 
                             </div>
 
@@ -426,6 +436,35 @@
             reader.readAsDataURL(this.files[0]);
 
         });
+
+        /* SUB TYPE -> PRICE */
+
+        function updatePrice() {
+            let subType = $('select[name="sub_type"]').val();
+            let priceField = $('#price');
+            let priceNote = $('#price-note');
+            let basePrice = 0;
+
+            if (subType === 'top') {
+                basePrice = Number(priceField.data('top-price'));
+            } else if (subType === 'side') {
+                basePrice = Number(priceField.data('side-price'));
+            }
+
+            if (!basePrice) {
+                priceField.val('');
+                priceNote.text('');
+                return;
+            }
+
+            let totalPrice = (basePrice * 1.18).toFixed(0);
+
+            priceField.val(totalPrice);
+            priceNote.text(`Base price Rs. ${basePrice} + 18% GST = Rs. ${totalPrice}`);
+        }
+
+        $('select[name="sub_type"]').on('change', updatePrice);
+        updatePrice();
 
         $('#banner-form').on('submit', function() {
             $(this).find('input[required], select[required]').each(function() {

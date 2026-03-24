@@ -212,6 +212,14 @@
                                     <input type="text" name="home_city" class="form-control"
                                         value="{{ old('home_city', $existingPaidListing->home_city ?? '') }}" required>
                                 </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Plan Duration</label>
+                                    <select class="form-select" name="duration" id="paid_duration" required>
+                                        <option value="1" {{ old('duration', '1') == '1' ? 'selected' : '' }}>1 Month</option>
+                                        <option value="2" {{ old('duration') == '2' ? 'selected' : '' }}>2 Months</option>
+                                        <option value="3" {{ old('duration') == '3' ? 'selected' : '' }}>3 Months</option>
+                                    </select>
+                                </div>
 
 
                             </div>
@@ -220,10 +228,13 @@
                             <div class="listing-footer mt-4">
 
                                 <div class="price">
-                                    <span>1 Month Price</span>
-                                    <strong>250 Rs</strong>
+                                    <span id="paid_price_label">1 Month Price</span>
+                                    <strong id="paid_price_display">
+                                        {{ old('duration', '1') == '2' ? '443 Rs' : (old('duration') == '3' ? '590 Rs' : '295 Rs') }}
+                                    </strong>
+                                    <small class="text-muted d-block mt-1" id="paid_price_note"></small>
 
-                                    <input type="hidden" name="price" value="250">
+                                    <input type="hidden" name="price" id="paid_price" value="{{ old('duration', '1') == '2' ? '443' : (old('duration') == '3' ? '590' : '295') }}">
 
                                 </div>
 
@@ -353,6 +364,36 @@
 
 
 
+
+        (function() {
+
+            function updatePaidListingPrice() {
+                let duration = $('#paid_duration').val();
+                let basePrice = 0;
+                let label = '1 Month Price';
+
+                if (duration === '2') {
+                    basePrice = 375;
+                    label = '2 Month Price';
+                } else if (duration === '3') {
+                    basePrice = 500;
+                    label = '3 Month Price';
+                } else {
+                    basePrice = 250;
+                }
+
+                let totalPrice = (basePrice * 1.18).toFixed(0);
+
+                $('#paid_price_label').text(label);
+                $('#paid_price_display').text(`${totalPrice} Rs`);
+                $('#paid_price_note').text(`Base price Rs. ${basePrice} + 18% GST = Rs. ${totalPrice}`);
+                $('#paid_price').val(totalPrice);
+            }
+
+            $('#paid_duration').on('change', updatePaidListingPrice);
+            updatePaidListingPrice();
+
+        })();
 
         (function() {
 
