@@ -106,7 +106,7 @@
                 <div class="small-box bg-pink">
                 <div class="inner">
                     <h3>{{$PaidListingcounts->total ?? 0}}</h3>
-                    <p><b>Paid Listing</b></p>
+                    <p><b>Listing</b></p>
                     {{--  <p class="m-0"><b>Active</b> : {{$PaidListingcounts->approved ?? 0}}</p>
                     <p class="m-0"><b>In-Active</b> : {{$PaidListingcounts->pending ?? 0}}</p>  --}}
                 </div>
@@ -114,6 +114,32 @@
                     <i class="fa fa-users"></i>
                 </div>
                 <a href="{{ route('admin.paid-listing.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-pink">
+                <div class="inner">
+                    <h3>{{$Advertismentcounts ?? 0}}</h3>
+                    <p><b>Advertisment</b></p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-users"></i>
+                </div>
+                <a href="{{ route('admin.advertisment.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-pink">
+                <div class="inner">
+                    <h3>{{$Orderscounts ?? 0}}</h3>
+                    <p><b>Payment History</b></p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-users"></i>
+                </div>
+                <a href="{{ route('admin.history') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>

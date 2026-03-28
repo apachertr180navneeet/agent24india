@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Models\District;
 use App\Models\SupportForm;
 use App\Models\PaidListing;
+use App\Models\Advertisment;
+use App\Models\Orders;
 
 class DashboardController extends Controller
 {
@@ -131,7 +133,11 @@ class DashboardController extends Controller
             COUNT(*) as total,
             SUM(CASE WHEN status = '1' THEN 1 ELSE 0 END) as approved,
             SUM(CASE WHEN status = '0' THEN 1 ELSE 0 END) as pending
-        ")->first();
+        ")->where('paid_listing.status', '!=', '0')->first();
+
+        $Advertismentcounts = Advertisment::where('status', '!=', '0')->count();
+
+        $Orderscounts = Orders::where('status', '!=', 'pending')->count();
 
 
         $this->viewData['pageTitle']  = 'Dashboard';
@@ -139,6 +145,8 @@ class DashboardController extends Controller
         $this->viewData['data']       = $data;
         $this->viewData['supportFormCount'] = $supportFormCount;
         $this->viewData['PaidListingcounts'] = $PaidListingcounts;
+        $this->viewData['Advertismentcounts'] = $Advertismentcounts;
+        $this->viewData['Orderscounts'] = $Orderscounts;
 
         return view('admin.dashboard.dashboard')->with($this->viewData);
     }
