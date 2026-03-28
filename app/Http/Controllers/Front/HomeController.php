@@ -40,6 +40,10 @@ class HomeController extends Controller
 
         $category = Category::where('status', 1)->whereNull('parent_id')->get();
 
+        $subCategories = Category::where('status', 1)
+        ->whereNotNull('parent_id')
+        ->get();
+
         $districthome = District::where('status', 1)->where('is_home', 1)->orderBy('district_order', 'asc')->get();
 
         $district = District::where('status', 1)->get();
@@ -56,6 +60,7 @@ class HomeController extends Controller
         $this->viewData['district'] = $district;
         $this->viewData['districthome'] = $districthome;
         $this->viewData['paidlisting'] = $paidlisting;
+        $this->viewData['subCategories'] = $subCategories;
         
         return view("front.index")->with($this->viewData);
     }
@@ -187,6 +192,13 @@ class HomeController extends Controller
 
 
     public function vendorlistByLocation(Request $request, $location){
+        
+
+        $subCategories = Category::where('status', 1)
+        ->whereNotNull('parent_id')
+        ->get();
+
+
         $district = $location;
         // Send view data
         $this->viewData['pageTitle'] = 'Vendor List';
@@ -272,6 +284,7 @@ class HomeController extends Controller
         $this->viewData['paidlisting'] = $paidlisting;
         $this->viewData['selectedCityId'] = $selectedCityId;
         $this->viewData['topadvertisments'] = $topadvertisments;
+        $this->viewData['subCategories'] = $subCategories;
         
         return view("front.vendordistrict")->with($this->viewData);
     }
@@ -316,6 +329,119 @@ class HomeController extends Controller
 
     public function vendorlistByLocationAndCategory(Request $request, $location, $category)
     {
+        $this->viewData['pageTitle'] = 'Vendor List';
+
+        $selectedCityId     = $request->query('city');
+        $vendorType         = $request->query('vendor_type');
+        $isAllCitySelected  = empty($selectedCityId) || $selectedCityId === 'all';
+
+        /*
+        |--------------------------------------------------------------------------
+        | Vendor List
+        |--------------------------------------------------------------------------
+        */
+        $vendorQuery = User::where([
+                'status' => 1,
+                'is_approved' => 1,
+                'business_category_id' => $category,
+                'district_id' => $location
+            ])
+            ->whereNotNull('vendor_type')
+            ->orderByRaw("CASE WHEN vendor_type = 'paid' THEN 0 ELSE 1 END");
+
+        if ($vendorType) {
+            $vendorQuery->where('vendor_type', $vendorType);
+        }
+
+        if (!$isAllCitySelected) {
+            $vendorQuery->where('city_id', $selectedCityId);
+        }
+
+        $vendoruser = $vendorQuery->get();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Categories
+        |--------------------------------------------------------------------------
+        */
+        $categories = Category::where('status', 1)
+            ->whereNull('parent_id')
+            ->get();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Top Advertisements
+        |--------------------------------------------------------------------------
+        */
+        $topadvertisments = Advertisment::where('status', 1)
+            ->where('sub_type', 'top')
+            ->where('district', $location)
+            ->where('category', $category);
+
+        if (!$isAllCitySelected) {
+            $topadvertisments->where('city', $selectedCityId);
+        }
+
+        $topadvertisments = $topadvertisments
+            ->inRandomOrder() // random records
+            ->limit(5)        // limit to 5
+            ->get();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Side Advertisements
+        |--------------------------------------------------------------------------
+        */
+
+        $sideQuery = Advertisment::where('status', 1)
+            ->where('sub_type', 'side')
+            ->where('district', $location)
+            ->where('category', $category);
+
+        if (!$isAllCitySelected) {
+            $sideQuery->where('city', $selectedCityId);
+        }
+
+
+        $sideadvertisments = $sideQuery->limit(10)->get();
+
+        /*
+        |--------------------------------------------------------------------------
+        | District List
+        |--------------------------------------------------------------------------
+        */
+        $districtList = District::where('status', 1)
+            ->orderBy('name')
+            ->get();
+
+        $selectedDistrict = $districtList->firstWhere('id', $location);
+
+        /*
+        |--------------------------------------------------------------------------
+        | View Data
+        |--------------------------------------------------------------------------
+        */
+        return view("front.vendorlist", [
+            'pageTitle'        => 'Vendor List',
+            'vendoruser'       => $vendoruser,
+            'category'         => $categories,
+            'topadvertisments' => $topadvertisments,
+            'sideadvertisments'=> $sideadvertisments,
+            'location'         => $location,
+            'selectedDistrict' => $selectedDistrict,
+            'selectedCityId'   => $selectedCityId,
+            'selectedCategory' => $category,
+        ]);
+    }
+
+
+    public function vendorlistByLocationAndsubCategory(Request $request, $location, $subcategory)
+    {
+
+        $subCategories = Category::where('id', $subcategory)->first();
+
+        $category = $subCategories->parent_id;
+
         $this->viewData['pageTitle'] = 'Vendor List';
 
         $selectedCityId     = $request->query('city');

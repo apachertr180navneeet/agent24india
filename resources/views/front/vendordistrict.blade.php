@@ -220,10 +220,11 @@
     <section class="container">
         <div class="search-form">
             <div class="row location-selector-row">
+
+                <!-- District -->
                 <div class="col-lg-6 p-0">
                     <div class="search-input position-relative">
-                        <label>
-                        </label>
+
                         <input type="text" 
                             id="location_search" 
                             class="form-control"
@@ -235,22 +236,39 @@
                             @foreach($districtList as $value)
                                 <div class="result-item"
                                     data-id="{{ $value->id }}"
-                                    data-name="{{ strtolower($value->name) }}">
+                                    data-name="{{ strtolower(trim($value->name)) }}">
                                     {{ $value->name }}
                                 </div>
                             @endforeach
                         </div>
+
                     </div>
                 </div>
+
+                <!-- City -->
                 <div class="col-lg-6 p-0">
-                    <div class="search-input" style="border: 1px solid #000000;border-radius: 4px;height: 60px;margin: 1px 7px;width: 100%;">
-                        <label for="city_search">
-                        </label>
+                    <div class="search-input" style="border:1px solid #000;border-radius:4px;height:60px;margin:1px 7px;width:100%;">
                         <select id="city_search" class="form-control">
                             <option value="">Search city</option>
                         </select>
                     </div>
                 </div>
+
+                <!-- ✅ Subcategory -->
+                <div class="col-lg-12 p-0 mt-2">
+                    <div class="search-input" style="border:1px solid #000;border-radius:4px;height:60px;margin:1px 7px;width:100%;">
+                        <select id="subcategory" class="form-control">
+                            <option value="">Select Sub Category</option>
+
+                            @foreach($subCategories as $sub)
+                                <option value="{{ $sub->id }}">
+                                    {{ $sub->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -625,5 +643,187 @@
             window.location.href = redirectUrl;
         });
     });
+</script>
+<script>
+$(document).ready(function () {
+
+    var selectedDistrictId = "{{ $location ?? '' }}";
+    var selectedCityId = "{{ $selectedCityId ?? '' }}";
+
+    var listUrlTemplate = "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
+
+    var locationCategoryUrl = "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION_ID_PLACEHOLDER', 'category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
+
+    var locationSubCategoryUrl = "{{ route('front.vendorlist.location.subcategory', ['location' => 'LOCATION_ID', 'subcategory' => 'SUBCATEGORY_ID']) }}";
+
+    var cityApiTemplate = "{{ route('get.cities', ['district' => 'DISTRICT_ID_PLACEHOLDER']) }}";
+
+    var currentCategoryId = "{{ request()->route('category') ?? '' }}";
+
+    var $citySearch = $('#city_search');
+    var $categorySearch = $('#category');
+    var $subcategory = $('#subcategory');
+
+    /* ================= SELECT2 ================= */
+    $citySearch.select2({ placeholder: 'Select city', width: '100%' });
+    $categorySearch.select2({ placeholder: 'Choose Categories', width: '100%' });
+    $subcategory.select2({ placeholder: 'Select Sub Category', allowClear: true, width: '100%' });
+
+    /* ================= CITY ================= */
+    function resetCityDropdown() {
+        $citySearch.html('<option value="">Select city</option><option value="all">All City</option>').trigger('change.select2');
+    }
+
+    function loadCitiesByDistrict(districtId, preselectedCity) {
+
+        resetCityDropdown();
+        if (!districtId) return;
+
+        var url = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
+
+        $.get(url, function (cities) {
+
+            var options = '<option value="">Select city</option><option value="all">All City</option>';
+
+            cities.forEach(function (city) {
+                options += `<option value="${city.id}">${city.name}</option>`;
+            });
+
+            $citySearch.html(options);
+
+            if (preselectedCity) {
+                $citySearch.val(String(preselectedCity));
+            }
+
+            $citySearch.trigger('change.select2');
+
+        }).fail(resetCityDropdown);
+    }
+
+    /* ================= DISTRICT SEARCH ================= */
+    $('#searchResults').hide();
+
+    $('#location_search').on('keyup', function () {
+
+        let value = $(this).val().toLowerCase().trim();
+
+        if (value === '') {
+            $('#searchResults').hide();
+            return;
+        }
+
+        $('#searchResults').show();
+
+        $('.result-item').each(function () {
+
+            let name = $(this).data('name');
+
+            if (name.includes(value)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+
+        });
+
+    });
+
+    $(document).on('click', '.result-item', function () {
+
+        let districtId = $(this).data('id');
+        let districtName = $(this).text().trim();
+
+        $('#location_search').val(districtName);
+
+        selectedDistrictId = districtId;
+        selectedCityId = '';
+
+        loadCitiesByDistrict(districtId, '');
+
+        $('#searchResults').hide();
+    });
+
+    /* ================= ENTER SELECT ================= */
+    $('#location_search').on('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            let first = $('.result-item:visible').first();
+            if (first.length) first.click();
+        }
+    });
+
+    /* ================= CITY CHANGE ================= */
+    $citySearch.on('change', function () {
+
+        var cityId = $(this).val();
+        selectedCityId = cityId;
+
+        if (!selectedDistrictId || !cityId) return;
+
+        var url = currentCategoryId
+            ? locationCategoryUrl
+                .replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId)
+                .replace('CATEGORY_ID_PLACEHOLDER', currentCategoryId)
+            : listUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId);
+
+        url += '?city=' + cityId;
+
+        window.location.href = url;
+    });
+
+    /* ================= CATEGORY ================= */
+    $categorySearch.on('change', function () {
+
+        var categoryId = $(this).val();
+        if (!categoryId || categoryId === 'none') return;
+
+        var url = locationCategoryUrl
+            .replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId)
+            .replace('CATEGORY_ID_PLACEHOLDER', categoryId);
+
+        if (selectedCityId) {
+            url += '?city=' + selectedCityId;
+        }
+
+        window.location.href = url;
+    });
+
+    /* ================= SUBCATEGORY (NEW) ================= */
+    $subcategory.on('change', function () {
+
+        var subcategoryId = $(this).val();
+        if (!subcategoryId) return;
+
+        if (!selectedDistrictId) {
+            alert('Please select district first');
+            return;
+        }
+
+        var url = locationSubCategoryUrl
+            .replace('LOCATION_ID', selectedDistrictId)
+            .replace('SUBCATEGORY_ID', subcategoryId);
+
+        if (selectedCityId) {
+            url += '?city=' + selectedCityId;
+        }
+
+        window.location.href = url;
+    });
+
+    /* ================= CLICK OUTSIDE ================= */
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('.search-input').length) {
+            $('#searchResults').hide();
+        }
+    });
+
+    /* ================= INIT ================= */
+    if (selectedDistrictId) {
+        loadCitiesByDistrict(selectedDistrictId, selectedCityId);
+    } else {
+        resetCityDropdown();
+    }
+
+});
 </script>
 @endpush

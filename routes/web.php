@@ -265,6 +265,7 @@ Route::get('/vendorlist', [Front\HomeController::class, "vendorlist"])->name('fr
 Route::get('/vendorlist/{location}', [Front\HomeController::class, "vendorlistByLocation"])->name('front.vendorlist.location');
 Route::get('/category/vendorlist/{category}', [Front\HomeController::class, "vendorlistByCategory"])->name('front.vendorlist.category');
 Route::get('/vendorlist/{location}/{category}', [Front\HomeController::class, "vendorlistByLocationAndCategory"])->name('front.vendorlist.location.category');
+Route::get('/vendorlist-subcategory/{location}/{subcategory}', [Front\HomeController::class, "vendorlistByLocationAndsubCategory"])->name('front.vendorlist.location.subcategory');
 Route::get('/vendordetail/{vendor}', [Front\HomeController::class, "vendordetail"])->name('front.vendor.details');
 Route::get('/support', [Front\HomeController::class, "support"])->name('front.support');
 Route::post('/support', [Front\HomeController::class, "submitSupport"])->name('front.support.submit');
