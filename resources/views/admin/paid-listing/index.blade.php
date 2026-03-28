@@ -56,6 +56,7 @@
                                     <th>S.no.</th>
                                     <th>Business Name</th>
                                     <th>Mobile Number</th>
+                                    <th>Email</th>
                                     <th>Paid Type</th>
                                     <th>Premium Start date</th>
                                     <th>Expiry date</th>
@@ -70,6 +71,7 @@
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $item->business_name }}</td>
                                     <td>{{ $item->user_mobile }}</td>
+                                    <td>{{ $item->user_email }}</td>
                                     <td>{{ $item->paid_type }}</td>
                                     <td>{{ \Carbon\Carbon::parse($item->updated_at)->format('d-m-Y') }}</td>
                                     @if ($item->paid_type == 'free')

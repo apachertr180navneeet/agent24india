@@ -41,6 +41,7 @@ class PaidListingController extends Controller
                 'paid_listing.*',
                 'users.name as business_name',
                 'users.mobile as user_mobile',
+                'users.email as user_email',
                 'home_district.name as home_city',
                 DB::raw('GROUP_CONCAT(DISTINCT area_districts.name) as district_names')
             )
@@ -106,6 +107,7 @@ class PaidListingController extends Controller
 
                 'users.name as business_name',
                 'users.mobile as mobile',
+                'users.email as email',
                 'users.business_address',
 
                 // user district & city
@@ -136,6 +138,7 @@ class PaidListingController extends Controller
                 'users.business_address',
                 'user_district.name',
                 'user_city.name',
+                'users.email as email',
                 'paid_listing.home_city'
             )
 

@@ -137,117 +137,116 @@
         return true;
     }
 
-    function validateSignup()
-    {
-        var businessCategoryId = $("#signup-form").find('#business_category_id').val();
-        var businessName = $("#signup-form").find('#business_name').val();
-        var email = $("#signup-form").find('#email').val();
-        var contactNumber = $("#signup-form").find('#contact_number').val();
-        var businessAddress = $("#signup-form").find('#business_address').val();
-        var district = $("#signup-form").find('#district_id').val();
-        var city = $("#signup-form").find('#city_id').val();
-        var state = $("#signup-form").find('#state_id').val();
-        var pincode = $("#signup-form").find('#pincode').val();
-        var password = $("#signup-form").find('#password').val();
-        var confirmPassword = $("#signup-form").find('#confirm_password').val();
-        var validEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    function validateSignup() {
 
-        if(!businessCategoryId){
-            alert("Please select the business category.");
-            return false;
-        }
-        else if(!businessName){
-            alert("Please enter the business name.");
-            return false;
-        }
-        else if(!email){
-            alert("Please enter the email.");
-            return false;
-        }
-        else if(!validEmail.test(email)){
-            alert("Please enter a valid email.");
-            return false;
-        }
-        else if(!contactNumber){
-            alert("Please enter the contact number.");
-            return false;
-        }
-        else if(!/^\d{10,15}$/.test(contactNumber)){
-            alert("Contact number must be 10 to 15 digits.");
-            return false;
-        }
-        else if(!businessAddress){
-            alert("Please enter the business address.");
-            return false;
-        }
-        else if(!district){
-            alert("Please enter the district.");
-            return false;
-        }
-        else if(!city){
-            alert("Please enter the city.");
-            return false;
-        }
-        else if(!state){
-            alert("Please enter the state.");
-            return false;
-        }
-        else if(!pincode){
-            alert("Please enter the pincode.");
-            return false;
-        }
-        else if(!password){
-            alert("Please enter password.");
-            return false;
-        }
-        else if(!confirmPassword){
-            alert("Please enter confirm password.");
-            return false;
-        }
-        else if(password.length < 6){
-            alert("Password must be at least 6 characters long.");
-            return false;
-        }
-        else if(password !== confirmPassword){
-            alert("Password and confirm password must be same.");
+        let form = $("#signup-form");
+
+        let businessCategoryId = form.find('#business_category_id').val();
+        let businessName = form.find('#business_name').val().trim();
+        let email = form.find('#email').val().trim();
+        let contactNumber = form.find('#contact_number').val().trim();
+        let businessAddress = form.find('#business_address').val().trim();
+        let district = form.find('#district_id').val();
+        let city = form.find('#city_id').val();
+        let state = form.find('#state_id').val();
+        let pincode = form.find('#pincode').val().trim();
+        let password = form.find('#password').val();
+        let confirmPassword = form.find('#confirm_password').val();
+
+        let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        // Strong password regex
+        let strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+
+        if (!businessCategoryId) {
+            alert("Select business category");
             return false;
         }
 
-        var uniqueValidationPassed = true;
+        if (!businessName) {
+            alert("Enter business name");
+            return false;
+        }
+
+        if (!email || !emailRegex.test(email)) {
+            alert("Enter valid email");
+            return false;
+        }
+
+        if (!contactNumber || !/^\d{10,15}$/.test(contactNumber)) {
+            alert("Enter valid contact number (10-15 digits)");
+            return false;
+        }
+
+        if (!businessAddress) {
+            alert("Enter business address");
+            return false;
+        }
+
+        if (!state) {
+            alert("Select state");
+            return false;
+        }
+
+        if (!district) {
+            alert("Select district");
+            return false;
+        }
+
+        if (!city) {
+            alert("Select city");
+            return false;
+        }
+
+        if (!pincode || !/^\d{6}$/.test(pincode)) {
+            alert("Enter valid 6-digit pincode");
+            return false;
+        }
+
+        if (!password) {
+            alert("Enter password");
+            return false;
+        }
+
+        if (!strongPassword.test(password)) {
+            alert("Password must contain:\n- 8 characters\n- 1 uppercase\n- 1 lowercase\n- 1 number\n- 1 special character");
+            return false;
+        }
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match");
+            return false;
+        }
+
+        // AJAX UNIQUE CHECK
+        let isValid = true;
+
         $.ajax({
             url: "{{ route('front.signup.checkUnique') }}",
             type: "POST",
-            dataType: "json",
             async: false,
             data: {
                 _token: $('meta[name="csrf-token"]').attr('content'),
                 email: email,
                 contact_number: contactNumber
             },
-            success: function (response) {
-                if (response.email_exists) {
-                    alert("This email is already registered.");
-                    uniqueValidationPassed = false;
-                    return;
+            success: function (res) {
+                if (res.email_exists) {
+                    alert("Email already exists");
+                    isValid = false;
                 }
-
-                if (response.contact_exists) {
-                    alert("This contact number is already registered.");
-                    uniqueValidationPassed = false;
-                    return;
+                if (res.contact_exists) {
+                    alert("Contact number already exists");
+                    isValid = false;
                 }
             },
             error: function () {
-                alert("Unable to validate email/contact number. Please try again.");
-                uniqueValidationPassed = false;
+                alert("Server error. Try again.");
+                isValid = false;
             }
         });
 
-        if (!uniqueValidationPassed) {
-            return false;
-        }
-
-        return true;
+        return isValid;
     }
 </script>
 

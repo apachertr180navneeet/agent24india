@@ -98,6 +98,11 @@
                                         <div class="col-md-4">
                                             <input type="text" class="form-control" value="{{ $paidlisting->mobile ?? '' }}" readonly>
                                         </div>
+
+                                        <div class="col-md-2 font-weight-bold">Email</div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" value="{{ $paidlisting->email ?? '' }}" readonly>
+                                        </div>
                                     </div>
 
                                     <div class="row mb-3">

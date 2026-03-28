@@ -86,7 +86,13 @@
         @if(\Auth::check())
         <li><a href="{{route('front.profile')}}">My Profile</a></li>
         <li><a href="{{route('front.addListing')}}">My Listing</a></li>
-        <li><a href="">My Banner Ad</a></li>
+        <li>
+             @if(\Auth::check())
+                <a href="{{ route('front.addbanner') }}">Banner Ad</a>
+            @else
+                <a href="javascript:void(0)" class="open-signin">Banner Ad</a>
+            @endif
+        </li>
         <li><a href="{{route('payment.histroy')}}">Payment history</a></li>
         @endif
         @if($about->status == 1)
