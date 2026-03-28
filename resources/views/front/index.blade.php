@@ -461,12 +461,23 @@
 
                     @php
 
+                    // ✅ URL + TITLE MAP
                     $demoVideos = [
-                        1 => $setting->demo_1_video_url ?? '',
-                        2 => $setting->demo_2_video_url ?? '',
-                        3 => $setting->demo_3_video_url ?? '',
+                        1 => [
+                            'url'   => $setting->demo_1_video_url ?? '',
+                            'title' => $setting->demo_vedio_titel1 ?? 'Demo Video 1'
+                        ],
+                        2 => [
+                            'url'   => $setting->demo_2_video_url ?? '',
+                            'title' => $setting->demo_vedio_titel2 ?? 'Demo Video 2'
+                        ],
+                        3 => [
+                            'url'   => $setting->demo_3_video_url ?? '',
+                            'title' => $setting->demo_vedio_titel3 ?? 'Demo Video 3'
+                        ],
                     ];
 
+                    // ✅ Thumbnail Function
                     function getYoutubeThumbnail($url){
 
                         if(!$url){
@@ -474,26 +485,25 @@
                         }
 
                         $videoId = null;
-
                         $parsedUrl = parse_url($url);
 
-                        // youtu.be format
+                        // youtu.be
                         if(isset($parsedUrl['host']) && strpos($parsedUrl['host'],'youtu.be') !== false){
                             $videoId = trim($parsedUrl['path'],'/');
                         }
 
-                        // youtube watch?v=
+                        // watch?v=
                         if(isset($parsedUrl['query'])){
                             parse_str($parsedUrl['query'],$queryParams);
                             $videoId = $queryParams['v'] ?? $videoId;
                         }
 
-                        // youtube embed
+                        // embed
                         if(!$videoId && preg_match('/youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/',$url,$matches)){
                             $videoId = $matches[1];
                         }
 
-                        // youtube shorts
+                        // shorts
                         if(!$videoId && preg_match('/youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/',$url,$matches)){
                             $videoId = $matches[1];
                         }
@@ -506,16 +516,17 @@
                     @endphp
 
 
-                    @foreach ($demoVideos as $index => $videoUrl)
+                    @foreach ($demoVideos as $index => $video)
 
+                    @if($video['url'])
                     <div class="col-lg-4 col-md-6 col-12 mb-4">
 
-                        <a href="{{ $videoUrl }}" target="_blank" class="video-card text-decoration-none">
+                        <a href="{{ $video['url'] }}" target="_blank" class="video-card text-decoration-none">
 
                             <div class="video-thumbnail position-relative">
 
-                                <img src="{{ getYoutubeThumbnail($videoUrl) }}" 
-                                    alt="Demo Video {{ $index }}" 
+                                <img src="{{ getYoutubeThumbnail($video['url']) }}" 
+                                    alt="{{ $video['title'] }}" 
                                     class="img-fluid rounded">
 
                                 <div class="play-btn">
@@ -524,13 +535,15 @@
 
                             </div>
 
+                            {{-- ✅ Dynamic Title --}}
                             <h6 class="mt-2 text-dark">
-                                Demo Video {{ $index }}
+                                {{ $video['title'] }}
                             </h6>
 
                         </a>
 
                     </div>
+                    @endif
 
                     @endforeach
 

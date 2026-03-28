@@ -177,8 +177,9 @@ class ProfileController extends Controller
 
         // Get latest listing of the user
         $existingListing = PaidListing::where('bussines_id', $user->id)
-                            ->latest()
-                            ->first();
+                ->where('expiry_date', '>', Carbon::now()) // current date less than expiry_date
+                ->latest()
+                ->first();
 
         // Check listing types
         $hasFreeListing = optional($existingListing)->paid_type === 'free';
@@ -1015,7 +1016,7 @@ class ProfileController extends Controller
     public function paymenthistroy()
     {
         $user = Auth::user();
-        $order = Orders::where('user_id', $user->id)->get();
+        $order = Orders::where('user_id', $user->id)->where('status', '!=', 'pending')->get();
 
         return view('front.payment_history', [
             'orders' => $order

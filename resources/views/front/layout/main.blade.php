@@ -180,7 +180,9 @@
                             </div>
                         </div>
                         <label class="custom-checkbox">
-                            <input type="checkbox" id="terms_agree" name="terms_agree" required> I Agree to Terms and Conditions
+                            <input type="checkbox" id="terms_agree" name="terms_agree" required>
+                            I Agree to 
+                            <a href="{{ route('front.termsAndConditions') }}" target="_blank" style="padding-bottom: 0px;">Terms and Conditions</a>
                         </label>
                         <button type="submit" id="btn-submit-signup">Submit</button>
                     </form>

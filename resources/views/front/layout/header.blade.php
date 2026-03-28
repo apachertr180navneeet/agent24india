@@ -99,7 +99,9 @@
         <li><a href="{{route('front.aboutus')}}">About Us</a></li>
         @endif
         <li><a href="{{route('front.contactus')}}">Contact Us</a></li>
-        <li><a href="#">Notice</a></li>
+        @if($trem->status == 1)
+        <li><a href="{{route('front.notice')}}">Notice</a></li>
+        @endif
         <li><a href="{{route('front.support')}}">Support & Help</a></li>
         @if($trem->status == 1)
         <li><a href="{{route('front.termsAndConditions')}}">Terms & Conditions</a></li>

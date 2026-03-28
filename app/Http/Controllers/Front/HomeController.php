@@ -70,6 +70,15 @@ class HomeController extends Controller
         return view("front.about")->with($this->viewData);
     }
 
+    public function notice(){
+        // Send view data
+        $this->viewData['pageTitle'] = 'About Us';
+
+        $this->viewData['about'] = Cms::where('id', '4')->first();
+
+        return view("front.notice")->with($this->viewData);
+    }
+
 
     public function termsAndConditions(){
         // Send view data

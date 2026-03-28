@@ -177,8 +177,8 @@
             <h4 class="tags-title">Tags</h4>
             <form action="{{ route('front.updateCategory') }}" method="post">
             @csrf
-                <div class="tags-row">
-                    <div class="tag-field">
+                <div class="tags-row row">
+                    <div class="tag-field col-3">
                         <label>Category:</label>
                         <select name="business_category_id" id="" disabled>
                             @foreach($parentCategories as $category)
@@ -186,7 +186,6 @@
                             @endforeach
                         </select>
                     </div>
-
                     @php
                         // Comma separated IDs ko array me convert karo
                         $selectedSubCategories = $user->business_sub_category_id
@@ -194,7 +193,7 @@
                             : [];
                     @endphp
 
-                    <div class="tag-field">
+                    <div class="tag-field col-12">
                         <label>Sub Category:</label>
                         <select name="business_sub_category_id[]" id="business_sub_category_id" multiple>
                             @foreach($subCategories as $subCategory)
@@ -206,12 +205,12 @@
                         </select>
                     </div>
 
-                    <div class="tag-feild">
+                    <div class="tag-feild col-3">
                         <input type="submit" name="type" value="Sub Category" class="btn btn-primary mt-3" />
                     </div>
                 </div>
 
-                <div class="selected-tags">
+                {{--  <div class="selected-tags">
                     @foreach($selectedSubCategories as $selectedSubCategory)
                         @php
                             $subCategory = $subCategories->where('id', $selectedSubCategory)->first();
@@ -222,7 +221,7 @@
                             </span>
                         @endif
                     @endforeach
-                </div>
+                </div>  --}}
             </form>
         </div>
 

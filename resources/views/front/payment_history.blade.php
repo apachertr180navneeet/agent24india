@@ -85,7 +85,7 @@
 
                                     <td>₹ {{ number_format($order->total_amount, 2) }}</td>
 
-                                    <td>{{ $advertisement->sub_type }}</td>
+                                    <td>{{ optional($advertisement)->sub_type ?? '-' }}</td>
 
                                     <td>
                                         @if ($order->status == 'paid')

@@ -51,7 +51,7 @@ class PaidListingController extends Controller
                 'users.name',
                 'home_district.name'
             )
-
+            ->where('paid_listing.status', '!=', '0')
             ->orderBy('paid_listing.id', 'desc')
             ->get();
 
@@ -138,7 +138,7 @@ class PaidListingController extends Controller
                 'users.business_address',
                 'user_district.name',
                 'user_city.name',
-                'users.email as email',
+                'users.email',
                 'paid_listing.home_city'
             )
 
