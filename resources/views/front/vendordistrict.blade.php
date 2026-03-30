@@ -4,19 +4,16 @@
 @push('styles')
 <link rel="stylesheet" href="{{ asset('public/plugins/select2/css/select2.min.css') }}">
 <style>
+    /* ================= COMMON ================= */
     .search-results {
         position: absolute;
         width: 100%;
         background: #fff;
-        border: 1px solid #000;
+        border: 1px solid #ddd;
         max-height: 200px;
         overflow-y: auto;
         z-index: 9999;
-    }
-
-    .location-selector-row > div {
-        flex: 0 0 50%;
-        max-width: 50%;
+        border-radius: 6px;
     }
 
     .result-item {
@@ -28,114 +25,88 @@
         background: #f2f2f2;
     }
 
-    .search-form .search-input .select2-container {
-        display: block;
-        width: 100% !important;
-        min-width: 100% !important;
-        max-width: 100% !important;
-    }
-
-    #city_search + .select2,
-    #city_search + .select2-container {
-        width: 100% !important;
-        min-width: 100% !important;
-        max-width: 100% !important;
-    }
-
-    #category + .select2,
-    #category + .select2-container {
-        width: 100% !important;
-        min-width: 100% !important;
-        max-width: 100% !important;
-    }
-
-    .location-selector-row .search-input {
+    /* ================= SEARCH FORM ================= */
+    .search-form .search-input {
         width: 100%;
     }
 
-    .search-form .search-input .select2-container .select2-selection--single {
-        width: 100%;
-        background: #fff;
-        border-radius: 6px;
-        border: none;
-        padding: 0 25px;
-        padding-right: 45px;
-        height: 55px;
-        font-size: 15px;
-    }
-
-    .search-form .search-input .select2-container .select2-selection--single:focus {
-        outline: none !important;
-    }
-
-    .search-form .search-input .select2-container .select2-selection__rendered {
-        line-height: 55px;
-        color: #081828;
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    .search-form .search-input .select2-container .select2-selection__placeholder {
-        color: #6c757d;
-    }
-
-    .search-form .search-input .select2-container .select2-selection__arrow {
-        display: none;
-    }
-
-    .select2-container--default .select2-results__option--highlighted[aria-selected] {
-        background-color: #f2f2f2;
-        color: #333;
-    }
-
-    .select2-container--default .select2-results__option[aria-selected=true] {
-        background-color: #f8f9fa;
-        color: #333;
-    }
-
-    .search-form .search-input input.form-control {
-        border: 1px solid #000;
-    }
-
-    .search-form .search-input #location_search.form-control {
-        height: 60px;
-        padding: 0 25px;
-        padding-right: 45px;
-        border-radius: 6px;
-    }
-
+    .search-form .search-input input.form-control,
     .search-form .search-input select.form-control {
-        border: 1px solid #000;
+        width: 100%;
+        height: 50px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        padding: 0 15px;
+        font-size: 14px;
+    }
+
+    /* ================= SELECT2 ================= */
+    .select2-container {
+        width: 100% !important;
+    }
+
+    .select2-selection--single {
+        height: 50px !important;
+        padding: 10px !important;
+        border-radius: 6px !important;
+    }
+
+    .select2-selection__rendered {
+        line-height: 30px !important;
     }
 
     .select2-dropdown {
-        border: 1px solid #000;
+        border: 1px solid #ddd;
+        z-index: 99999 !important;
     }
 
-    @media (max-width: 991.98px) {
+    /* ================= LOCATION ROW ================= */
+    .location-selector-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    /* Desktop → 3 column fix */
+    @media (min-width: 992px) {
         .location-selector-row {
-            display: flex;
             flex-wrap: nowrap;
         }
 
         .location-selector-row > div {
-            flex: 0 0 50%;
-            max-width: 50%;
+            flex: 1;
+            max-width: 33.33%;
         }
     }
-    /* Category Section */
+
+    /* Mobile → stack */
+    @media (max-width: 768px) {
+        .location-selector-row {
+            flex-direction: column;
+        }
+
+        .location-selector-row > div {
+            max-width: 100%;
+        }
+
+        .search-form .search-input input.form-control,
+        .search-form .search-input select.form-control {
+            height: 45px;
+            font-size: 13px;
+        }
+    }
+
+    /* ================= CATEGORY ================= */
     .categories-section {
         padding: 40px 0;
     }
 
-    /* Grid layout */
     .categories-grid {
         display: grid;
-        grid-template-columns: repeat(6, 1fr); /* 6 per row */
-        gap: 20px;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 15px;
     }
 
-    /* Card style */
     .category-link {
         text-decoration: none;
     }
@@ -154,13 +125,9 @@
         box-shadow: 0 6px 15px rgba(0,0,0,0.15);
     }
 
-    .row.location-selector-row {
-        margin-top: 5px;
-    }
-
     .category-card img {
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
         object-fit: contain;
         margin-bottom: 8px;
     }
@@ -172,22 +139,24 @@
         color: #333;
     }
 
-    /* Responsive */
+    /* Tablet */
     @media (max-width: 1200px) {
         .categories-grid {
             grid-template-columns: repeat(4, 1fr);
         }
     }
 
+    /* Mobile */
     @media (max-width: 768px) {
         .categories-grid {
             grid-template-columns: repeat(3, 1fr);
         }
     }
 
+    /* Small Mobile */
     @media (max-width: 480px) {
         .categories-grid {
-            grid-template-columns: repeat(3, 1fr); /* mobile me 3 category */
+            grid-template-columns: repeat(2, 1fr);
             gap: 10px;
         }
 
@@ -204,8 +173,9 @@
             font-size: 11px;
         }
     }
-    .sideadvertismentimage
-    {
+
+    /* ================= SIDEBAR ================= */
+    .sideadvertismentimage {
         width: 100%;
     }
 </style>
@@ -222,9 +192,8 @@
             <div class="row location-selector-row">
 
                 <!-- District -->
-                <div class="col-lg-6 p-0">
+                <div class="col-lg-4 col-md-4 col-12 px-1">
                     <div class="search-input position-relative">
-
                         <input type="text" 
                             id="location_search" 
                             class="form-control"
@@ -241,25 +210,23 @@
                                 </div>
                             @endforeach
                         </div>
-
                     </div>
                 </div>
 
                 <!-- City -->
-                <div class="col-lg-6 p-0">
-                    <div class="search-input" style="border:1px solid #000;border-radius:4px;height:60px;margin:1px 7px;width:100%;">
+                <div class="col-lg-4 col-md-4 col-12 px-1">
+                    <div class="search-input">
                         <select id="city_search" class="form-control">
                             <option value="">Search city</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- ✅ Subcategory -->
-                <div class="col-lg-12 p-0 mt-2">
-                    <div class="search-input" style="border:1px solid #000;border-radius:4px;height:60px;margin:1px 7px;width:100%;">
+                <!-- Subcategory -->
+                <div class="col-lg-4 col-md-4 col-12 px-1">
+                    <div class="search-input">
                         <select id="subcategory" class="form-control">
                             <option value="">Select Sub Category</option>
-
                             @foreach($subCategories as $sub)
                                 <option value="{{ $sub->id }}">
                                     {{ $sub->name }}
