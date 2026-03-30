@@ -178,6 +178,70 @@
     .sideadvertismentimage {
         width: 100%;
     }
+
+    /* ================= CATEGORY GRID ================= */
+    .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 15px;
+    }
+
+    /* Tablet */
+    @media (max-width: 992px) {
+        .categories-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+
+        /* FULL WIDTH layout */
+        .vendorlist {
+            width: 100%;
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+
+        .col-right {
+            width: 100%;
+            max-width: 100%;
+            margin-top: 15px;
+        }
+
+        /* 👉 3 ITEMS IN ONE LINE */
+        .categories-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        /* Smaller cards */
+        .category-card {
+            padding: 10px 5px;
+        }
+
+        .category-card img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .category-card span {
+            font-size: 12px;
+        }
+    }
+
+    /* Small Mobile */
+    @media (max-width: 480px) {
+
+        .categories-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .category-card span {
+            font-size: 11px;
+        }
+    }
 </style>
 @endpush
  @php
@@ -324,106 +388,6 @@
             </div>
         </div>
     </section>
-
-
-     <!-- start locations -->
-    {{--  <section class="locations-section1">
-        <div class="container">
-            <div class="section-title">
-                <h2 class="wow fadeInUp" data-wow-delay=".4s">Locations </h2>
-            </div>
-            <div class="locations-grid1">
-
-                <!-- Location Card -->
-                @foreach($districthome as $districtkey => $districtvalue)    
-                    <a href="{{ route('front.vendorlist.location', ['location' => $districtvalue->id]) }}" class="location-card1">
-                        <img 
-                            src="{{ $districtvalue->image 
-                                ? $districtvalue->image 
-                                : 'https://media.istockphoto.com/id/481776206/photo/cityscape-of-blue-city-and-mehrangarh-fort-jodhpur-india.jpg?s=2048x2048&w=is&k=20&c=gWUiWwsZpLsSoBSgLOvnhZbR6pwQpcPEqMLDYUTaIt0=' }}" 
-                            alt="{{ $districtvalue->name }}"
-                        >
-
-                        <div class="overlay1">
-                            <h3 class="text-light">{{ $districtvalue->name }}</h3>
-                        </div>
-                    </a>
-    
-                @endforeach
-            </div>
-        </div>
-    </section>  --}}
-
-
-    <!-- Listing -->
-    {{--  <section class="items-grid section custom-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-title">
-                        <center>
-                            <div class="ads-tabs">
-                                <button class="tab-btn active" data-filter="Premium">Premium Listing</button>
-                                <button class="tab-btn " data-filter="Free">Free Listing</button>
-                            </div>
-                        </center>
-                    </div>
-                </div>
-            </div>
-            <div class="single-head">
-                <div class="row">
-                    @foreach($paidlisting as $paidlistingkey => $paidlistingvalue)
-
-                        @php
-                            $datafree = ($paidlistingvalue->vendor_type == 'free') ? 'Free' : 'Premium';
-                        @endphp
-
-                        <div class="col-lg-3 col-md-6 col-6 p-2" @if($datafree === 'Free') style="display:none;" @endif>
-                            <div class="single-grid wow fadeInUp" 
-                                data-wow-delay=".2s" 
-                                data-category="{{ $datafree }}">
-
-                                <div class="image">
-                                    <a href="item-details.html" class="thumbnail">
-                                        <img src="{{ asset('public/front/assets/images/items-grid/img1.jpg') }}" alt="#">
-                                    </a>
-
-                                    <div class="author">
-                                        <div class="author-image">
-                                            <a href="{{ route('front.vendor.details', ['vendor' => $paidlistingvalue->id]) }}">
-                                                <img src="{{ $paidlistingvalue->profile_photo }}" alt="#">
-                                                <span>{{ $paidlistingvalue->name }}</span>
-                                            </a><br>
-
-                                            <a href="{{ route('front.vendor.details', ['vendor' => $paidlistingvalue->id]) }}" class="tag">
-                                                {{ $paidlistingvalue->business_name }}
-                                            </a>
-
-                                            <ul class="info-list">
-                                                <li>
-                                                    <a href="{{ route('front.vendor.details', ['vendor' => $paidlistingvalue->id]) }}">
-                                                        <i class="lni lni-map-marker"></i>
-                                                        {{ $paidlistingvalue->business_address }}
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    @if($paidlistingvalue->vendor_type == 'paid')
-                                        <p class="item-position">
-                                            <i class="lni lni-bolt"></i> Premium
-                                        </p>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </section>  --}}
 @endsection
 
 @push('scripts')

@@ -158,6 +158,86 @@
                 flex-direction: column;
             }
         }
+
+        @media (max-width: 768px) {
+
+            .location-selector-row {
+                display: flex;
+                flex-wrap: nowrap; /* keep in one line */
+                gap: 8px;
+            }
+
+            .location-selector-row > div {
+                flex: 1; /* equal width */
+                padding: 0 2px;
+            }
+
+            .search-form .search-input input.form-control,
+            .search-form .search-input select.form-control {
+                height: 40px;
+                font-size: 12px;
+                padding: 0 8px;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+
+            /* Categories → 3 in one row */
+            .categories-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+
+            /* Locations → 3 in one row */
+            .locations-grid1 {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+
+            /* Smaller cards */
+            .category-card {
+                padding: 10px 5px;
+            }
+
+            .category-card img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .category-card span {
+                font-size: 12px;
+            }
+
+            /* Location card image */
+            .location-card1 img {
+                height: 90px;
+                object-fit: cover;
+                border-radius: 8px;
+            }
+
+            .overlay1 h3 {
+                font-size: 12px;
+            }
+        }
+
+        /* Very small screens */
+        @media (max-width: 480px) {
+
+            .categories-grid,
+            .locations-grid1 {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+
+            .location-card1 img {
+                height: 75px;
+            }
+
+            .overlay1 h3 {
+                font-size: 11px;
+            }
+        }
     </style>
 @endpush
 @php
