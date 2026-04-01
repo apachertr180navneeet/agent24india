@@ -5672,7 +5672,7 @@ blockquote .shape {
 /* Text */
 .overlay1 {
     position: absolute;
-    bottom: 20px;
+    bottom: 3px;
     left: 10px;
     z-index: 2;
     color: #fff;
@@ -5703,7 +5703,7 @@ blockquote .shape {
     }
 
     .location-card1 {
-        height: 100px;
+        height: 76px;
     }
     .locations-grid1 {
     gap: 5px;

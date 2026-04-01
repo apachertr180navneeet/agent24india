@@ -36,6 +36,10 @@
             font-size: 14px;
         }
 
+        #location_search.form-control {
+            border-color: #aaaaaa;
+        }
+
         /* Select2 Fix */
         .select2-container {
             width: 100% !important;
@@ -43,19 +47,34 @@
 
         .select2-selection--single {
             height: 50px !important;
-            padding: 10px !important;
+            padding: 0 12px !important;
             border-radius: 6px !important;
+            display: flex !important;
+            align-items: center !important;
         }
 
         .select2-selection__rendered {
-            line-height: 30px !important;
+            line-height: 48px !important;
+            padding-left: 0 !important;
+            padding-right: 24px !important;
+        }
+
+        .select2-selection__arrow {
+            height: 48px !important;
         }
 
         /* ================= LOCATION ROW ================= */
         .location-selector-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            margin-left: -5px;
+            margin-right: -5px;
+        }
+
+        .location-selector-row > div {
+            padding-left: 5px;
+            padding-right: 5px;
+            margin-bottom: 10px;
         }
 
         /* ================= CATEGORY GRID ================= */
@@ -93,6 +112,30 @@
             border-radius: 8px;
         }
 
+        /* ================= HERO SLIDER ================= */
+        .hero-slider {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            width: 100%;
+            aspect-ratio: 16 / 6;
+            background: #f5f5f5;
+        }
+
+        .hero-slider .slide {
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-slider .slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 12px;
+        }
+
         /* ================= RESPONSIVE ================= */
 
         /* Tablet */
@@ -104,72 +147,42 @@
             .locations-grid1 {
                 grid-template-columns: repeat(3, 1fr);
             }
-        }
 
-        /* Mobile */
-        @media (max-width: 768px) {
-
-            .location-selector-row {
-                flex-direction: column;
-            }
-
-            .categories-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .locations-grid1 {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .search-form .search-input input.form-control,
-            .search-form .search-input select.form-control {
-                height: 45px;
-                font-size: 13px;
+            .hero-slider {
+                aspect-ratio: 16 / 7;
             }
         }
 
-        /* Small Mobile */
-        @media (max-width: 480px) {
-
-            .categories-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .locations-grid1 {
-                grid-template-columns: repeat(1, 1fr);
-            }
-
-            .category-card span {
-                font-size: 12px;
-            }
-        }
         /* Desktop: single row */
         @media (min-width: 992px) {
             .location-selector-row {
-                display: flex;
                 flex-wrap: nowrap;
-                gap: 10px;
-            }
-        }
-
-        /* Mobile: stack */
-        @media (max-width: 768px) {
-            .location-selector-row {
-                flex-direction: column;
             }
         }
 
         @media (max-width: 768px) {
 
             .location-selector-row {
-                display: flex;
-                flex-wrap: nowrap; /* keep in one line */
-                gap: 8px;
+                margin-left: -4px;
+                margin-right: -4px;
             }
 
             .location-selector-row > div {
-                flex: 1; /* equal width */
-                padding: 0 2px;
+                padding-left: 4px;
+                padding-right: 4px;
+                margin-bottom: 8px;
+            }
+
+            .location-col-half {
+                width: 50%;
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+
+            .location-col-full {
+                width: 100%;
+                flex: 0 0 100%;
+                max-width: 100%;
             }
 
             .search-form .search-input input.form-control,
@@ -177,6 +190,24 @@
                 height: 40px;
                 font-size: 12px;
                 padding: 0 8px;
+            }
+
+            .select2-selection--single {
+                height: 40px !important;
+                padding: 0 8px !important;
+            }
+
+            .select2-selection__rendered {
+                line-height: 38px !important;
+                padding-right: 22px !important;
+            }
+
+            .select2-selection__arrow {
+                height: 38px !important;
+            }
+
+            .hero-slider {
+                aspect-ratio: 16 / 8;
             }
         }
 
@@ -223,6 +254,15 @@
 
         /* Very small screens */
         @media (max-width: 480px) {
+            .location-selector-row {
+                margin-left: -3px;
+                margin-right: -3px;
+            }
+
+            .location-selector-row > div {
+                padding-left: 3px;
+                padding-right: 3px;
+            }
 
             .categories-grid,
             .locations-grid1 {
@@ -236,6 +276,14 @@
 
             .overlay1 h3 {
                 font-size: 11px;
+            }
+
+            .category-card span {
+                font-size: 12px;
+            }
+
+            .hero-slider {
+                aspect-ratio: 16 / 9;
             }
         }
     </style>
@@ -254,7 +302,7 @@
             <div class="row location-selector-row mt-2">
 
                 <!-- District -->
-                <div class="col-lg-4 col-md-4 col-12 px-1">
+                <div class="col-lg-4 col-md-4 col-6 location-col-half">
                     <div class="search-input position-relative">
                         <input type="text" id="location_search" class="form-control"
                             placeholder="Search district" autocomplete="off">
@@ -272,7 +320,7 @@
                 </div>
 
                 <!-- City -->
-                <div class="col-lg-4 col-md-4 col-12 px-1">
+                <div class="col-lg-4 col-md-4 col-6 location-col-half">
                     <div class="search-input">
                         <select id="city_search" class="form-control">
                             <option value="">Select city</option>
@@ -281,7 +329,7 @@
                 </div>
 
                 <!-- Subcategory -->
-                <div class="col-lg-4 col-md-4 col-12 px-1">
+                <div class="col-lg-4 col-md-4 col-12 location-col-full">
                     <div class="search-input">
                         <select id="subcategory" class="form-control">
                             <option value="">Select Sub Category</option>

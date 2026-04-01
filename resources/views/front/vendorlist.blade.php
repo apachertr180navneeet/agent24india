@@ -8,10 +8,11 @@
         position: absolute;
         width: 100%;
         background: #fff;
-        border: 1px solid #000;
+        border: 1px solid #ddd;
         max-height: 200px;
         overflow-y: auto;
         z-index: 9999;
+        border-radius: 6px;
     }
 
     .location-selector-row > div {
@@ -57,11 +58,13 @@
         width: 100%;
         background: #fff;
         border-radius: 6px;
-        border: none;
-        padding: 0 25px;
-        padding-right: 45px;
-        height: 55px;
-        font-size: 15px;
+        border: 1px solid #ddd;
+        padding: 0 12px;
+        padding-right: 36px;
+        height: 50px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
     }
 
     .search-form .search-input .select2-container .select2-selection--single:focus {
@@ -69,10 +72,10 @@
     }
 
     .search-form .search-input .select2-container .select2-selection__rendered {
-        line-height: 55px;
+        line-height: 48px;
         color: #081828;
         padding-left: 0;
-        padding-right: 0;
+        padding-right: 24px;
     }
 
     .search-form .search-input .select2-container .select2-selection__placeholder {
@@ -80,7 +83,7 @@
     }
 
     .search-form .search-input .select2-container .select2-selection__arrow {
-        display: none;
+        height: 48px;
     }
 
     .select2-container--default .select2-results__option--highlighted[aria-selected] {
@@ -93,23 +96,20 @@
         color: #333;
     }
 
-    .search-form .search-input input.form-control {
-        border: 1px solid #000;
-    }
-
     .search-form .search-input #location_search.form-control {
-        height: 60px;
-        padding: 0 25px;
-        padding-right: 45px;
+        height: 50px;
+        padding: 0 15px;
+        padding-right: 36px;
         border-radius: 6px;
+        border: 1px solid #aaaaaa;
     }
 
     .search-form .search-input select.form-control {
-        border: 1px solid #000;
+        border: 1px solid #ddd;
     }
 
     .select2-dropdown {
-        border: 1px solid #000;
+        border: 1px solid #ddd;
     }
 
     @media (max-width: 991.98px) {
@@ -121,6 +121,30 @@
         .location-selector-row > div {
             flex: 0 0 50%;
             max-width: 50%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .search-form .search-input .select2-container .select2-selection--single {
+            height: 40px;
+            padding: 0 8px;
+            padding-right: 30px;
+            font-size: 12px;
+        }
+
+        .search-form .search-input .select2-container .select2-selection__rendered {
+            line-height: 38px;
+            padding-right: 22px;
+        }
+
+        .search-form .search-input .select2-container .select2-selection__arrow {
+            height: 38px;
+        }
+
+        .search-form .search-input #location_search.form-control {
+            height: 40px;
+            font-size: 12px;
+            padding: 0 8px;
         }
     }
     /* Category Section */
@@ -190,9 +214,52 @@
             grid-template-columns: repeat(2, 1fr);
         }
     }
-    .sideadvertismentimage
-    {
+
+    .hero-slider {
+        position: relative;
         width: 100%;
+        overflow: hidden;
+        border-radius: 12px;
+        aspect-ratio: 16 / 6;
+        background: #f5f5f5;
+    }
+
+    .hero-slider .slide {
+        width: 100%;
+        height: 100%;
+    }
+
+    .hero-slider .slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 12px;
+    }
+
+    .sideadvertismentimage {
+        width: 100%;
+    }
+
+    @media (max-width: 992px) {
+        .hero-slider {
+            aspect-ratio: 16 / 7;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-slider {
+            aspect-ratio: 16 / 8;
+        }
+
+    }
+
+    @media (max-width: 480px) {
+        .hero-slider {
+            aspect-ratio: 16 / 9;
+        }
+
     }
 
     .locations-section1 .adsbygoogle {
@@ -245,7 +312,7 @@
 
             </div>
             <div class="col-lg-6 p-0">
-                <div class="search-input" style="border: 1px solid #000000;border-radius: 4px;height: 60px;margin: 1px 7px;width: 100%;">
+                <div class="search-input">
                     <label for="city_search">
                     </label>
                     <select id="city_search" class="form-control">
@@ -282,7 +349,7 @@
     <div class="search-form wow " >
         <div class="row">
             <div class="col-lg-12 col-md-12 col-12 p-0 mb-2">
-                <div class="search-input" style="border: 1px solid #000000;border-radius: 4px;height: 60px;margin: 1px 7px;width: 100%;">
+                <div class="search-input">
                     <label for="category"></label>
                     <select name="category" id="category">
                         <option value="none">Choose Categories</option>

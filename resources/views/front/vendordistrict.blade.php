@@ -40,6 +40,10 @@
         font-size: 14px;
     }
 
+    #location_search.form-control {
+        border-color: #aaaaaa;
+    }
+
     /* ================= SELECT2 ================= */
     .select2-container {
         width: 100% !important;
@@ -47,12 +51,20 @@
 
     .select2-selection--single {
         height: 50px !important;
-        padding: 10px !important;
+        padding: 0 12px !important;
         border-radius: 6px !important;
+        display: flex !important;
+        align-items: center !important;
     }
 
     .select2-selection__rendered {
-        line-height: 30px !important;
+        line-height: 48px !important;
+        padding-left: 0 !important;
+        padding-right: 24px !important;
+    }
+
+    .select2-selection__arrow {
+        height: 48px !important;
     }
 
     .select2-dropdown {
@@ -64,7 +76,14 @@
     .location-selector-row {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px;
+        margin-left: -5px;
+        margin-right: -5px;
+    }
+
+    .location-selector-row > div {
+        padding-left: 5px;
+        padding-right: 5px;
+        margin-bottom: 10px;
     }
 
     /* Desktop → 3 column fix */
@@ -82,10 +101,25 @@
     /* Mobile → stack */
     @media (max-width: 768px) {
         .location-selector-row {
-            flex-direction: column;
+            margin-left: -4px;
+            margin-right: -4px;
         }
 
         .location-selector-row > div {
+            padding-left: 4px;
+            padding-right: 4px;
+            margin-bottom: 8px;
+        }
+
+        .location-col-half {
+            width: 50%;
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+
+        .location-col-full {
+            width: 100%;
+            flex: 0 0 100%;
             max-width: 100%;
         }
 
@@ -93,6 +127,20 @@
         .search-form .search-input select.form-control {
             height: 45px;
             font-size: 13px;
+        }
+
+        .select2-selection--single {
+            height: 45px !important;
+            padding: 0 10px !important;
+        }
+
+        .select2-selection__rendered {
+            line-height: 43px !important;
+            padding-right: 22px !important;
+        }
+
+        .select2-selection__arrow {
+            height: 43px !important;
         }
     }
 
@@ -175,6 +223,29 @@
     }
 
     /* ================= SIDEBAR ================= */
+    .hero-slider {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 12px;
+        aspect-ratio: 16 / 6;
+        background: #f5f5f5;
+    }
+
+    .hero-slider .slide {
+        width: 100%;
+        height: 100%;
+    }
+
+    .hero-slider .slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 12px;
+    }
+
     .sideadvertismentimage {
         width: 100%;
     }
@@ -190,6 +261,10 @@
     @media (max-width: 992px) {
         .categories-grid {
             grid-template-columns: repeat(4, 1fr);
+        }
+
+        .hero-slider {
+            aspect-ratio: 16 / 7;
         }
     }
 
@@ -208,6 +283,11 @@
             max-width: 100%;
             margin-top: 15px;
         }
+
+        .hero-slider {
+            aspect-ratio: 16 / 8;
+        }
+
 
         /* 👉 3 ITEMS IN ONE LINE */
         .categories-grid {
@@ -241,6 +321,11 @@
         .category-card span {
             font-size: 11px;
         }
+
+        .hero-slider {
+            aspect-ratio: 16 / 9;
+        }
+
     }
 </style>
 @endpush
@@ -256,7 +341,7 @@
             <div class="row location-selector-row">
 
                 <!-- District -->
-                <div class="col-lg-4 col-md-4 col-12 px-1">
+                <div class="col-lg-4 col-md-4 col-6 location-col-half">
                     <div class="search-input position-relative">
                         <input type="text" 
                             id="location_search" 
@@ -278,7 +363,7 @@
                 </div>
 
                 <!-- City -->
-                <div class="col-lg-4 col-md-4 col-12 px-1">
+                <div class="col-lg-4 col-md-4 col-6 location-col-half">
                     <div class="search-input">
                         <select id="city_search" class="form-control">
                             <option value="">Search city</option>
@@ -287,7 +372,7 @@
                 </div>
 
                 <!-- Subcategory -->
-                <div class="col-lg-4 col-md-4 col-12 px-1">
+                <div class="col-lg-4 col-md-4 col-12 location-col-full">
                     <div class="search-input">
                         <select id="subcategory" class="form-control">
                             <option value="">Select Sub Category</option>
@@ -334,7 +419,7 @@
         <div class="search-form wow " >
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-12 p-0">
-                    <div class="search-input" style="border: 1px solid #000000;border-radius: 4px;height: 60px;margin: 1px 7px;width: 100%;">
+                    <div class="search-input" style="">
                         <label for="category"></label>
                         <select name="category" id="category">
                             <option value="none">Choose Categories</option>
