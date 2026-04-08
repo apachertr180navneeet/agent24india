@@ -26,6 +26,8 @@
                             @if(\Auth::check())
                             <li><a href="{{route('front.profile')}}">Profile</a></li>
                             @endif
+
+                            <li><a href="{{route('front.price')}}">Price</a></li>
                         </ul>
                     </div>
                 </div>
@@ -76,8 +78,12 @@
                 <div class="row d-flex">
                     <div class="col-lg-6 col-12">
                         <div class="content">
-                            <p class="copyright-text">Designed and Developed by <a href="https://syspoly.com/"
-                                    rel="nofollow" target="_blank">SYSPOLY</a>
+                           <p class="copyright-text">
+                                © 2026 Agent 24 India. All Rights Reserved. <br>
+                                Designed and Developed by 
+                                <a href="https://syspoly.com/" rel="nofollow" target="_blank">
+                                    SYSPOLY
+                                </a>
                             </p>
                             </div>
                             </div>

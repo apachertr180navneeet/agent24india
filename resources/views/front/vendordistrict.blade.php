@@ -402,7 +402,7 @@
 
             @else
                 <div class="slide active">
-                    <img src="https://agent24india.com/public/upload/banner/1771654878_Property%20Solutions%20You%20Can%20Trust%20(2).png" alt="Default Banner">
+                    <img src="{{ asset('public/images/topbanner.jpeg') }}" alt="Default Banner">
                 </div>
             @endif
 
@@ -465,7 +465,7 @@
 
                     @else
                         <div class="sidebar-box mb-3">
-                            <img src="{{ asset('public/images/sideiamge.jpeg') }}" alt="Default Banner" style="width: 100%;">
+                            <img src="{{ asset('public/images/sidebanner.jpeg') }}" alt="Default Banner" style="width: 100%;">
                         </div>
                     @endif
                 </div>

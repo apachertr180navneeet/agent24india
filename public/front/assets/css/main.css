@@ -3505,10 +3505,10 @@ blockquote .shape {
     width: 460px;
   }
 
-  .hero-area {
+  /* .hero-area {
     padding-top: 170px;
     padding-bottom: 200px;
-  }
+  } */
 
   .hero-area .hero-text h2 {
     font-size: 38px;
@@ -3905,7 +3905,7 @@ blockquote .shape {
   .hero-area {
     position: relative;
     /* height: 35vh; */
-    height: 31vh;
+    height: 21vh;
     overflow: hidden;
 }
 .slide img {

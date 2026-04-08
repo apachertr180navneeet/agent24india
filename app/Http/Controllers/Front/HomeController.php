@@ -38,7 +38,10 @@ class HomeController extends Controller
 
         $banner = Banner::where('status', 1)->get();
 
-        $category = Category::where('status', 1)->whereNull('parent_id')->get();
+        $category = Category::where('status', 1)
+            ->whereNull('parent_id')
+            ->orderBy('name', 'asc') // change 'name' to your column
+            ->get();
 
         $subCategories = Category::where('status', 1)
         ->whereNotNull('parent_id')
@@ -82,6 +85,14 @@ class HomeController extends Controller
         $this->viewData['about'] = Cms::where('id', '4')->first();
 
         return view("front.notice")->with($this->viewData);
+    }
+
+
+    public function price(){
+        // Send view data
+        $this->viewData['pageTitle'] = 'Price';
+
+        return view("front.price")->with($this->viewData);
     }
 
 
@@ -160,7 +171,10 @@ class HomeController extends Controller
 
         $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->paginate(12);
 
-        $category = Category::where('status', 1)->whereNull('parent_id')->get();
+        $category = Category::where('status', 1)
+            ->whereNull('parent_id')
+            ->orderBy('name', 'asc') // change 'name' to your column
+            ->get();
 
         $topadvertisments = Advertisment::where('status', 1)
                         ->where('sub_type', 'top')
@@ -219,7 +233,10 @@ class HomeController extends Controller
         $vendoruser = $vendoruserQuery->paginate(12);
 
         
-        $category = Category::where('status', 1)->whereNull('parent_id')->get();
+        $category = Category::where('status', 1)
+            ->whereNull('parent_id')
+            ->orderBy('name', 'asc') // change 'name' to your column
+            ->get();
         // Top Banner
         $banner = Advertisment::where('status', 1)
             ->where('sub_type', 'top')
@@ -294,7 +311,12 @@ class HomeController extends Controller
         $this->viewData['pageTitle'] = 'Vendor List';
 
         $vendoruser = User::where('status', 1)->where('is_approved', 1)->where('business_category_id', $category)->paginate(12);
-        $categories = Category::where('status', 1)->whereNull('parent_id')->get();
+        //$categories = Category::where('status', 1)->whereNull('parent_id')->get();
+
+        $categories = Category::where('status', 1)
+            ->whereNull('parent_id')
+            ->orderBy('name', 'asc') // change 'name' to your column
+            ->get();
 
         $topadvertisments = Advertisment::where('status', 1)
             ->where('sub_type', 'top')
@@ -327,7 +349,7 @@ class HomeController extends Controller
         return view("front.vendorlist")->with($this->viewData);
     }
 
-    public function vendorlistByLocationAndCategory(Request $request, $location, $category)
+    public function vendorlistByLocationAndCategory(Request $request, $location, $categorys)
     {
         $this->viewData['pageTitle'] = 'Vendor List';
 
@@ -343,7 +365,7 @@ class HomeController extends Controller
         $vendorQuery = User::where([
                 'status' => 1,
                 'is_approved' => 1,
-                'business_category_id' => $category,
+                'business_category_id' => $categorys,
                 'district_id' => $location
             ])
             ->whereNotNull('vendor_type')
@@ -366,6 +388,7 @@ class HomeController extends Controller
         */
         $categories = Category::where('status', 1)
             ->whereNull('parent_id')
+            ->orderBy('name', 'asc') // change 'name' to your column
             ->get();
 
         /*
@@ -376,14 +399,13 @@ class HomeController extends Controller
         $topadvertisments = Advertisment::where('status', 1)
             ->where('sub_type', 'top')
             ->where('district', $location)
-            ->where('category', $category);
+            ->where('category', $categorys);
 
         if (!$isAllCitySelected) {
             $topadvertisments->where('city', $selectedCityId);
         }
 
         $topadvertisments = $topadvertisments
-            ->inRandomOrder() // random records
             ->limit(5)        // limit to 5
             ->get();
 
@@ -396,7 +418,7 @@ class HomeController extends Controller
         $sideQuery = Advertisment::where('status', 1)
             ->where('sub_type', 'side')
             ->where('district', $location)
-            ->where('category', $category);
+            ->where('category', $categorys);
 
         if (!$isAllCitySelected) {
             $sideQuery->where('city', $selectedCityId);
@@ -430,7 +452,7 @@ class HomeController extends Controller
             'location'         => $location,
             'selectedDistrict' => $selectedDistrict,
             'selectedCityId'   => $selectedCityId,
-            'selectedCategory' => $category,
+            'selectedCategory' => $categorys,
         ]);
     }
 
@@ -479,6 +501,7 @@ class HomeController extends Controller
         */
         $categories = Category::where('status', 1)
             ->whereNull('parent_id')
+            ->orderBy('name', 'asc')
             ->get();
 
         /*

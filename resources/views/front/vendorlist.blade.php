@@ -267,6 +267,113 @@
         width: 100%;
         min-height: 250px;
     }
+
+    /* Default */
+    .desktop {
+        display: block;
+    }
+
+    /* Mobile fix */
+    @media (max-width: 768px) {
+        .desktop {
+            display: block !important;
+        }
+
+        .contact-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .contact-actions a {
+            flex: 1 1 48%;
+            text-align: center;
+            font-size: 12px;
+            padding: 8px;
+        }
+    }
+
+    /* Buttons Base */
+.contact-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Buttons Style */
+.contact-actions .btn {
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: 0.3s;
+}
+
+/* Colors */
+.call-btn {
+    background: #007bff;
+}
+
+.whatsapp-btn {
+    background: #25D366;
+}
+
+.enquiry-btn {
+    background: #0d6efd;
+}
+
+/* Hover */
+.contact-actions .btn:hover {
+    opacity: 0.9;
+}
+
+/* 🔴 MOBILE / DESKTOP CONTROL */
+.desktop {
+    display: flex;
+}
+
+.mobile {
+    display: none;
+}
+
+/* 📱 MOBILE VIEW FIX */
+@media (max-width: 768px) {
+
+    .desktop {
+        display: none !important;
+    }
+
+    .mobile {
+        display: flex;
+    }
+
+    .mobile .btn {
+        flex: 1;
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .mobile .btn i {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 767px) {
+    .vendorlist h4 {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 767px) {
+    .vendorlist p {
+        font-size: 7px;
+    }
+}
 </style>
 @endpush
  @php
@@ -333,7 +440,7 @@
             </div>
         @empty
             <div class="slide active">
-                <img src="https://agent24india.com/public/upload/banner/1771654878_Property%20Solutions%20You%20Can%20Trust%20(2).png" alt="Default Banner">
+                <img src="{{ asset('public/images/topbanner.jpeg') }}" alt="Default Banner">
             </div>
         @endforelse
 
@@ -385,45 +492,70 @@
 
                     @forelse ($vendoruser as $vendor)
                         <div class="row d-flex vendorlistiner mb-3">
+                            <!-- Image -->
                             <div class="col-lg-3 col-md-4 col-4">
                                 <div class="image">
                                     <img src="{{ $vendor->profile_photo }}" 
-                                         alt="Vendor Image" class="img-fluid">
+                                        alt="Vendor Image" class="img-fluid">
                                 </div>
                             </div>
 
+                            <!-- Content -->
                             <div class="col-lg-9 col-md-8 col-8">
+                                
                                 <h4>
-                                    <a href="{{ route('front.vendor.details', ['vendor' => $vendor->id]) }}">{{ $vendor->name }}</a>
+                                    <a href="{{ route('front.vendor.details', ['vendor' => $vendor->id]) }}">
+                                        {{ $vendor->name }}
+                                    </a>
                                 </h4>
-                                {{--  <p>{{ $vendor->business_name }}</p>  --}}
+
                                 <label class="text-dark">
                                     <i class="lni lni-map-marker"></i>
                                     {{ $vendor->business_address }}
                                 </label>
 
-                                <!-- Desktop Actions -->
-                                <div class="row desktop">
-                                    <div class="contact-actions col-12 mt-3">
-                                        @if($vendor->vendor_type == 'paid')
-                                            <a href="tel:{{ $vendor->mobile ?? '0000000000' }}" class="call-btn">
-                                                <i class="lni lni-phone"></i> Call Now
-                                            </a>
-                                        @endif
-                                        <a href="https://wa.me/{{ $vendor->whats_app ?? '' }}" class="whatsapp">
-                                            <i class="lni lni-whatsapp"></i> WhatsApp
+                                <!-- ✅ DESKTOP ACTIONS -->
+                                <div class="contact-actions desktop mt-3">
+                                    @if($vendor->vendor_type == 'paid')
+                                        <a href="tel:{{ $vendor->mobile }}" class="btn call-btn">
+                                            <i class="lni lni-phone"></i> Call Now
                                         </a>
-                                        <a href="mailto:{{ $vendor->email ?? 'info@example.com' }}" class="call-btn">
-                                            <i class="lni lni-envelope"></i> Send Enquiry
-                                        </a>
-                                    </div>
+                                    @endif
+
+                                    <a href="https://wa.me/{{ $vendor->whats_app }}" class="btn whatsapp-btn">
+                                        <i class="lni lni-whatsapp"></i> WhatsApp
+                                    </a>
+
+                                    <a href="mailto:{{ $vendor->email }}" class="btn enquiry-btn">
+                                        <i class="lni lni-envelope"></i> Send Enquiry
+                                    </a>
                                 </div>
+
+                                <!-- ✅ MOBILE ACTIONS -->
+                                <div class="contact-actions mobile mt-2">
+                                    @if($vendor->vendor_type == 'paid')
+                                        <a href="tel:{{ $vendor->mobile }}" class="btn call-btn">
+                                            <i class="lni lni-phone"></i>
+                                        </a>
+                                    @endif
+
+                                    <a href="https://wa.me/{{ $vendor->whats_app }}" class="btn whatsapp-btn">
+                                        <i class="lni lni-whatsapp"></i>
+                                    </a>
+
+                                    <a href="mailto:{{ $vendor->email }}" class="btn enquiry-btn">
+                                        <i class="lni lni-envelope"></i>
+                                    </a>
+                                </div>
+
+                                <!-- Tags -->
                                 @if($vendor->vendor_type == 'paid')
                                     <p class="item-position">
                                         <i class="lni lni-bolt"></i> Premium
                                     </p>
                                     <p class="item-position item-position-ai">AI Verified</p>
                                 @endif
+
                             </div>
                         </div>
                     @empty
@@ -463,7 +595,7 @@
 
                     @else
                         <div class="sidebar-box mb-3">
-                            <img src="{{ asset('public/images/sideiamge.jpeg') }}" alt="Default Banner" style="width: 100%;">
+                            <img src="{{ asset('public/images/sidebanner.jpeg') }}" alt="Default Banner" style="width: 100%;">
                         </div>
                     @endif
                 </div>
