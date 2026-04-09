@@ -19,6 +19,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'authenticates' => Authenticates::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
         ]);
+        $middleware->validateCsrfTokens(except: [
+            'payu/success',
+            'payu/failure',
+            'payu/success/*',
+            'payu/failure/*',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

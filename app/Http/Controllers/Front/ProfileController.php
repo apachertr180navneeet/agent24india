@@ -337,43 +337,19 @@ class ProfileController extends Controller
                 // Listing amount
                 $amount = $request->price;
 
-                /*
-                |--------------------------------------------------------------------------
-                | Razorpay API Keys
-                |--------------------------------------------------------------------------
-                */
-                $key_id     = env('RAZORPAY_KEY');
-                $key_secret = env('RAZORPAY_SECRET');
+                // PayU credentials
+                $key  = env('PAYU_KEY');
+                $salt = env('PAYU_SALT');
 
-                $receipt = 'listing_' . time();
+                $txnid = 'listing_' . time();
+                $productInfo = "Listing Payment";
+                $firstname   = $user->name;
+                $email       = $user->email;
+                $phone       = $user->mobile ?? '9999999999';
 
-                /*
-                |--------------------------------------------------------------------------
-                | Create Razorpay Order using cURL
-                |--------------------------------------------------------------------------
-                */
-                $curl = curl_init();
-
-                curl_setopt_array($curl, [
-                    CURLOPT_URL => "https://api.razorpay.com/v1/orders",
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_CUSTOMREQUEST => "POST",
-                    CURLOPT_POSTFIELDS => json_encode([
-                        "amount" => $amount * 100, // amount must be in paisa
-                        "currency" => "INR",
-                        "receipt" => $receipt,
-                        "payment_capture" => 1
-                    ]),
-                    CURLOPT_HTTPHEADER => [
-                        "Content-Type: application/json"
-                    ],
-                    CURLOPT_USERPWD => $key_id . ":" . $key_secret
-                ]);
-
-                $response = curl_exec($curl);
-                curl_close($curl);
-
-                $razorpayOrder = json_decode($response, true);
+                // Hash generation as per PayU format
+                $hashString = $key . "|" . $txnid . "|" . $amount . "|" . $productInfo . "|" . $firstname . "|" . $email . "|||||||||||" . $salt;
+                $hash = strtolower(hash('sha512', $hashString));
 
                 /*
                 |--------------------------------------------------------------------------
@@ -382,8 +358,7 @@ class ProfileController extends Controller
                 */
                 $order = Orders::create([
                     'user_id'            => $user->id,
-                    'order_number'       => $receipt,
-                    'razorpay_order_id'  => $razorpayOrder['id'],
+                    'order_number'       => $txnid,
                     'total_amount'       => $amount,
                     'status'             => 'pending'
                 ]);
@@ -394,10 +369,9 @@ class ProfileController extends Controller
                 |--------------------------------------------------------------------------
                 */
                 PaymentTransactions::create([
-                    'order_id'           => $order->id,
-                    'razorpay_order_id'  => $razorpayOrder['id'],
-                    'amount'             => $amount,
-                    'status'             => 'created'
+                    'order_id' => $order->id,
+                    'amount'   => $amount,
+                    'status'   => 'created'
                 ]);
 
                 /*
@@ -423,15 +397,17 @@ class ProfileController extends Controller
 
                 DB::commit();
 
-                /*
-                |--------------------------------------------------------------------------
-                | Redirect user to Razorpay payment page
-                |--------------------------------------------------------------------------
-                */
-                return view('payment.checkout', [
-                    'order_id' => $razorpayOrder['id'],
-                    'amount' => $amount,
-                    'razorpay_key' => $key_id
+                // Redirect to PayU payment page
+                return view('payment.payu_checkout', [
+                    'key'        => $key,
+                    'txnid'      => $txnid,
+                    'amount'     => $amount,
+                    'productinfo'=> $productInfo,
+                    'firstname'  => $firstname,
+                    'email'      => $email,
+                    'phone'      => $phone,
+                    'hash'       => $hash,
+                    'action'     => env('PAYU_BASE_URL') . '/_payment'
                 ]);
             }
 
@@ -440,11 +416,12 @@ class ProfileController extends Controller
             return redirect()->back()->with('success', 'Listing created successfully.');
 
         } catch (\Exception $e) {
-
-            dd($e);
-
             // Rollback transaction if any error occurs
             DB::rollBack();
+            Log::error('Store Listing Error: '.$e->getMessage(), [
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
+            ]);
 
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -669,37 +646,161 @@ class ProfileController extends Controller
     }
 
 
+
     // public function storebanner(Request $request)
     // {
     //     $user = Auth::user();
-    //     $requestArray = $request->all();
 
-    //     // Current date
-    //     $startDate = Carbon::now();
+    //     /*
+    //     |----------------------------------------------------------------------
+    //     | Validate Request
+    //     |----------------------------------------------------------------------
+    //     */
+    //     $request->validate([
+    //         'sub_type'   => 'required|in:side,top',
+    //         'price'      => 'required|numeric|min:1',
+    //         'type'       => 'required|string',
+    //         'home_city'  => 'required',
+    //         'image_alt'  => 'nullable|string',
+    //         'image'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
+    //     ]);
 
-    //     // Expiry date = start date + 1 month
-    //     $expiryDate = $startDate->copy()->addMonth();
+    //     $district = $request->district ?? 0;
+    //     $city     = $request->city ?? 0;
+    //     $subType  = $request->sub_type;
+    //     $categoryId = $request->category ?? 0 ;
 
-    //     $data = [
-    //         'start_date'   => $startDate,
-    //         'bussines_name'=> $user->id,
-    //         'type'         => $requestArray['type'],
-    //         'district'     => $requestArray['district'] ?? 0,
-    //         'city'         => $requestArray['city'] ?? 0,
-    //         'category'     => $requestArray['category'] ?? 0,
-    //         'home_city'    => $requestArray['home_city'],
-    //         'status'       => 1,
-    //         'image_alt'    => $requestArray['image_alt'],
-    //         'sub_type'     => $requestArray['sub_type'],
-    //         'expiry_date'  => $expiryDate,
-    //         'price'        => $requestArray['price'],
-    //         'created_at'   => now(),
-    //         'updated_at'   => now(),
-    //     ];
+    //     /*
+    //     |----------------------------------------------------------------------
+    //     | 1. Check Banner Limit
+    //     |----------------------------------------------------------------------
+    //     */
+    //     // Base query
+    //     $adsQuery = Advertisment::where('district', $district)
+    //                 ->where('sub_type', $subType);
 
-    //     /**
-    //      * Upload Image
-    //      */
+    //     // ✅ If category selected, add condition
+    //     if (!empty($categoryId)) {
+    //         $adsQuery->where('category', $categoryId);
+    //         $adsQuery->where('city', $city);
+    //     }else{
+    //         $adsQuery->where('category', '0');
+    //     }
+
+    //     // Count ads
+    //     $bannerCount = $adsQuery->count();
+
+
+    //     if ($subType == 'side' && $bannerCount >= 10) {
+    //         return back()->with([
+    //             'notification' => [
+    //                 '_status'  => false,
+    //                 '_message' => 'Already 10 Banner Exist. maximum 10 banner allowed. contact to admin.',
+    //                 '_type'    => 'error'
+    //             ]
+    //         ]);
+    //     }
+
+    //     if ($subType == 'top' && $bannerCount >= 5) {
+    //         return back()->with([
+    //             'notification' => [
+    //                 '_status'  => false,
+    //                 '_message' => 'Already 5 Banner Exist. maximum 5 banner allowed. contact to admin.',
+    //                 '_type'    => 'error'
+    //             ]
+    //         ]);
+    //     }
+
+    //     /*
+    //     |----------------------------------------------------------------------
+    //     | 2. Dates (Formatted)
+    //     |----------------------------------------------------------------------
+    //     */
+    //     $startDate  = Carbon::now()->format('Y-m-d');
+    //     $expiryDate = Carbon::now()->addMonth()->format('Y-m-d');
+
+    //     /*
+    //     |----------------------------------------------------------------------
+    //     | 3. Razorpay Order Create
+    //     |----------------------------------------------------------------------
+    //     */
+    //     $key_id     = env('RAZORPAY_KEY');
+    //     $key_secret = env('RAZORPAY_SECRET');
+
+    //     $amount  = $request->price;
+    //     $receipt = 'banner_' . time();
+
+    //     $curl = curl_init();
+
+    //     curl_setopt_array($curl, [
+    //         CURLOPT_URL => "https://api.razorpay.com/v1/orders",
+    //         CURLOPT_RETURNTRANSFER => true,
+    //         CURLOPT_CUSTOMREQUEST => "POST",
+    //         CURLOPT_POSTFIELDS => json_encode([
+    //             "amount" => $amount * 100,
+    //             "currency" => "INR",
+    //             "receipt" => $receipt,
+    //             "payment_capture" => 1
+    //         ]),
+    //         CURLOPT_HTTPHEADER => [
+    //             "Content-Type: application/json"
+    //         ],
+    //         CURLOPT_USERPWD => $key_id . ":" . $key_secret
+    //     ]);
+
+    //     $response = curl_exec($curl);
+
+    //     if (curl_errno($curl)) {
+    //         return back()->with([
+    //             'notification' => [
+    //                 '_status'  => false,
+    //                 '_message' => 'Payment gateway error. Try again.',
+    //                 '_type'    => 'error'
+    //             ]
+    //         ]);
+    //     }
+
+    //     curl_close($curl);
+
+    //     $razorpayOrder = json_decode($response, true);
+
+    //     if (!isset($razorpayOrder['id'])) {
+    //         return back()->with([
+    //             'notification' => [
+    //                 '_status'  => false,
+    //                 '_message' => 'Unable to create order. Try again.',
+    //                 '_type'    => 'error'
+    //             ]
+    //         ]);
+    //     }
+
+    //     /*
+    //     |----------------------------------------------------------------------
+    //     | 4. Save Order
+    //     |----------------------------------------------------------------------
+    //     */
+    //     $order = Orders::create([
+    //         'user_id'            => $user->id,
+    //         'order_number'       => $receipt,
+    //         'razorpay_order_id'  => $razorpayOrder['id'],
+    //         'total_amount'       => $amount,
+    //         'status'             => 'pending'
+    //     ]);
+
+    //     PaymentTransactions::create([
+    //         'order_id'           => $order->id,
+    //         'razorpay_order_id'  => $razorpayOrder['id'],
+    //         'amount'             => $amount,
+    //         'status'             => 'created'
+    //     ]);
+
+    //     /*
+    //     |----------------------------------------------------------------------
+    //     | 5. Upload Image
+    //     |----------------------------------------------------------------------
+    //     */
+    //     $imagePath = null;
+
     //     if ($request->hasFile('image')) {
 
     //         $path = public_path('upload/advertisment');
@@ -708,228 +809,202 @@ class ProfileController extends Controller
     //             mkdir($path, 0777, true);
     //         }
 
-    //         $file     = $request->file('image');
-    //         $filename = time().'_'.$file->getClientOriginalName();
+    //         $file = $request->file('image');
+    //         $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
 
     //         $file->move($path, $filename);
 
-    //         $data['image'] = 'upload/advertisment/'.$filename;
+    //         // Full URL
+    //         $imagePath = url('public/upload/advertisment/' . $filename);
     //     }
 
-    //     // Insert Data
-    //     Advertisment::create($data);
+    //     /*
+    //     |----------------------------------------------------------------------
+    //     | 6. Save Banner
+    //     |----------------------------------------------------------------------
+    //     */
+    //     Advertisment::create([
+    //         'start_date'    => $startDate,
+    //         'bussines_name' => $user->id,
+    //         'type'          => $request->type,
+    //         'district'      => $district,
+    //         'city'          => $city,
+    //         'category'      => $request->category ?? 0,
+    //         'home_city'     => $request->home_city,
+    //         'image_alt'     => $request->image_alt,
+    //         'sub_type'      => $subType,
+    //         'expiry_date'   => $expiryDate,
+    //         'price'         => $amount,
+    //         'order_id'      => $order->id,
+    //         'image'         => $imagePath,
+    //         'status'        => '0',
+    //         'created_at'    => now(),
+    //         'updated_at'    => now(),
+    //         'order_id'      => $order->id
+    //     ]);
 
-    //     return redirect()->back()->with('success','Banner added successfully');
+    //     /*
+    //     |----------------------------------------------------------------------
+    //     | 7. Redirect to Payment Page
+    //     |----------------------------------------------------------------------
+    //     */
+    //     return view('payment.checkout', [
+    //         'order_id'     => $razorpayOrder['id'],
+    //         'amount'       => $amount,
+    //         'razorpay_key' => $key_id
+    //     ]);
     // }
-
 
 
     public function storebanner(Request $request)
     {
-        $user = Auth::user();
+        try {
+            DB::beginTransaction();
 
-        /*
-        |----------------------------------------------------------------------
-        | Validate Request
-        |----------------------------------------------------------------------
-        */
-        $request->validate([
-            'sub_type'   => 'required|in:side,top',
-            'price'      => 'required|numeric|min:1',
-            'type'       => 'required|string',
-            'home_city'  => 'required',
-            'image_alt'  => 'nullable|string',
-            'image'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
-        ]);
+            $user = Auth::user();
 
-        $district = $request->district ?? 0;
-        $city     = $request->city ?? 0;
-        $subType  = $request->sub_type;
-        $categoryId = $request->category ?? 0 ;
-
-        /*
-        |----------------------------------------------------------------------
-        | 1. Check Banner Limit
-        |----------------------------------------------------------------------
-        */
-        // Base query
-        $adsQuery = Advertisment::where('district', $district)
-                    ->where('sub_type', $subType);
-
-        // ✅ If category selected, add condition
-        if (!empty($categoryId)) {
-            $adsQuery->where('category', $categoryId);
-            $adsQuery->where('city', $city);
-        }else{
-            $adsQuery->where('category', '0');
-        }
-
-        // Count ads
-        $bannerCount = $adsQuery->count();
-
-
-        if ($subType == 'side' && $bannerCount >= 10) {
-            return back()->with([
-                'notification' => [
-                    '_status'  => false,
-                    '_message' => 'Already 10 Banner Exist. maximum 10 banner allowed. contact to admin.',
-                    '_type'    => 'error'
-                ]
+            // ================= VALIDATION =================
+            $request->validate([
+                'sub_type'   => 'required|in:side,top',
+                'price'      => 'required|numeric|min:1',
+                'type'       => 'required|string',
+                'home_city'  => 'required',
+                'image'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
             ]);
-        }
 
-        if ($subType == 'top' && $bannerCount >= 5) {
-            return back()->with([
-                'notification' => [
-                    '_status'  => false,
-                    '_message' => 'Already 5 Banner Exist. maximum 5 banner allowed. contact to admin.',
-                    '_type'    => 'error'
-                ]
-            ]);
-        }
+            $district   = $request->district ?? 0;
+            $city       = $request->city ?? 0;
+            $subType    = $request->sub_type;
+            $categoryId = $request->category ?? 0;
 
-        /*
-        |----------------------------------------------------------------------
-        | 2. Dates (Formatted)
-        |----------------------------------------------------------------------
-        */
-        $startDate  = Carbon::now()->format('Y-m-d');
-        $expiryDate = Carbon::now()->addMonth()->format('Y-m-d');
+            // ================= CHECK LIMIT =================
+            $adsQuery = Advertisment::where('district', $district)
+                        ->where('sub_type', $subType);
 
-        /*
-        |----------------------------------------------------------------------
-        | 3. Razorpay Order Create
-        |----------------------------------------------------------------------
-        */
-        $key_id     = env('RAZORPAY_KEY');
-        $key_secret = env('RAZORPAY_SECRET');
-
-        $amount  = $request->price;
-        $receipt = 'banner_' . time();
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, [
-            CURLOPT_URL => "https://api.razorpay.com/v1/orders",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => json_encode([
-                "amount" => $amount * 100,
-                "currency" => "INR",
-                "receipt" => $receipt,
-                "payment_capture" => 1
-            ]),
-            CURLOPT_HTTPHEADER => [
-                "Content-Type: application/json"
-            ],
-            CURLOPT_USERPWD => $key_id . ":" . $key_secret
-        ]);
-
-        $response = curl_exec($curl);
-
-        if (curl_errno($curl)) {
-            return back()->with([
-                'notification' => [
-                    '_status'  => false,
-                    '_message' => 'Payment gateway error. Try again.',
-                    '_type'    => 'error'
-                ]
-            ]);
-        }
-
-        curl_close($curl);
-
-        $razorpayOrder = json_decode($response, true);
-
-        if (!isset($razorpayOrder['id'])) {
-            return back()->with([
-                'notification' => [
-                    '_status'  => false,
-                    '_message' => 'Unable to create order. Try again.',
-                    '_type'    => 'error'
-                ]
-            ]);
-        }
-
-        /*
-        |----------------------------------------------------------------------
-        | 4. Save Order
-        |----------------------------------------------------------------------
-        */
-        $order = Orders::create([
-            'user_id'            => $user->id,
-            'order_number'       => $receipt,
-            'razorpay_order_id'  => $razorpayOrder['id'],
-            'total_amount'       => $amount,
-            'status'             => 'pending'
-        ]);
-
-        PaymentTransactions::create([
-            'order_id'           => $order->id,
-            'razorpay_order_id'  => $razorpayOrder['id'],
-            'amount'             => $amount,
-            'status'             => 'created'
-        ]);
-
-        /*
-        |----------------------------------------------------------------------
-        | 5. Upload Image
-        |----------------------------------------------------------------------
-        */
-        $imagePath = null;
-
-        if ($request->hasFile('image')) {
-
-            $path = public_path('upload/advertisment');
-
-            if (!file_exists($path)) {
-                mkdir($path, 0777, true);
+            if (!empty($categoryId)) {
+                $adsQuery->where('category', $categoryId)->where('city', $city);
+            } else {
+                $adsQuery->where('category', 0);
             }
 
-            $file = $request->file('image');
-            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $bannerCount = $adsQuery->count();
 
-            $file->move($path, $filename);
+            if ($subType == 'side' && $bannerCount >= 10) {
+                return back()->with([
+                    'notification' => [
+                        '_status'  => false,
+                        '_message' => 'Already 10 Banner Exist. maximum 10 banner allowed. contact to admin.',
+                        '_type'    => 'error'
+                    ]
+                ]);
+            }
 
-            // Full URL
-            $imagePath = url('public/upload/advertisment/' . $filename);
+            if ($subType == 'top' && $bannerCount >= 5) {
+                return back()->with([
+                    'notification' => [
+                        '_status'  => false,
+                        '_message' => 'Already 5 Banner Exist. maximum 5 banner allowed. contact to admin.',
+                        '_type'    => 'error'
+                    ]
+                ]);
+            }
+
+
+            // ================= DATES =================
+            $startDate  = Carbon::now()->format('Y-m-d');
+            $expiryDate = Carbon::now()->addMonth()->format('Y-m-d');
+
+            // ================= PAYU PAYMENT =================
+            $key  = env('PAYU_KEY');
+            $salt = env('PAYU_SALT');
+
+            $txnid  = 'TXN_' . time();
+            $amount = $request->price;
+
+            $productInfo = "Banner Payment";
+            $firstname   = $user->name;
+            $email       = $user->email;
+            $phone       = $user->mobile ?? '9999999999';
+
+            // HASH GENERATION
+            $hashString = $key . "|" . $txnid . "|" . $amount . "|" . $productInfo . "|" . $firstname . "|" . $email . "|||||||||||" . $salt;
+            $hash = strtolower(hash('sha512', $hashString));
+
+            // ================= SAVE ORDER =================
+            $order = Orders::create([
+                'user_id'      => $user->id,
+                'order_number' => $txnid,
+                'total_amount' => $amount,
+                'status'       => 'pending'
+            ]);
+
+            PaymentTransactions::create([
+                'order_id' => $order->id,
+                'amount'   => $amount,
+                'status'   => 'created'
+            ]);
+
+            // ================= IMAGE UPLOAD =================
+            $imagePath = null;
+
+            if ($request->hasFile('image')) {
+                $path = public_path('upload/advertisment');
+
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+
+                $file = $request->file('image');
+                $filename = time().'_'.$file->getClientOriginalName();
+                $file->move($path, $filename);
+
+                $imagePath = url('public/upload/advertisment/' . $filename);
+            }
+
+            // ================= SAVE BANNER =================
+            Advertisment::create([
+                'start_date'    => $startDate,
+                'bussines_name' => $user->id,
+                'type'          => $request->type,
+                'district'      => $district,
+                'city'          => $city,
+                'category'      => $categoryId,
+                'home_city'     => $request->home_city,
+                'sub_type'      => $subType,
+                'expiry_date'   => $expiryDate,
+                'price'         => $amount,
+                'order_id'      => $order->id,
+                'image'         => $imagePath,
+                'status'        => 0,
+            ]);
+
+            DB::commit();
+
+            // ================= REDIRECT TO PAYU =================
+            return view('payment.payu_checkout', [
+                'key'         => $key,
+                'txnid'       => $txnid,
+                'amount'      => $amount,
+                'productinfo' => $productInfo,
+                'firstname'   => $firstname,
+                'email'       => $email,
+                'phone'       => $phone,
+                'hash'        => $hash,
+                'action'      => env('PAYU_BASE_URL') . '/_payment'
+            ]);
+
+        } catch (\Exception $e) {
+            dd($e);
+            DB::rollBack();
+
+            // Log error for debugging
+            Log::error('Banner Store Error: '.$e->getMessage(), [
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ]);
+
+            return back()->with('error', 'Something went wrong! Please try again.');
         }
-
-        /*
-        |----------------------------------------------------------------------
-        | 6. Save Banner
-        |----------------------------------------------------------------------
-        */
-        Advertisment::create([
-            'start_date'    => $startDate,
-            'bussines_name' => $user->id,
-            'type'          => $request->type,
-            'district'      => $district,
-            'city'          => $city,
-            'category'      => $request->category ?? 0,
-            'home_city'     => $request->home_city,
-            'image_alt'     => $request->image_alt,
-            'sub_type'      => $subType,
-            'expiry_date'   => $expiryDate,
-            'price'         => $amount,
-            'order_id'      => $order->id,
-            'image'         => $imagePath,
-            'status'        => '0',
-            'created_at'    => now(),
-            'updated_at'    => now(),
-            'order_id'      => $order->id
-        ]);
-
-        /*
-        |----------------------------------------------------------------------
-        | 7. Redirect to Payment Page
-        |----------------------------------------------------------------------
-        */
-        return view('payment.checkout', [
-            'order_id'     => $razorpayOrder['id'],
-            'amount'       => $amount,
-            'razorpay_key' => $key_id
-        ]);
     }
 
 
@@ -1022,5 +1097,56 @@ class ProfileController extends Controller
             'orders' => $order
         ]);
     }
+
+    public function success(Request $request)
+    {
+        $order = Orders::where('order_number', $request->txnid)->first();
+
+        if ($order) {
+            Auth::loginUsingId($order->user_id);
+
+            $order->update(['status' => 'paid']);
+
+            PaymentTransactions::where('order_id', $order->id)->update([
+                'status' => 'captured',
+                'gateway_response' => json_encode($request->all())
+            ]);
+
+            $firstPart = explode('_', (string) $order->order_number)[0];
+
+            if ($firstPart === 'listing') {
+                $user = User::find($order->user_id);
+                if ($user) {
+                    $user->update(['vendor_type' => 'paid']);
+                }
+
+                PaidListing::where('order_id', $order->id)->update([
+                    'status' => '1',
+                    'paid_type' => 'paid'
+                ]);
+            } else {
+                Advertisment::where('order_id', $order->id)->update(['status' => '1']);
+            }
+        }
+
+        return redirect('/')->with('success', 'Payment Successful');
+    }
+
+    public function failed(Request $request)
+    {
+        $order = Orders::where('order_number', $request->txnid)->first();
+
+        if ($order) {
+            $order->update(['status' => 'failed']);
+
+            PaymentTransactions::where('order_id', $order->id)->update([
+                'status' => 'failed',
+                'gateway_response' => json_encode($request->all())
+            ]);
+        }
+
+        return redirect('/')->with('error', 'Payment Failed');
+    }
     
 }
+
