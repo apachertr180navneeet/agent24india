@@ -374,6 +374,229 @@
         font-size: 7px;
     }
 }
+
+/* ================= UNIFIED UI (MATCH INDEX) ================= */
+.location-selector-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.location-selector-row > div {
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 10px;
+}
+
+.location-selector-row > .location-col-half,
+.location-selector-row > .location-col-full {
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 10px;
+}
+
+.search-form .search-input input.form-control,
+.search-form .search-input select.form-control {
+    width: 100%;
+    height: 50px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    padding: 0 15px;
+    font-size: 14px;
+}
+
+#location_search.form-control {
+    border-color: #aaaaaa;
+}
+
+.select2-container {
+    width: 100% !important;
+}
+
+.select2-selection--single {
+    height: 50px !important;
+    padding: 0 12px !important;
+    border-radius: 6px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.select2-selection__rendered {
+    line-height: 48px !important;
+    padding-left: 0 !important;
+    padding-right: 24px !important;
+}
+
+.select2-selection__arrow {
+    height: 48px !important;
+}
+
+.search-form .search-input .select2-container {
+    width: 100% !important;
+}
+
+.search-form .search-input .select2-container .select2-selection--single {
+    width: 100% !important;
+    height: 50px !important;
+    padding: 0 12px !important;
+    border-radius: 6px !important;
+    border: 1px solid #ddd !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.search-form .search-input .select2-container .select2-selection__rendered {
+    line-height: 48px !important;
+    padding-left: 0 !important;
+    padding-right: 24px !important;
+}
+
+.search-form .search-input .select2-container .select2-selection__arrow {
+    height: 48px !important;
+}
+
+.categories-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 15px;
+}
+
+.category-card img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+@media (min-width: 992px) {
+    .location-selector-row {
+        flex-wrap: nowrap;
+    }
+
+    .location-selector-row > .location-col-half,
+    .location-selector-row > .location-col-full {
+        width: 33.333333%;
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+}
+
+@media (max-width: 992px) {
+    .categories-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .location-selector-row {
+        margin-left: -4px;
+        margin-right: -4px;
+    }
+
+    .location-selector-row > div {
+        padding-left: 4px;
+        padding-right: 4px;
+        margin-bottom: 8px;
+    }
+
+    .location-selector-row > .location-col-half,
+    .location-selector-row > .location-col-full {
+        padding-left: 4px;
+        padding-right: 4px;
+        margin-bottom: 8px;
+    }
+
+    .location-col-half {
+        width: 50%;
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    .location-col-full {
+        width: 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .search-form .search-input input.form-control,
+    .search-form .search-input select.form-control {
+        height: 40px;
+        font-size: 12px;
+        padding: 0 8px;
+    }
+
+    .select2-selection--single {
+        height: 40px !important;
+        padding: 0 8px !important;
+    }
+
+    .select2-selection__rendered {
+        line-height: 38px !important;
+        padding-right: 22px !important;
+    }
+
+    .select2-selection__arrow {
+        height: 38px !important;
+    }
+
+    .search-form .search-input .select2-container .select2-selection--single {
+        height: 40px !important;
+        padding: 0 8px !important;
+    }
+
+    .search-form .search-input .select2-container .select2-selection__rendered {
+        line-height: 38px !important;
+        padding-right: 22px !important;
+    }
+
+    .search-form .search-input .select2-container .select2-selection__arrow {
+        height: 38px !important;
+    }
+
+    .categories-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .category-card {
+        padding: 10px 5px;
+    }
+
+    .category-card img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .category-card span {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .location-selector-row {
+        margin-left: -3px;
+        margin-right: -3px;
+    }
+
+    .location-selector-row > div {
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+
+    .location-selector-row > .location-col-half,
+    .location-selector-row > .location-col-full {
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+
+    .categories-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .category-card span {
+        font-size: 12px;
+    }
+}
 </style>
 @endpush
  @php
@@ -386,8 +609,8 @@
 <!-- Location Selector -->
 <section class="container">
     <div class="search-form">
-        <div class="row location-selector-row">
-            <div class="col-lg-6 p-0">
+        <div class="row location-selector-row mt-2">
+            <div class="col-lg-4 col-md-4 col-6 location-col-half">
 
                 <div class="search-input position-relative">
                     <label>
@@ -418,12 +641,25 @@
                 </div>
 
             </div>
-            <div class="col-lg-6 p-0">
+            <div class="col-lg-4 col-md-4 col-6 location-col-half">
                 <div class="search-input">
                     <label for="city_search">
                     </label>
                     <select id="city_search" class="form-control">
                         <option value="">Search city</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-12 location-col-full">
+                <div class="search-input">
+                    <label for="subcategory"></label>
+                    <select id="subcategory" class="form-control">
+                        <option value="">Select Sub Category</option>
+                        @foreach(($subCategories ?? []) as $sub)
+                            <option value="{{ $sub->id }}" data-parent="{{ $sub->parent_id }}">
+                                {{ $sub->name }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -659,12 +895,15 @@
         var selectedDistrictId = "{{ $location ?? '' }}";
         var selectedCityId = "{{ request()->query('city', '') }}";
         var pendingCategoryId = '';
+        var pendingSubCategoryId = '';
         var listUrlTemplate = "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
         var locationCategoryUrlTemplate = "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION_ID_PLACEHOLDER', 'category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
+        var locationSubCategoryUrlTemplate = "{{ route('front.vendorlist.location.subcategory', ['location' => 'LOCATION_ID', 'subcategory' => 'SUBCATEGORY_ID']) }}";
         var cityApiTemplate = "{{ route('get.cities', ['district' => 'DISTRICT_ID_PLACEHOLDER']) }}";
         var currentCategoryId = "{{ request()->route('category') ?? '' }}";
         var $citySearch = $('#city_search');
         var $categorySearch = $('#category');
+        var $subcategory = $('#subcategory');
         var $headerDistrict = $('#header_district_id');
         var $headerCity = $('#header_city_id');
         var $headerContinue = $('#goToListingByLocation');
@@ -679,6 +918,32 @@
             allowClear: false,
             width: '100%'
         });
+        $subcategory.select2({
+            placeholder: 'Select Sub Category',
+            allowClear: true,
+            width: '100%'
+        });
+
+        function getStoredSelection() {
+            return {
+                districtId: sessionStorage.getItem('selectedDistrictId') || '',
+                districtName: sessionStorage.getItem('selectedDistrictName') || '',
+                cityId: sessionStorage.getItem('selectedCityId') || ''
+            };
+        }
+
+        function persistSelection(districtId, districtName, cityId) {
+            if (districtId) {
+                sessionStorage.setItem('selectedDistrictId', String(districtId));
+                sessionStorage.setItem('selectedDistrictName', districtName || '');
+            }
+
+            if (cityId) {
+                sessionStorage.setItem('selectedCityId', String(cityId));
+            } else {
+                sessionStorage.removeItem('selectedCityId');
+            }
+        }
 
         function resetCityDropdown() {
             $citySearch.html('<option value="">Select city</option><option value="all">All City</option>').trigger('change.select2');
@@ -719,6 +984,14 @@
             $headerCity.html('<option value="">Choose city</option>');
         }
 
+        function openDistrictCityModal() {
+            if ($('#districtCityModal').length) {
+                $('#districtCityModal').modal('show');
+            } else {
+                alert('Please select district first');
+            }
+        }
+
         function loadHeaderCitiesByDistrict(districtId, preselectedCity) {
             resetHeaderCityDropdown();
             if (!districtId) {
@@ -751,6 +1024,7 @@
             selectedDistrictId = String($item.data('id'));
             selectedCityId = '';
             $('#location_id').val(selectedDistrictId);
+            persistSelection(selectedDistrictId, $item.text().trim(), '');
             loadCitiesByDistrict(selectedDistrictId, '');
             $('#searchResults').hide();
         }
@@ -796,6 +1070,8 @@
                 return;
             }
 
+            persistSelection(selectedDistrictId, $('#location_search').val(), cityId);
+
             var redirectUrl = currentCategoryId
                 ? locationCategoryUrlTemplate
                     .replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId)
@@ -837,7 +1113,13 @@
                 ? locationCategoryUrlTemplate
                     .replace('LOCATION_ID_PLACEHOLDER', districtId)
                     .replace('CATEGORY_ID_PLACEHOLDER', pendingCategoryId)
-                : listUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', districtId);
+                : (
+                    pendingSubCategoryId
+                        ? locationSubCategoryUrlTemplate
+                            .replace('LOCATION_ID', districtId)
+                            .replace('SUBCATEGORY_ID', pendingSubCategoryId)
+                        : listUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', districtId)
+                );
 
             if (cityId) {
                 redirectUrl += '?city=' + encodeURIComponent(cityId);
@@ -872,10 +1154,38 @@
 
             $headerDistrict.val('');
             resetHeaderCityDropdown();
-            $('#districtCityModal').modal('show');
+            openDistrictCityModal();
+        });
+
+        $subcategory.on('change', function () {
+            var subcategoryId = $(this).val();
+            if (!subcategoryId) {
+                return;
+            }
+
+            var stored = getStoredSelection();
+            var activeDistrictId = selectedDistrictId || stored.districtId || '';
+            var activeCityId = selectedCityId || stored.cityId || '';
+
+            if (activeDistrictId) {
+                var redirectUrl = locationSubCategoryUrlTemplate
+                    .replace('LOCATION_ID', activeDistrictId)
+                    .replace('SUBCATEGORY_ID', subcategoryId);
+
+                if (activeCityId) {
+                    redirectUrl += '?city=' + encodeURIComponent(activeCityId);
+                }
+
+                window.location.href = redirectUrl;
+                return;
+            }
+
+            pendingSubCategoryId = subcategoryId;
+            openDistrictCityModal();
         });
 
         if (selectedDistrictId) {
+            persistSelection(selectedDistrictId, $('#location_search').val(), selectedCityId);
             loadCitiesByDistrict(selectedDistrictId, selectedCityId);
         } else {
             resetCityDropdown();
@@ -883,12 +1193,17 @@
 
         $('.js-open-district-city-popup').on('click', function () {
             pendingCategoryId = '';
+            pendingSubCategoryId = '';
         });
 
         $('#districtCityModal').on('hidden.bs.modal', function () {
             if (pendingCategoryId && !$headerDistrict.val()) {
                 pendingCategoryId = '';
                 $categorySearch.val('none').trigger('change.select2');
+            }
+            if (pendingSubCategoryId && !$headerDistrict.val()) {
+                pendingSubCategoryId = '';
+                $subcategory.val('').trigger('change.select2');
             }
         });
     });

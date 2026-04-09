@@ -168,6 +168,10 @@ class HomeController extends Controller
     public function vendorlist(){
         // Send view data
         $this->viewData['pageTitle'] = 'Vendor List';
+        $subCategories = Category::where('status', 1)
+            ->whereNotNull('parent_id')
+            ->orderBy('name', 'asc')
+            ->get();
 
         $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->paginate(12);
 
@@ -200,6 +204,7 @@ class HomeController extends Controller
         $this->viewData['sideadvertisments'] = $sideadvertisments;
         $this->viewData['districtList'] = $districtList;
         $this->viewData['selectedDistrict'] = $selectedDistrict;
+        $this->viewData['subCategories'] = $subCategories;
         
         return view("front.vendorlist")->with($this->viewData);
     }
@@ -309,6 +314,10 @@ class HomeController extends Controller
     public function vendorlistByCategory($category){
         // Send view data
         $this->viewData['pageTitle'] = 'Vendor List';
+        $subCategories = Category::where('status', 1)
+            ->whereNotNull('parent_id')
+            ->orderBy('name', 'asc')
+            ->get();
 
         $vendoruser = User::where('status', 1)->where('is_approved', 1)->where('business_category_id', $category)->paginate(12);
         //$categories = Category::where('status', 1)->whereNull('parent_id')->get();
@@ -343,6 +352,7 @@ class HomeController extends Controller
         $this->viewData['topadvertisments'] = $topadvertisments;
         $this->viewData['sideadvertisments'] = $sideadvertisments;
         $this->viewData['selectedDistrict'] = $selectedDistrict;
+        $this->viewData['subCategories'] = $subCategories;
 
 
         
@@ -352,6 +362,10 @@ class HomeController extends Controller
     public function vendorlistByLocationAndCategory(Request $request, $location, $categorys)
     {
         $this->viewData['pageTitle'] = 'Vendor List';
+        $subCategories = Category::where('status', 1)
+            ->whereNotNull('parent_id')
+            ->orderBy('name', 'asc')
+            ->get();
 
         $selectedCityId     = $request->query('city');
         $vendorType         = $request->query('vendor_type');
@@ -453,6 +467,7 @@ class HomeController extends Controller
             'selectedDistrict' => $selectedDistrict,
             'selectedCityId'   => $selectedCityId,
             'selectedCategory' => $categorys,
+            'subCategories'    => $subCategories,
         ]);
     }
 
@@ -460,9 +475,13 @@ class HomeController extends Controller
     public function vendorlistByLocationAndsubCategory(Request $request, $location, $subcategory)
     {
 
-        $subCategories = Category::where('id', $subcategory)->first();
+        $selectedSubCategory = Category::where('id', $subcategory)->first();
+        $allSubCategories = Category::where('status', 1)
+            ->whereNotNull('parent_id')
+            ->orderBy('name', 'asc')
+            ->get();
 
-        $category = $subCategories->parent_id;
+        $category = $selectedSubCategory->parent_id;
 
         $this->viewData['pageTitle'] = 'Vendor List';
 
@@ -567,6 +586,7 @@ class HomeController extends Controller
             'selectedDistrict' => $selectedDistrict,
             'selectedCityId'   => $selectedCityId,
             'selectedCategory' => $category,
+            'subCategories'    => $allSubCategories,
         ]);
     }
 

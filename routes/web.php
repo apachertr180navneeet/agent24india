@@ -300,6 +300,8 @@ Route::get('/add-banner', [Front\ProfileController::class, "addbanner"])->name('
 Route::post('/add-banner', [Front\ProfileController::class, "storebanner"])->name('front.addbanner.store');
 Route::get('/payment-success', [Front\ProfileController::class,'paymentSuccess'])->name('payment.success');
 Route::get('/payment-histroy', [Front\ProfileController::class,'paymenthistroy'])->name('payment.histroy');
+Route::post('/payu/success', [Front\ProfileController::class, 'success'])->name('payu.success');
+Route::post('/payu/failure', [Front\ProfileController::class, 'failure'])->name('payu.failure');
 
 
 

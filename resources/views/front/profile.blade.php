@@ -114,10 +114,10 @@
                             <label>Business Name *</label>
                             <input type="text" id="business_name" name="business_name" placeholder="Business Name" value="{{$user->business_name}}">
                         </div>
-                        <div class="form-group">
+                        {{--  <div class="form-group">
                             <label>Pick Your Location *</label>
                             <input type="text" placeholder="Pick Your Location" name="pick_your_location" id="pick_your_location" value="{{$user->pick_your_location}}">
-                        </div>
+                        </div>  --}}
                     </div>
                     <div class="form-group full">
                         <label>Address *</label>

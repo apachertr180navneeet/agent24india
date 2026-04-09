@@ -327,6 +327,164 @@
         }
 
     }
+
+    /* ================= UNIFIED UI (MATCH INDEX) ================= */
+    .location-selector-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: -5px;
+        margin-right: -5px;
+    }
+
+    .location-selector-row > div {
+        padding-left: 5px;
+        padding-right: 5px;
+        margin-bottom: 10px;
+    }
+
+    .search-form .search-input input.form-control,
+    .search-form .search-input select.form-control {
+        width: 100%;
+        height: 50px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        padding: 0 15px;
+        font-size: 14px;
+    }
+
+    #location_search.form-control {
+        border-color: #aaaaaa;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    .select2-selection--single {
+        height: 50px !important;
+        padding: 0 12px !important;
+        border-radius: 6px !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    .select2-selection__rendered {
+        line-height: 48px !important;
+        padding-left: 0 !important;
+        padding-right: 24px !important;
+    }
+
+    .select2-selection__arrow {
+        height: 48px !important;
+    }
+
+    .categories-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 15px;
+    }
+
+    .category-card img {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+    }
+
+    @media (min-width: 992px) {
+        .location-selector-row {
+            flex-wrap: nowrap;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .categories-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .location-selector-row {
+            margin-left: -4px;
+            margin-right: -4px;
+        }
+
+        .location-selector-row > div {
+            padding-left: 4px;
+            padding-right: 4px;
+            margin-bottom: 8px;
+        }
+
+        .location-col-half {
+            width: 50%;
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+
+        .location-col-full {
+            width: 100%;
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+
+        .search-form .search-input input.form-control,
+        .search-form .search-input select.form-control {
+            height: 40px;
+            font-size: 12px;
+            padding: 0 8px;
+        }
+
+        .select2-selection--single {
+            height: 40px !important;
+            padding: 0 8px !important;
+        }
+
+        .select2-selection__rendered {
+            line-height: 38px !important;
+            padding-right: 22px !important;
+        }
+
+        .select2-selection__arrow {
+            height: 38px !important;
+        }
+
+        .categories-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .category-card {
+            padding: 10px 5px;
+        }
+
+        .category-card img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .category-card span {
+            font-size: 12px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .location-selector-row {
+            margin-left: -3px;
+            margin-right: -3px;
+        }
+
+        .location-selector-row > div {
+            padding-left: 3px;
+            padding-right: 3px;
+        }
+
+        .categories-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .category-card span {
+            font-size: 12px;
+        }
+    }
 </style>
 @endpush
  @php
@@ -685,6 +843,27 @@ $(document).ready(function () {
     $categorySearch.select2({ placeholder: 'Choose Categories', width: '100%' });
     $subcategory.select2({ placeholder: 'Select Sub Category', allowClear: true, width: '100%' });
 
+    function getStoredSelection() {
+        return {
+            districtId: sessionStorage.getItem('selectedDistrictId') || '',
+            districtName: sessionStorage.getItem('selectedDistrictName') || '',
+            cityId: sessionStorage.getItem('selectedCityId') || ''
+        };
+    }
+
+    function persistSelection(districtId, districtName, cityId) {
+        if (districtId) {
+            sessionStorage.setItem('selectedDistrictId', String(districtId));
+            sessionStorage.setItem('selectedDistrictName', districtName || '');
+        }
+
+        if (cityId) {
+            sessionStorage.setItem('selectedCityId', String(cityId));
+        } else {
+            sessionStorage.removeItem('selectedCityId');
+        }
+    }
+
     /* ================= CITY ================= */
     function resetCityDropdown() {
         $citySearch.html('<option value="">Select city</option><option value="all">All City</option>').trigger('change.select2');
@@ -753,6 +932,7 @@ $(document).ready(function () {
 
         selectedDistrictId = districtId;
         selectedCityId = '';
+        persistSelection(districtId, districtName, '');
 
         loadCitiesByDistrict(districtId, '');
 
@@ -775,6 +955,8 @@ $(document).ready(function () {
         selectedCityId = cityId;
 
         if (!selectedDistrictId || !cityId) return;
+
+        persistSelection(selectedDistrictId, $('#location_search').val(), cityId);
 
         var url = currentCategoryId
             ? locationCategoryUrl
@@ -810,17 +992,21 @@ $(document).ready(function () {
         var subcategoryId = $(this).val();
         if (!subcategoryId) return;
 
-        if (!selectedDistrictId) {
+        var stored = getStoredSelection();
+        var districtId = selectedDistrictId || stored.districtId;
+        var cityId = selectedCityId || stored.cityId;
+
+        if (!districtId) {
             alert('Please select district first');
             return;
         }
 
         var url = locationSubCategoryUrl
-            .replace('LOCATION_ID', selectedDistrictId)
+            .replace('LOCATION_ID', districtId)
             .replace('SUBCATEGORY_ID', subcategoryId);
 
-        if (selectedCityId) {
-            url += '?city=' + selectedCityId;
+        if (cityId) {
+            url += '?city=' + cityId;
         }
 
         window.location.href = url;
@@ -835,6 +1021,7 @@ $(document).ready(function () {
 
     /* ================= INIT ================= */
     if (selectedDistrictId) {
+        persistSelection(selectedDistrictId, $('#location_search').val(), selectedCityId);
         loadCitiesByDistrict(selectedDistrictId, selectedCityId);
     } else {
         resetCityDropdown();
