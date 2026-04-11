@@ -161,7 +161,7 @@
             var table = $('#paymentTable').DataTable({
                 "paging": true,
                 "searching": true,
-                "ordering": true,
+                "ordering": false,
                 "info": true,
                 "pageLength": 10,
                 "lengthMenu": [10, 25, 50, 100]

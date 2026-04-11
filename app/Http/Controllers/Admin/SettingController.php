@@ -109,10 +109,8 @@ class SettingController extends Controller
 
     public function history()
     {
-        // Page Title
         $this->viewData['pageTitle'] = 'Payment History';
 
-        // Get all orders for payment history
         $orders = Orders::select(
                 'orders.*',
                 'users.name as user_name',
@@ -121,11 +119,10 @@ class SettingController extends Controller
             )
             ->join('users', 'users.id', '=', 'orders.user_id')
             ->leftJoin('payment_transactions', 'payment_transactions.order_id', '=', 'orders.id')
-            ->where('orders.status', '!=', 'pending') // ✅ added
-            ->orderBy('orders.id', 'desc')
+            ->where('orders.status', '!=', 'pending')
+            ->orderByDesc('payment_transactions.created_at') // ✅ best
             ->get();
 
-        // Send data to view
         $this->viewData['orders'] = $orders;
 
         return view("admin.settings.payment")->with($this->viewData);

@@ -50,6 +50,13 @@
         max-width: 100% !important;
     }
 
+    #subcategory + .select2,
+    #subcategory + .select2-container {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+    }
+
     .location-selector-row .search-input {
         width: 100%;
     }
@@ -115,12 +122,17 @@
     @media (max-width: 991.98px) {
         .location-selector-row {
             display: flex;
-            flex-wrap: nowrap;
+            flex-wrap: wrap;
         }
 
-        .location-selector-row > div {
+        .location-selector-row > .location-col-half {
             flex: 0 0 50%;
             max-width: 50%;
+        }
+
+        .location-selector-row > .location-col-full {
+            flex: 0 0 100%;
+            max-width: 100%;
         }
     }
 

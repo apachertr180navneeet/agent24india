@@ -248,7 +248,7 @@
                                     </option>
 
                                     <option value="side" {{ old('sub_type')=='side'?'selected':'' }}>
-                                        Side
+                                        visit card
                                     </option>
 
                                 </select>

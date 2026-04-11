@@ -918,7 +918,7 @@ class ProfileController extends Controller
             $key  = env('PAYU_KEY');
             $salt = env('PAYU_SALT');
 
-            $txnid  = 'TXN_' . time();
+            $txnid  = 'banner_' . time();
             $amount = $request->price;
 
             $productInfo = "Banner Payment";
@@ -1102,6 +1102,7 @@ class ProfileController extends Controller
     {
         $order = Orders::where('order_number', $request->txnid)->first();
 
+
         if ($order) {
             Auth::loginUsingId($order->user_id);
 
@@ -1109,7 +1110,8 @@ class ProfileController extends Controller
 
             PaymentTransactions::where('order_id', $order->id)->update([
                 'status' => 'captured',
-                'gateway_response' => json_encode($request->all())
+                'gateway_response' => json_encode($request->all()),
+                'razorpay_payment_id' => $request->bank_ref_num
             ]);
 
             $firstPart = explode('_', (string) $order->order_number)[0];
