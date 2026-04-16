@@ -1,82 +1,115 @@
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="x-ua-compatible" content="ie=edge" />
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{$siteTitle ?? ''}} | @yield('title')</title>
-        <meta name="description" content="" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="shortcut icon" type="image/x-icon" href="assets/images/logo/favicon.png" />
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="{{asset('public/front/assets/css/bootstrap.min.css')}}" />
-        <link rel="stylesheet" href="{{asset('public/front/assets/css/LineIcons.2.0.css')}}" />
-        <link rel="stylesheet" href="{{asset('public/front/assets/css/animate.css')}}" />
-        <link rel="stylesheet" href="{{asset('public/front/assets/css/tiny-slider.css')}}" />
-        <link rel="stylesheet" href="{{asset('public/front/assets/css/glightbox.min.css')}}" />
-        <link rel="stylesheet" href="{{asset('public/front/assets/css/main.css')}}" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>{{ $siteTitle ?? '' }} | @yield('title')</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/logo/favicon.png" />
 
-        <style>
-    
-            .tab-buttons .btn {
-                border-radius: 30px;
-                padding: 10px 25px;
-                font-weight: 500;
-                margin-right: 10px;
-                transition: all 0.3s;
-            }
-            .tab-buttons .btn.active {
-                background-color: #3b82f6;
-                color: white;
-            }
-            .form-container {
-                background: white;
-                padding: 25px 30px;
-                border-radius: 12px;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-                margin-top: 20px;
-            }
-            .form-container .form-label {
-                font-weight: 600;
-            }
-            .form-control:disabled {
-                background-color: #e9ecef;
-            }
-            .confirm-btn, .send-otp-btn {
-                background-color: #3b82f6;
-                color: white;
-                border-radius: 30px !important;
-                padding: 8px 20px;
-                font-weight: 500;
-                transition: all 0.3s;
-            }
-            .confirm-btn:hover, .send-otp-btn:hover {
-                background-color: #2563eb;
-                color: white;
-            }
-        </style>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('public/front/assets/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/front/assets/css/LineIcons.2.0.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/front/assets/css/animate.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/front/assets/css/tiny-slider.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/front/assets/css/glightbox.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/front/assets/css/main.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-        @stack('styles')
-        <!-- Google AdSense -->
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9918904470832571"
+    <style>
+        .tab-buttons .btn {
+            border-radius: 30px;
+            padding: 10px 25px;
+            font-weight: 500;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        .tab-buttons .btn.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .form-container {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .form-container .form-label {
+            font-weight: 600;
+        }
+
+        .form-control:disabled {
+            background-color: #e9ecef;
+        }
+
+        .confirm-btn,
+        .send-otp-btn {
+            background-color: #3b82f6;
+            color: white;
+            border-radius: 30px !important;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .confirm-btn:hover,
+        .send-otp-btn:hover {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            width: 100%;
+            padding-right: 45px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+        }
+
+        .toggle-password:hover {
+            color: #000;
+        }
+    </style>
+
+    @stack('styles')
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9918904470832571"
         crossorigin="anonymous"></script>
-    </head>
-    <body>
-        <!-- Preloader -->
-        <div class="preloader">
-            <div class="preloader-inner">
-                <div class="preloader-icon">
-                    <span></span>
-                    <span></span>
-                </div>
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-icon">
+                <span></span>
+                <span></span>
             </div>
         </div>
+    </div>
 
-        @php
+    @php
         $categoryModel = new \App\Models\Category();
         $districtModel = new \App\Models\District();
         $cityModel = new \App\Models\City();
@@ -85,16 +118,17 @@
         $districtList = $districtModel->select('id', 'name')->where('status', 1)->get();
         $cityList = $cityModel->select('id', 'name')->where('status', 1)->get();
         $stateList = $stateModel->select('id', 'name')->where('status', 1)->get();
-        @endphp
+    @endphp
 
-        <!-- Start Header Area -->
-        @include('front.layout.header')
+    <!-- Start Header Area -->
+    @include('front.layout.header')
 
-        <div class="auth-overlay" id="authOverlay">
-            <div class="auth-popup">
+    <div class="auth-overlay" id="authOverlay">
+        <div class="auth-popup">
             <span class="close-btn1">&times;</span>
             <div class="auth-header">
-                <img src="{{asset('public/front/assets/images/logo/agent-india-logo2.png')}}" alt="Logo" class="logo" />
+                <img src="{{ asset('public/front/assets/images/logo/agent-india-logo2.png') }}" alt="Logo"
+                    class="logo" />
             </div>
 
             <div class="auth-tabs">
@@ -102,135 +136,174 @@
                 <button class="tab" data-tab="signup">Sign Up</button>
             </div>
             <div class="auth-form active" id="signin">
-                <form action="{{route('front.login')}}" method="post" id="signin-form" onsubmit="return validateSignin();">
+                <form action="{{ route('front.login') }}" method="post" id="signin-form"
+                    onsubmit="return validateSignin();">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    
+
                     <input type="text" name="email" id="email" placeholder="Email or Mobile or Username" />
-                    <input type="password" name="password" id="password" placeholder="Password" />
+                    <div class="password-wrapper">
+                        <input type="password" name="password" id="signin_password" placeholder="Password" />
+                        
+                        <span class="toggle-password" toggle="#signin_password">
+                            <i class="fa-solid fa-eye"></i>
+                        </span>
+                    </div>
                     <a href="{{ route('forgotPassword') }}">Forgot your password?</a>
                     <button type="submit" id="btn-signin">Sign In</button>
                 </form>
-                
+
                 <div class="or-login">Already have an a account? </div>
-                    <button type="button" data-tab="signup" class="tab btn-secondary">
-                        Sign Up
-                    </button>
-                </div>
-                <div class="auth-form" id="signup">
-                    <form action="{{route('front.signup')}}" method="post" id="signup-form" onsubmit="return validateSignup();">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <!-- From your image -->
-                        <div class="row d-flex">
-                            <div class="col-lg-6">
-                                <select name="business_category_id" id="business_category_id">
-                                    <option value="">Select Business Category</option>
-                                    @foreach($businessCategory as $key => $value)
-                                    <option value="{{$value->id}}">{{$value->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-lg-6">
-                                <input type="text" name="business_name" id="business_name" placeholder="Business Name">
-                            </div>
+                <button type="button" data-tab="signup" class="tab btn-secondary">
+                    Sign Up
+                </button>
+            </div>
+            <div class="auth-form" id="signup">
+                <form action="{{ route('front.signup') }}" method="post" id="signup-form"
+                    onsubmit="return validateSignup();">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <!-- From your image -->
+                    <div class="row d-flex">
+                        <div class="col-lg-6">
+                            <select name="business_category_id" id="business_category_id">
+                                <option value="">Select Business Category</option>
+                                @foreach ($businessCategory as $key => $value)
+                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="row d-flex">
-                            <div class="col-lg-6">
-                                <input type="email" name="email" id="email" placeholder="Email">
-                            </div>
-                            <div class="col-lg-6">
-                                <input type="number" name="contact_number" id="contact_number" placeholder="Contact Number">
-                            </div>
+                        <div class="col-lg-6">
+                            <input type="text" name="business_name" id="business_name" placeholder="Business Name">
                         </div>
-                        <input type="text" name="business_address" id="business_address" placeholder="Business Address">
-                        <div class="row d-flex">
-                            <div class="col-lg-6">
-                                <select name="state_id" id="state_id">
-                                    <option value="">Select State</option>
-                                    @foreach($stateList as $value)
-                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-lg-6">
-                                <select name="district_id" id="district_id">
-                                    <option value="">Select District</option>
-                                </select>
-                            </div>
+                    </div>
+                    <div class="row d-flex">
+                        <div class="col-lg-6">
+                            <input type="email" name="email" id="email" placeholder="Email">
                         </div>
-                        <div class="row d-flex">
-                            <div class="col-lg-6">
-                                <select name="city_id" id="city_id">
-                                    <option value="">Select City</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-6">
-                                <input type="text" name="pincode" id="pincode" placeholder="Pin Code">
-                            </div>
+                        <div class="col-lg-6">
+                            <input type="number" name="contact_number" id="contact_number"
+                                placeholder="Contact Number">
                         </div>
-                        <!-- <button type="submit" class="my-3 w-50">Email Verify OTP</button> -->
-                        <div class="row d-flex">
-                            <!-- <div class="col-lg-6">
+                    </div>
+                    <input type="text" name="business_address" id="business_address"
+                        placeholder="Business Address">
+                    <div class="row d-flex">
+                        <div class="col-lg-6">
+                            <select name="state_id" id="state_id">
+                                <option value="">Select State</option>
+                                @foreach ($stateList as $value)
+                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-lg-6">
+                            <select name="district_id" id="district_id">
+                                <option value="">Select District</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row d-flex">
+                        <div class="col-lg-6">
+                            <select name="city_id" id="city_id">
+                                <option value="">Select City</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" name="pincode" id="pincode" placeholder="Pin Code">
+                        </div>
+                    </div>
+                    <!-- <button type="submit" class="my-3 w-50">Email Verify OTP</button> -->
+                    <div class="row d-flex">
+                        <!-- <div class="col-lg-6">
                                 <input type="text" name="otp" placeholder="OTP">
                             </div> -->
-                            <div class="col-lg-6">
-                                <input type="password" name="password" id="password" placeholder="Password">
-                            </div>
-                            <div class="col-lg-6">
-                                <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password">
+                        <div class="col-lg-6">
+                            <div class="password-wrapper">
+                                <input type="password" name="password" id="signup_password" placeholder="Password">
+
+                                <span class="toggle-password" toggle="#signup_password">
+                                    <i class="fa-solid fa-eye"></i>
+                                </span>
                             </div>
                         </div>
-                        <label class="custom-checkbox">
-                            <input type="checkbox" id="terms_agree" name="terms_agree" required>
-                            I Agree to 
-                            <a href="{{ route('front.termsAndConditions') }}" target="_blank" style="padding-bottom: 0px;">Terms and Conditions</a>
-                        </label>
-                        <button type="submit" id="btn-submit-signup">Submit</button>
-                    </form>
-                </div>
+                        <div class="col-lg-6">
+                            <div class="password-wrapper">
+                                <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password">
+
+                                <span class="toggle-password" toggle="#confirm_password">
+                                    <i class="fa-solid fa-eye"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="terms_agree" name="terms_agree" required>
+                        I Agree to
+                        <a href="{{ route('front.termsAndConditions') }}" target="_blank"
+                            style="padding-bottom: 0px;">Terms and Conditions</a>
+                    </label>
+                    <button type="submit" id="btn-submit-signup">Submit</button>
+                </form>
             </div>
         </div>
+    </div>
 
-        @if(session()->has('signin_status'))
-            @if(session('signin_status') === true)
-                <script>
-                    alert('Login successful');
-                </script>
-            @elseif(session('signin_status') === false)
-                <script>
-                    alert('Invalid email or password');
-                </script>
-            @endif
+    @if (session()->has('signin_status'))
+        @if (session('signin_status') === true)
+            <script>
+                alert('Login successful');
+            </script>
+        @elseif(session('signin_status') === false)
+            <script>
+                alert('Invalid email or password');
+            </script>
         @endif
+    @endif
 
-        @if(session('signup_status'))
-            @if(session('signup_status') == true)
-                <script>
+    @if (session('signup_status'))
+        @if (session('signup_status') == true)
+            <script>
                 alert('Signup Successfully.');
-                </script>
-            @else
-                <script>
+            </script>
+        @else
+            <script>
                 alert('Signup Failed.');
-                </script>
-            @endif
+            </script>
         @endif
+    @endif
 
-        @if(session('profile_update_status'))
-            @if(session('profile_update_status') == true)
-                <script>
+    @if (session('profile_update_status'))
+        @if (session('profile_update_status') == true)
+            <script>
                 alert('Profile updated successfully.');
-                </script>
-            @else
-                <script>
+            </script>
+        @else
+            <script>
                 alert('Profile cannot be updated.');
-                </script>
-            @endif
+            </script>
         @endif
+    @endif
 
-        @yield('content')
+    @yield('content')
 
-        <!-- Start Footer Area -->
-        @include('front.layout.footer')
+    <!-- Start Footer Area -->
+    @include('front.layout.footer')
+    <script>
+        $(document).on('click', '.toggle-password', function() {
 
-        @stack('scripts')
-    </body>
+            let input = $($(this).attr("toggle"));
+            let icon = $(this).find("i");
+
+            if (input.attr("type") === "password") {
+                input.attr("type", "text");
+                icon.removeClass("fa-eye").addClass("fa-eye-slash");
+            } else {
+                input.attr("type", "password");
+                icon.removeClass("fa-eye-slash").addClass("fa-eye");
+            }
+
+        });
+    </script>
+    @stack('scripts')
+</body>
+
 </html>
