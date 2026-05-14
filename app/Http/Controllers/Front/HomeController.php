@@ -577,16 +577,17 @@ class HomeController extends Controller
         |--------------------------------------------------------------------------
         */
         return view("front.vendorlist", [
-            'pageTitle'        => 'Vendor List',
-            'vendoruser'       => $vendoruser,
-            'category'         => $categories,
-            'topadvertisments' => $topadvertisments,
-            'sideadvertisments'=> $sideadvertisments,
-            'location'         => $location,
-            'selectedDistrict' => $selectedDistrict,
-            'selectedCityId'   => $selectedCityId,
-            'selectedCategory' => $category,
-            'subCategories'    => $allSubCategories,
+            'pageTitle'          => 'Vendor List',
+            'vendoruser'         => $vendoruser,
+            'category'           => $categories,
+            'topadvertisments'   => $topadvertisments,
+            'sideadvertisments'  => $sideadvertisments,
+            'location'           => $location,
+            'selectedDistrict'   => $selectedDistrict,
+            'selectedCityId'     => $selectedCityId,
+            'selectedCategory'   => $category,
+            'selectedSubCategory'=> $subcategory,
+            'subCategories'      => $allSubCategories,
         ]);
     }
 
@@ -769,23 +770,16 @@ class HomeController extends Controller
         $vendoruser = User::select(
                 'users.*',
                 'bc.name as business_category_name',
-                DB::raw('GROUP_CONCAT(bsc.name ORDER BY bsc.name SEPARATOR ", ") as business_sub_category_names'),
+                DB::raw('(SELECT GROUP_CONCAT(c.name ORDER BY c.name SEPARATOR ", ") FROM categories c WHERE FIND_IN_SET(c.id, users.business_sub_category_id) > 0) as business_sub_category_names'),
                 'states.name as state_name',
                 'districts.name as district_name',
                 'cities.name as city_name'
             )
             ->leftJoin('categories as bc', 'bc.id', '=', 'users.business_category_id')
-            ->leftJoin(
-                'categories as bsc',
-                DB::raw('FIND_IN_SET(bsc.id, users.business_sub_category_id)'),
-                '>',
-                DB::raw('0')
-            )
             ->leftJoin('states', 'states.id', '=', 'users.state_id')
             ->leftJoin('districts', 'districts.id', '=', 'users.district_id')
             ->leftJoin('cities', 'cities.id', '=', 'users.city_id')
             ->where('users.id', $id)
-            ->groupBy('users.id')
             ->first();
 
         $category = Category::where('status', 1)

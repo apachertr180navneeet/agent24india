@@ -906,6 +906,7 @@
     $(document).ready(function () {
         var selectedDistrictId = "{{ $location ?? '' }}";
         var selectedCityId = "{{ request()->query('city', '') }}";
+        var selectedSubCategory = "{{ $selectedSubCategory ?? '' }}";
         var pendingCategoryId = '';
         var pendingSubCategoryId = '';
         var listUrlTemplate = "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
@@ -932,7 +933,7 @@
         });
         $subcategory.select2({
             placeholder: 'Select Sub Category',
-            allowClear: true,
+            allowClear: false,
             width: '100%'
         });
 
@@ -1172,8 +1173,11 @@
         $subcategory.on('change', function () {
             var subcategoryId = $(this).val();
             if (!subcategoryId) {
+                localStorage.removeItem('selectedSubCategory');
                 return;
             }
+
+            localStorage.setItem('selectedSubCategory', subcategoryId);
 
             var stored = getStoredSelection();
             var activeDistrictId = selectedDistrictId || stored.districtId || '';
@@ -1201,6 +1205,16 @@
             loadCitiesByDistrict(selectedDistrictId, selectedCityId);
         } else {
             resetCityDropdown();
+        }
+
+        if (selectedSubCategory) {
+            localStorage.setItem('selectedSubCategory', selectedSubCategory);
+            $subcategory.val(selectedSubCategory).trigger('change.select2');
+        } else {
+            var storedSubCategory = localStorage.getItem('selectedSubCategory');
+            if (storedSubCategory) {
+                $subcategory.val(storedSubCategory).trigger('change.select2');
+            }
         }
 
         $('.js-open-district-city-popup').on('click', function () {

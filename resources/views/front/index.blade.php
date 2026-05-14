@@ -627,7 +627,7 @@
             /* ================= SELECT2 ================= */
             $citySearch.select2({ placeholder: 'Select city', allowClear: true, width: '100%' });
             $categorySearch.select2({ placeholder: 'Choose Categories', width: '100%' });
-            $subcategory.select2({ placeholder: 'Select Sub Category', allowClear: true, width: '100%' });
+            $subcategory.select2({ placeholder: 'Select Sub Category', allowClear: false, width: '100%' });
 
             $categoryDistrict.select2({
                 placeholder: 'Choose district',
@@ -732,8 +732,12 @@
             $subcategory.on('change', function () {
 
                 var subcategoryId = $(this).val();
-                if (!subcategoryId) return;
+                if (!subcategoryId) {
+                    localStorage.removeItem('selectedSubCategory');
+                    return;
+                }
 
+                localStorage.setItem('selectedSubCategory', subcategoryId);
                 selectedSubCategoryId = subcategoryId;
 
                 var stored = getStoredSelection();
@@ -803,6 +807,12 @@
             /* ================= INIT ================= */
             resetCityDropdown();
             initializeFromStoredSelection();
+
+            var storedSubCategory = localStorage.getItem('selectedSubCategory');
+            if (storedSubCategory) {
+                $subcategory.val(storedSubCategory).trigger('change.select2');
+                selectedSubCategoryId = storedSubCategory;
+            }
 
             $('#location_search').on('keyup', function () {
 

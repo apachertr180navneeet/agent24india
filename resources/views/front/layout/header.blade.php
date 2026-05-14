@@ -154,16 +154,24 @@
             var path = (window.location.pathname || '').replace(/\/+$/, '');
             var parts = path.split('/').filter(Boolean);
             var vendorlistIndex = parts.indexOf('vendorlist');
+            var subcatIndex = parts.indexOf('vendorlist-subcategory');
             var districtId = '';
+            var subCategoryId = '';
             var cityId = new URLSearchParams(window.location.search).get('city') || '';
 
             if (vendorlistIndex !== -1 && parts.length > (vendorlistIndex + 1)) {
                 districtId = String(parts[vendorlistIndex + 1]);
             }
 
+            if (subcatIndex !== -1 && parts.length > (subcatIndex + 2)) {
+                districtId = String(parts[subcatIndex + 1]);
+                subCategoryId = String(parts[subcatIndex + 2]);
+            }
+
             return {
                 districtId: districtId,
-                cityId: cityId
+                cityId: cityId,
+                subCategoryId: subCategoryId
             };
         }
 
@@ -182,12 +190,19 @@
             } else {
                 localStorage.removeItem('selectedCityId');
             }
+
+            if (selection.subCategoryId) {
+                localStorage.setItem('selectedSubCategory', String(selection.subCategoryId));
+            } else {
+                localStorage.removeItem('selectedSubCategory');
+            }
         }
 
         function getSelectionFromStorage() {
             return {
                 districtId: localStorage.getItem('selectedDistrictId') || sessionStorage.getItem('selectedDistrictId') || '',
-                cityId: localStorage.getItem('selectedCityId') || sessionStorage.getItem('selectedCityId') || ''
+                cityId: localStorage.getItem('selectedCityId') || sessionStorage.getItem('selectedCityId') || '',
+                subCategoryId: localStorage.getItem('selectedSubCategory') || ''
             };
         }
 

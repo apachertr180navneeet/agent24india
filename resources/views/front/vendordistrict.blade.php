@@ -841,7 +841,7 @@ $(document).ready(function () {
     /* ================= SELECT2 ================= */
     $citySearch.select2({ placeholder: 'Select city', width: '100%' });
     $categorySearch.select2({ placeholder: 'Choose Categories', width: '100%' });
-    $subcategory.select2({ placeholder: 'Select Sub Category', allowClear: true, width: '100%' });
+    $subcategory.select2({ placeholder: 'Select Sub Category', allowClear: false, width: '100%' });
 
     function getStoredSelection() {
         return {
@@ -990,7 +990,12 @@ $(document).ready(function () {
     $subcategory.on('change', function () {
 
         var subcategoryId = $(this).val();
-        if (!subcategoryId) return;
+        if (!subcategoryId) {
+            localStorage.removeItem('selectedSubCategory');
+            return;
+        }
+
+        localStorage.setItem('selectedSubCategory', subcategoryId);
 
         var stored = getStoredSelection();
         var districtId = selectedDistrictId || stored.districtId;
@@ -1025,6 +1030,11 @@ $(document).ready(function () {
         loadCitiesByDistrict(selectedDistrictId, selectedCityId);
     } else {
         resetCityDropdown();
+    }
+
+    var storedSubCategory = localStorage.getItem('selectedSubCategory');
+    if (storedSubCategory) {
+        $subcategory.val(storedSubCategory).trigger('change.select2');
     }
 
 });
