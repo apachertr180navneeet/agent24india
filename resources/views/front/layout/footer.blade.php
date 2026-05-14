@@ -124,7 +124,7 @@
     function validateSignin()
     {
         var loginInput = $("#signin-form").find('#email').val();
-        var password = $("#signin-form").find('#password').val();
+        var password = $("#signin-form").find('#signin_password').val();
         // var validEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
         if(!loginInput){
@@ -156,7 +156,7 @@
         let city = form.find('#city_id').val();
         let state = form.find('#state_id').val();
         let pincode = form.find('#pincode').val().trim();
-        let password = form.find('#password').val();
+        let password = form.find('#signup_password').val();
         let confirmPassword = form.find('#confirm_password').val();
 
         let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
