@@ -460,8 +460,8 @@ class ProfileController extends Controller
         ]);
 
         $email = $request->email;
-        $otp = rand(100000, 999999);
-        
+        //$otp = rand(100000, 999999);
+        $otp = 1111;
         Session::put('email_otp', $otp);
         Session::put('email_otp_email', $email);
         Session::put('email_otp_expire', Carbon::now()->addMinutes(5));
@@ -525,7 +525,8 @@ class ProfileController extends Controller
             ]);
         }
 
-        $otp = rand(100000, 999999);
+        //$otp = rand(100000, 999999);
+        $otp = 1111;
 
         Session::put('email_otp', $otp);
         Session::put('email_otp_expire', Carbon::now()->addMinutes(5));

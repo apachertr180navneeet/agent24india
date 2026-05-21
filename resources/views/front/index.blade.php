@@ -728,6 +728,31 @@
                 }
             });
 
+            $(document).on('click', '.js-category-location', function(e) {
+                e.preventDefault();
+                var categoryId = $(this).data('category-id');
+                if (!categoryId) return;
+
+                selectedCategoryId = categoryId;
+                selectedSubCategoryId = ''; // Reset subcategory since we clicked a main category
+
+                var stored = getStoredSelection();
+                var districtId = selectedDistrictId || stored.districtId;
+                var cityId = selectedCityId || stored.cityId;
+
+                if (districtId) {
+                    var url = locationCategoryUrlTemplate
+                        .replace('LOCATION_ID_PLACEHOLDER', districtId)
+                        .replace('CATEGORY_ID_PLACEHOLDER', categoryId);
+
+                    if (cityId) url += '?city=' + cityId;
+
+                    window.location.href = url;
+                } else {
+                    $('#categoryDistrictModal').modal('show');
+                }
+            });
+
             /* ================= SUBCATEGORY (FIXED) ================= */
             $subcategory.on('change', function () {
 
@@ -797,6 +822,15 @@
                     var url = locationSubCategoryUrlTemplate
                         .replace('LOCATION_ID', districtId)
                         .replace('SUBCATEGORY_ID', selectedSubCategoryId);
+
+                    if (cityId) url += '?city=' + cityId;
+
+                    window.location.href = url;
+                } else if (selectedCategoryId) {
+
+                    var url = locationCategoryUrlTemplate
+                        .replace('LOCATION_ID_PLACEHOLDER', districtId)
+                        .replace('CATEGORY_ID_PLACEHOLDER', selectedCategoryId);
 
                     if (cityId) url += '?city=' + cityId;
 
