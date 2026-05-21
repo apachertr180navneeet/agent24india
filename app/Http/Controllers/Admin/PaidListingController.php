@@ -38,7 +38,22 @@ class PaidListingController extends Controller
             })
 
             ->select(
-                'paid_listing.*',
+                'paid_listing.id',
+                'paid_listing.bussines_id',
+                'paid_listing.home_city',
+                'paid_listing.district',
+                'paid_listing.type',
+                'paid_listing.paid_type',
+                'paid_listing.name',
+                'paid_listing.email',
+                'paid_listing.status',
+                'paid_listing.created_at',
+                'paid_listing.updated_at',
+                'paid_listing.amount',
+                'paid_listing.phone',
+                'paid_listing.primium_start_date',
+                'paid_listing.expiry_date',
+                'paid_listing.order_id',
                 'users.name as business_name',
                 'users.mobile as user_mobile',
                 'users.email as user_email',
@@ -48,7 +63,24 @@ class PaidListingController extends Controller
 
             ->groupBy(
                 'paid_listing.id',
+                'paid_listing.bussines_id',
+                'paid_listing.home_city',
+                'paid_listing.district',
+                'paid_listing.type',
+                'paid_listing.paid_type',
+                'paid_listing.name',
+                'paid_listing.email',
+                'paid_listing.status',
+                'paid_listing.created_at',
+                'paid_listing.updated_at',
+                'paid_listing.amount',
+                'paid_listing.phone',
+                'paid_listing.primium_start_date',
+                'paid_listing.expiry_date',
+                'paid_listing.order_id',
                 'users.name',
+                'users.mobile',
+                'users.email',
                 'home_district.name'
             )
             ->where('paid_listing.status', '!=', '0')
