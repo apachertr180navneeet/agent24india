@@ -140,22 +140,6 @@ var thisJs = (function() {
                             }
                         }
                     },
-                    email: {
-                        email: true,
-                        required: true,
-                        remote: {
-                            url: $("#email").data("check-url"),
-                            type: "post",
-                            data: {
-                                email: function() {
-                                    return $("#email").val();
-                                },
-                                user_id: function() {
-                                    return $("#user_id").val();
-                                }
-                            }
-                        }
-                    },
                     state_id:{
                         required: true
                     },

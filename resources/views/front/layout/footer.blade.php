@@ -60,9 +60,7 @@
 
                             <li>
                                 Email:<br>
-                                info@agent24india.com<br>
-                                contact@agent24india.com<br>
-                                support@agent24india.com
+                                agent24india@gmail.com
                             </li>
                         </ul>
                     </div>

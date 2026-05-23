@@ -128,20 +128,9 @@
                             <div class="row mb-3">
 
                                 <div class="col-md-6">
-
                                     <label class="form-label">Email</label>
-
-                                    <div class="input-group">
-
-                                        <input type="email" name="email" id="listing_email" class="form-control"
-                                            value="{{ old('email', $user->email) }}" readonly>
-
-                                        <button type="button" class="btn btn-primary" id="sendOtpBtn">
-                                            Send OTP
-                                        </button>
-
-                                    </div>
-
+                                    <input type="email" name="email" class="form-control"
+                                        value="{{ old('email', $user->email) }}" readonly>
                                 </div>
 
 
@@ -153,41 +142,9 @@
                                         value="{{ old('phone', $user->whats_app) }}" readonly>
 
                                 </div>
-
                             </div>
 
-
-                            <div class="row mb-3">
-
-                                <div class="col-md-6">
-
-                                    <label class="form-label">Email OTP Verify</label>
-
-                                    <div class="input-group">
-
-                                        <input type="text" name="otp" class="form-control" placeholder="Enter OTP"
-                                            @if (!empty($hasFreeListing)) readonly @endif>
-
-                                        <button type="button" class="btn btn-primary" id="verifyOtpBtn"
-                                            @if (!empty($hasFreeListing)) disabled @endif>
-                                            Verify
-                                        </button>
-
-                                    </div>
-
-                                    <small id="timerText" class="text-muted"></small>
-
-                                    <button type="button" class="btn btn-link p-0 d-none" id="resendOtpBtn">
-                                        Resend OTP
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-
-                            <button type="submit" class="btn btn-success" id="submitListingBtn"
-                                @if (empty($hasFreeListing)) disabled @endif>
+                            <button type="submit" class="btn btn-success">
                                 Submit Free Ad
                             </button>
 
@@ -273,107 +230,6 @@
 
     <script>
         (function() {
-
-            let otpTimer = 60;
-            let otpInterval = null;
-
-            function startOtpTimer() {
-
-                otpTimer = 60;
-
-                $('#resendOtpBtn').addClass('d-none');
-
-                if (otpInterval) {
-                    clearInterval(otpInterval);
-                }
-
-                otpInterval = setInterval(function() {
-
-                    $('#timerText').text(`Resend OTP in ${otpTimer}s`);
-
-                    otpTimer--;
-
-                    if (otpTimer < 0) {
-
-                        clearInterval(otpInterval);
-
-                        $('#timerText').text('');
-
-                        $('#resendOtpBtn').removeClass('d-none');
-
-                    }
-
-                }, 1000);
-
-            }
-
-
-
-            $('#sendOtpBtn').on('click', function() {
-
-                let email = $('#listing_email').val();
-
-                if (!email) {
-
-                    alert('Enter email first');
-
-                    return;
-
-                }
-
-                $.post("{{ route('front.sendEmailOtp') }}", {
-
-                    email: email,
-
-                    _token: "{{ csrf_token() }}"
-
-                }, function(res) {
-
-                    if (res.status) {
-
-                        startOtpTimer();
-
-                        alert('OTP sent');
-
-                    }
-
-                });
-
-            });
-
-
-
-            $('#resendOtpBtn').on('click', function() {
-
-                $.post("{{ route('front.resendEmailOtp') }}", {
-
-                    _token: "{{ csrf_token() }}"
-
-                }, function(res) {
-
-                    if (res.status) {
-
-                        startOtpTimer();
-
-                        alert('OTP resent');
-
-                    } else {
-
-                        alert(res.message);
-
-                    }
-
-                });
-
-            });
-
-        })();
-
-
-
-
-        (function() {
-
             function updatePaidListingPrice() {
                 let duration = $('#paid_duration').val();
                 let basePrice = 0;
@@ -399,55 +255,6 @@
 
             $('#paid_duration').on('change', updatePaidListingPrice);
             updatePaidListingPrice();
-
-        })();
-
-        (function() {
-
-            $('#verifyOtpBtn').on('click', function() {
-
-                let otp = $('input[name="otp"]').val();
-
-                if (!otp) {
-
-                    alert('Please enter OTP');
-
-                    return;
-
-                }
-
-                $.post("{{ route('front.verifyEmailOtp') }}", {
-
-                    otp: otp,
-
-                    _token: "{{ csrf_token() }}"
-
-                }, function(res) {
-
-                    if (res.status) {
-
-                        alert('OTP Verified');
-
-                        $('input[name="otp"]').prop('readonly', true);
-
-                        $('#verifyOtpBtn').prop('disabled', true);
-
-                        $('#submitListingBtn').prop('disabled', false);
-
-                        $('#resendOtpBtn').addClass('d-none');
-
-                        $('#timerText').text('OTP verified successfully');
-
-                    } else {
-
-                        alert(res.message);
-
-                    }
-
-                });
-
-            });
-
         })();
     </script>
 @endpush

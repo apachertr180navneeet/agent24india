@@ -145,19 +145,6 @@ var Users = (function() {
                             }
                         }
                     },
-                    email: {
-                        email: true,
-                        required: true,
-                        remote: {
-                            url: $("#email").data("check-url"),
-                            type: "post",
-                            data: {
-                                email: function() {
-                                    return $("#email").val();
-                                }
-                            }
-                        }
-                    },
                     state_id:{
                         required: true
                     },
