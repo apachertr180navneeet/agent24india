@@ -171,7 +171,8 @@ class PaidListingController extends Controller
                 'user_district.name',
                 'user_city.name',
                 'users.email',
-                'paid_listing.home_city'
+                'paid_listing.home_city',
+                'home_district.name'
             )
 
             ->firstOrFail();
