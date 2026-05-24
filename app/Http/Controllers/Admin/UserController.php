@@ -12,6 +12,7 @@ use App\Models\District;
 use App\Models\City;
 use App\Models\Category;
 use App\Models\Advertisment;
+use App\Models\PaidListing;
 
 class UserController extends Controller
 {
@@ -661,6 +662,24 @@ class UserController extends Controller
         try {
             $user = User::saveVendor($request);
 
+            
+
+            if($request->is_approved == 1) {
+                \App\Models\PaidListing::create([
+                    'bussines_id' => $user->id,
+                    'home_city'   => $request->pick_your_location ?? null,
+                    'phone'       => $request->mobile ?? null,
+                    'email'       => $request->email ?? null,
+                    'name'        => $request->business_name ?? null,
+                    'type'        => '1',
+                    'paid_type'   => 'free',
+                    'status'      => '1'
+                ]);
+
+                // Update user vendor type
+                $user->update(['vendor_type' => 'free']);
+            }
+
             DB::commit();
 
         } catch (\Exception $e) {
@@ -793,32 +812,24 @@ class UserController extends Controller
 
             $user->update($data);
 
+
             // ✅ Mail only when status becomes 1
-            if ($oldStatus != 1 && $request->is_approved == 1 && $user->email) {
+            if ($oldStatus != 1 && $request->is_approved == 1) {
 
-                $to = $user->email;
-                $subject = "Your Vendor Account Has Been Approved";
+                \App\Models\PaidListing::create([
+                    'bussines_id' => $user->id,
+                    'home_city'   => $request->pick_your_location ?? null,
+                    'phone'       => $request->mobile ?? null,
+                    'email'       => $request->email ?? null,
+                    'name'        => $request->business_name ?? null,
+                    'type'        => '1',
+                    'paid_type'   => 'free',
+                    'status'      => '1'
+                ]);
 
-                $message = "
-                <html>
-                <head>
-                    <title>Vendor Approved</title>
-                </head>
-                <body>
-                    <h2>Hello {$user->name},</h2>
-                    <p>Congratulations! Your vendor account has been approved.</p>
-                    <p>You can now login and start using your dashboard.</p>
-                    <br>
-                    <p>Thanks & Regards,<br>" . "agent24india" . "</p>
-                </body>
-                </html>
-                ";
-
-                $headers = "MIME-Version: 1.0" . "\r\n";
-                $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-                $headers .= "From: " . "agent24india" . " <info@agent24india.com>" . "\r\n";
-
-                mail($to, $subject, $message, $headers);
+                // Update user vendor type
+                $user->update(['vendor_type' => 'free']);
+                
             }
 
             DB::commit();
