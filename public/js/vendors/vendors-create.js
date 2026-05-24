@@ -199,11 +199,11 @@ var Users = (function() {
                         digits: "Please enter valid mobile number.",
                         remote: "The mobile number already exists."
                     },
-                    email: {
-                        email: "Please enter a valid email.",
-                        required: "This field is required.",
-                        remote: "The email already exists."
-                    },
+                    // email: {
+                    //     email: "Please enter a valid email.",
+                    //     required: "This field is required.",
+                    //     remote: "The email already exists."
+                    // },
                     state_id:{
                         required: "This field is required."
                     },
