@@ -440,7 +440,7 @@ class DistrictController extends Controller
 
                 $hasUsers = User::where('district_id', $district->id)->exists();
                 $hasCity  = City::where('district_id', $district->id)->exists();
-                $hasAds   = Advertisment::where('district_id', $district->id)->exists(); // ✅ NEW
+                $hasAds   = Advertisment::where('district', $district->id)->exists(); // ✅ NEW
 
                 if ($hasUsers || $hasCity || $hasAds) {
                     $failed[] = $district->name ?? $district->id;
