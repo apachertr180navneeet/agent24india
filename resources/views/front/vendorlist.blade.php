@@ -737,7 +737,7 @@
 
                 <!-- Vendor List -->
                 <div class="vendorlist col-lg-9 col-md-12">
-
+                    
                     @forelse ($vendoruser as $vendor)
                         <div class="row d-flex vendorlistiner mb-3">
                             <!-- Image -->
@@ -763,38 +763,42 @@
                                 </label>
 
                                 <!-- ✅ DESKTOP ACTIONS -->
-                                <div class="contact-actions desktop mt-3">
-                                    @if($vendor->vendor_type == 'paid')
-                                        <a href="tel:{{ $vendor->mobile }}" class="btn call-btn">
-                                            <i class="lni lni-phone"></i> Call Now
-                                        </a>
-                                    @endif
+                                 <div class="contact-actions desktop mt-3">
+                                     @if(!empty($vendor->mobile))
+                                         <a href="tel:{{ $vendor->mobile }}" class="btn call-btn">
+                                             <i class="lni lni-phone"></i> Call Now
+                                         </a>
+                                     @endif
 
-                                    <a href="https://wa.me/{{ $vendor->whats_app }}" class="btn whatsapp-btn">
-                                        <i class="lni lni-whatsapp"></i> WhatsApp
-                                    </a>
+                                     @if($vendor->vendor_type == 'paid' && !empty($vendor->whats_app))
+                                     <a href="https://wa.me/{{ $vendor->whats_app }}" class="btn whatsapp-btn">
+                                         <i class="lni lni-whatsapp"></i> WhatsApp
+                                     </a>
+                                     @endif
 
-                                    <a href="mailto:{{ $vendor->email }}" class="btn enquiry-btn">
-                                        <i class="lni lni-envelope"></i> Send Enquiry
-                                    </a>
-                                </div>
+                                     <a href="mailto:{{ $vendor->email }}" class="btn enquiry-btn">
+                                         <i class="lni lni-envelope"></i> Send Enquiry
+                                     </a>
+                                 </div>
 
-                                <!-- ✅ MOBILE ACTIONS -->
-                                <div class="contact-actions mobile mt-2">
-                                    @if($vendor->vendor_type == 'paid')
-                                        <a href="tel:{{ $vendor->mobile }}" class="btn call-btn">
-                                            <i class="lni lni-phone"></i>
-                                        </a>
-                                    @endif
+                                 <!-- ✅ MOBILE ACTIONS -->
+                                 <div class="contact-actions mobile mt-2">
+                                     @if(!empty($vendor->mobile))
+                                         <a href="tel:{{ $vendor->mobile }}" class="btn call-btn">
+                                             <i class="lni lni-phone"></i>
+                                         </a>
+                                     @endif
 
-                                    <a href="https://wa.me/{{ $vendor->whats_app }}" class="btn whatsapp-btn">
-                                        <i class="lni lni-whatsapp"></i>
-                                    </a>
+                                     @if($vendor->vendor_type == 'paid' && !empty($vendor->whats_app))
+                                         <a href="https://wa.me/{{ $vendor->whats_app }}" class="btn whatsapp-btn">
+                                             <i class="lni lni-whatsapp"></i>
+                                         </a>
+                                     @endif
 
-                                    <a href="mailto:{{ $vendor->email }}" class="btn enquiry-btn">
-                                        <i class="lni lni-envelope"></i>
-                                    </a>
-                                </div>
+                                     <a href="mailto:{{ $vendor->email }}" class="btn enquiry-btn">
+                                         <i class="lni lni-envelope"></i>
+                                     </a>
+                                 </div>
 
                                 <!-- Tags -->
                                 @if($vendor->vendor_type == 'paid')

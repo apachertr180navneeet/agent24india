@@ -36,16 +36,22 @@
                                 <!-- Hidden input -->
 
                                 <div class="row row-sm">
-                                    <div class="col-md-6 col-lg-6 col-xl-6">
+                                    <div class="col-md-4 col-lg-4 col-xl-4">
                                         <div class="form-group">
                                             <label class="">Business Name</label>
                                             <input type="text" class="form-control" id="business_name" name="business_name" value="{{ $user->business_name }}" placeholder="Enter Business Name" autocomplete="nofill" data-check-url="{{route('admin.vendors.checkBusinessName')}}"/>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-lg-6 col-xl-6">
+                                    <div class="col-md-4 col-lg-4 col-xl-4">
                                         <div class="form-group">
                                             <label class="">Mobile</label>
                                             <input type="number" class="form-control" id="mobile" name="mobile" value="{{ $user->mobile }}" placeholder="Enter Mobile" data-check-url="{{route('admin.users.checkUserMobile')}}" autocomplete="nofill"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-lg-4 col-xl-4">
+                                        <div class="form-group">
+                                            <label class="">WhatsApp Number</label>
+                                            <input type="number" class="form-control" id="whats_app" name="whats_app" value="{{ $user->whats_app }}" placeholder="Enter WhatsApp Number" autocomplete="nofill"/>
                                         </div>
                                     </div>
                                 </div>

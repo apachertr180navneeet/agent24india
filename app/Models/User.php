@@ -338,6 +338,7 @@ class User extends Authenticatable implements OAuthenticatable
             'updated_by' => $authUser->id,
             'role_id' => '2', // Vendor
             'password' => Hash::make($requestArray['password']),
+            'whats_app' => $requestArray['whats_app'] ?? null,
         ];
 
         // Upload image and add to data array
@@ -398,7 +399,8 @@ class User extends Authenticatable implements OAuthenticatable
                 'address' => $requestArray['address'] ?? null,
                 'status' => $requestArray['status'],
                 'updated_at' => date('Y-m-d H:i:s'),
-                'updated_by' => $authUser->id
+                'updated_by' => $authUser->id,
+                'whats_app' => $requestArray['whats_app'] ?? null
             ];
 
             // Upload image and add to data array

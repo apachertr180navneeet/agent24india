@@ -140,6 +140,12 @@ var thisJs = (function() {
                             }
                         }
                     },
+                    whats_app: {
+                        required: false,
+                        minlength: 10,
+                        maxlength: 10,
+                        digits: true
+                    },
                     state_id:{
                         required: true
                     },
@@ -178,6 +184,11 @@ var thisJs = (function() {
                         maxlength: "Mobile no. cannot be more than 10 digits.",
                         digits: "Please enter valid mobile number.",
                         remote: "The mobile number already exists."
+                    },
+                    whats_app: {
+                        minlength: "WhatsApp no. must be at least 10 digits long.",
+                        maxlength: "WhatsApp no. cannot be more than 10 digits.",
+                        digits: "Please enter valid WhatsApp number."
                     },
                     // email: {
                     //     email: "Please enter a valid email.",

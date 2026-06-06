@@ -75,7 +75,7 @@
                 <div class="contact-actions col-lg-12 col-12 mt-3">
 
                     {{-- CALL --}}
-                    @if($vendoruser->vendor_type == 'paid')
+                    @if(!empty($vendoruser->mobile))
                     <a href="tel:{{ $vendoruser->mobile }}" class="call-btn">
                         <i class="lni lni-phone"></i> Call Now
                     </a>
@@ -83,9 +83,11 @@
 
 
                     {{-- WHATSAPP --}}
+                    @if($vendoruser->vendor_type == 'paid' && !empty($vendoruser->whats_app))
                     <a href="https://wa.me/{{ $vendoruser->whats_app }}" class="whatsapp">
                         <i class="lni lni-whatsapp"></i> WhatsApp
                     </a>
+                    @endif
 
 
                     {{-- EMAIL --}}
