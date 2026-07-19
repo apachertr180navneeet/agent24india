@@ -262,7 +262,7 @@ class User extends Authenticatable implements OAuthenticatable
             if(!(empty($search)))
             {
                 $search = strtolower($search);
-                $query->whereRaw('( lower(users.name) LIKE \'%'.$search.'%\' or lower(users.email) LIKE \'%'.$search.'%\' or lower(users.mobile) LIKE \'%'.$search.'%\'  or lower(roles.name) LIKE \'%'.$search.'%\' )');
+                $query->whereRaw('( lower(users.name) LIKE \'%'.$search.'%\' or lower(users.email) LIKE \'%'.$search.'%\' or lower(users.mobile) LIKE \'%'.$search.'%\' or lower(roles.name) LIKE \'%'.$search.'%\' or lower(states.name) LIKE \'%'.$search.'%\' or lower(districts.name) LIKE \'%'.$search.'%\' or lower(cities.name) LIKE \'%'.$search.'%\' )');
             }
         });
         
