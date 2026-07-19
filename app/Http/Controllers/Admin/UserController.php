@@ -806,7 +806,6 @@ class UserController extends Controller
                 'status'          => $request->status,
                 'is_approved'     => $request->is_approved,
                 'profile_photo'  => $profileImageUrl ?? $imagePath,
-                'whats_app'       => $request->whats_app ?? null,
             ];
 
             $oldStatus = $user->is_approved;
