@@ -177,7 +177,7 @@ class HomeController extends Controller
 
         $category = Category::where('status', 1)
             ->whereNull('parent_id')
-            ->orderBy('name', 'asc') // change 'name' to your column
+            ->orderBy('name', 'asc')
             ->get();
 
         $topadvertisments = Advertisment::where('status', 1)
@@ -194,9 +194,6 @@ class HomeController extends Controller
         ->get();
 
         $selectedDistrict = null;
-        if (!empty($location)) {
-            $selectedDistrict = $districtList->where('id', $location)->first();
-        }
 
         $this->viewData['vendoruser'] = $vendoruser;
         $this->viewData['category'] = $category;
@@ -205,6 +202,9 @@ class HomeController extends Controller
         $this->viewData['districtList'] = $districtList;
         $this->viewData['selectedDistrict'] = $selectedDistrict;
         $this->viewData['subCategories'] = $subCategories;
+        $this->viewData['selectedCategory'] = '';
+        $this->viewData['location'] = '';
+        $this->viewData['selectedCityId'] = '';
         
         return view("front.vendorlist")->with($this->viewData);
     }
@@ -319,12 +319,11 @@ class HomeController extends Controller
             ->orderBy('name', 'asc')
             ->get();
 
-        $vendoruser = User::where('status', 1)->where('is_approved', 1)->where('business_category_id', $category)->paginate(12);
-        //$categories = Category::where('status', 1)->whereNull('parent_id')->get();
+        $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->where('business_category_id', $category)->paginate(12);
 
         $categories = Category::where('status', 1)
             ->whereNull('parent_id')
-            ->orderBy('name', 'asc') // change 'name' to your column
+            ->orderBy('name', 'asc')
             ->get();
 
         $topadvertisments = Advertisment::where('status', 1)
@@ -343,9 +342,6 @@ class HomeController extends Controller
         ->get();
 
         $selectedDistrict = null;
-        if (!empty($location)) {
-            $selectedDistrict = $districtList->where('id', $location)->first();
-        }
 
         $this->viewData['vendoruser'] = $vendoruser;
         $this->viewData['category'] = $categories;
@@ -353,7 +349,10 @@ class HomeController extends Controller
         $this->viewData['sideadvertisments'] = $sideadvertisments;
         $this->viewData['selectedDistrict'] = $selectedDistrict;
         $this->viewData['subCategories'] = $subCategories;
-
+        $this->viewData['districtList'] = $districtList;
+        $this->viewData['selectedCategory'] = $category;
+        $this->viewData['location'] = '';
+        $this->viewData['selectedCityId'] = '';
 
         
         return view("front.vendorlist")->with($this->viewData);
@@ -468,6 +467,7 @@ class HomeController extends Controller
             'selectedCityId'   => $selectedCityId,
             'selectedCategory' => $categorys,
             'subCategories'    => $subCategories,
+            'districtList'     => $districtList,
         ]);
     }
 
@@ -588,6 +588,7 @@ class HomeController extends Controller
             'selectedCategory'   => $category,
             'selectedSubCategory'=> $subcategory,
             'subCategories'      => $allSubCategories,
+            'districtList'       => $districtList,
         ]);
     }
 

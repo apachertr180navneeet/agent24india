@@ -660,6 +660,10 @@ class UserController extends Controller
         
         // Create User
         try {
+            $request->validate([
+                'business_name' => ['required', 'string', 'regex:/^[\x20-\x7E\xA0-\xFF\x{0100}-\x{FFFF}]*$/u'],
+            ]);
+
             $user = User::saveVendor($request);
 
             
@@ -765,6 +769,10 @@ class UserController extends Controller
      */
     public function updateVendor(Request $request)
     {
+        $request->validate([
+            'business_name' => ['required', 'string', 'regex:/^[\x20-\x7E\xA0-\xFF\x{0100}-\x{FFFF}]*$/u'],
+        ]);
+
         DB::beginTransaction();
 
         try {

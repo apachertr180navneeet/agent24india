@@ -57,7 +57,10 @@ class ProfileController extends Controller
 
     public function updateProfile(Request $request){
         
-        
+        $request->validate([
+            'business_name' => ['required', 'string', 'regex:/^[\x20-\x7E\xA0-\xFF\x{0100}-\x{FFFF}]*$/u'],
+        ]);
+
         $state_id = $request->state_id;
         
         $city_id = $request->city_id;
@@ -213,6 +216,10 @@ class ProfileController extends Controller
 
     public function storeListing(Request $request)
     {
+        $request->validate([
+            'name' => ['required', 'string', 'regex:/^[\x20-\x7E\xA0-\xFF\x{0100}-\x{FFFF}]*$/u'],
+        ]);
+
         // Get logged in user
         $user = Auth::user();
 
