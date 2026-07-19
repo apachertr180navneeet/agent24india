@@ -618,6 +618,14 @@ class HomeController extends Controller
             $user = $userQuery->first();
 
             if ($user && Hash::check($password, $user->password)) {
+                if ($user->status != config('constants.statuses.ACTIVE.value')) {
+                    DB::rollBack();
+                    return redirect()
+                        ->route('front.index')
+                        ->with('signin_status', false)
+                        ->with('signin_error', 'Your account has been deactivated. Please contact the administrator.');
+                }
+
                 Auth::login($user);
 
                 $request->session()->regenerate();

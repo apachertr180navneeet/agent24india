@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -21,6 +22,17 @@ class LoginController extends Controller
         ]);
  
         if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            if ($user->status != config('constants.statuses.ACTIVE.value')) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                return back()->withErrors([
+                    'email' => 'Your account has been deactivated. Please contact the administrator.',
+                ])->onlyInput('email');
+            }
+
             $request->session()->regenerate();
  
             return redirect()->intended('admin/dashboard');

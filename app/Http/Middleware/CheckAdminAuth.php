@@ -26,6 +26,15 @@ class CheckAdminAuth
             return redirect()->route('admin.login');
         }
 
+        if (Auth::user()->status != config('constants.statuses.ACTIVE.value')) {
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect()->route('admin.login')->withErrors([
+                'email' => 'Your account has been deactivated. Please contact the administrator.',
+            ]);
+        }
+
         return $response;
     }
 }
