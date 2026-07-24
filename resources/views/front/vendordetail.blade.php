@@ -119,7 +119,7 @@
                         $cleanMobile = !empty($vendoruser->mobile) ? preg_replace('/[^0-9+]/', '', $vendoruser->mobile) : (!empty($vendoruser->whats_app) ? preg_replace('/[^0-9+]/', '', $vendoruser->whats_app) : '');
                     @endphp
                     @if(!empty($cleanMobile))
-                    <a href="tel:{{ $cleanMobile }}" class="btn call-btn">
+                    <a href="tel:{{ $cleanMobile }}" class="btn call-btn" title="Call {{ $cleanMobile }}" onclick="if(!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){ event.preventDefault(); alert('Phone Number: {{ $cleanMobile }}'); }">
                         <i class="lni lni-phone"></i> Call Now
                     </a>
                     @endif
@@ -141,7 +141,7 @@
 
                     {{-- EMAIL --}}
                     @if(!empty($vendoruser->email))
-                    <a href="mailto:{{ $vendoruser->email }}" class="btn enquiry-btn">
+                    <a href="mailto:{{ $vendoruser->email }}" class="btn enquiry-btn" title="Email: {{ $vendoruser->email }}" onclick="if(!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){ event.preventDefault(); window.open('https://mail.google.com/mail/?view=cm&fs=1&to={{ $vendoruser->email }}', '_blank'); }">
                         <i class="lni lni-envelope"></i> Send Enquiry
                     </a>
                     @endif

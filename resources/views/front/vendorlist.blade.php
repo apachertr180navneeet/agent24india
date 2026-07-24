@@ -280,100 +280,130 @@
         min-height: 250px;
     }
 
-    /* Default */
-    .desktop {
-        display: block;
+    /* Card Layout Improvements */
+    .vendorlistiner {
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 16px;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        align-items: center;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    /* Mobile fix */
-    @media (max-width: 768px) {
-        .desktop {
-            display: block !important;
-        }
+    .vendorlistiner:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    }
 
-        .contact-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
+    .vendorlistiner .image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8fafc;
+        border-radius: 8px;
+        border: 1px solid #f1f5f9;
+        padding: 8px;
+        height: 100px;
+    }
 
-        .contact-actions a {
-            flex: 1 1 48%;
-            text-align: center;
-            font-size: 12px;
-            padding: 8px;
-        }
+    .vendorlistiner .image img {
+        max-height: 85px;
+        max-width: 100%;
+        object-fit: contain;
+        border-radius: 6px;
+    }
+
+    .vendorlistiner h4 {
+        margin-bottom: 4px;
+    }
+
+    .vendorlistiner h4 a {
+        font-size: 17px;
+        font-weight: 700;
+        color: #1e293b;
+        text-decoration: none;
+    }
+
+    .vendorlistiner label {
+        font-size: 13px;
+        color: #64748b;
     }
 
     /* Buttons Base */
-.contact-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-/* Buttons Style */
-.contact-actions .btn {
-    padding: 10px 14px;
-    border-radius: 6px;
-    font-size: 14px;
-    text-decoration: none;
-    color: #fff;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    transition: 0.3s;
-}
-
-/* Colors */
-.call-btn {
-    background: #007bff;
-}
-
-.whatsapp-btn {
-    background: #25D366;
-}
-
-.enquiry-btn {
-    background: #0d6efd;
-}
-
-/* Hover */
-.contact-actions .btn:hover {
-    opacity: 0.9;
-}
-
-/* 🔴 MOBILE / DESKTOP CONTROL */
-.desktop {
-    display: flex;
-}
-
-.mobile {
-    display: none;
-}
-
-/* 📱 MOBILE VIEW FIX */
-@media (max-width: 768px) {
-
-    .desktop {
-        display: none !important;
-    }
-
-    .mobile {
+    .contact-actions {
         display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
     }
 
-    .mobile .btn {
-        flex: 1;
-        font-size: 16px;
-        padding: 10px;
+    /* Desktop Action Buttons */
+    .contact-actions.desktop .btn {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        padding: 8px 18px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        text-decoration: none;
+        color: #fff !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        transition: 0.3s;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
     }
 
-    .mobile .btn i {
-        font-size: 18px;
+    .contact-actions.desktop .btn:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+        color: #fff !important;
     }
-}
+
+    /* Colors */
+    .call-btn {
+        background: #2563eb;
+    }
+
+    .whatsapp-btn {
+        background: #16a34a;
+    }
+
+    .enquiry-btn {
+        background: #0284c7;
+    }
+
+    /* 🔴 DESKTOP DISPLAY RULE */
+    @media (min-width: 769px) {
+        .desktop {
+            display: flex !important;
+        }
+        .mobile {
+            display: none !important;
+        }
+    }
+
+    /* 📱 MOBILE VIEW FIX */
+    @media (max-width: 768px) {
+        .desktop {
+            display: none !important;
+        }
+
+        .mobile {
+            display: flex !important;
+        }
+
+        .mobile .btn {
+            flex: 1;
+            font-size: 16px;
+            padding: 10px;
+        }
+
+        .mobile .btn i {
+            font-size: 18px;
+        }
+    }
 
 @media (max-width: 767px) {
     .vendorlist h4 {
@@ -736,7 +766,7 @@
             <div class="row d-flex">
 
                 <!-- Vendor List -->
-                <div class="vendorlist col-lg-9 col-md-12">
+                <div class="vendorlist col-lg-8 col-md-8 col-12">
                     
                     @forelse ($vendoruser as $vendor)
                         <div class="row d-flex vendorlistiner mb-3">
@@ -776,7 +806,7 @@
                                  <!-- ✅ DESKTOP ACTIONS -->
                                  <div class="contact-actions desktop mt-3">
                                      @if(!empty($cleanMobile))
-                                         <a href="tel:{{ $cleanMobile }}" class="btn call-btn">
+                                         <a href="tel:{{ $cleanMobile }}" class="btn call-btn" title="Call {{ $cleanMobile }}" onclick="if(!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){ event.preventDefault(); alert('Phone Number: {{ $cleanMobile }}'); }">
                                              <i class="lni lni-phone"></i> Call Now
                                          </a>
                                      @endif
@@ -788,7 +818,7 @@
                                      @endif
 
                                      @if(!empty($vendor->email))
-                                     <a href="mailto:{{ $vendor->email }}" class="btn enquiry-btn">
+                                     <a href="mailto:{{ $vendor->email }}" class="btn enquiry-btn" title="Email: {{ $vendor->email }}" onclick="if(!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){ event.preventDefault(); window.open('https://mail.google.com/mail/?view=cm&fs=1&to={{ $vendor->email }}', '_blank'); }">
                                          <i class="lni lni-envelope"></i> Send Enquiry
                                      </a>
                                      @endif
@@ -852,7 +882,7 @@
                     @endforeach
                 </div>  --}}
                 <!-- Sidebar -->
-                <div class="col-lg-3 col-md-12 col-right">
+                <div class="col-lg-3 col-md-4 col-12 col-right">
                     @if($sideadvertisments && count($sideadvertisments) > 0)
                         @foreach($sideadvertisments as $sideadvertisment)
                             <div class="sidebar-box mb-3">

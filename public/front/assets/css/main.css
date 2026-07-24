@@ -5899,7 +5899,6 @@ blockquote .shape {
 .vendorlist{
   /* display: flex; */
   /* gap: 20px; */
-  width: 70%;
   position: relative;
 }
 
@@ -6015,7 +6014,7 @@ blockquote .shape {
   padding: 5px !important;
 }
     .desktop{
-      display: none;
+      display: flex;
     }
         .contact-actions  {
       padding: 0;
