@@ -818,7 +818,7 @@
                                      @endif
 
                                      @if(!empty($vendor->email))
-                                     <a href="mailto:{{ $vendor->email }}" class="btn enquiry-btn" title="Email: {{ $vendor->email }}" onclick="if(!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){ event.preventDefault(); window.open('https://mail.google.com/mail/?view=cm&fs=1&to={{ $vendor->email }}', '_blank'); }">
+                                     <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ $vendor->email }}" class="btn enquiry-btn" target="_blank" title="Email: {{ $vendor->email }}">
                                          <i class="lni lni-envelope"></i> Send Enquiry
                                      </a>
                                      @endif
@@ -839,7 +839,7 @@
                                      @endif
 
                                      @if(!empty($vendor->email))
-                                     <a href="mailto:{{ $vendor->email }}" class="btn enquiry-btn">
+                                     <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ $vendor->email }}" class="btn enquiry-btn" target="_blank" title="Email: {{ $vendor->email }}">
                                          <i class="lni lni-envelope"></i>
                                      </a>
                                      @endif

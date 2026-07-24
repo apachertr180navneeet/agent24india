@@ -141,7 +141,7 @@
 
                     {{-- EMAIL --}}
                     @if(!empty($vendoruser->email))
-                    <a href="mailto:{{ $vendoruser->email }}" class="btn enquiry-btn" title="Email: {{ $vendoruser->email }}" onclick="if(!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){ event.preventDefault(); window.open('https://mail.google.com/mail/?view=cm&fs=1&to={{ $vendoruser->email }}', '_blank'); }">
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ $vendoruser->email }}" class="btn enquiry-btn" target="_blank" title="Email: {{ $vendoruser->email }}">
                         <i class="lni lni-envelope"></i> Send Enquiry
                     </a>
                     @endif
