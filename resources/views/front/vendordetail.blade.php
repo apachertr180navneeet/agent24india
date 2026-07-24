@@ -3,6 +3,46 @@
 
 @section('content')
 
+<style>
+.contact-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.contact-actions .btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    color: #fff !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: 0.3s;
+}
+
+.contact-actions .call-btn {
+    background: #007bff;
+}
+
+.contact-actions .whatsapp-btn {
+    background: #25D366;
+}
+
+.contact-actions .enquiry-btn {
+    background: #0d6efd;
+}
+
+.contact-actions .btn:hover {
+    opacity: 0.9;
+    color: #fff !important;
+}
+</style>
+
 <div class="container my-3">
 
     {{-- Vendor Header --}}
@@ -75,8 +115,11 @@
                 <div class="contact-actions col-lg-12 col-12 mt-3">
 
                     {{-- CALL --}}
-                    @if(!empty($vendoruser->mobile))
-                    <a href="tel:{{ $vendoruser->mobile }}" class="call-btn">
+                    @php
+                        $cleanMobile = !empty($vendoruser->mobile) ? preg_replace('/[^0-9+]/', '', $vendoruser->mobile) : (!empty($vendoruser->whats_app) ? preg_replace('/[^0-9+]/', '', $vendoruser->whats_app) : '');
+                    @endphp
+                    @if(!empty($cleanMobile))
+                    <a href="tel:{{ $cleanMobile }}" class="btn call-btn">
                         <i class="lni lni-phone"></i> Call Now
                     </a>
                     @endif
@@ -84,16 +127,24 @@
 
                     {{-- WHATSAPP --}}
                     @if($vendoruser->vendor_type == 'paid' && !empty($vendoruser->whats_app))
-                    <a href="https://wa.me/{{ $vendoruser->whats_app }}" class="whatsapp">
+                    @php
+                        $waNum = preg_replace('/[^0-9]/', '', $vendoruser->whats_app);
+                        if (strlen($waNum) == 10) {
+                            $waNum = '91' . $waNum;
+                        }
+                    @endphp
+                    <a href="https://wa.me/{{ $waNum }}" class="btn whatsapp-btn" target="_blank">
                         <i class="lni lni-whatsapp"></i> WhatsApp
                     </a>
                     @endif
 
 
                     {{-- EMAIL --}}
-                    <a href="mailto:{{ $vendoruser->email }}" class="call-btn">
+                    @if(!empty($vendoruser->email))
+                    <a href="mailto:{{ $vendoruser->email }}" class="btn enquiry-btn">
                         <i class="lni lni-envelope"></i> Send Enquiry
                     </a>
+                    @endif
 
                 </div>
 

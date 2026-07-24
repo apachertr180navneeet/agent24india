@@ -762,42 +762,57 @@
                                     {{ $vendor->business_address }}
                                 </label>
 
-                                <!-- ✅ DESKTOP ACTIONS -->
+                                @php
+                                     $cleanMobile = !empty($vendor->mobile) ? preg_replace('/[^0-9+]/', '', $vendor->mobile) : (!empty($vendor->whats_app) ? preg_replace('/[^0-9+]/', '', $vendor->whats_app) : '');
+                                     $waNum = '';
+                                     if (!empty($vendor->whats_app)) {
+                                         $waNum = preg_replace('/[^0-9]/', '', $vendor->whats_app);
+                                         if (strlen($waNum) == 10) {
+                                             $waNum = '91' . $waNum;
+                                         }
+                                     }
+                                 @endphp
+
+                                 <!-- ✅ DESKTOP ACTIONS -->
                                  <div class="contact-actions desktop mt-3">
-                                     @if(!empty($vendor->mobile))
-                                         <a href="tel:{{ $vendor->mobile }}" class="btn call-btn">
+                                     @if(!empty($cleanMobile))
+                                         <a href="tel:{{ $cleanMobile }}" class="btn call-btn">
                                              <i class="lni lni-phone"></i> Call Now
                                          </a>
                                      @endif
 
-                                     @if($vendor->vendor_type == 'paid' && !empty($vendor->whats_app))
-                                     <a href="https://wa.me/{{ $vendor->whats_app }}" class="btn whatsapp-btn">
+                                     @if($vendor->vendor_type == 'paid' && !empty($waNum))
+                                     <a href="https://wa.me/{{ $waNum }}" class="btn whatsapp-btn" target="_blank">
                                          <i class="lni lni-whatsapp"></i> WhatsApp
                                      </a>
                                      @endif
 
+                                     @if(!empty($vendor->email))
                                      <a href="mailto:{{ $vendor->email }}" class="btn enquiry-btn">
                                          <i class="lni lni-envelope"></i> Send Enquiry
                                      </a>
+                                     @endif
                                  </div>
 
                                  <!-- ✅ MOBILE ACTIONS -->
                                  <div class="contact-actions mobile mt-2">
-                                     @if(!empty($vendor->mobile))
-                                         <a href="tel:{{ $vendor->mobile }}" class="btn call-btn">
+                                     @if(!empty($cleanMobile))
+                                         <a href="tel:{{ $cleanMobile }}" class="btn call-btn">
                                              <i class="lni lni-phone"></i>
                                          </a>
                                      @endif
 
-                                     @if($vendor->vendor_type == 'paid' && !empty($vendor->whats_app))
-                                         <a href="https://wa.me/{{ $vendor->whats_app }}" class="btn whatsapp-btn">
+                                     @if($vendor->vendor_type == 'paid' && !empty($waNum))
+                                         <a href="https://wa.me/{{ $waNum }}" class="btn whatsapp-btn" target="_blank">
                                              <i class="lni lni-whatsapp"></i>
                                          </a>
                                      @endif
 
+                                     @if(!empty($vendor->email))
                                      <a href="mailto:{{ $vendor->email }}" class="btn enquiry-btn">
                                          <i class="lni lni-envelope"></i>
                                      </a>
+                                     @endif
                                  </div>
 
                                 <!-- Tags -->
