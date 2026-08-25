@@ -141,7 +141,7 @@
 
                     {{-- EMAIL --}}
                     @if(!empty($vendoruser->email))
-                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ $vendoruser->email }}" class="btn enquiry-btn" target="_blank" title="Email: {{ $vendoruser->email }}">
+                    <a href="mailto:{{ $vendoruser->email }}" class="btn enquiry-btn">
                         <i class="lni lni-envelope"></i> Send Enquiry
                     </a>
                     @endif
