@@ -405,6 +405,33 @@
             font-size: 13px !important;
             font-weight: 600 !important;
         }
+
+        @media (max-width: 576px) {
+            .tab-buttons {
+                display: flex;
+                overflow-x: auto;
+                padding-bottom: 8px;
+                gap: 8px;
+            }
+            .tab-buttons .btn {
+                padding: 8px 16px;
+                font-size: 13px;
+                white-space: nowrap;
+                margin-right: 0;
+            }
+            .form-container {
+                padding: 18px 14px;
+                border-radius: 10px;
+            }
+            .auth-popup {
+                padding: 24px 16px;
+                max-width: 95%;
+            }
+            .auth-tabs .tab {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+        }
     </style>
 
     @stack('styles')

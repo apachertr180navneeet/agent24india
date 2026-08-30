@@ -84,6 +84,20 @@
     .required-mark {
         color: #EF4444;
     }
+
+    @media (max-width: 640px) {
+        .banner-card-box {
+            padding: 20px 14px !important;
+            border-radius: 14px !important;
+            margin-bottom: 24px !important;
+        }
+        .type-pill-group {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px 14px;
+        }
+    }
 </style>
 @endpush
 

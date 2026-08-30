@@ -43,6 +43,29 @@
         }
     }
 
+    @media (max-width: 640px) {
+        .login-hero-banner-container,
+        .login-split-wrapper {
+            padding: 0 12px;
+        }
+        .auth-card {
+            padding: 24px 16px !important;
+            border-radius: 16px !important;
+        }
+        .why-agent-card {
+            padding: 20px 16px !important;
+            border-radius: 16px !important;
+        }
+        .auth-title {
+            font-size: 20px !important;
+        }
+        .auth-options-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+    }
+
     /* Left Login Card */
     .auth-card {
         background: #FFFFFF;

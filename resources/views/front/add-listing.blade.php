@@ -96,6 +96,33 @@
             font-weight: 800;
             color: #004BEE;
         }
+
+        @media (max-width: 640px) {
+            .listing-card-box {
+                padding: 20px 14px !important;
+                border-radius: 14px !important;
+                margin-bottom: 24px !important;
+            }
+            .listing-tabs {
+                overflow-x: auto;
+                gap: 8px;
+                padding-bottom: 8px;
+            }
+            .listing-tabs .tab-btn {
+                padding: 8px 16px;
+                font-size: 13.5px;
+                white-space: nowrap;
+            }
+            .listing-price-summary {
+                padding: 14px 16px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            .listing-price-summary .price-amount {
+                font-size: 20px;
+            }
+        }
     </style>
 @endpush
 

@@ -43,6 +43,24 @@
         }
     }
 
+    @media (max-width: 640px) {
+        .reg-hero-banner-container,
+        .reg-split-wrapper {
+            padding: 0 12px;
+        }
+        .reg-form-card {
+            padding: 22px 14px !important;
+            border-radius: 16px !important;
+        }
+        .reg-card-title {
+            font-size: 19px !important;
+        }
+        .why-reg-card {
+            padding: 20px 16px !important;
+            border-radius: 16px !important;
+        }
+    }
+
     /* Left Registration Card */
     .reg-form-card {
         background: #FFFFFF;

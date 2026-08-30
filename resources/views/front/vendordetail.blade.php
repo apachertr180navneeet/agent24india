@@ -313,6 +313,35 @@
         font-weight: 700;
         color: #64748B;
     }
+
+    @media (max-width: 640px) {
+        .vendor-detail-page {
+            padding: 16px 0 40px 0;
+        }
+        .vd-container {
+            padding: 0 12px;
+        }
+        .vd-profile-card {
+            padding: 20px 14px;
+            border-radius: 16px;
+        }
+        .vd-image-wrap {
+            height: 220px;
+            border-radius: 12px;
+        }
+        .vd-business-title {
+            font-size: 22px;
+        }
+        .vd-actions-row {
+            flex-direction: column;
+            gap: 10px;
+        }
+        .vd-action-btn {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 14px;
+        }
+    }
 </style>
 @endpush
 
