@@ -11,16 +11,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/logo/favicon.png" />
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Jost:wght@400;500;600;700&family=Lato:wght@400;700&display=swap"
         rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('public/front/assets/css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('public/front/assets/css/LineIcons.2.0.css') }}" />
-    <link rel="stylesheet" href="{{ asset('public/front/assets/css/animate.css') }}" />
-    <link rel="stylesheet" href="{{ asset('public/front/assets/css/tiny-slider.css') }}" />
-    <link rel="stylesheet" href="{{ asset('public/front/assets/css/glightbox.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('public/front/assets/css/main.css') }}" />
+    <link rel="stylesheet" href="{{ asset('front/assets/css/prototype-style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/front/assets/css/prototype-style.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
@@ -89,6 +86,180 @@
 
         .toggle-password:hover {
             color: #000;
+        }
+
+        /* Auth Popup Modal Styles */
+        .auth-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(11, 25, 72, 0.7);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+        }
+
+        .auth-popup {
+            background: #fff;
+            border-radius: 16px;
+            width: 520px;
+            max-width: 92%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px 28px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            position: relative;
+            text-align: center;
+            animation: popupFadeIn 0.3s ease;
+        }
+
+        @keyframes popupFadeIn {
+            from { opacity: 0; transform: translateY(-20px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .close-btn1 {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            font-size: 26px;
+            color: #64748B;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .close-btn1:hover {
+            color: #0F172A;
+        }
+
+        .auth-header .logo {
+            max-height: 50px;
+            margin-bottom: 16px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            background: #F1F5F9;
+            border-radius: 30px;
+            padding: 4px;
+            margin-bottom: 20px;
+        }
+
+        .auth-tabs .tab {
+            flex: 1;
+            padding: 9px 18px;
+            border: none;
+            background: transparent;
+            font-weight: 600;
+            font-size: 14px;
+            color: #475569;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .auth-tabs .tab.active {
+            background: #004BEE;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 75, 238, 0.3);
+        }
+
+        .auth-form {
+            display: none;
+            text-align: left;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .auth-form input,
+        .auth-form select {
+            width: 100%;
+            height: 46px;
+            padding: 10px 14px;
+            border: 1px solid #CBD5E1;
+            border-radius: 8px;
+            margin-bottom: 14px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .auth-form input:focus,
+        .auth-form select:focus {
+            border-color: #004BEE;
+            box-shadow: 0 0 0 3px rgba(0, 75, 238, 0.1);
+        }
+
+        .auth-form a {
+            color: #004BEE;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 14px;
+        }
+
+        .auth-form a:hover {
+            text-decoration: underline;
+        }
+
+        .auth-form button[type="submit"] {
+            width: 100%;
+            height: 48px;
+            background: #004BEE;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 6px;
+        }
+
+        .auth-form button[type="submit"]:hover {
+            background: #0036B8;
+        }
+
+        .or-login {
+            text-align: center;
+            font-size: 13px;
+            color: #64748B;
+            margin: 18px 0 10px;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 10px;
+            border: 1.5px solid #CBD5E1;
+            background: #fff;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #1E293B;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .custom-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #475569;
+            margin: 10px 0 14px;
+            cursor: pointer;
+        }
+
+        .custom-checkbox input {
+            width: auto;
+            height: auto;
+            margin-bottom: 0;
         }
     </style>
 
@@ -287,6 +458,7 @@
 
     <!-- Start Footer Area -->
     @include('front.layout.footer')
+    <script src="{{ asset('public/front/assets/js/prototype-script.js') }}"></script>
     <script>
         $(document).on('click', '.toggle-password', function() {
 

@@ -5,101 +5,81 @@
     $about = $cmsModel->where('id', 1)->first();
 @endphp
 
-<footer class="footer">
-    <!-- Start Footer Top -->
-    <div class="footer-top">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-4 col-12 footer-logo1">
-                        <img src="{{asset('public/front/assets/images/logo/agent-india-logo2.png')}}" alt="" class="footer-logo">
-                                        </div>
-                
-                <div class="col-lg-3 col-md-4 col-12">
-                    <div class="single-footer f-link">
-                        <h3>Quick Links</h3>
-                        <ul>
-                            <li><a href="{{route('front.index')}}">Home</a></li>
-                            @if($about->status == 1)
-                            <li><a href="{{route('front.aboutus')}}">About Us</a></li>
-                            @endif
-                            <li><a href="{{route('front.contactus')}}">Contact Us</a></li>
-                            @if(\Auth::check())
-                            <li><a href="{{route('front.profile')}}">Profile</a></li>
-                            @endif
+<!-- Footer Start -->
+<footer class="site-footer">
+    <div class="section-container">
+        <div class="footer-grid">
 
-                            <li><a href="{{route('front.price')}}">Price</a></li>
-                        </ul>
+            <!-- Brand Info Column -->
+            <div class="footer-col brand-col">
+                <div class="brand-logo">
+                    <div class="logo-icon-wrapper">
+                        <svg width="38" height="38" viewBox="0 0 50 50" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 40L24 10L36 40H28L24 29L20 40H12Z" fill="#0066FF" />
+                            <path d="M18.5 33H29.5L24 19L18.5 33Z" fill="#FFFFFF" />
+                            <circle cx="28" cy="11" r="4.5" fill="#FFB800" />
+                        </svg>
+                    </div>
+                    <div class="logo-text-group">
+                        <div class="brand-name">
+                            <span class="white-text">AGENT 24</span>
+                            <span class="blue-text">INDIA</span>
+                        </div>
+                        <span class="brand-tagline light-tagline">Sahi Agent, Sahi Connection</span>
                     </div>
                 </div>
-
-                    <div class="col-lg-3 col-md-4 col-12">
-                    <div class="single-footer f-link">
-                        <h3>Support Links</h3>
-                        <ul>
-                            <li><a href="{{route('front.support')}}">Help & Support</a></li>
-                            @if($trem->status == 1)
-                            <li><a href="{{route('front.termsAndConditions')}}">Terms & Conditions</a></li>
-                            @endif
-
-                            @if($privacy->status == 1)
-                            <li><a href="{{route('front.privacyPolicy')}}">Privacy Policy</a></li>
-                            @endif
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-12">
-                    <div class="single-footer f-contact">
-                        <h3>Contact</h3>
-                        <ul>
-                            <li>
-                                <strong>AGENT 24 INDIA</strong><br>
-                                Advertising Agency<br>
-                                Jodhpur, Rajasthan
-                            </li>
-
-                            <li>
-                                Email:<br>
-                                agent24india@gmail.com
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                <p class="footer-desc">Bharat ka sabse trusted aur verified Agent Directory platform. Aapki zarurat,
+                    aapke city ka sahi agent!</p>
             </div>
+
+            <!-- Quick Links -->
+            <div class="footer-col">
+                <h4 class="footer-heading">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="{{route('front.index')}}">Home</a></li>
+                    @if($about && $about->status == 1)
+                        <li><a href="{{route('front.aboutus')}}">About Us</a></li>
+                    @endif
+                    <li><a href="#verifiedAgents">Top Agents</a></li>
+                    <li><a href="#rajasthanDistricts">Capital Districts</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    @if($trem && $trem->status == 1)
+                        <li><a href="{{route('front.price')}}">Price Plans</a></li>
+                    @endif
+                </ul>
+            </div>
+
+            <!-- Categories -->
+            <div class="footer-col">
+                <h4 class="footer-heading">Popular Categories</h4>
+                <ul class="footer-links">
+                    <li><a href="{{route('front.vendorlist')}}">Real Estate Agents</a></li>
+                    <li><a href="{{route('front.vendorlist')}}">Automobile Agents</a></li>
+                    <li><a href="{{route('front.vendorlist')}}">RTO Service Agents</a></li>
+                    <li><a href="{{route('front.vendorlist')}}">Insurance Advisors</a></li>
+                    <li><a href="{{route('front.vendorlist')}}">Legal Consultants</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="footer-col">
+                <h4 class="footer-heading">Contact Support</h4>
+                <ul class="footer-contact-list">
+                    <li>📍 Jodhpur & Jaipur, Rajasthan, India</li>
+                    <li>📞 +91 98765 43210</li>
+                    <li>✉️ agent24india@gmail.com</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 AGENT 24 INDIA. All rights reserved. Sahi Agent, Sahi Connection.</p>
         </div>
     </div>
-
-    <!-- Start Footer Bottom -->
-    <div class="footer-bottom">
-        <div class="container">
-            <div class="inner">
-                <div class="row d-flex">
-                    <div class="col-lg-6 col-12">
-                        <div class="content">
-                           <p class="copyright-text">
-                                © 2026 Agent 24 India. All Rights Reserved. <br>
-                                Designed and Developed by 
-                                <a href="https://syspoly.com/" rel="nofollow" target="_blank">
-                                    SYSPOLY
-                                </a>
-                            </p>
-                            </div>
-                            </div>
-
-                            <div class="col-lg-6 col-12">
-                            <ul class="footer-social">
-                                <li><a href="javascript:void(0)"><i class="lni lni-facebook-filled"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="lni lni-twitter-original"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="lni lni-youtube"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="lni lni-linkedin-original"></i></a></li>
-                            </ul>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
 </footer>
+<!-- Footer End -->
 
 <!-- ========================= scroll-top ========================= -->
 <a href="#" class="scroll-top btn-hover">
