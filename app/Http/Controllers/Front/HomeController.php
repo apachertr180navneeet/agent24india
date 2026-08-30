@@ -633,29 +633,59 @@ class HomeController extends Controller
 
                 DB::commit();
 
-                // ✅ Login success
-                return redirect()
-                    ->route('front.index')
-                    ->with('signin_status', true);
+                // ✅ Login success - redirect to intended URL or home
+                return redirect()->intended(route('front.index'))
+                    ->with('signin_status', true)
+                    ->with('success', 'Welcome back, ' . $user->name . '!');
             }
 
             DB::rollBack();
 
-            // ❌ Login failed
+            // ❌ Login failed - reopen login modal
             return redirect()
-                ->route('front.index')
-                ->with('signin_status', false);
+                ->back()
+                ->with('signin_status', false)
+                ->with('open_login', true)
+                ->with('error', 'Invalid login credentials. Please check your username/email/mobile and password.');
 
         } catch (\Exception $e) {
-
             DB::rollBack();
+            \Log::error('Authentication Error: ' . $e->getMessage());
 
             return redirect()
-                ->route('front.index')
-                ->with('signup_status', false);
+                ->back()
+                ->with('signin_status', false)
+                ->with('open_login', true)
+                ->with('error', 'Something went wrong during sign in. Please try again.');
         }
     }
+    
 
+    public function loginPage()
+    {
+        if (Auth::check()) {
+            return redirect()->route('front.index');
+        }
+        $this->viewData['pageTitle'] = 'Login - Agent 24 India';
+        return view('front.login', $this->viewData);
+    }
+
+    public function registerPage()
+    {
+        if (Auth::check()) {
+            return redirect()->route('front.index');
+        }
+        $businessCategory = Category::whereNull('parent_id')->where('status', 1)->orderBy('name')->get();
+        $stateList = State::where('status', 1)->orderBy('name')->get();
+        $districtList = District::where('status', 1)->orderBy('name')->get();
+
+        $this->viewData['pageTitle'] = 'Register - Agent 24 India';
+        $this->viewData['businessCategory'] = $businessCategory;
+        $this->viewData['stateList'] = $stateList;
+        $this->viewData['districtList'] = $districtList;
+
+        return view('front.register', $this->viewData);
+    }
 
     /**
      * Destroy an authenticated session.

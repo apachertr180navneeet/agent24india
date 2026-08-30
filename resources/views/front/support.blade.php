@@ -1,182 +1,166 @@
 @extends('front.layout.main')
-@section('title', $pageTitle)
-
-@push('styles')
-<style>
-.alert {
-    padding: 12px;
-    margin-bottom: 15px;
-    border-radius: 5px;
-}
-.alert-success {
-    background: #d4edda;
-    color: #155724;
-}
-.alert-danger {
-    background: #f8d7da;
-    color: #721c24;
-}
-.alert-info {
-    background: #e7f3ff;
-    color: #0c5460;
-    border-left: 4px solid #007bff;
-}
-.text-danger {
-    color: red;
-    font-size: 13px;
-}
-.form-row {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-.form-row div {
-    width: 100%;
-}
-.file-upload {
-    width: 100%;
-    cursor: pointer;
-}
-.upload-box {
-    border: 2px dashed #ccc;
-    padding: 15px;
-    text-align: center;
-    border-radius: 6px;
-    background: #fafafa;
-}
-.upload-box span {
-    display: block;
-    font-size: 13px;
-}
-textarea {
-    width: 100%;
-    min-height: 120px;
-    padding: 10px;
-    margin-top: 10px;
-}
-.form-actions {
-    margin-top: 10px;
-}
-.form-actions button {
-    background: #007bff;
-    color: #fff;
-    padding: 10px 18px;
-    border: none;
-    border-radius: 5px;
-}
-</style>
-@endpush
+@section('title', $pageTitle ?? 'Support & Help')
 
 @section('content')
-<section class="contact-section">
-    <div class="container">
-        <div class="row">
+    <!-- Support Hero Banner Section Start -->
+    <section class="contact-hero-banner-section">
+        <div class="contact-hero-banner-container">
+            <img src="{{ asset('public/front/assets/images/contact_hero_banner.png') }}" alt="Support & Help - Agent 24 India" class="contact-hero-banner-img">
+        </div>
+    </section>
+    <!-- Support Hero Banner Section End -->
 
-            <!-- Left Info -->
-            <div class="support-info col-lg-6 col-12">
-                <h3>Need Help? We're Here for You</h3>
-                <p>
-                    Our dedicated India-based support team is available to assist our agents with quick and
-                    reliable solutions.
-                </p>
+    <!-- Support Main Content Section Start -->
+    <section class="contact-main-section">
+        <div class="section-container">
+            <div class="contact-grid-wrapper">
+                
+                <!-- Left Card: Talk to Us & Official Support Notice -->
+                <div class="contact-info-card">
+                    <h2 class="card-title-blue">Dedicated Support</h2>
+                    
+                    <div style="background: #EFF6FF; border-left: 4px solid #004BEE; padding: 18px 20px; border-radius: 10px; margin-bottom: 24px;">
+                        <h4 style="font-size: 16px; font-weight: 700; color: #004BEE; margin-bottom: 8px;">Support Instructions</h4>
+                        <p style="font-size: 13.5px; color: #334155; line-height: 1.6; margin-bottom: 10px;">
+                            For help and support, please fill out the form. Our team will contact you by phone or email after receiving your request (within <strong>1 to 3 business days</strong>).
+                        </p>
+                        <p style="font-size: 13px; color: #64748B; margin-bottom: 6px;">
+                            <strong>Timings:</strong> 10:00 AM to 6:00 PM (Monday - Saturday)
+                        </p>
+                        <p style="font-size: 13px; color: #DC2626; font-weight: 600; margin-top: 10px;">
+                            ⚠ Please do not share sensitive credentials or OTPs with anyone. Our verified team will connect officially.
+                        </p>
+                    </div>
 
-                <ul class="benefits">
-                    <li>Dedicated agent support executives</li>
-                    <li>Faster issue resolution</li>
-                    <li>Clear ticket tracking & follow-ups</li>
-                    <li>Secure data handling</li>
-                </ul>
-            </div>
+                    <div class="contact-items-list">
+                        <!-- Item 1: Phone -->
+                        <div class="contact-info-item">
+                            <div class="contact-icon-circle bg-blue">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                </svg>
+                            </div>
+                            <div class="contact-text-block">
+                                <span class="contact-label">Official Support Number</span>
+                                <h4 class="contact-val">+91 91193 36617</h4>
+                            </div>
+                        </div>
 
-            <!-- Right Form -->
-            <div class="contact-form col-lg-6 col-12">
-                <h3>Support</h3>
+                        <!-- Item 2: WhatsApp -->
+                        <div class="contact-info-item">
+                            <div class="contact-icon-circle bg-green">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                                </svg>
+                            </div>
+                            <div class="contact-text-block">
+                                <span class="contact-label">WhatsApp Helpline</span>
+                                <h4 class="contact-val">+91 91193 36617</h4>
+                            </div>
+                        </div>
 
-                <p class="sub-text">
-                    If you have any questions, issues, or need assistance, please don't hesitate to contact us.
-                    Our support team is always ready to help you.
-                </p>
-
-                <!-- ✅ Support Instructions Box -->
-                <div class="alert alert-info">
-                    <p><strong>Support Instructions:</strong></p>
-                    <p>
-                        For help and support, please fill out the form. Our team will contact you by phone or email 
-                        after receiving your request (within <strong>1 to 3 days</strong>).
-                    </p>
-                    <p><strong>Timings:</strong> 10:00 AM to 6:00 PM</p>
-                    <p>
-                        Our team will call you only after you submit the form. Direct calls will not be accepted.
-                    </p>
-                    <p>
-                        <strong>Official Support Number:</strong> 
-                        <a href="tel:9119336617">9119336617</a>
-                    </p>
-                    <p style="color:red; font-weight:500;">
-                        ⚠ Please do not share your personal information with any unknown number. 
-                        This is our verified support number.
-                    </p>
+                        <!-- Item 3: Email -->
+                        <div class="contact-info-item">
+                            <div class="contact-icon-circle bg-blue">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                    <polyline points="22,6 12,13 2,6"/>
+                                </svg>
+                            </div>
+                            <div class="contact-text-block">
+                                <span class="contact-label">Support Email</span>
+                                <h4 class="contact-val">support@agent24india.com</h4>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                @if (session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
-                @endif
+                <!-- Right Card: Support Form -->
+                <div class="contact-form-card">
+                    <h2 class="card-title-blue">Submit Support Request</h2>
 
-                @if (session('error'))
-                    <div class="alert alert-danger">{{ session('error') }}</div>
-                @endif
-
-                <form action="{{ route('front.support.submit') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-
-                    <div class="form-row">
-                        <div>
-                            <input type="text" name="name" placeholder="Person Name" value="{{ old('name') }}" required>
-                            @error('name') <small class="text-danger">{{ $message }}</small> @enderror
+                    @if (session('success'))
+                        <div style="background: #DCFCE7; border: 1px solid #86EFAC; color: #166534; padding: 12px 16px; border-radius: 10px; margin-bottom: 20px; font-weight: 500;">
+                            {{ session('success') }}
                         </div>
+                    @endif
 
-                        <div>
-                            <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
-                            @error('email') <small class="text-danger">{{ $message }}</small> @enderror
+                    @if (session('error'))
+                        <div style="background: #FEE2E2; border: 1px solid #FCA5A5; color: #991B1B; padding: 12px 16px; border-radius: 10px; margin-bottom: 20px; font-weight: 500;">
+                            {{ session('error') }}
                         </div>
-                    </div>
+                    @endif
 
-                    <div class="form-row">
-                        <div>
-                            <input type="text" name="phone" placeholder="Phone Number" value="{{ old('phone') }}" required>
-                            @error('phone') <small class="text-danger">{{ $message }}</small> @enderror
-                        </div>
+                    <form action="{{ route('front.support.submit') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
 
-                        <div>
-                            <input type="text" name="subject" placeholder="Enter Your Subject" value="{{ old('subject') }}" required>
-                            @error('subject') <small class="text-danger">{{ $message }}</small> @enderror
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <label class="file-upload">
-                            <input type="file" name="image">
-                            <div class="upload-box">
-                                <span>Click to upload image</span>
-                                <span>PNG, JPG up to 2MB</span>
+                        <!-- Row 1: Name & Mobile -->
+                        <div class="form-grid-2col">
+                            <div class="form-field-group">
+                                <label class="input-field-label">Your Name <span class="req-star">*</span></label>
+                                <input type="text" name="name" class="styled-contact-input" placeholder="Enter your name" value="{{ old('name') }}" required>
+                                @error('name') <small style="color: #EF4444; font-size: 12px;">{{ $message }}</small> @enderror
                             </div>
-                        </label>
-                        @error('image') <small class="text-danger d-block">{{ $message }}</small> @enderror
-                    </div>
 
-                    <textarea name="message" placeholder="Your Message" required>{{ old('message') }}</textarea>
-                    @error('message') <small class="text-danger">{{ $message }}</small> @enderror
+                            <div class="form-field-group">
+                                <label class="input-field-label">Phone Number <span class="req-star">*</span></label>
+                                <input type="tel" name="phone" class="styled-contact-input" placeholder="Enter contact number" value="{{ old('phone') }}" required>
+                                @error('phone') <small style="color: #EF4444; font-size: 12px;">{{ $message }}</small> @enderror
+                            </div>
+                        </div>
 
-                    <div class="form-actions">
-                        <button type="submit">Submit Message</button>
-                    </div>
-                </form>
+                        <!-- Row 2: Email -->
+                        <div class="form-field-group">
+                            <label class="input-field-label">Email Address <span class="req-star">*</span></label>
+                            <input type="email" name="email" class="styled-contact-input" placeholder="Enter your email address" value="{{ old('email') }}" required>
+                            @error('email') <small style="color: #EF4444; font-size: 12px;">{{ $message }}</small> @enderror
+                        </div>
+
+                        <!-- Row 3: Subject Dropdown (Enhanced with Select2) -->
+                        <div class="form-field-group">
+                            <label class="input-field-label">Subject / Issue Type <span class="req-star">*</span></label>
+                            <select name="subject" id="supportSubject" class="select2 styled-contact-select" required>
+                                <option value="" disabled {{ old('subject') ? '' : 'selected' }}>Select Subject</option>
+                                <option value="Account Login / Registration Issue" {{ old('subject') == 'Account Login / Registration Issue' ? 'selected' : '' }}>Account Login / Registration Issue</option>
+                                <option value="Listing Approval & Verification" {{ old('subject') == 'Listing Approval & Verification' ? 'selected' : '' }}>Listing Approval & Verification</option>
+                                <option value="Banner Advertisement Support" {{ old('subject') == 'Banner Advertisement Support' ? 'selected' : '' }}>Banner Advertisement Support</option>
+                                <option value="Payment & Plan Inquiry" {{ old('subject') == 'Payment & Plan Inquiry' ? 'selected' : '' }}>Payment & Plan Inquiry</option>
+                                <option value="Profile Edit & Update Request" {{ old('subject') == 'Profile Edit & Update Request' ? 'selected' : '' }}>Profile Edit & Update Request</option>
+                                <option value="Other Assistance" {{ old('subject') == 'Other Assistance' ? 'selected' : '' }}>Other Assistance</option>
+                            </select>
+                            @error('subject') <small style="color: #EF4444; font-size: 12px;">{{ $message }}</small> @enderror
+                        </div>
+
+                        <!-- Row 4: Attachment Screenshot Upload -->
+                        <div class="form-field-group">
+                            <label class="input-field-label">Attachment / Screenshot (Optional)</label>
+                            <div style="border: 1.5px dashed #CBD5E1; border-radius: 10px; padding: 14px; text-align: center; background: #F8FAFC;">
+                                <input type="file" name="image" accept="image/*" style="display: block; margin: 0 auto; font-size: 13px;">
+                                <span style="display: block; font-size: 12px; color: #94A3B8; margin-top: 4px;">PNG, JPG up to 2MB</span>
+                            </div>
+                            @error('image') <small style="color: #EF4444; font-size: 12px;">{{ $message }}</small> @enderror
+                        </div>
+
+                        <!-- Row 5: Message Textarea -->
+                        <div class="form-field-group">
+                            <label class="input-field-label">Message Details <span class="req-star">*</span></label>
+                            <textarea name="message" class="styled-contact-textarea" placeholder="Explain your query or issue in detail..." rows="4" required>{{ old('message') }}</textarea>
+                            @error('message') <small style="color: #EF4444; font-size: 12px;">{{ $message }}</small> @enderror
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn-send-message">
+                            <span>Submit Message</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+
             </div>
-
         </div>
-    </div>
-</section>
+    </section>
+    <!-- Support Main Content Section End -->
 @endsection
-
-@push('scripts')
-@endpush

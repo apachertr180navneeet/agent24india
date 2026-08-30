@@ -1,239 +1,158 @@
 @extends('front.layout.main')
-@section('title', $pageTitle)
+@section('title', $pageTitle ?? 'Verified Agents List')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('public/plugins/select2/css/select2.min.css') }}">
 <style>
-    .search-results {
-        position: absolute;
-        width: 100%;
-        background: #fff;
-        border: 1px solid #ddd;
-        max-height: 200px;
-        overflow-y: auto;
-        z-index: 9999;
-        border-radius: 6px;
+    .vendorlist-page {
+        background-color: #F8FAFC;
+        padding-bottom: 60px;
     }
 
-    .location-selector-row > div {
-        flex: 0 0 50%;
-        max-width: 50%;
+    /* Top Search Filter Box */
+    .vl-search-card {
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        padding: 20px 24px;
+        margin: 20px auto;
+        max-width: 1280px;
     }
 
-    .result-item {
-        padding: 10px;
-        cursor: pointer;
+    .vl-search-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
     }
 
-    .result-item:hover {
-        background: #f2f2f2;
+    @media (max-width: 991px) {
+        .vl-search-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
     }
 
-    .search-form .search-input .select2-container {
-        display: block;
-        width: 100% !important;
-        min-width: 100% !important;
-        max-width: 100% !important;
+    @media (max-width: 575px) {
+        .vl-search-grid {
+            grid-template-columns: 1fr;
+        }
     }
 
-    #city_search + .select2,
-    #city_search + .select2-container {
-        width: 100% !important;
-        min-width: 100% !important;
-        max-width: 100% !important;
+    .vl-field-group {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
     }
 
-    #category + .select2,
-    #category + .select2-container {
-        width: 100% !important;
-        min-width: 100% !important;
-        max-width: 100% !important;
+    .vl-field-label {
+        font-size: 13px;
+        font-weight: 700;
+        color: #1E293B;
     }
 
-    #subcategory + .select2,
-    #subcategory + .select2-container {
-        width: 100% !important;
-        min-width: 100% !important;
-        max-width: 100% !important;
-    }
-
-    .location-selector-row .search-input {
-        width: 100%;
-    }
-
-    .search-form .search-input .select2-container .select2-selection--single {
-        width: 100%;
-        background: #fff;
-        border-radius: 6px;
-        border: 1px solid #ddd;
-        padding: 0 12px;
-        padding-right: 36px;
-        height: 50px;
-        font-size: 14px;
+    .vl-input-wrap {
+        position: relative;
         display: flex;
         align-items: center;
     }
 
-    .search-form .search-input .select2-container .select2-selection--single:focus {
-        outline: none !important;
+    .vl-input-wrap .vl-icon {
+        position: absolute;
+        left: 14px;
+        pointer-events: none;
+        z-index: 3;
+        color: #004BEE;
     }
 
-    .search-form .search-input .select2-container .select2-selection__rendered {
-        line-height: 48px;
-        color: #081828;
-        padding-left: 0;
-        padding-right: 24px;
-    }
-
-    .search-form .search-input .select2-container .select2-selection__placeholder {
-        color: #6c757d;
-    }
-
-    .search-form .search-input .select2-container .select2-selection__arrow {
+    .vl-input {
+        width: 100%;
         height: 48px;
-    }
-
-    .select2-container--default .select2-results__option--highlighted[aria-selected] {
-        background-color: #f2f2f2;
-        color: #333;
-    }
-
-    .select2-container--default .select2-results__option[aria-selected=true] {
-        background-color: #f8f9fa;
-        color: #333;
-    }
-
-    .search-form .search-input #location_search.form-control {
-        height: 50px;
-        padding: 0 15px;
-        padding-right: 36px;
-        border-radius: 6px;
-        border: 1px solid #aaaaaa;
-    }
-
-    .search-form .search-input select.form-control {
-        border: 1px solid #ddd;
-    }
-
-    .select2-dropdown {
-        border: 1px solid #ddd;
-    }
-
-    @media (max-width: 991.98px) {
-        .location-selector-row {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .location-selector-row > .location-col-half {
-            flex: 0 0 50%;
-            max-width: 50%;
-        }
-
-        .location-selector-row > .location-col-full {
-            flex: 0 0 100%;
-            max-width: 100%;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .search-form .search-input .select2-container .select2-selection--single {
-            height: 40px;
-            padding: 0 8px;
-            padding-right: 30px;
-            font-size: 12px;
-        }
-
-        .search-form .search-input .select2-container .select2-selection__rendered {
-            line-height: 38px;
-            padding-right: 22px;
-        }
-
-        .search-form .search-input .select2-container .select2-selection__arrow {
-            height: 38px;
-        }
-
-        .search-form .search-input #location_search.form-control {
-            height: 40px;
-            font-size: 12px;
-            padding: 0 8px;
-        }
-    }
-    /* Category Section */
-    .categories-section {
-        padding: 40px 0;
-    }
-
-    /* Grid layout */
-    .categories-grid {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr); /* 6 per row */
-        gap: 20px;
-    }
-
-    /* Card style */
-    .category-link {
-        text-decoration: none;
-    }
-
-    .row.location-selector-row {
-        margin-top: 5px;
-    }
-
-    .category-card {
-        background: #fff;
+        padding: 0 16px 0 42px;
+        border: 1.5px solid #CBD5E1;
         border-radius: 10px;
-        padding: 15px 10px;
-        text-align: center;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-        transition: 0.3s;
-    }
-
-    .category-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-    }
-
-    .category-card img {
-        width: 60px;
-        height: 60px;
-        object-fit: contain;
-        margin-bottom: 8px;
-    }
-
-    .category-card span {
-        display: block;
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 600;
-        color: #333;
+        color: #0F172A;
+        background-color: #FFFFFF;
+        outline: none;
+        transition: all 0.2s ease;
     }
 
-    /* Responsive */
-    @media (max-width: 1200px) {
-        .categories-grid {
-            grid-template-columns: repeat(4, 1fr);
-        }
+    .vl-input:focus {
+        border-color: #004BEE;
+        box-shadow: 0 0 0 3.5px rgba(0, 75, 238, 0.12);
     }
 
-    @media (max-width: 768px) {
-        .categories-grid {
-            grid-template-columns: repeat(3, 1fr);
-        }
+    .vl-input-wrap .select2-container {
+        width: 100% !important;
     }
 
-    @media (max-width: 480px) {
-        .categories-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
+    .vl-input-wrap .select2-container--default .select2-selection--single {
+        height: 48px !important;
+        border: 1.5px solid #CBD5E1 !important;
+        border-radius: 10px !important;
+        padding-left: 40px !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    .vl-input-wrap .select2-container--default.select2-container--open .select2-selection--single,
+    .vl-input-wrap .select2-container--default.select2-container--focus .select2-selection--single {
+        border-color: #004BEE !important;
+        box-shadow: 0 0 0 3.5px rgba(0, 75, 238, 0.12) !important;
+    }
+
+    .vl-input-wrap .select2-container--default .select2-selection--single .select2-selection__rendered {
+        padding-left: 0 !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        color: #0F172A !important;
+    }
+
+    .search-results {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #FFFFFF;
+        border: 1.5px solid #CBD5E1;
+        border-radius: 10px;
+        max-height: 220px;
+        overflow-y: auto;
+        z-index: 99999;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        margin-top: 4px;
+    }
+
+    .result-item {
+        padding: 10px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #334155;
+        cursor: pointer;
+        transition: background 0.15s;
+    }
+
+    .result-item:hover {
+        background: #EFF6FF;
+        color: #004BEE;
+    }
+
+    /* Hero Slider Container */
+    .vl-hero-banner-container {
+        max-width: 1280px;
+        margin: 0 auto 24px auto;
+        padding: 0 20px;
     }
 
     .hero-slider {
         position: relative;
         width: 100%;
         overflow: hidden;
-        border-radius: 12px;
-        aspect-ratio: 16 / 6;
-        background: #f5f5f5;
+        border-radius: 16px;
+        aspect-ratio: 16 / 5.5;
+        background: #F1F5F9;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
     }
 
     .hero-slider .slide {
@@ -246,745 +165,553 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: center;
-        border-radius: 12px;
+        border-radius: 16px;
     }
 
-    .sideadvertismentimage {
-        width: 100%;
+    /* Main Layout Grid */
+    .vl-main-layout {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 20px;
     }
 
-    @media (max-width: 992px) {
-        .hero-slider {
-            aspect-ratio: 16 / 7;
+    .vl-main-grid {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 24px;
+    }
+
+    @media (max-width: 991px) {
+        .vl-main-grid {
+            grid-template-columns: 1fr;
         }
     }
 
-    @media (max-width: 768px) {
-        .hero-slider {
-            aspect-ratio: 16 / 8;
-        }
-
-    }
-
-    @media (max-width: 480px) {
-        .hero-slider {
-            aspect-ratio: 16 / 9;
-        }
-
-    }
-
-    .locations-section1 .adsbygoogle {
-        display: block;
-        width: 100%;
-        min-height: 250px;
-    }
-
-    /* Card Layout Improvements */
-    .vendorlistiner {
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 16px;
-        background: #fff;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    /* Agent Horizontal Card */
+    .vl-agent-card {
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 16px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+        display: flex;
+        gap: 20px;
         align-items: center;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        position: relative;
     }
 
-    .vendorlistiner:hover {
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    .vl-agent-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0, 75, 238, 0.08);
+        border-color: #BFDBFE;
     }
 
-    .vendorlistiner .image {
+    .vl-agent-photo-wrap {
+        width: 110px;
+        height: 110px;
+        border-radius: 14px;
+        background: #F8FAFC;
+        border: 1.5px solid #F1F5F9;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #f8fafc;
-        border-radius: 8px;
-        border: 1px solid #f1f5f9;
-        padding: 8px;
-        height: 100px;
+        flex-shrink: 0;
+        overflow: hidden;
     }
 
-    .vendorlistiner .image img {
-        max-height: 85px;
-        max-width: 100%;
-        object-fit: contain;
-        border-radius: 6px;
+    .vl-agent-photo-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
-    .vendorlistiner h4 {
-        margin-bottom: 4px;
+    .vl-agent-info {
+        flex: 1;
+        min-width: 0;
     }
 
-    .vendorlistiner h4 a {
-        font-size: 17px;
+    .vl-agent-top-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 6px;
+        flex-wrap: wrap;
+    }
+
+    .vl-badge-verified {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: #DCFCE7;
+        color: #166534;
+        font-size: 11.5px;
         font-weight: 700;
-        color: #1e293b;
+        padding: 3px 8px;
+        border-radius: 20px;
+    }
+
+    .vl-badge-premium {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: #EFF6FF;
+        color: #004BEE;
+        font-size: 11.5px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 20px;
+    }
+
+    .vl-agent-name {
+        font-size: 18px;
+        font-weight: 800;
+        color: #0F172A;
+        margin-bottom: 6px;
+        line-height: 1.3;
+    }
+
+    .vl-agent-name a {
+        color: #0F172A;
         text-decoration: none;
+        transition: color 0.2s;
     }
 
-    .vendorlistiner label {
-        font-size: 13px;
-        color: #64748b;
+    .vl-agent-name a:hover {
+        color: #004BEE;
     }
 
-    /* Buttons Base */
-    .contact-actions {
+    .vl-agent-location {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13.5px;
+        color: #64748B;
+        margin-bottom: 14px;
+    }
+
+    .vl-agent-location svg {
+        flex-shrink: 0;
+        color: #004BEE;
+    }
+
+    .vl-agent-actions {
         display: flex;
         gap: 10px;
         flex-wrap: wrap;
         align-items: center;
     }
 
-    /* Desktop Action Buttons */
-    .contact-actions.desktop .btn {
-        flex: 0 0 auto !important;
-        width: auto !important;
-        padding: 8px 18px;
-        border-radius: 6px;
-        font-size: 13px;
-        font-weight: 500;
-        text-decoration: none;
-        color: #fff !important;
+    .vl-btn-action {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 6px;
-        transition: 0.3s;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+        padding: 8px 20px;
+        border-radius: 30px;
+        font-size: 13.5px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border: none;
+        cursor: pointer;
     }
 
-    .contact-actions.desktop .btn:hover {
-        opacity: 0.9;
+    .vl-btn-call {
+        background: #004BEE;
+        color: #FFFFFF !important;
+        box-shadow: 0 4px 12px rgba(0, 75, 238, 0.2);
+    }
+
+    .vl-btn-call:hover {
+        background: #0036B8;
         transform: translateY(-1px);
-        color: #fff !important;
+        color: #FFFFFF !important;
     }
 
-    /* Colors */
-    .call-btn {
-        background: #2563eb;
+    .vl-btn-whatsapp {
+        background: #16A34A;
+        color: #FFFFFF !important;
+        box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
     }
 
-    .whatsapp-btn {
-        background: #16a34a;
+    .vl-btn-whatsapp:hover {
+        background: #15803D;
+        transform: translateY(-1px);
+        color: #FFFFFF !important;
     }
 
-    .enquiry-btn {
-        background: #0284c7;
+    .vl-btn-enquiry {
+        background: #EFF6FF;
+        color: #004BEE !important;
+        border: 1px solid #BFDBFE;
     }
 
-    /* 🔴 DESKTOP DISPLAY RULE */
-    @media (min-width: 769px) {
-        .desktop {
-            display: flex !important;
-        }
-        .mobile {
-            display: none !important;
-        }
+    .vl-btn-enquiry:hover {
+        background: #004BEE;
+        color: #FFFFFF !important;
+        border-color: #004BEE;
     }
 
-    /* 📱 MOBILE VIEW FIX */
-    @media (max-width: 768px) {
-        .desktop {
-            display: none !important;
-        }
-
-        .mobile {
-            display: flex !important;
-        }
-
-        .mobile .btn {
-            flex: 1;
-            font-size: 16px;
-            padding: 10px;
-        }
-
-        .mobile .btn i {
-            font-size: 18px;
-        }
+    /* Sidebar Styles */
+    .vl-sidebar-card {
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        margin-bottom: 20px;
     }
 
-@media (max-width: 767px) {
-    .vendorlist h4 {
-        font-size: 15px;
-    }
-}
-
-@media (max-width: 767px) {
-    .vendorlist p {
-        font-size: 7px;
-    }
-}
-
-/* ================= UNIFIED UI (MATCH INDEX) ================= */
-.location-selector-row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: -5px;
-    margin-right: -5px;
-}
-
-.location-selector-row > div {
-    padding-left: 5px;
-    padding-right: 5px;
-    margin-bottom: 10px;
-}
-
-.location-selector-row > .location-col-half,
-.location-selector-row > .location-col-full {
-    padding-left: 5px;
-    padding-right: 5px;
-    margin-bottom: 10px;
-}
-
-.search-form .search-input input.form-control,
-.search-form .search-input select.form-control {
-    width: 100%;
-    height: 50px;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-    padding: 0 15px;
-    font-size: 14px;
-}
-
-#location_search.form-control {
-    border-color: #aaaaaa;
-}
-
-.select2-container {
-    width: 100% !important;
-}
-
-.select2-selection--single {
-    height: 50px !important;
-    padding: 0 12px !important;
-    border-radius: 6px !important;
-    display: flex !important;
-    align-items: center !important;
-}
-
-.select2-selection__rendered {
-    line-height: 48px !important;
-    padding-left: 0 !important;
-    padding-right: 24px !important;
-}
-
-.select2-selection__arrow {
-    height: 48px !important;
-}
-
-.search-form .search-input .select2-container {
-    width: 100% !important;
-}
-
-.search-form .search-input .select2-container .select2-selection--single {
-    width: 100% !important;
-    height: 50px !important;
-    padding: 0 12px !important;
-    border-radius: 6px !important;
-    border: 1px solid #ddd !important;
-    display: flex !important;
-    align-items: center !important;
-}
-
-.search-form .search-input .select2-container .select2-selection__rendered {
-    line-height: 48px !important;
-    padding-left: 0 !important;
-    padding-right: 24px !important;
-}
-
-.search-form .search-input .select2-container .select2-selection__arrow {
-    height: 48px !important;
-}
-
-.categories-grid {
-    grid-template-columns: repeat(6, 1fr);
-    gap: 15px;
-}
-
-.category-card img {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
-}
-
-@media (min-width: 992px) {
-    .location-selector-row {
-        flex-wrap: nowrap;
+    .vl-sidebar-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: #64748B;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
     }
 
-    .location-selector-row > .location-col-half,
-    .location-selector-row > .location-col-full {
-        width: 33.333333%;
-        flex: 0 0 33.333333%;
-        max-width: 33.333333%;
-    }
-}
-
-@media (max-width: 992px) {
-    .categories-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    .location-selector-row {
-        margin-left: -4px;
-        margin-right: -4px;
-    }
-
-    .location-selector-row > div {
-        padding-left: 4px;
-        padding-right: 4px;
-        margin-bottom: 8px;
-    }
-
-    .location-selector-row > .location-col-half,
-    .location-selector-row > .location-col-full {
-        padding-left: 4px;
-        padding-right: 4px;
-        margin-bottom: 8px;
-    }
-
-    .location-col-half {
-        width: 50%;
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
-
-    .location-col-full {
+    .vl-sidebanner-img {
         width: 100%;
-        flex: 0 0 100%;
-        max-width: 100%;
+        border-radius: 12px;
+        display: block;
     }
 
-    .search-form .search-input input.form-control,
-    .search-form .search-input select.form-control {
-        height: 40px;
-        font-size: 12px;
-        padding: 0 8px;
+    /* Empty state */
+    .vl-empty-card {
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 16px;
+        padding: 50px 30px;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
     }
 
-    .select2-selection--single {
-        height: 40px !important;
-        padding: 0 8px !important;
+    .vl-empty-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: #EFF6FF;
+        color: #004BEE;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px auto;
     }
 
-    .select2-selection__rendered {
-        line-height: 38px !important;
-        padding-right: 22px !important;
-    }
+    @media (max-width: 575px) {
+        .vl-agent-card {
+            flex-direction: column;
+            text-align: center;
+            padding: 16px;
+        }
 
-    .select2-selection__arrow {
-        height: 38px !important;
-    }
+        .vl-agent-top-meta {
+            justify-content: center;
+        }
 
-    .search-form .search-input .select2-container .select2-selection--single {
-        height: 40px !important;
-        padding: 0 8px !important;
-    }
+        .vl-agent-location {
+            justify-content: center;
+        }
 
-    .search-form .search-input .select2-container .select2-selection__rendered {
-        line-height: 38px !important;
-        padding-right: 22px !important;
-    }
+        .vl-agent-actions {
+            justify-content: center;
+            width: 100%;
+        }
 
-    .search-form .search-input .select2-container .select2-selection__arrow {
-        height: 38px !important;
+        .vl-btn-action {
+            flex: 1;
+            font-size: 12.5px;
+            padding: 8px 12px;
+        }
     }
-
-    .categories-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-    }
-
-    .category-card {
-        padding: 10px 5px;
-    }
-
-    .category-card img {
-        width: 40px;
-        height: 40px;
-    }
-
-    .category-card span {
-        font-size: 12px;
-    }
-}
-
-@media (max-width: 480px) {
-    .location-selector-row {
-        margin-left: -3px;
-        margin-right: -3px;
-    }
-
-    .location-selector-row > div {
-        padding-left: 3px;
-        padding-right: 3px;
-    }
-
-    .location-selector-row > .location-col-half,
-    .location-selector-row > .location-col-full {
-        padding-left: 3px;
-        padding-right: 3px;
-    }
-
-    .categories-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-    }
-
-    .category-card span {
-        font-size: 12px;
-    }
-}
 </style>
 @endpush
- @php
-    $categoryModel = new \App\Models\Category();
-    $districtModel = new \App\Models\District();
-    $businessCategory = $categoryModel->select('id', 'name')->whereNull('parent_id')->where('status', 1)->get();
-    $districtList = $districtModel->select('id', 'name')->where('status', 1)->get();
-@endphp
+
 @section('content')
-<!-- Location Selector -->
-<section class="container">
-    <div class="search-form">
-        <div class="row location-selector-row mt-2">
-            <div class="col-lg-4 col-md-4 col-6 location-col-half">
+<div class="vendorlist-page">
 
-                <div class="search-input position-relative">
-                    <label>
-                    </label>
-
-                    <input type="text"
-                        id="location_search"
-                        class="form-control"
-                        placeholder="Search district"
-                        autocomplete="off"
-                        value="{{ $selectedDistrict ? $selectedDistrict->name : '' }}">
-
-                    <input type="hidden"
-                        name="location"
-                        id="location_id"
-                        value="{{ $location ?? '' }}">
+    <!-- Top Multi-Filter Search Card -->
+    <div class="vl-search-card">
+        <div class="vl-search-grid">
+            
+            <!-- Filter 1: District Search Autocomplete -->
+            <div class="vl-field-group">
+                <label class="vl-field-label">District / जिला</label>
+                <div class="vl-input-wrap">
+                    <svg class="vl-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <input type="text" id="location_search" class="vl-input" placeholder="Search District..." autocomplete="off" value="{{ $selectedDistrict ? $selectedDistrict->name : '' }}">
+                    <input type="hidden" name="location" id="location_id" value="{{ $location ?? '' }}">
 
                     <div id="searchResults" class="search-results" style="display:none;">
                         @foreach($districtList as $value)
-                            <div class="result-item"
-                                data-id="{{ $value->id }}"
-                                data-name="{{ strtolower($value->name) }}">
+                            <div class="result-item" data-id="{{ $value->id }}" data-name="{{ strtolower($value->name) }}">
                                 {{ $value->name }}
                             </div>
                         @endforeach
                     </div>
-
                 </div>
-
             </div>
-            <div class="col-lg-4 col-md-4 col-6 location-col-half">
-                <div class="search-input">
-                    <label for="city_search">
-                    </label>
-                    <select id="city_search" class="form-control">
-                        <option value="">Search city</option>
+
+            <!-- Filter 2: City Dropdown (Select2) -->
+            <div class="vl-field-group">
+                <label class="vl-field-label">City / शहर</label>
+                <div class="vl-input-wrap">
+                    <svg class="vl-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <select id="city_search" class="select2">
+                        <option value="">Select City</option>
                     </select>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-12 location-col-full">
-                <div class="search-input">
-                    <label for="subcategory"></label>
-                    <select id="subcategory" class="form-control">
+
+            <!-- Filter 3: Sub Category Dropdown (Select2) -->
+            <div class="vl-field-group">
+                <label class="vl-field-label">Speciality / सेवा</label>
+                <div class="vl-input-wrap">
+                    <svg class="vl-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <select id="subcategory" class="select2">
                         <option value="">Select Sub Category</option>
                         @foreach(($subCategories ?? []) as $sub)
-                            <option value="{{ $sub->id }}" data-parent="{{ $sub->parent_id }}">
+                            <option value="{{ $sub->id }}" data-parent="{{ $sub->parent_id }}" {{ request()->route('subcategory') == $sub->id ? 'selected' : '' }}>
                                 {{ $sub->name }}
                             </option>
                         @endforeach
                     </select>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-<!-- Start Hero Area -->
-<section class="hero-area">
-    <div class="hero-slider">
 
-        @forelse ($topadvertisments as $key => $topadvertisment)
-            <div class="slide {{ ($key == 0) ? 'active' : '' }}">
-                <img src="{{ $topadvertisment->image }}" alt="{{ $topadvertisment->image_alt }}">
-            </div>
-        @empty
-            <div class="slide active">
-                <img src="{{ asset('public/images/topbanner.jpeg') }}" alt="Default Banner">
-            </div>
-        @endforelse
-
-        <button class="arrow prev">&#10094;</button>
-        <button class="arrow next">&#10095;</button>
-        <div class="dots"></div>
-
-    </div>
-</section>
-<!-- End Hero Area -->
-<!-- Category Search -->
-<section class="container select-category">
-    <div class="search-form wow " >
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-12 p-0 mb-2">
-                <div class="search-input">
-                    <label for="category"></label>
-                    <select name="category" id="category">
-                        <option value="none">Choose Categories</option>
+            <!-- Filter 4: Category Dropdown (Select2) -->
+            <div class="vl-field-group">
+                <label class="vl-field-label">Main Category</label>
+                <div class="vl-input-wrap">
+                    <svg class="vl-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <select name="category" id="category" class="select2">
+                        <option value="none">All Categories</option>
                         @foreach($category as $value)
-                            <option value="{{ $value->id }}"
-                                {{ request()->route('category') == $value->id ? 'selected' : '' }}>
+                            <option value="{{ $value->id }}" {{ request()->route('category') == $value->id ? 'selected' : '' }}>
                                 {{ $value->name }}
                             </option>
                         @endforeach
                     </select>
                 </div>
             </div>
-            {{--  <div class="col-lg-6 col-md-6 col-6 p-0">
-                <label for="vendor_type_filter"></label>
-                <select id="vendor_type_filter">
-                    <option value="">All Agent</option>
-                    <option value="paid" {{ request('vendor_type') == 'paid' ? 'selected' : '' }}>Paid Agent</option>
-                    <option value="free" {{ request('vendor_type') == 'free' ? 'selected' : '' }}>Free Agent</option>
-                </select>
-            </div>  --}}
+
         </div>
     </div>
-</section>
 
-<!-- Start Items Grid Area -->
-<section class="items-grid section custom-padding">
-    <div class="container">
-        <div class="single-head">
-            <div class="row d-flex">
+    <!-- Top Advertisement Hero Slider -->
+    @if(isset($topadvertisments) && count($topadvertisments) > 0)
+        <div class="vl-hero-banner-container">
+            <div class="hero-slider">
+                @foreach ($topadvertisments as $key => $topadvertisment)
+                    <div class="slide {{ ($key == 0) ? 'active' : '' }}">
+                        <img src="{{ $topadvertisment->image }}" alt="{{ $topadvertisment->image_alt }}">
+                    </div>
+                @endforeach
 
-                <!-- Vendor List -->
-                <div class="vendorlist col-lg-8 col-md-8 col-12">
-                    
-                    @forelse ($vendoruser as $vendor)
-                        <div class="row d-flex vendorlistiner mb-3">
-                            <!-- Image -->
-                            <div class="col-lg-3 col-md-4 col-4">
-                                <div class="image">
-                                    <img src="{{ $vendor->profile_photo }}" 
-                                        alt="Vendor Image" class="img-fluid">
-                                </div>
+                <button class="arrow prev" aria-label="Previous Slide">&#10094;</button>
+                <button class="arrow next" aria-label="Next Slide">&#10095;</button>
+                <div class="dots"></div>
+            </div>
+        </div>
+    @endif
+
+    <!-- Main Content & Sidebar Grid -->
+    <div class="vl-main-layout">
+        <div class="vl-main-grid">
+
+            <!-- Left 8-Col: Agent List Cards -->
+            <div class="vl-agents-column">
+                @forelse ($vendoruser as $vendor)
+                    <div class="vl-agent-card">
+                        
+                        <!-- Agent Photo -->
+                        <div class="vl-agent-photo-wrap">
+                            <img src="{{ $vendor->profile_photo ? $vendor->profile_photo : asset('images/images.png') }}" alt="{{ $vendor->name }}" onerror="this.onerror=null; this.src='{{ asset('images/images.png') }}';">
+                        </div>
+
+                        <!-- Agent Information -->
+                        <div class="vl-agent-info">
+                            <div class="vl-agent-top-meta">
+                                <span class="vl-badge-verified">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    <span>Verified Agent</span>
+                                </span>
+
+                                @if($vendor->vendor_type == 'paid')
+                                    <span class="vl-badge-premium">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                        </svg>
+                                        <span>AI Verified</span>
+                                    </span>
+                                @endif
                             </div>
 
-                            <!-- Content -->
-                            <div class="col-lg-9 col-md-8 col-8">
-                                
-                                <h4>
-                                    <a href="{{ route('front.vendor.details', ['vendor' => $vendor->id]) }}">
-                                        {{ $vendor->name }}
+                            <h3 class="vl-agent-name">
+                                <a href="{{ route('front.vendor.details', ['vendor' => $vendor->id]) }}">
+                                    {{ $vendor->name }}
+                                </a>
+                            </h3>
+
+                            <div class="vl-agent-location">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                                <span>{{ $vendor->business_address ?? 'Jaipur, Rajasthan' }}</span>
+                            </div>
+
+                            @php
+                                $cleanMobile = !empty($vendor->mobile) ? preg_replace('/[^0-9+]/', '', $vendor->mobile) : (!empty($vendor->whats_app) ? preg_replace('/[^0-9+]/', '', $vendor->whats_app) : '');
+                                $waNum = '';
+                                if (!empty($vendor->whats_app)) {
+                                    $waNum = preg_replace('/[^0-9]/', '', $vendor->whats_app);
+                                    if (strlen($waNum) == 10) {
+                                        $waNum = '91' . $waNum;
+                                    }
+                                }
+                            @endphp
+
+                            <!-- Action Buttons -->
+                            <div class="vl-agent-actions">
+                                @if(!empty($cleanMobile))
+                                    <a href="tel:{{ $cleanMobile }}" class="vl-btn-action vl-btn-call" onclick="if(!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){ event.preventDefault(); alert('Phone Number: {{ $cleanMobile }}'); }">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                        </svg>
+                                        <span>Call Now</span>
                                     </a>
-                                </h4>
-
-                                <label class="text-dark">
-                                    <i class="lni lni-map-marker"></i>
-                                    {{ $vendor->business_address }}
-                                </label>
-
-                                @php
-                                     $cleanMobile = !empty($vendor->mobile) ? preg_replace('/[^0-9+]/', '', $vendor->mobile) : (!empty($vendor->whats_app) ? preg_replace('/[^0-9+]/', '', $vendor->whats_app) : '');
-                                     $waNum = '';
-                                     if (!empty($vendor->whats_app)) {
-                                         $waNum = preg_replace('/[^0-9]/', '', $vendor->whats_app);
-                                         if (strlen($waNum) == 10) {
-                                             $waNum = '91' . $waNum;
-                                         }
-                                     }
-                                 @endphp
-
-                                 <!-- ✅ DESKTOP ACTIONS -->
-                                 <div class="contact-actions desktop mt-3">
-                                     @if(!empty($cleanMobile))
-                                         <a href="tel:{{ $cleanMobile }}" class="btn call-btn" title="Call {{ $cleanMobile }}" onclick="if(!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){ event.preventDefault(); alert('Phone Number: {{ $cleanMobile }}'); }">
-                                             <i class="lni lni-phone"></i> Call Now
-                                         </a>
-                                     @endif
-
-                                     @if($vendor->vendor_type == 'paid' && !empty($waNum))
-                                     <a href="https://wa.me/{{ $waNum }}" class="btn whatsapp-btn" target="_blank">
-                                         <i class="lni lni-whatsapp"></i> WhatsApp
-                                     </a>
-                                     @endif
-
-                                     @if(!empty($vendor->email))
-                                     <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ $vendor->email }}" class="btn enquiry-btn" target="_blank" title="Email: {{ $vendor->email }}">
-                                         <i class="lni lni-envelope"></i> Send Enquiry
-                                     </a>
-                                     @endif
-                                 </div>
-
-                                 <!-- ✅ MOBILE ACTIONS -->
-                                 <div class="contact-actions mobile mt-2">
-                                     @if(!empty($cleanMobile))
-                                         <a href="tel:{{ $cleanMobile }}" class="btn call-btn">
-                                             <i class="lni lni-phone"></i>
-                                         </a>
-                                     @endif
-
-                                     @if($vendor->vendor_type == 'paid' && !empty($waNum))
-                                         <a href="https://wa.me/{{ $waNum }}" class="btn whatsapp-btn" target="_blank">
-                                             <i class="lni lni-whatsapp"></i>
-                                         </a>
-                                     @endif
-
-                                     @if(!empty($vendor->email))
-                                     <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ $vendor->email }}" class="btn enquiry-btn" target="_blank" title="Email: {{ $vendor->email }}">
-                                         <i class="lni lni-envelope"></i>
-                                     </a>
-                                     @endif
-                                 </div>
-
-                                <!-- Tags -->
-                                @if($vendor->vendor_type == 'paid')
-                                    <p class="item-position">
-                                        <i class="lni lni-bolt"></i> Premium
-                                    </p>
-                                    <p class="item-position item-position-ai">AI Verified</p>
                                 @endif
 
+                                @if($vendor->vendor_type == 'paid' && !empty($waNum))
+                                    <a href="https://wa.me/{{ $waNum }}" class="vl-btn-action vl-btn-whatsapp" target="_blank">
+                                        <i class="fa-brands fa-whatsapp"></i>
+                                        <span>WhatsApp</span>
+                                    </a>
+                                @endif
+
+                                @if(!empty($vendor->email))
+                                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ $vendor->email }}" class="vl-btn-action vl-btn-enquiry" target="_blank">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                            <polyline points="22,6 12,13 2,6"></polyline>
+                                        </svg>
+                                        <span>Send Enquiry</span>
+                                    </a>
+                                @endif
                             </div>
-                        </div>
-                    @empty
-                        <!-- No Record Found -->
-                        <div class="text-center py-5 w-100">
-                            <h4 class="text-muted">No record found</h4>
-                            <p class="text-muted">Try searching with a different category.</p>
-                        </div>
-                    @endforelse
 
-                    {{--  <!-- Pagination -->
-                    @if($vendoruser->hasPages())
-                        <div class="d-flex justify-content-center mt-5">
-                            {{ $vendoruser->appends(request()->query())->links() }}
                         </div>
-                    @endif  --}}
-
-                </div>
-                <!-- /Vendor List -->
-
-                <!-- Sidebar -->
-                {{--  <div class="col-lg-3 col-md-12 col-right">
-                    @foreach($sideadvertisments as $sideadvertisment)
-                        <div class="sidebar-box mb-3">
-                            <img src="{{ $sideadvertisment->image }}" class="sideadvertismentimage" alt="{{ $sideadvertisment->image_alt }}">
+                    </div>
+                @empty
+                    <!-- No Record Found Card -->
+                    <div class="vl-empty-card">
+                        <div class="vl-empty-icon">
+                            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                <line x1="8" y1="11" x2="14" y2="11"></line>
+                            </svg>
                         </div>
-                    @endforeach
-                </div>  --}}
-                <!-- Sidebar -->
-                <div class="col-lg-3 col-md-4 col-12 col-right">
-                    @if($sideadvertisments && count($sideadvertisments) > 0)
+                        <h3 style="font-size: 20px; font-weight: 800; color: #0F172A; margin-bottom: 6px;">No Verified Agents Found</h3>
+                        <p style="font-size: 14.5px; color: #64748B; margin-bottom: 20px;">Try searching with a different district or category.</p>
+                        <a href="{{ route('front.vendorlist') }}" class="vl-btn-action vl-btn-call">Clear Filters</a>
+                    </div>
+                @endforelse
+            </div>
+
+            <!-- Right Sidebar: Advertisements -->
+            <div class="vl-sidebar-column">
+                <div class="vl-sidebar-card">
+                    <div class="vl-sidebar-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <span>Sponsored</span>
+                    </div>
+
+                    @if(isset($sideadvertisments) && count($sideadvertisments) > 0)
                         @foreach($sideadvertisments as $sideadvertisment)
-                            <div class="sidebar-box mb-3">
-                                <img src="{{ $sideadvertisment->image }}" class="sideadvertismentimage" alt="{{ $sideadvertisment->image_alt }}">
+                            <div style="margin-bottom: 14px;">
+                                <img src="{{ $sideadvertisment->image }}" class="vl-sidebanner-img" alt="{{ $sideadvertisment->image_alt }}" onerror="this.onerror=null; this.src='{{ asset('images/sidebanner.jpeg') }}';">
                             </div>
                         @endforeach
-
                     @else
-                        <div class="sidebar-box mb-3">
-                            <img src="{{ asset('public/images/sidebanner.jpeg') }}" alt="Default Banner" style="width: 100%;">
+                        <div>
+                            <img src="{{ asset('images/sidebanner.jpeg') }}" class="vl-sidebanner-img" alt="Default Banner" onerror="this.onerror=null; this.src='{{ asset('public/images/sidebanner.jpeg') }}';">
                         </div>
                     @endif
                 </div>
-                <!-- /Sidebar -->
-                <!-- /Sidebar -->
-
             </div>
+
         </div>
     </div>
-</section>
-<!-- End Items Grid Area -->
 
-
-<section class="locations-section1">
-    <div class="container">
-        
-        <div class="locations-grid1">
-
-            <!-- Google Ad -->
-            <ins class="adsbygoogle"
-                style="display:block"
-                data-ad-client="ca-pub-9918904470832571"
-                data-ad-slot="2104355202"
-                data-ad-format="auto"
-                data-full-width-responsive="true">
-            </ins>
-        </div>
-    </div>
-</section>
-
+</div>
 @endsection
 
 @push('scripts')
-<script src="{{ asset('public/plugins/select2/js/select2.min.js') }}"></script>
-<script>
-    if ($("body").find(".category-slider").length) {
-        tns({
-            container: '.category-slider',
-            items: 3,
-            slideBy: 'page',
-            autoplay: false,
-            mouseDrag: true,
-            nav: false,
-            controls: true,
-            controlsText: [
-                '<i class="lni lni-chevron-left"></i>',
-                '<i class="lni lni-chevron-right"></i>'
-            ],
-            responsive: {
-                0: { items: 1 },
-                540: { items: 2 },
-                768: { items: 4 },
-                992: { items: 5 },
-                1170: { items: 6 }
-            }
-        });
-    }
-</script>
 <script>
     $(document).ready(function () {
-        var selectedDistrictId = "{{ $location ?? '' }}";
-        var selectedCityId = "{{ request()->query('city', '') }}";
-        var selectedSubCategory = "{{ $selectedSubCategory ?? '' }}";
-        var pendingCategoryId = '';
-        var pendingSubCategoryId = '';
-        var listUrlTemplate = "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
-        var locationCategoryUrlTemplate = "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION_ID_PLACEHOLDER', 'category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
-        var locationSubCategoryUrlTemplate = "{{ route('front.vendorlist.location.subcategory', ['location' => 'LOCATION_ID', 'subcategory' => 'SUBCATEGORY_ID']) }}";
-        var cityApiTemplate = "{{ route('get.cities', ['district' => 'DISTRICT_ID_PLACEHOLDER']) }}";
-        var currentCategoryId = "{{ request()->route('category') ?? '' }}";
         var $citySearch = $('#city_search');
         var $categorySearch = $('#category');
         var $subcategory = $('#subcategory');
-        var $headerDistrict = $('#header_district_id');
-        var $headerCity = $('#header_city_id');
-        var $headerContinue = $('#goToListingByLocation');
+        var $headerDistrict = $('#district_id_header');
+        var $headerCity = $('#city_id_header');
+        var $headerContinue = $('#applyDistrictCity');
 
-        $citySearch.select2({
-            placeholder: 'Select city',
-            allowClear: true,
-            width: '100%'
-        });
-        $categorySearch.select2({
-            placeholder: 'Choose Categories',
-            allowClear: false,
-            width: '100%'
-        });
-        $subcategory.select2({
-            placeholder: 'Select Sub Category',
-            allowClear: false,
-            width: '100%'
-        });
+        var cityApiTemplate = "{{ route('get.cities', ['district' => 'DISTRICT_ID_PLACEHOLDER']) }}";
+        var listUrlTemplate = "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
+        var locationCategoryUrlTemplate = "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION_ID_PLACEHOLDER', 'category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
+        var locationSubCategoryUrlTemplate = "{{ route('front.vendorlist.location.subcategory', ['location' => 'LOCATION_ID', 'subcategory' => 'SUBCATEGORY_ID']) }}";
+
+        var currentCategoryId = "{{ $selectedCategory ?? '' }}";
+        var selectedSubCategory = "{{ $selectedSubCategory ?? '' }}";
+        var selectedDistrictId = "{{ $location ?? '' }}";
+        var selectedCityId = "{{ $selectedCityId ?? '' }}";
+        var pendingCategoryId = '';
+        var pendingSubCategoryId = '';
+
+        if ($.fn.select2) {
+            $citySearch.select2({
+                placeholder: 'Select City',
+                allowClear: true,
+                width: '100%'
+            });
+            $categorySearch.select2({
+                placeholder: 'Choose Categories',
+                allowClear: false,
+                width: '100%'
+            });
+            $subcategory.select2({
+                placeholder: 'Select Sub Category',
+                allowClear: true,
+                width: '100%'
+            });
+        }
 
         function getStoredSelection() {
             return {
@@ -1042,45 +769,6 @@
             });
         }
 
-        function resetHeaderCityDropdown() {
-            $headerCity.html('<option value="">Choose city</option>');
-        }
-
-        function openDistrictCityModal() {
-            if ($('#districtCityModal').length) {
-                $('#districtCityModal').modal('show');
-            } else {
-                alert('Please select district first');
-            }
-        }
-
-        function loadHeaderCitiesByDistrict(districtId, preselectedCity) {
-            resetHeaderCityDropdown();
-            if (!districtId) {
-                return;
-            }
-
-            var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
-
-            $.get(cityApiUrl, function (cities) {
-                var options = '<option value="">Choose city</option><option value="all">All City</option>';
-
-                if (Array.isArray(cities) && cities.length) {
-                    cities.forEach(function (city) {
-                        options += '<option value="' + city.id + '">' + city.name + '</option>';
-                    });
-                }
-
-                $headerCity.html(options);
-
-                if (preselectedCity) {
-                    $headerCity.val(String(preselectedCity));
-                }
-            }).fail(function () {
-                resetHeaderCityDropdown();
-            });
-        }
-
         function selectDistrict($item) {
             $('#location_search').val($item.text().trim());
             selectedDistrictId = String($item.data('id'));
@@ -1089,20 +777,26 @@
             persistSelection(selectedDistrictId, $item.text().trim(), '');
             loadCitiesByDistrict(selectedDistrictId, '');
             $('#searchResults').hide();
+
+            // Redirect on district select
+            var redirectUrl = currentCategoryId
+                ? locationCategoryUrlTemplate
+                    .replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId)
+                    .replace('CATEGORY_ID_PLACEHOLDER', currentCategoryId)
+                : listUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId);
+
+            window.location.href = redirectUrl;
         }
 
         $('#searchResults').hide();
 
         $('#location_search').on('keyup', function () {
             var value = $(this).val().toLowerCase();
-
             if (value.length === 0) {
                 $('#searchResults').hide();
                 return;
             }
-
             $('#searchResults').show();
-
             $('.result-item').filter(function () {
                 $(this).toggle($(this).data('name').indexOf(value) > -1);
             });
@@ -1113,14 +807,12 @@
         });
 
         $('#location_search').on('keydown', function (e) {
-            if (e.key !== 'Enter') {
-                return;
-            }
-
-            e.preventDefault();
-            var $firstVisible = $('.result-item:visible').first();
-            if ($firstVisible.length) {
-                selectDistrict($firstVisible);
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                var $firstVisible = $('.result-item:visible').first();
+                if ($firstVisible.length) {
+                    selectDistrict($firstVisible);
+                }
             }
         });
 
@@ -1145,49 +837,9 @@
         });
 
         $(document).on('click', function (e) {
-            if (!$(e.target).closest('.search-input').length) {
+            if (!$(e.target).closest('.vl-input-wrap').length) {
                 $('#searchResults').hide();
             }
-        });
-
-        $headerDistrict.off('change.vendorlist').on('change.vendorlist', function () {
-            loadHeaderCitiesByDistrict($(this).val(), '');
-        });
-
-        $headerContinue.off('click').on('click', function () {
-            var districtId = $headerDistrict.val();
-            var cityId = $headerCity.val();
-
-            if (!districtId) {
-                alert('Please select district');
-                return;
-            }
-
-            sessionStorage.setItem('selectedDistrictId', String(districtId));
-            sessionStorage.setItem('selectedDistrictName', $headerDistrict.find('option:selected').text());
-            if (cityId) {
-                sessionStorage.setItem('selectedCityId', String(cityId));
-            } else {
-                sessionStorage.removeItem('selectedCityId');
-            }
-
-            var redirectUrl = pendingCategoryId
-                ? locationCategoryUrlTemplate
-                    .replace('LOCATION_ID_PLACEHOLDER', districtId)
-                    .replace('CATEGORY_ID_PLACEHOLDER', pendingCategoryId)
-                : (
-                    pendingSubCategoryId
-                        ? locationSubCategoryUrlTemplate
-                            .replace('LOCATION_ID', districtId)
-                            .replace('SUBCATEGORY_ID', pendingSubCategoryId)
-                        : listUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', districtId)
-                );
-
-            if (cityId) {
-                redirectUrl += '?city=' + encodeURIComponent(cityId);
-            }
-
-            window.location.href = redirectUrl;
         });
 
         $('#category').on('change', function () {
@@ -1195,8 +847,6 @@
             if (!categoryId || categoryId === 'none') {
                 return;
             }
-
-            pendingCategoryId = categoryId;
 
             var activeDistrictId = selectedDistrictId || sessionStorage.getItem('selectedDistrictId') || '';
             var activeCityId = selectedCityId || sessionStorage.getItem('selectedCityId') || '';
@@ -1211,12 +861,7 @@
                 }
 
                 window.location.href = redirectUrl;
-                return;
             }
-
-            $headerDistrict.val('');
-            resetHeaderCityDropdown();
-            openDistrictCityModal();
         });
 
         $subcategory.on('change', function () {
@@ -1227,7 +872,6 @@
             }
 
             localStorage.setItem('selectedSubCategory', subcategoryId);
-
             var stored = getStoredSelection();
             var activeDistrictId = selectedDistrictId || stored.districtId || '';
             var activeCityId = selectedCityId || stored.cityId || '';
@@ -1242,11 +886,7 @@
                 }
 
                 window.location.href = redirectUrl;
-                return;
             }
-
-            pendingSubCategoryId = subcategoryId;
-            openDistrictCityModal();
         });
 
         if (selectedDistrictId) {
@@ -1265,62 +905,6 @@
                 $subcategory.val(storedSubCategory).trigger('change.select2');
             }
         }
-
-        $('.js-open-district-city-popup').on('click', function () {
-            pendingCategoryId = '';
-            pendingSubCategoryId = '';
-        });
-
-        $('#districtCityModal').on('hidden.bs.modal', function () {
-            if (pendingCategoryId && !$headerDistrict.val()) {
-                pendingCategoryId = '';
-                $categorySearch.val('none').trigger('change.select2');
-            }
-            if (pendingSubCategoryId && !$headerDistrict.val()) {
-                pendingSubCategoryId = '';
-                $subcategory.val('').trigger('change.select2');
-            }
-        });
-    });
-</script>
-<script>
-    $('#vendor_type_filter').on('change', function () {
-
-        var vendorType = $(this).val();
-        var districtId = "{{ $location }}";
-        var categoryId = "{{ $selectedCategory }}";
-        var cityId = "{{ $selectedCityId }}";
-
-        var url = "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION', 'category' => 'CATEGORY']) }}";
-
-        url = url.replace('LOCATION', districtId);
-        url = url.replace('CATEGORY', categoryId);
-
-        var params = [];
-
-        if (cityId) {
-            params.push('city=' + cityId);
-        }
-
-        if (vendorType) {
-            params.push('vendor_type=' + vendorType);
-        }
-
-        if (params.length) {
-            url += '?' + params.join('&');
-        }
-
-        window.location.href = url;
-    });
-</script>
-<script>
-    window.addEventListener('load', function () {
-        try {
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        } catch (e) {
-            console.log('Adsense error:', e);
-        }
     });
 </script>
 @endpush
-

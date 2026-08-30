@@ -53,19 +53,11 @@
                 </li>
 
                 <li class="nav-item {{ request()->routeIs('front.addListing') ? 'active' : '' }}">
-                    @if(\Auth::check())
-                        <a href="{{ route('front.addListing') }}" class="nav-link">Free Listing</a>
-                    @else
-                        <a href="javascript:void(0)" class="nav-link open-signin">Free Listing</a>
-                    @endif
+                    <a href="{{ \Auth::check() ? route('front.addListing') : route('login') }}" class="nav-link">Free Listing</a>
                 </li>
 
                 <li class="nav-item {{ request()->routeIs('front.addbanner') ? 'active' : '' }}">
-                    @if(\Auth::check())
-                        <a href="{{ route('front.addbanner') }}" class="nav-link">Banner Ad</a>
-                    @else
-                        <a href="javascript:void(0)" class="nav-link open-signin">Banner Ad</a>
-                    @endif
+                    <a href="{{ \Auth::check() ? route('front.addbanner') : route('login') }}" class="nav-link">Banner Ad</a>
                 </li>
 
                 <li class="nav-item dropdown-item">
@@ -117,7 +109,7 @@
                 </a>
                 <a href="{{ route('front.profile') }}" class="btn-register">Profile</a>
             @else
-                <a href="javascript:void(0)" class="action-btn login-btn open-signin" title="Login">
+                <a href="{{ route('login') }}" class="action-btn login-btn {{ request()->routeIs('login') ? 'active-action' : '' }}" title="Login">
                     <svg class="action-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -126,7 +118,7 @@
                     <span>Login</span>
                 </a>
                 <!-- Register Button -->
-                <a href="javascript:void(0)" class="btn-register open-signin" onclick="$('.tab[data-tab=signup]').trigger('click');">Register</a>
+                <a href="{{ route('front.register') }}" class="btn-register">Register</a>
             @endif
 
             <!-- Right Side Menu Toggle Button -->
@@ -176,7 +168,7 @@
             <li class="drawer-nav-item"><a href="{{route('front.addbanner')}}" class="drawer-nav-link">Banner Ad</a></li>
             <li class="drawer-nav-item"><a href="{{route('payment.histroy')}}" class="drawer-nav-link">Payment History</a></li>
         @else
-            <li class="drawer-nav-item"><a href="javascript:void(0)" class="drawer-nav-link open-signin">Sign In / Register</a></li>
+            <li class="drawer-nav-item"><a href="{{route('login')}}" class="drawer-nav-link">Sign In / Register</a></li>
         @endif
         @if($about && $about->status == 1)
             <li class="drawer-nav-item"><a href="{{route('front.aboutus')}}" class="drawer-nav-link">About Us</a></li>

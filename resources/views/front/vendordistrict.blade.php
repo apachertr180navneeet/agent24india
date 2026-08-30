@@ -1,235 +1,152 @@
 @extends('front.layout.main')
-@section('title', $pageTitle)
+@section('title', $pageTitle ?? 'District Categories')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('public/plugins/select2/css/select2.min.css') }}">
 <style>
-    /* ================= COMMON ================= */
-    .search-results {
+    .vendorlist-page {
+        background-color: #F8FAFC;
+        padding-bottom: 60px;
+    }
+
+    /* Top Search Filter Box */
+    .vl-search-card {
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        padding: 20px 24px;
+        margin: 20px auto;
+        max-width: 1280px;
+    }
+
+    .vl-search-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
+
+    @media (max-width: 991px) {
+        .vl-search-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 575px) {
+        .vl-search-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .vl-field-group {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .vl-field-label {
+        font-size: 13px;
+        font-weight: 700;
+        color: #1E293B;
+    }
+
+    .vl-input-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .vl-input-wrap .vl-icon {
         position: absolute;
+        left: 14px;
+        pointer-events: none;
+        z-index: 3;
+        color: #004BEE;
+    }
+
+    .vl-input {
         width: 100%;
-        background: #fff;
-        border: 1px solid #ddd;
-        max-height: 200px;
-        overflow-y: auto;
-        z-index: 9999;
-        border-radius: 6px;
-    }
-
-    .result-item {
-        padding: 10px;
-        cursor: pointer;
-    }
-
-    .result-item:hover {
-        background: #f2f2f2;
-    }
-
-    /* ================= SEARCH FORM ================= */
-    .search-form .search-input {
-        width: 100%;
-    }
-
-    .search-form .search-input input.form-control,
-    .search-form .search-input select.form-control {
-        width: 100%;
-        height: 50px;
-        border-radius: 6px;
-        border: 1px solid #ddd;
-        padding: 0 15px;
+        height: 48px;
+        padding: 0 16px 0 42px;
+        border: 1.5px solid #CBD5E1;
+        border-radius: 10px;
         font-size: 14px;
+        font-weight: 600;
+        color: #0F172A;
+        background-color: #FFFFFF;
+        outline: none;
+        transition: all 0.2s ease;
     }
 
-    #location_search.form-control {
-        border-color: #aaaaaa;
+    .vl-input:focus {
+        border-color: #004BEE;
+        box-shadow: 0 0 0 3.5px rgba(0, 75, 238, 0.12);
     }
 
-    /* ================= SELECT2 ================= */
-    .select2-container {
+    .vl-input-wrap .select2-container {
         width: 100% !important;
     }
 
-    .select2-selection--single {
-        height: 50px !important;
-        padding: 0 12px !important;
-        border-radius: 6px !important;
+    .vl-input-wrap .select2-container--default .select2-selection--single {
+        height: 48px !important;
+        border: 1.5px solid #CBD5E1 !important;
+        border-radius: 10px !important;
+        padding-left: 40px !important;
         display: flex !important;
         align-items: center !important;
     }
 
-    .select2-selection__rendered {
-        line-height: 48px !important;
+    .vl-input-wrap .select2-container--default .select2-selection--single .select2-selection__rendered {
         padding-left: 0 !important;
-        padding-right: 24px !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        color: #0F172A !important;
     }
 
-    .select2-selection__arrow {
-        height: 48px !important;
-    }
-
-    .select2-dropdown {
-        border: 1px solid #ddd;
-        z-index: 99999 !important;
-    }
-
-    /* ================= LOCATION ROW ================= */
-    .location-selector-row {
-        display: flex;
-        flex-wrap: wrap;
-        margin-left: -5px;
-        margin-right: -5px;
-    }
-
-    .location-selector-row > div {
-        padding-left: 5px;
-        padding-right: 5px;
-        margin-bottom: 10px;
-    }
-
-    /* Desktop → 3 column fix */
-    @media (min-width: 992px) {
-        .location-selector-row {
-            flex-wrap: nowrap;
-        }
-
-        .location-selector-row > div {
-            flex: 1;
-            max-width: 33.33%;
-        }
-    }
-
-    /* Mobile → stack */
-    @media (max-width: 768px) {
-        .location-selector-row {
-            margin-left: -4px;
-            margin-right: -4px;
-        }
-
-        .location-selector-row > div {
-            padding-left: 4px;
-            padding-right: 4px;
-            margin-bottom: 8px;
-        }
-
-        .location-col-half {
-            width: 50%;
-            flex: 0 0 50%;
-            max-width: 50%;
-        }
-
-        .location-col-full {
-            width: 100%;
-            flex: 0 0 100%;
-            max-width: 100%;
-        }
-
-        .search-form .search-input input.form-control,
-        .search-form .search-input select.form-control {
-            height: 45px;
-            font-size: 13px;
-        }
-
-        .select2-selection--single {
-            height: 45px !important;
-            padding: 0 10px !important;
-        }
-
-        .select2-selection__rendered {
-            line-height: 43px !important;
-            padding-right: 22px !important;
-        }
-
-        .select2-selection__arrow {
-            height: 43px !important;
-        }
-    }
-
-    /* ================= CATEGORY ================= */
-    .categories-section {
-        padding: 40px 0;
-    }
-
-    .categories-grid {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        gap: 15px;
-    }
-
-    .category-link {
-        text-decoration: none;
-    }
-
-    .category-card {
-        background: #fff;
+    .search-results {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #FFFFFF;
+        border: 1.5px solid #CBD5E1;
         border-radius: 10px;
-        padding: 15px 10px;
-        text-align: center;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-        transition: 0.3s;
+        max-height: 220px;
+        overflow-y: auto;
+        z-index: 99999;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        margin-top: 4px;
     }
 
-    .category-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-    }
-
-    .category-card img {
-        width: 50px;
-        height: 50px;
-        object-fit: contain;
-        margin-bottom: 8px;
-    }
-
-    .category-card span {
-        display: block;
-        font-size: 13px;
+    .result-item {
+        padding: 10px 16px;
+        font-size: 14px;
         font-weight: 600;
-        color: #333;
+        color: #334155;
+        cursor: pointer;
+        transition: background 0.15s;
     }
 
-    /* Tablet */
-    @media (max-width: 1200px) {
-        .categories-grid {
-            grid-template-columns: repeat(4, 1fr);
-        }
+    .result-item:hover {
+        background: #EFF6FF;
+        color: #004BEE;
     }
 
-    /* Mobile */
-    @media (max-width: 768px) {
-        .categories-grid {
-            grid-template-columns: repeat(3, 1fr);
-        }
+    /* Hero Slider Container */
+    .vl-hero-banner-container {
+        max-width: 1280px;
+        margin: 0 auto 24px auto;
+        padding: 0 20px;
     }
 
-    /* Small Mobile */
-    @media (max-width: 480px) {
-        .categories-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .category-card {
-            padding: 10px 5px;
-        }
-
-        .category-card img {
-            width: 45px;
-            height: 45px;
-        }
-
-        .category-card span {
-            font-size: 11px;
-        }
-    }
-
-    /* ================= SIDEBAR ================= */
     .hero-slider {
         position: relative;
         width: 100%;
         overflow: hidden;
-        border-radius: 12px;
-        aspect-ratio: 16 / 6;
-        background: #f5f5f5;
+        border-radius: 16px;
+        aspect-ratio: 16 / 5.5;
+        background: #F1F5F9;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
     }
 
     .hero-slider .slide {
@@ -242,432 +159,261 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: center;
-        border-radius: 12px;
+        border-radius: 16px;
     }
 
-    .sideadvertismentimage {
-        width: 100%;
+    /* Main Grid */
+    .vl-main-layout {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 20px;
     }
 
-    /* ================= CATEGORY GRID ================= */
-    .categories-grid {
+    .vl-main-grid {
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        gap: 15px;
+        grid-template-columns: 1fr 320px;
+        gap: 24px;
     }
 
-    /* Tablet */
-    @media (max-width: 992px) {
-        .categories-grid {
-            grid-template-columns: repeat(4, 1fr);
-        }
-
-        .hero-slider {
-            aspect-ratio: 16 / 7;
+    @media (max-width: 991px) {
+        .vl-main-grid {
+            grid-template-columns: 1fr;
         }
     }
 
-    /* Mobile */
-    @media (max-width: 768px) {
+    /* Categories Grid */
+    .vl-categories-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
 
-        /* FULL WIDTH layout */
-        .vendorlist {
-            width: 100%;
-            flex: 0 0 100%;
-            max-width: 100%;
-        }
-
-        .col-right {
-            width: 100%;
-            max-width: 100%;
-            margin-top: 15px;
-        }
-
-        .hero-slider {
-            aspect-ratio: 16 / 8;
-        }
-
-
-        /* 👉 3 ITEMS IN ONE LINE */
-        .categories-grid {
+    @media (max-width: 1200px) {
+        .vl-categories-grid {
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        /* Smaller cards */
-        .category-card {
-            padding: 10px 5px;
-        }
-
-        .category-card img {
-            width: 40px;
-            height: 40px;
-        }
-
-        .category-card span {
-            font-size: 12px;
         }
     }
 
-    /* Small Mobile */
-    @media (max-width: 480px) {
-
-        .categories-grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+    @media (max-width: 575px) {
+        .vl-categories-grid {
+            grid-template-columns: repeat(2, 1fr);
         }
-
-        .category-card span {
-            font-size: 11px;
-        }
-
-        .hero-slider {
-            aspect-ratio: 16 / 9;
-        }
-
     }
 
-    /* ================= UNIFIED UI (MATCH INDEX) ================= */
-    .location-selector-row {
+    .vl-category-card {
+        background-color: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 16px;
+        padding: 20px 12px;
+        text-align: center;
+        text-decoration: none;
         display: flex;
-        flex-wrap: wrap;
-        margin-left: -5px;
-        margin-right: -5px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
     }
 
-    .location-selector-row > div {
-        padding-left: 5px;
-        padding-right: 5px;
+    .vl-category-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(0, 75, 238, 0.1);
+        border-color: #BFDBFE;
+    }
+
+    .vl-category-card img {
+        width: 60px;
+        height: 60px;
+        object-fit: contain;
         margin-bottom: 10px;
     }
 
-    .search-form .search-input input.form-control,
-    .search-form .search-input select.form-control {
-        width: 100%;
-        height: 50px;
-        border-radius: 6px;
-        border: 1px solid #ddd;
-        padding: 0 15px;
+    .vl-category-card span {
+        display: block;
         font-size: 14px;
+        font-weight: 700;
+        color: #0F172A;
     }
 
-    #location_search.form-control {
-        border-color: #aaaaaa;
+    /* Sidebar */
+    .vl-sidebar-card {
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        margin-bottom: 20px;
     }
 
-    .select2-container {
-        width: 100% !important;
+    .vl-sidebar-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: #64748B;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
     }
 
-    .select2-selection--single {
-        height: 50px !important;
-        padding: 0 12px !important;
-        border-radius: 6px !important;
-        display: flex !important;
-        align-items: center !important;
-    }
-
-    .select2-selection__rendered {
-        line-height: 48px !important;
-        padding-left: 0 !important;
-        padding-right: 24px !important;
-    }
-
-    .select2-selection__arrow {
-        height: 48px !important;
-    }
-
-    .categories-grid {
-        grid-template-columns: repeat(6, 1fr);
-        gap: 15px;
-    }
-
-    .category-card img {
-        width: 50px;
-        height: 50px;
-        object-fit: contain;
-    }
-
-    @media (min-width: 992px) {
-        .location-selector-row {
-            flex-wrap: nowrap;
-        }
-    }
-
-    @media (max-width: 992px) {
-        .categories-grid {
-            grid-template-columns: repeat(4, 1fr);
-        }
-    }
-
-    @media (max-width: 768px) {
-        .location-selector-row {
-            margin-left: -4px;
-            margin-right: -4px;
-        }
-
-        .location-selector-row > div {
-            padding-left: 4px;
-            padding-right: 4px;
-            margin-bottom: 8px;
-        }
-
-        .location-col-half {
-            width: 50%;
-            flex: 0 0 50%;
-            max-width: 50%;
-        }
-
-        .location-col-full {
-            width: 100%;
-            flex: 0 0 100%;
-            max-width: 100%;
-        }
-
-        .search-form .search-input input.form-control,
-        .search-form .search-input select.form-control {
-            height: 40px;
-            font-size: 12px;
-            padding: 0 8px;
-        }
-
-        .select2-selection--single {
-            height: 40px !important;
-            padding: 0 8px !important;
-        }
-
-        .select2-selection__rendered {
-            line-height: 38px !important;
-            padding-right: 22px !important;
-        }
-
-        .select2-selection__arrow {
-            height: 38px !important;
-        }
-
-        .categories-grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .category-card {
-            padding: 10px 5px;
-        }
-
-        .category-card img {
-            width: 40px;
-            height: 40px;
-        }
-
-        .category-card span {
-            font-size: 12px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .location-selector-row {
-            margin-left: -3px;
-            margin-right: -3px;
-        }
-
-        .location-selector-row > div {
-            padding-left: 3px;
-            padding-right: 3px;
-        }
-
-        .categories-grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-
-        .category-card span {
-            font-size: 12px;
-        }
+    .vl-sidebanner-img {
+        width: 100%;
+        border-radius: 12px;
+        display: block;
     }
 </style>
 @endpush
- @php
-    $districtModel = new \App\Models\District();
-    $cityModel = new \App\Models\City();
-    $districtList = $districtModel->select('id', 'name')->where('status', 1)->get();
-@endphp
+
 @section('content')
-    <!-- Location Selector -->
-    <section class="container">
-        <div class="search-form">
-            <div class="row location-selector-row">
+<div class="vendorlist-page">
 
-                <!-- District -->
-                <div class="col-lg-4 col-md-4 col-6 location-col-half">
-                    <div class="search-input position-relative">
-                        <input type="text" 
-                            id="location_search" 
-                            class="form-control"
-                            placeholder="Search district"
-                            autocomplete="off"
-                            value="{{ $selectedDistrict ? $selectedDistrict->name : '' }}">
+    <!-- Top Multi-Filter Search Card -->
+    <div class="vl-search-card">
+        <div class="vl-search-grid">
+            
+            <!-- District -->
+            <div class="vl-field-group">
+                <label class="vl-field-label">District / जिला</label>
+                <div class="vl-input-wrap">
+                    <svg class="vl-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <input type="text" id="location_search" class="vl-input" placeholder="Search District..." autocomplete="off" value="{{ $selectedDistrict ? $selectedDistrict->name : '' }}">
 
-                        <div id="searchResults" class="search-results">
-                            @foreach($districtList as $value)
-                                <div class="result-item"
-                                    data-id="{{ $value->id }}"
-                                    data-name="{{ strtolower(trim($value->name)) }}">
-                                    {{ $value->name }}
-                                </div>
-                            @endforeach
-                        </div>
+                    <div id="searchResults" class="search-results" style="display:none;">
+                        @foreach($districtList as $value)
+                            <div class="result-item" data-id="{{ $value->id }}" data-name="{{ strtolower(trim($value->name)) }}">
+                                {{ $value->name }}
+                            </div>
+                        @endforeach
                     </div>
                 </div>
-
-                <!-- City -->
-                <div class="col-lg-4 col-md-4 col-6 location-col-half">
-                    <div class="search-input">
-                        <select id="city_search" class="form-control">
-                            <option value="">Search city</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Subcategory -->
-                <div class="col-lg-4 col-md-4 col-12 location-col-full">
-                    <div class="search-input">
-                        <select id="subcategory" class="form-control">
-                            <option value="">Select Sub Category</option>
-                            @foreach($subCategories as $sub)
-                                <option value="{{ $sub->id }}">
-                                    {{ $sub->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
             </div>
+
+            <!-- City -->
+            <div class="vl-field-group">
+                <label class="vl-field-label">City / शहर</label>
+                <div class="vl-input-wrap">
+                    <svg class="vl-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <select id="city_search" class="select2">
+                        <option value="">Select City</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Subcategory -->
+            <div class="vl-field-group">
+                <label class="vl-field-label">Speciality / सेवा</label>
+                <div class="vl-input-wrap">
+                    <svg class="vl-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <select id="subcategory" class="select2">
+                        <option value="">Select Sub Category</option>
+                        @foreach($subCategories as $sub)
+                            <option value="{{ $sub->id }}">
+                                {{ $sub->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <!-- Category -->
+            <div class="vl-field-group">
+                <label class="vl-field-label">Main Category</label>
+                <div class="vl-input-wrap">
+                    <svg class="vl-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <select name="category" id="category" class="select2">
+                        <option value="none">Choose Categories</option>
+                        @foreach($category as $value)
+                            <option value="{{ $value->id }}" {{ request()->route('category') == $value->id ? 'selected' : '' }}>
+                                {{ $value->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
         </div>
-    </section>
-    <!-- Start Hero Area -->
-    <section class="hero-area">
-        <div class="hero-slider">
+    </div>
 
-            @if($banner && count($banner) > 0)
-
+    <!-- Top Advertisement Hero Slider -->
+    @if(isset($banner) && count($banner) > 0)
+        <div class="vl-hero-banner-container">
+            <div class="hero-slider">
                 @foreach ($banner as $key => $value)
                     <div class="slide {{ ($key == 0) ? 'active' : '' }}">
                         <img src="{{ $value->image }}" alt="Slide {{ $key + 1 }}">
                     </div>
                 @endforeach
 
-            @else
-                <div class="slide active">
-                    <img src="{{ asset('public/images/topbanner.jpeg') }}" alt="Default Banner">
-                </div>
-            @endif
-
-            <button class="arrow prev">&#10094;</button>
-            <button class="arrow next">&#10095;</button>
-
-            <div class="dots"></div>
-
-        </div>
-    </section>
-
-    <!-- Location Search -->
-    <section class="container select-category">
-        <div class="search-form wow " >
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-12 p-0">
-                    <div class="search-input" style="">
-                        <label for="category"></label>
-                        <select name="category" id="category">
-                            <option value="none">Choose Categories</option>
-                            @foreach($category as $value)
-                                <option value="{{ $value->id }}"
-                                    {{ request()->route('category') == $value->id ? 'selected' : '' }}>
-                                    {{ $value->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+                <button class="arrow prev" aria-label="Previous Slide">&#10094;</button>
+                <button class="arrow next" aria-label="Next Slide">&#10095;</button>
+                <div class="dots"></div>
             </div>
         </div>
-    </section>
+    @endif
 
+    <!-- Main Content & Sidebar Grid -->
+    <div class="vl-main-layout">
+        <div class="vl-main-grid">
 
-    <!-- Category Section -->
-    <section class="categories-section">
-        <div class="container">
-            <div class="row">
-                <div class="vendorlist col-lg-9">
-                    <div class="categories-grid">
-                        @foreach($category as $key => $value)
-                            <a href="{{ route('front.vendorlist.location.category', ['location' => $selectedDistrict->id ?? '', 'category' => $value->id]) }}{{ !empty($selectedCityId) ? '?city=' . urlencode($selectedCityId) : '' }}" class="category-link">
-                                <div class="category-card">
-                                    <img src="{{ $value->image }}" alt="{{ $value->name }}">
-                                    <span>{{ $value->name }}</span>
-                                </div>
-                            </a>
-                        @endforeach
-                    </div>
+            <!-- Left: Categories Grid -->
+            <div>
+                <div class="vl-categories-grid">
+                    @foreach($category as $key => $value)
+                        <a href="{{ route('front.vendorlist.location.category', ['location' => $selectedDistrict->id ?? '', 'category' => $value->id]) }}{{ !empty($selectedCityId) ? '?city=' . urlencode($selectedCityId) : '' }}" class="vl-category-card">
+                            <img src="{{ $value->image }}" alt="{{ $value->name }}">
+                            <span>{{ $value->name }}</span>
+                        </a>
+                    @endforeach
                 </div>
+            </div>
 
-                <!-- Sidebar -->
-                <div class="col-lg-3 col-md-12 col-right">
-                    @if($sideadvertisments && count($sideadvertisments) > 0)
+            <!-- Right Sidebar -->
+            <div class="vl-sidebar-column">
+                <div class="vl-sidebar-card">
+                    <div class="vl-sidebar-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <span>Sponsored</span>
+                    </div>
+
+                    @if(isset($sideadvertisments) && count($sideadvertisments) > 0)
                         @foreach($sideadvertisments as $sideadvertisment)
-                            <div class="sidebar-box mb-3">
-                                <img src="{{ $sideadvertisment->image }}" class="sideadvertismentimage" alt="{{ $sideadvertisment->image_alt }}">
+                            <div style="margin-bottom: 14px;">
+                                <img src="{{ $sideadvertisment->image }}" class="vl-sidebanner-img" alt="{{ $sideadvertisment->image_alt }}" onerror="this.onerror=null; this.src='{{ asset('images/sidebanner.jpeg') }}';">
                             </div>
                         @endforeach
-
                     @else
-                        <div class="sidebar-box mb-3">
-                            <img src="{{ asset('public/images/sidebanner.jpeg') }}" alt="Default Banner" style="width: 100%;">
+                        <div>
+                            <img src="{{ asset('images/sidebanner.jpeg') }}" class="vl-sidebanner-img" alt="Default Banner" onerror="this.onerror=null; this.src='{{ asset('public/images/sidebanner.jpeg') }}';">
                         </div>
                     @endif
                 </div>
-                <!-- /Sidebar -->
             </div>
+
         </div>
-    </section>
+    </div>
+
+</div>
 @endsection
 
 @push('scripts')
-<script src="{{ asset('public/plugins/select2/js/select2.min.js') }}"></script>
-<script>
-    //========= Category Slider
-    if($("body").find(".category-slider").length) {
-        tns({
-            container: '.category-slider',
-            items: 3,
-            slideBy: 'page',
-            autoplay: false,
-            mouseDrag: true,
-            gutter: 0,
-            nav: false,
-            controls: true,
-            controlsText: ['<i class="lni lni-chevron-left"></i>', '<i class="lni lni-chevron-right"></i>'],
-            responsive: {
-                0: {
-                    items: 1,
-                },
-                540: {
-                    items: 2,
-                },
-                768: {
-                    items: 4,
-                },
-                992: {
-                    items: 5,
-                },
-                1170: {
-                    items: 6,
-                }
-            }
-        });
-    }
-</script>
 <script>
     $(document).ready(function () {
         var selectedDistrictId = "{{ $location ?? '' }}";
@@ -680,16 +426,23 @@
         var $citySearch = $('#city_search');
         var $categorySearch = $('#category');
 
-        $citySearch.select2({
-            placeholder: 'Select city',
-            allowClear: true,
-            width: '100%'
-        });
-        $categorySearch.select2({
-            placeholder: 'Choose Categories',
-            allowClear: false,
-            width: '100%'
-        });
+        if ($.fn.select2) {
+            $citySearch.select2({
+                placeholder: 'Select City',
+                allowClear: true,
+                width: '100%'
+            });
+            $categorySearch.select2({
+                placeholder: 'Choose Categories',
+                allowClear: false,
+                width: '100%'
+            });
+            $('#subcategory').select2({
+                placeholder: 'Select Sub Category',
+                allowClear: true,
+                width: '100%'
+            });
+        }
 
         function resetCityDropdown() {
             $citySearch.html('<option value="">Select city</option><option value="all">All City</option>').trigger('change.select2');
@@ -697,346 +450,87 @@
 
         function loadCitiesByDistrict(districtId, preselectedCity) {
             resetCityDropdown();
-            if (!districtId) {
-                return;
-            }
+            if (!districtId) return;
 
             var cityApiUrl = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
 
             $.get(cityApiUrl, function (cities) {
                 var options = '<option value="">Select city</option><option value="all">All City</option>';
-
                 if (Array.isArray(cities) && cities.length) {
                     cities.forEach(function (city) {
                         options += '<option value="' + city.id + '">' + city.name + '</option>';
                     });
                 }
-
                 $citySearch.html(options);
-
                 if (preselectedCity) {
                     $citySearch.val(String(preselectedCity));
                 }
-
                 $citySearch.trigger('change.select2');
-            }).fail(function () {
-                resetCityDropdown();
             });
-        }
-
-        function selectDistrict($item) {
-            $('#location_search').val($item.text().trim());
-            selectedDistrictId = $item.data('id');
-            selectedCityId = '';
-            loadCitiesByDistrict(selectedDistrictId, '');
-            $('#searchResults').hide();
         }
 
         $('#searchResults').hide();
 
         $('#location_search').on('keyup', function () {
-            let value = $(this).val().toLowerCase();
-
-            if (value.length === 0) {
+            var value = $(this).val().toLowerCase();
+            if (!value) {
                 $('#searchResults').hide();
                 return;
             }
-
             $('#searchResults').show();
-
             $('.result-item').filter(function () {
-                $(this).toggle(
-                    $(this).data('name').indexOf(value) > -1
-                );
+                $(this).toggle($(this).data('name').indexOf(value) > -1);
             });
         });
 
-        $('.result-item').on('click', function () {
-            selectDistrict($(this));
+        $('#searchResults').on('click', '.result-item', function () {
+            var districtId = $(this).data('id');
+            var districtName = $(this).text().trim();
+            $('#location_search').val(districtName);
+            $('#searchResults').hide();
+
+            var redirectUrl = currentCategoryId
+                ? locationCategoryUrl.replace('LOCATION_ID_PLACEHOLDER', districtId).replace('CATEGORY_ID_PLACEHOLDER', currentCategoryId)
+                : listUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', districtId);
+
+            window.location.href = redirectUrl;
         });
 
-        $('#location_search').on('keydown', function (e) {
-            if (e.key !== 'Enter') {
-                return;
-            }
-
-            e.preventDefault();
-
-            var $firstVisible = $('.result-item:visible').first();
-            if ($firstVisible.length) {
-                selectDistrict($firstVisible);
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.vl-input-wrap').length) {
+                $('#searchResults').hide();
             }
         });
 
         $citySearch.on('change', function () {
             var cityId = $(this).val();
-            selectedCityId = cityId || '';
-
-            if (!selectedDistrictId || !cityId) {
-                return;
-            }
+            if (!selectedDistrictId || !cityId) return;
 
             var redirectUrl = currentCategoryId
-                ? locationCategoryUrl
-                    .replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId)
-                    .replace('CATEGORY_ID_PLACEHOLDER', currentCategoryId)
+                ? locationCategoryUrl.replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId).replace('CATEGORY_ID_PLACEHOLDER', currentCategoryId)
                 : listUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId);
 
             redirectUrl += '?city=' + encodeURIComponent(cityId);
             window.location.href = redirectUrl;
         });
 
-        $(document).on('click', function (e) {
-            if (!$(e.target).closest('.search-input').length) {
-                $('#searchResults').hide();
+        $('#category').on('change', function () {
+            var categoryId = $(this).val();
+            if (!categoryId || categoryId === 'none') return;
+
+            var redirectUrl = selectedDistrictId
+                ? locationCategoryUrl.replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId).replace('CATEGORY_ID_PLACEHOLDER', categoryId)
+                : categoryOnlyUrl.replace('CATEGORY_ID_PLACEHOLDER', categoryId);
+
+            if (selectedCityId) {
+                redirectUrl += '?city=' + encodeURIComponent(selectedCityId);
             }
+            window.location.href = redirectUrl;
         });
 
         if (selectedDistrictId) {
             loadCitiesByDistrict(selectedDistrictId, selectedCityId);
-        } else {
-            resetCityDropdown();
-        }
-
-        $('#category').on('change', function () {
-            var categoryId = $(this).val();
-            if (!categoryId || categoryId === 'none') {
-                return;
-            }
-
-            var redirectUrl = selectedDistrictId
-                ? locationCategoryUrl
-                    .replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId)
-                    .replace('CATEGORY_ID_PLACEHOLDER', categoryId)
-                : categoryOnlyUrl.replace('CATEGORY_ID_PLACEHOLDER', categoryId);
-
-            if (selectedDistrictId && selectedCityId) {
-                redirectUrl += '?city=' + encodeURIComponent(selectedCityId);
-            }
-
-            window.location.href = redirectUrl;
-        });
-    });
-</script>
-<script>
-$(document).ready(function () {
-
-    var selectedDistrictId = "{{ $location ?? '' }}";
-    var selectedCityId = "{{ $selectedCityId ?? '' }}";
-
-    var listUrlTemplate = "{{ route('front.vendorlist.location', ['location' => 'LOCATION_ID_PLACEHOLDER']) }}";
-
-    var locationCategoryUrl = "{{ route('front.vendorlist.location.category', ['location' => 'LOCATION_ID_PLACEHOLDER', 'category' => 'CATEGORY_ID_PLACEHOLDER']) }}";
-
-    var locationSubCategoryUrl = "{{ route('front.vendorlist.location.subcategory', ['location' => 'LOCATION_ID', 'subcategory' => 'SUBCATEGORY_ID']) }}";
-
-    var cityApiTemplate = "{{ route('get.cities', ['district' => 'DISTRICT_ID_PLACEHOLDER']) }}";
-
-    var currentCategoryId = "{{ request()->route('category') ?? '' }}";
-
-    var $citySearch = $('#city_search');
-    var $categorySearch = $('#category');
-    var $subcategory = $('#subcategory');
-
-    /* ================= SELECT2 ================= */
-    $citySearch.select2({ placeholder: 'Select city', width: '100%' });
-    $categorySearch.select2({ placeholder: 'Choose Categories', width: '100%' });
-    $subcategory.select2({ placeholder: 'Select Sub Category', allowClear: false, width: '100%' });
-
-    function getStoredSelection() {
-        return {
-            districtId: sessionStorage.getItem('selectedDistrictId') || '',
-            districtName: sessionStorage.getItem('selectedDistrictName') || '',
-            cityId: sessionStorage.getItem('selectedCityId') || ''
-        };
-    }
-
-    function persistSelection(districtId, districtName, cityId) {
-        if (districtId) {
-            sessionStorage.setItem('selectedDistrictId', String(districtId));
-            sessionStorage.setItem('selectedDistrictName', districtName || '');
-        }
-
-        if (cityId) {
-            sessionStorage.setItem('selectedCityId', String(cityId));
-        } else {
-            sessionStorage.removeItem('selectedCityId');
-        }
-    }
-
-    /* ================= CITY ================= */
-    function resetCityDropdown() {
-        $citySearch.html('<option value="">Select city</option><option value="all">All City</option>').trigger('change.select2');
-    }
-
-    function loadCitiesByDistrict(districtId, preselectedCity) {
-
-        resetCityDropdown();
-        if (!districtId) return;
-
-        var url = cityApiTemplate.replace('DISTRICT_ID_PLACEHOLDER', districtId);
-
-        $.get(url, function (cities) {
-
-            var options = '<option value="">Select city</option><option value="all">All City</option>';
-
-            cities.forEach(function (city) {
-                options += `<option value="${city.id}">${city.name}</option>`;
-            });
-
-            $citySearch.html(options);
-
-            if (preselectedCity) {
-                $citySearch.val(String(preselectedCity));
-            }
-
-            $citySearch.trigger('change.select2');
-
-        }).fail(resetCityDropdown);
-    }
-
-    /* ================= DISTRICT SEARCH ================= */
-    $('#searchResults').hide();
-
-    $('#location_search').on('keyup', function () {
-
-        let value = $(this).val().toLowerCase().trim();
-
-        if (value === '') {
-            $('#searchResults').hide();
-            return;
-        }
-
-        $('#searchResults').show();
-
-        $('.result-item').each(function () {
-
-            let name = $(this).data('name');
-
-            if (name.includes(value)) {
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
-
-        });
-
-    });
-
-    $(document).on('click', '.result-item', function () {
-
-        let districtId = $(this).data('id');
-        let districtName = $(this).text().trim();
-
-        $('#location_search').val(districtName);
-
-        selectedDistrictId = districtId;
-        selectedCityId = '';
-        persistSelection(districtId, districtName, '');
-
-        loadCitiesByDistrict(districtId, '');
-
-        $('#searchResults').hide();
-    });
-
-    /* ================= ENTER SELECT ================= */
-    $('#location_search').on('keydown', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            let first = $('.result-item:visible').first();
-            if (first.length) first.click();
         }
     });
-
-    /* ================= CITY CHANGE ================= */
-    $citySearch.on('change', function () {
-
-        var cityId = $(this).val();
-        selectedCityId = cityId;
-
-        if (!selectedDistrictId || !cityId) return;
-
-        persistSelection(selectedDistrictId, $('#location_search').val(), cityId);
-
-        var url = currentCategoryId
-            ? locationCategoryUrl
-                .replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId)
-                .replace('CATEGORY_ID_PLACEHOLDER', currentCategoryId)
-            : listUrlTemplate.replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId);
-
-        url += '?city=' + cityId;
-
-        window.location.href = url;
-    });
-
-    /* ================= CATEGORY ================= */
-    $categorySearch.on('change', function () {
-
-        var categoryId = $(this).val();
-        if (!categoryId || categoryId === 'none') return;
-
-        var url = locationCategoryUrl
-            .replace('LOCATION_ID_PLACEHOLDER', selectedDistrictId)
-            .replace('CATEGORY_ID_PLACEHOLDER', categoryId);
-
-        if (selectedCityId) {
-            url += '?city=' + selectedCityId;
-        }
-
-        window.location.href = url;
-    });
-
-    /* ================= SUBCATEGORY (NEW) ================= */
-    $subcategory.on('change', function () {
-
-        var subcategoryId = $(this).val();
-        if (!subcategoryId) {
-            localStorage.removeItem('selectedSubCategory');
-            return;
-        }
-
-        localStorage.setItem('selectedSubCategory', subcategoryId);
-
-        var stored = getStoredSelection();
-        var districtId = selectedDistrictId || stored.districtId;
-        var cityId = selectedCityId || stored.cityId;
-
-        if (!districtId) {
-            alert('Please select district first');
-            return;
-        }
-
-        var url = locationSubCategoryUrl
-            .replace('LOCATION_ID', districtId)
-            .replace('SUBCATEGORY_ID', subcategoryId);
-
-        if (cityId) {
-            url += '?city=' + cityId;
-        }
-
-        window.location.href = url;
-    });
-
-    /* ================= CLICK OUTSIDE ================= */
-    $(document).on('click', function(e) {
-        if (!$(e.target).closest('.search-input').length) {
-            $('#searchResults').hide();
-        }
-    });
-
-    /* ================= INIT ================= */
-    if (selectedDistrictId) {
-        persistSelection(selectedDistrictId, $('#location_search').val(), selectedCityId);
-        loadCitiesByDistrict(selectedDistrictId, selectedCityId);
-    } else {
-        resetCityDropdown();
-    }
-
-    var storedSubCategory = localStorage.getItem('selectedSubCategory');
-    if (storedSubCategory) {
-        $subcategory.val(storedSubCategory).trigger('change.select2');
-    }
-
-});
 </script>
 @endpush

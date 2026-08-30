@@ -173,6 +173,10 @@ class ProfileController extends Controller
 
     public function addListing()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please login to access Free Listing.');
+        }
+
         $user = Auth::user();
 
         // Get active districts
@@ -627,6 +631,10 @@ class ProfileController extends Controller
 
     public function addbanner()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please login to access Banner Ad.');
+        }
+
         $user = Auth::user();
 
         // Get active districts
@@ -1098,6 +1106,10 @@ class ProfileController extends Controller
 
     public function paymenthistroy()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please login to access Payment History.');
+        }
+
         $user = Auth::user();
         $order = Orders::where('user_id', $user->id)->where('status', '!=', 'pending')->get();
 

@@ -1,161 +1,69 @@
 @extends('front.layout.main')
-@section('title', 'Forgot Password')
-
-@push('styles')
-<style>
-    body {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-    }
-
-    .forgot-wrapper {
-        min-height: 80vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .forgot-card {
-        width: 100%;
-        max-width: 420px;
-        background: #fff;
-        padding: 35px;
-        border-radius: 15px;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-        animation: fadeIn 0.5s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .forgot-title {
-        text-align: center;
-        font-weight: 600;
-        margin-bottom: 10px;
-        font-size: 24px;
-        color: #333;
-    }
-
-    .forgot-subtitle {
-        text-align: center;
-        font-size: 14px;
-        color: #777;
-        margin-bottom: 25px;
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-        position: relative;
-    }
-
-    .form-group input {
-        width: 100%;
-        padding: 12px 15px;
-        border-radius: 8px;
-        border: 1px solid #ddd;
-        outline: none;
-        transition: 0.3s;
-    }
-
-    .form-group input:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 5px rgba(102,126,234,0.5);
-    }
-
-    .btn-submit {
-        width: 100%;
-        padding: 12px;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        border: none;
-        border-radius: 8px;
-        color: #fff;
-        font-weight: 500;
-        transition: 0.3s;
-    }
-
-    .btn-submit:hover {
-        opacity: 0.9;
-        transform: translateY(-1px);
-    }
-
-    .alert-success {
-        background: #e6fffa;
-        color: #065f46;
-        padding: 10px;
-        border-radius: 6px;
-        margin-bottom: 15px;
-        text-align: center;
-    }
-
-    .error {
-        color: red;
-        font-size: 12px;
-        margin-top: 5px;
-    }
-
-    .back-login {
-        text-align: center;
-        margin-top: 15px;
-    }
-
-    .back-login a {
-        color: #667eea;
-        font-size: 14px;
-        text-decoration: none;
-    }
-
-    .back-login a:hover {
-        text-decoration: underline;
-    }
-</style>
-@endpush
+@section('title', 'Verify OTP')
 
 @section('content')
-<div class="forgot-wrapper">
-    <div class="forgot-card">
-
-        <div class="forgot-title">Forgot Password 🔐</div>
-        <div class="forgot-subtitle">
-            Enter your email to receive OTP
+    <!-- Verify OTP Hero Banner -->
+    <section class="login-hero-banner-section">
+        <div class="login-hero-banner-container">
+            <img src="{{ asset('public/front/assets/images/login_hero_banner.png') }}" alt="Verify OTP - Agent 24 India" class="login-hero-banner-img">
         </div>
+    </section>
 
-        {{-- Success Message --}}
-        @if(session('success'))
-            <div class="alert-success">
-                {{ session('success') }}
+    <!-- Verify OTP Main Section -->
+    <section class="auth-page-section" style="padding: 40px 0 60px 0;">
+        <div class="section-container" style="max-width: 520px; margin: 0 auto; padding: 0 20px;">
+            <div class="auth-card" style="background: #fff; border-radius: 16px; padding: 36px 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); border: 1px solid #E2E8F0;">
+                
+                <div class="auth-card-header" style="text-align: center; margin-bottom: 24px;">
+                    <div class="user-avatar-circle" style="width: 60px; height: 60px; border-radius: 50%; background: #EFF6FF; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            <polyline points="9 12 11 14 15 10"></polyline>
+                        </svg>
+                    </div>
+                    <h1 class="auth-title" style="font-size: 22px; font-weight: 800; color: #0F172A; margin-bottom: 6px;">Verify OTP</h1>
+                    <p class="auth-subtitle" style="font-size: 14px; color: #64748B;">Enter the OTP sent to {{ session('email') ?? 'your email' }}</p>
+                </div>
+
+                @if(session('success'))
+                    <div style="background: #DCFCE7; border: 1px solid #86EFAC; color: #166534; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; text-align: center;">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div style="background: #FEE2E2; border: 1px solid #FCA5A5; color: #991B1B; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; text-align: center;">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                <form method="POST" action="{{ route('forgotPassword.verifyOtp') }}">
+                    @csrf
+
+                    <input type="hidden" name="email" value="{{ session('email') }}">
+
+                    <div class="form-field-group" style="margin-bottom: 20px;">
+                        <label class="input-field-label" style="display: block; font-size: 13.5px; font-weight: 600; color: #1E293B; margin-bottom: 8px;">6-Digit OTP Code</label>
+                        <input type="text" name="otp" class="styled-contact-input" placeholder="Enter 6-digit OTP" required style="width: 100%; height: 48px; padding: 10px 14px; border: 1.5px solid #CBD5E1; border-radius: 10px; font-size: 16px; letter-spacing: 2px; text-align: center; outline: none;">
+                        @error('otp')
+                            <small style="color: #EF4444; font-size: 12px; margin-top: 4px; display: block; text-align: center;">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <button type="submit" class="btn-send-message" style="width: 100%; height: 48px; background: #004BEE; color: #fff; border: none; border-radius: 10px; font-weight: 700; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <span>Verify & Continue</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </form>
+
+                <div style="text-align: center; margin-top: 24px;">
+                    <a href="{{ route('forgotPassword') }}" style="color: #004BEE; font-size: 14px; font-weight: 600; text-decoration: none;">← Resend OTP / Change Email</a>
+                </div>
+
             </div>
-        @endif
-
-         <form method="POST" action="{{ route('forgotPassword.verifyOtp') }}">
-            @csrf
-
-            <input type="hidden" name="email" value="{{ session('email') }}">
-
-            <div style="margin-bottom:15px;">
-                <input type="text" name="otp" placeholder="Enter 6-digit OTP" required>
-            </div>
-
-            @error('otp')
-                <div style="color:red;">{{ $message }}</div>
-            @enderror
-
-            <button type="submit">Verify OTP</button>
-        </form>
-
-        
-    </div>
-</div>
+        </div>
+    </section>
 @endsection
-
-@push('scripts')
-<script>
-    // Optional: Auto-hide success message
-    setTimeout(() => {
-        let alertBox = document.querySelector('.alert-success');
-        if(alertBox){
-            alertBox.style.display = 'none';
-        }
-    }, 4000);
-</script>
-@endpush

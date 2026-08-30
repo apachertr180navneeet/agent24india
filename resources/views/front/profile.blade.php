@@ -87,7 +87,7 @@
                         <div class="form-group">
                             <label>Business Category *</label>
                             {{-- <input type="text" id="business_category_id" name="business_category_id" placeholder="Business Category" value="{{$user->businessCategory->name}}"> --}}
-                            <select name="business_category_id" id="business_category_id">
+                            <select name="business_category_id" id="business_category_id" class="select2">
                                 <option value="">Select Business Category</option>
                                 @foreach($businessCategory as $key => $value)
                                     <option value="{{$value->id}}" {{$user->business_category_id == $value->id ? 'selected' :''}}>{{$value->name}}</option>
@@ -127,7 +127,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>State *</label>
-                            <select name="state_id" id="state_id">
+                            <select name="state_id" id="state_id" class="select2">
                                 <option value="">Select State</option>
                                 @foreach($stateList as $value)
                                     <option value="{{ $value->id }}" {{ $user->state_id == $value->id ? 'selected' : '' }}>{{ $value->name }}</option>
@@ -136,7 +136,7 @@
                         </div>
                         <div class="form-group">
                             <label>District *</label>
-                            <select name="district_id" id="district_id">
+                            <select name="district_id" id="district_id" class="select2">
                                 <option value="">Select District</option>
                                 @foreach($districts as $value)
                                     <option value="{{ $value->id }}" {{ $user->district_id == $value->id ? 'selected' : '' }}>{{ $value->name }}</option>
@@ -148,7 +148,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>City *</label>
-                            <select name="city_id" id="city_id">
+                            <select name="city_id" id="city_id" class="select2">
                                 <option value="">Select City</option>
                                 @foreach($city as $value)
                                     <option value="{{ $value->id }}" {{ $user->city_id == $value->id ? 'selected' : '' }}>{{ $value->name }}</option>
@@ -180,7 +180,7 @@
                 <div class="tags-row row">
                     <div class="tag-field col-3">
                         <label>Category:</label>
-                        <select name="business_category_id" id="" disabled>
+                        <select name="business_category_id" id="" class="select2" disabled>
                             @foreach($parentCategories as $category)
                                 <option value="{{$category->id}}" @if($user->business_category_id == $category->id) selected @endif>{{$category->name}}</option>
                             @endforeach
@@ -195,7 +195,7 @@
 
                     <div class="tag-field col-12">
                         <label>Sub Category:</label>
-                        <select name="business_sub_category_id[]" id="business_sub_category_id" multiple>
+                        <select name="business_sub_category_id[]" id="business_sub_category_id" class="select2" multiple>
                             @foreach($subCategories as $subCategory)
                                 <option value="{{ $subCategory->id }}"
                                     {{ in_array($subCategory->id, $selectedSubCategories) ? 'selected' : '' }}>

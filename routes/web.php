@@ -276,9 +276,12 @@ Route::post('/forgot-password/verify-otp', [Front\HomeController::class, 'verify
 Route::get('/forgot-password/otp', [Front\HomeController::class, 'otpPage'])->name('forgotPassword.otpPage');
 Route::get('/forgot-password/reset', [Front\HomeController::class, 'resetPage'])->name('forgotPassword.resetPage');
 Route::post('/forgot-password/update', [Front\HomeController::class, 'updatePassword'])->name('forgotPassword.updatePassword');
+Route::get('/login', [Front\HomeController::class, 'loginPage'])->name('login');
+Route::get('/register', [Front\HomeController::class, 'registerPage'])->name('front.register');
 
 Route::name('front.')->group(function(){
     // Route::get('/', [Front\HomeController::class, "index"])->name('index');
+    Route::get('/login-page', [Front\HomeController::class, 'loginPage'])->name('login.page');
     Route::post("/login", [Front\HomeController::class, "authenticate"])->name("login");
     Route::get("/logout", [Front\HomeController::class, "destroy"])->name("logout");
     Route::post('/signup', [Front\HomeController::class, "signup"])->name('signup');

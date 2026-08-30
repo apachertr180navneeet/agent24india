@@ -16,6 +16,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Jost:wght@400;500;600;700&family=Lato:wght@400;700&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('public/plugins/select2/css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('front/assets/css/prototype-style.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/front/assets/css/prototype-style.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -261,6 +262,149 @@
             height: auto;
             margin-bottom: 0;
         }
+
+        /* Global Modern Select2 Styling */
+        .select2-container {
+            width: 100% !important;
+            margin-bottom: 14px;
+        }
+
+        .select2-container--default .select2-selection--single {
+            height: 48px !important;
+            border: 1.5px solid #CBD5E1 !important;
+            border-radius: 10px !important;
+            background-color: #FFFFFF !important;
+            display: flex !important;
+            align-items: center !important;
+            padding: 0 12px !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .input-with-icon .select2-container {
+            width: 100% !important;
+            flex: 1;
+        }
+
+        .input-with-icon .select2-container--default .select2-selection--single {
+            padding-left: 38px !important;
+            height: 48px !important;
+        }
+
+        .input-with-icon .select2-container--default .select2-selection--single .select2-selection__rendered {
+            padding-left: 4px !important;
+            padding-right: 24px !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            color: #0F172A !important;
+        }
+
+        .input-with-icon .field-icon {
+            z-index: 3 !important;
+            pointer-events: none;
+        }
+
+        .select2-container--default.select2-container--open .select2-selection--single,
+        .select2-container--default.select2-container--focus .select2-selection--single {
+            border-color: #004BEE !important;
+            box-shadow: 0 0 0 3.5px rgba(0, 75, 238, 0.14) !important;
+            outline: none !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #1E293B !important;
+            font-size: 14.5px !important;
+            font-weight: 500 !important;
+            line-height: 46px !important;
+            padding-left: 4px !important;
+            padding-right: 28px !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__placeholder {
+            color: #94A3B8 !important;
+            font-weight: 400 !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 46px !important;
+            right: 12px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow b {
+            border-color: #64748B transparent transparent transparent !important;
+            border-width: 6px 5px 0 5px !important;
+        }
+
+        .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+            border-color: transparent transparent #004BEE transparent !important;
+            border-width: 0 5px 6px 5px !important;
+        }
+
+        .select2-dropdown {
+            border: 1.5px solid #CBD5E1 !important;
+            border-radius: 10px !important;
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12) !important;
+            background: #FFFFFF !important;
+            overflow: hidden !important;
+            z-index: 9999999 !important;
+            margin-top: 4px !important;
+        }
+
+        .select2-container--default .select2-search--dropdown {
+            padding: 8px 10px !important;
+        }
+
+        .select2-container--default .select2-search--dropdown .select2-search__field {
+            border: 1.5px solid #E2E8F0 !important;
+            border-radius: 8px !important;
+            padding: 8px 12px !important;
+            font-size: 14px !important;
+            font-family: inherit !important;
+            outline: none !important;
+            transition: border-color 0.2s !important;
+        }
+
+        .select2-container--default .select2-search--dropdown .select2-search__field:focus {
+            border-color: #004BEE !important;
+        }
+
+        .select2-container--default .select2-results__option {
+            padding: 10px 14px !important;
+            font-size: 14px !important;
+            color: #334155 !important;
+            font-weight: 500 !important;
+            transition: background-color 0.15s, color 0.15s !important;
+        }
+
+        .select2-container--default .select2-results__option--highlighted[aria-selected] {
+            background-color: #004BEE !important;
+            color: #FFFFFF !important;
+        }
+
+        .select2-container--default .select2-results__option[aria-selected=true] {
+            background-color: #EFF6FF !important;
+            color: #004BEE !important;
+            font-weight: 700 !important;
+        }
+
+        .select2-container--default .select2-selection--multiple {
+            min-height: 48px !important;
+            border: 1.5px solid #CBD5E1 !important;
+            border-radius: 10px !important;
+            padding: 5px 10px !important;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: #EFF6FF !important;
+            border: 1px solid #BFDBFE !important;
+            color: #004BEE !important;
+            border-radius: 6px !important;
+            padding: 3px 8px !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+        }
     </style>
 
     @stack('styles')
@@ -293,166 +437,6 @@
 
     <!-- Start Header Area -->
     @include('front.layout.header')
-
-    <div class="auth-overlay" id="authOverlay">
-        <div class="auth-popup">
-            <span class="close-btn1">&times;</span>
-            <div class="auth-header">
-                <img src="{{ asset('public/front/assets/images/logo/agent-india-logo2.png') }}" alt="Logo"
-                    class="logo" />
-            </div>
-
-            <div class="auth-tabs">
-                <button class="tab active" data-tab="signin">Sign In</button>
-                <button class="tab" data-tab="signup">Sign Up</button>
-            </div>
-            <div class="auth-form active" id="signin">
-                <form action="{{ route('front.login') }}" method="post" id="signin-form"
-                    onsubmit="return validateSignin();">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                    <input type="text" name="email" id="email" placeholder="Email or Mobile or Username" />
-                    <div class="password-wrapper">
-                        <input type="password" name="password" id="signin_password" placeholder="Password" />
-                        
-                        <span class="toggle-password" toggle="#signin_password">
-                            <i class="fa-solid fa-eye"></i>
-                        </span>
-                    </div>
-                    <a href="{{ route('forgotPassword') }}">Forgot your password?</a>
-                    <button type="submit" id="btn-signin">Sign In</button>
-                </form>
-
-                <div class="or-login">Already have an a account? </div>
-                <button type="button" data-tab="signup" class="tab btn-secondary">
-                    Sign Up
-                </button>
-            </div>
-            <div class="auth-form" id="signup">
-                <form action="{{ route('front.signup') }}" method="post" id="signup-form"
-                    onsubmit="return validateSignup();">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <!-- From your image -->
-                    <div class="row d-flex">
-                        <div class="col-lg-6">
-                            <select name="business_category_id" id="business_category_id">
-                                <option value="">Select Business Category</option>
-                                @foreach ($businessCategory as $key => $value)
-                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-lg-6">
-                            <input type="text" name="business_name" id="business_name" placeholder="Business Name">
-                        </div>
-                    </div>
-                    <div class="row d-flex">
-                        <div class="col-lg-6">
-                            <input type="email" name="email" id="email" placeholder="Email">
-                        </div>
-                        <div class="col-lg-6">
-                            <input type="number" name="contact_number" id="contact_number"
-                                placeholder="Contact Number">
-                        </div>
-                    </div>
-                    <input type="text" name="business_address" id="business_address"
-                        placeholder="Business Address">
-                    <div class="row d-flex">
-                        <div class="col-lg-6">
-                            <select name="state_id" id="state_id">
-                                <option value="">Select State</option>
-                                @foreach ($stateList as $value)
-                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-lg-6">
-                            <select name="district_id" id="district_id">
-                                <option value="">Select District</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row d-flex">
-                        <div class="col-lg-6">
-                            <select name="city_id" id="city_id">
-                                <option value="">Select City</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-6">
-                            <input type="text" name="pincode" id="pincode" placeholder="Pin Code">
-                        </div>
-                    </div>
-                    <!-- <button type="submit" class="my-3 w-50">Email Verify OTP</button> -->
-                    <div class="row d-flex">
-                        <!-- <div class="col-lg-6">
-                                <input type="text" name="otp" placeholder="OTP">
-                            </div> -->
-                        <div class="col-lg-6">
-                            <div class="password-wrapper">
-                                <input type="password" name="password" id="signup_password" placeholder="Password">
-
-                                <span class="toggle-password" toggle="#signup_password">
-                                    <i class="fa-solid fa-eye"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="password-wrapper">
-                                <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password">
-
-                                <span class="toggle-password" toggle="#confirm_password">
-                                    <i class="fa-solid fa-eye"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <label class="custom-checkbox">
-                        <input type="checkbox" id="terms_agree" name="terms_agree" required>
-                        I Agree to
-                        <a href="{{ route('front.termsAndConditions') }}" target="_blank"
-                            style="padding-bottom: 0px;">Terms and Conditions</a>
-                    </label>
-                    <button type="submit" id="btn-submit-signup">Submit</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    @if (session()->has('signin_status'))
-        @if (session('signin_status') === true)
-            <script>
-                alert('Login successful');
-            </script>
-        @elseif(session('signin_status') === false)
-            <script>
-                alert('Invalid email or password');
-            </script>
-        @endif
-    @endif
-
-    @if (session('signup_status'))
-        @if (session('signup_status') == true)
-            <script>
-                alert('Signup Successfully.');
-            </script>
-        @else
-            <script>
-                alert('Signup Failed.');
-            </script>
-        @endif
-    @endif
-
-    @if (session('profile_update_status'))
-        @if (session('profile_update_status') == true)
-            <script>
-                alert('Profile updated successfully.');
-            </script>
-        @else
-            <script>
-                alert('Profile cannot be updated.');
-            </script>
-        @endif
-    @endif
 
     @yield('content')
 

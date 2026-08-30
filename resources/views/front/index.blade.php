@@ -37,7 +37,7 @@
                                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                     <polyline points="9 22 9 12 15 12 15 22"></polyline>
                                 </svg>
-                                <select class="custom-select" id="agentTypeSelect">
+                                <select class="select2 custom-select" id="agentTypeSelect">
                                     <option value="" selected>सभी Agent Services</option>
                                     @if(isset($subCategories) && count($subCategories) > 0)
                                         @foreach($subCategories as $subCat)
@@ -64,7 +64,7 @@
                                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                                     <circle cx="12" cy="10" r="3"></circle>
                                 </svg>
-                                <select class="custom-select" id="cityInput">
+                                <select class="select2 custom-select" id="cityInput">
                                     <option value="">Select District / City</option>
                                     @if(isset($district) && count($district) > 0)
                                         @foreach($district as $d)
@@ -93,7 +93,7 @@
                                     <rect x="14" y="14" width="7" height="7"></rect>
                                     <rect x="3" y="14" width="7" height="7"></rect>
                                 </svg>
-                                <select class="custom-select" id="categorySelect">
+                                <select class="select2 custom-select" id="categorySelect">
                                     <option value="" selected>All Categories</option>
                                     @if(isset($category) && count($category) > 0)
                                         @foreach($category as $cat)
@@ -1431,6 +1431,26 @@
 @push('scripts')
 <script>
     $(document).ready(function () {
+        if ($.fn.select2) {
+            $('#agentTypeSelect').select2({
+                placeholder: "सभी Agent Services",
+                allowClear: true,
+                width: '100%'
+            });
+
+            $('#cityInput').select2({
+                placeholder: "Select District / City",
+                allowClear: true,
+                width: '100%'
+            });
+
+            $('#categorySelect').select2({
+                placeholder: "All Categories",
+                allowClear: true,
+                width: '100%'
+            });
+        }
+
         // Search Form Submission Redirection
         $('#agentSearchForm').on('submit', function (e) {
             e.preventDefault();

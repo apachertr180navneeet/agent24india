@@ -1,235 +1,252 @@
-
-
 @extends('front.layout.main')
-@section('title', $pageTitle)
+@section('title', $pageTitle ?? 'Listing Management')
 
 @push('styles')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
-        .district-switch .btn {
-            border-radius: 8px;
-            margin-right: 10px;
-            min-width: 120px;
+        .listing-card-box {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            padding: 32px;
+            margin-bottom: 40px;
         }
 
-        .form-control,
-        .form-select {
-            background: #e0e0e0;
+        .listing-tabs {
+            display: flex;
+            gap: 12px;
+            border-bottom: 2px solid #F1F5F9;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+
+        .listing-tabs .tab-btn {
+            background: transparent;
             border: none;
-            border-radius: 6px;
-            padding: 10px;
+            padding: 10px 24px;
+            font-weight: 700;
+            font-size: 15px;
+            color: #64748B;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .listing-footer {
+        .listing-tabs .tab-btn.active {
+            background: #004BEE;
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(0, 75, 238, 0.25);
+        }
+
+        .listing-tabs .tab-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .custom-form-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1E293B;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .custom-form-input {
+            width: 100%;
+            height: 48px;
+            padding: 10px 14px;
+            border: 1.5px solid #CBD5E1;
+            border-radius: 10px;
+            font-size: 14.5px;
+            background: #FFFFFF;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .custom-form-input:focus {
+            border-color: #004BEE;
+            box-shadow: 0 0 0 3px rgba(0, 75, 238, 0.1);
+        }
+
+        .custom-form-input:read-only {
+            background: #F8FAFC;
+            color: #64748B;
+        }
+
+        .listing-price-summary {
+            background: #EFF6FF;
+            border: 1.5px solid #BFDBFE;
+            border-radius: 12px;
+            padding: 18px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
-        .listing-footer .price span {
+        .listing-price-summary .price-text {
+            font-size: 15px;
             font-weight: 600;
-            margin-right: 10px;
+            color: #1E3A8A;
         }
 
-        .listing-footer .price strong {
-            font-size: 20px;
-        }
-
-        span.selection {
-            width: 100%;
-        }
-
-        span.select2-selection.select2-selection--single {
-            height: 45px;
-            padding: 8px 0px 0px 0px;
+        .listing-price-summary .price-amount {
+            font-size: 24px;
+            font-weight: 800;
+            color: #004BEE;
         }
     </style>
 @endpush
 
-
 @section('content')
-    <div class="container mt-4">
+    <!-- Hero Banner -->
+    <section class="price-hero-banner-section">
+        <div class="price-hero-banner-container">
+            <img src="{{ asset('public/front/assets/images/price_hero_banner.png') }}" alt="Listing Plans - Agent 24 India" class="price-hero-banner-img">
+        </div>
+    </section>
+
+    <div class="section-container" style="max-width: 1040px; margin: 30px auto; padding: 0 24px;">
         @if(!empty($existingListing) && $existingListing->paid_type == 'paid')
-            <div class="alert alert-warning">
-                Free listing is disabled because paid listing already exists.
+            <div style="background: #FEF3C7; border: 1px solid #FCD34D; color: #92400E; padding: 16px 20px; border-radius: 12px; margin-bottom: 24px; font-weight: 600;">
+                Free listing is disabled because your paid listing is already active.
             </div>
         @else
             @php
                 $user = auth()->user();
             @endphp
-            @if($user->is_approved == '1')
-                <!-- Nav Tabs -->
-                <ul class="nav nav-tabs mb-3" id="adTabs" role="tablist">
-
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link {{ !empty($disableFreeListing) ? '' : 'active' }}" id="free-tab" data-bs-toggle="tab"
+            @if($user && $user->is_approved == '1')
+                <div class="listing-card-box">
+                    
+                    <!-- Nav Tabs -->
+                    <div class="listing-tabs" role="tablist">
+                        <button class="tab-btn {{ !empty($disableFreeListing) ? '' : 'active' }}" id="free-tab" data-bs-toggle="tab"
                             data-bs-target="#free" type="button" role="tab" @if (!empty($disableFreeListing)) disabled @endif>
                             Free Listing
                         </button>
-                    </li>
 
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link {{ !empty($disableFreeListing) ? 'active' : '' }}" id="paid-tab"
+                        <button class="tab-btn {{ !empty($disableFreeListing) ? 'active' : '' }}" id="paid-tab"
                             data-bs-toggle="tab" data-bs-target="#paid" type="button" role="tab">
                             Paid Listing
                         </button>
-                    </li>
-
-                </ul>
-
-
-                <div class="tab-content">
-
-                    <!-- FREE LISTING -->
-                    <div class="tab-pane fade {{ !empty($disableFreeListing) ? '' : 'show active' }}" id="free">
-
-                        @if (!empty($disableFreeListing))
-                            <div class="alert alert-warning mt-3">
-                                Free listing is disabled because your paid listing is active.
-                            </div>
-                        @endif
-
-                        @if (session('success'))
-                            <div class="alert alert-success alert-dismissible fade show mt-3">
-                                {{ session('success') }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
-                        @endif
-
-                        @if (session('error'))
-                            <div class="alert alert-danger alert-dismissible fade show mt-3">
-                                {{ session('error') }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
-                        @endif
-
-                        <form method="POST" action="{{ route('front.addListing.store') }}">
-                            @csrf
-
-                            <input type="hidden" name="type" value="free">
-
-                            <div class="row mb-3">
-
-                                <div class="col-md-6">
-                                    <label class="form-label">Business name</label>
-                                    <input type="text" name="name" class="form-control" value="{{ $user->business_name }}"
-                                        readonly>
-                                </div>
-
-                                <div class="col-md-6 d-none">
-                                    <label class="form-label">Home City</label>
-                                    <input type="text" name="home_city" class="form-control"
-                                        value="{{ old('home_city', !empty($hasFreeListing) ? $existingListing->home_city ?? '' : '') }}">
-                                </div>
-
-                            </div>
-
-
-                            <div class="row mb-3">
-
-                                <div class="col-md-6">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control"
-                                        value="{{ old('email', $user->email) }}" readonly>
-                                </div>
-
-
-                                <div class="col-md-6">
-
-                                    <label class="form-label">Whatsapp Number (Update In profile)</label>
-
-                                    <input type="text" name="phone" class="form-control"
-                                        value="{{ old('phone', $user->whats_app) }}" readonly>
-
-                                </div>
-                            </div>
-
-                            <button type="submit" class="btn btn-success">
-                                Submit Free Ad
-                            </button>
-
-                        </form>
-
                     </div>
 
+                    <div class="tab-content">
+                        <!-- FREE LISTING -->
+                        <div class="tab-pane fade {{ !empty($disableFreeListing) ? '' : 'show active' }}" id="free">
+                            @if (!empty($disableFreeListing))
+                                <div style="background: #FEF3C7; border: 1px solid #FCD34D; color: #92400E; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px;">
+                                    Free listing is disabled because your paid listing is active.
+                                </div>
+                            @endif
 
-                    <!-- PAID LISTING -->
-                    <div class="tab-pane fade {{ !empty($disableFreeListing) ? 'show active' : '' }}" id="paid">
+                            @if (session('success'))
+                                <div style="background: #DCFCE7; border: 1px solid #86EFAC; color: #166534; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px;">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
 
-                        <form action="{{ route('front.addListing.store') }}" method="POST">
+                            @if (session('error'))
+                                <div style="background: #FEE2E2; border: 1px solid #FCA5A5; color: #991B1B; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px;">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
 
-                            @csrf
+                            <form method="POST" action="{{ route('front.addListing.store') }}">
+                                @csrf
+                                <input type="hidden" name="type" value="free">
 
-                            <input type="hidden" name="type" value="paid">
-
-                            <div class="paid-listing-box">
-
-                                <div class="row g-4">
-
+                                <div class="row g-3 mb-3">
                                     <div class="col-md-6">
-                                        <label class="form-label fw-semibold">Name</label>
-                                        <input type="text" name="name" class="form-control"
-                                            value="{{ old('name', $existingPaidListing->name ?? '') }}" required>
+                                        <label class="custom-form-label">Business Name</label>
+                                        <input type="text" name="name" class="custom-form-input" value="{{ $user->business_name }}" readonly>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label fw-semibold">Home City</label>
-                                        <input type="text" name="home_city" class="form-control"
-                                            value="{{ old('home_city', $existingPaidListing->home_city ?? '') }}" required>
+                                        <label class="custom-form-label">Registered Email</label>
+                                        <input type="email" name="email" class="custom-form-input" value="{{ old('email', $user->email) }}" readonly>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label fw-semibold">Plan Duration</label>
-                                        <select class="form-select" name="duration" id="paid_duration" required>
+                                        <label class="custom-form-label">WhatsApp Number (From Profile)</label>
+                                        <input type="text" name="phone" class="custom-form-input" value="{{ old('phone', $user->whats_app) }}" readonly>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn-send-message" style="width: auto; padding: 12px 32px; font-size: 15px; border-radius: 10px;">
+                                    <span>Submit Free Listing</span>
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- PAID LISTING -->
+                        <div class="tab-pane fade {{ !empty($disableFreeListing) ? 'show active' : '' }}" id="paid">
+                            <form action="{{ route('front.addListing.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="type" value="paid">
+
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-6">
+                                        <label class="custom-form-label">Contact / Business Name <span style="color: #EF4444;">*</span></label>
+                                        <input type="text" name="name" class="custom-form-input" value="{{ old('name', $existingPaidListing->name ?? $user->business_name) }}" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="custom-form-label">Home City <span style="color: #EF4444;">*</span></label>
+                                        <input type="text" name="home_city" class="custom-form-input" value="{{ old('home_city', $existingPaidListing->home_city ?? '') }}" placeholder="Enter City" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="custom-form-label">Plan Duration <span style="color: #EF4444;">*</span></label>
+                                        <select class="select2 custom-form-input" name="duration" id="paid_duration" required>
                                             <option value="1" {{ old('duration', '1') == '1' ? 'selected' : '' }}>1 Month</option>
                                             <option value="2" {{ old('duration') == '2' ? 'selected' : '' }}>2 Months</option>
                                             <option value="3" {{ old('duration') == '3' ? 'selected' : '' }}>3 Months</option>
                                         </select>
                                     </div>
-
-
                                 </div>
 
-
-                                <div class="listing-footer mt-4">
-
-                                    <div class="price">
-                                        <span id="paid_price_label">1 Month Price</span>
-                                        <strong id="paid_price_display">
+                                <div class="listing-price-summary">
+                                    <div>
+                                        <span class="price-text" id="paid_price_label">1 Month Price</span>
+                                        <div class="price-amount" id="paid_price_display">
                                             {{ old('duration', '1') == '2' ? '443 Rs' : (old('duration') == '3' ? '590 Rs' : '295 Rs') }}
-                                        </strong>
-                                        <small class="text-muted d-block mt-1" id="paid_price_note"></small>
-
+                                        </div>
+                                        <small style="color: #64748B; font-size: 13px;" id="paid_price_note"></small>
                                         <input type="hidden" name="price" id="paid_price" value="{{ old('duration', '1') == '2' ? '443' : (old('duration') == '3' ? '590' : '295') }}">
-
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary px-4">
-                                        Confirm
+                                    <button type="submit" class="btn-send-message" style="width: auto; padding: 12px 36px; font-size: 15px; border-radius: 10px;">
+                                        <span>Confirm & Pay</span>
                                     </button>
-
                                 </div>
-
-                            </div>
-
-                        </form>
-
+                            </form>
+                        </div>
                     </div>
-
                 </div>
             @else
-                <h3 style="font-weight:bold; text-align:center;">
-                    After admin approval, you can add it to the listing.
-                </h3>
+                <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 40px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
+                    <div style="width: 64px; height: 64px; border-radius: 50%; background: #FEF3C7; color: #D97706; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 28px;">
+                        ⏳
+                    </div>
+                    <h3 style="font-size: 20px; font-weight: 800; color: #0F172A; margin-bottom: 8px;">Account Verification In Progress</h3>
+                    <p style="font-size: 14.5px; color: #64748B; max-width: 500px; margin: 0 auto;">
+                        After admin approval, you will be able to create free and paid listings. Our team is reviewing your profile.
+                    </p>
+                </div>
             @endif
         @endif
     </div>
 @endsection
 
-
 @push('scripts')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script>
-        (function() {
+        $(document).ready(function() {
+            if ($.fn.select2) {
+                $('#paid_duration').select2({
+                    width: '100%'
+                });
+            }
+
             function updatePaidListingPrice() {
                 let duration = $('#paid_duration').val();
                 let basePrice = 0;
@@ -255,6 +272,6 @@
 
             $('#paid_duration').on('change', updatePaidListingPrice);
             updatePaidListingPrice();
-        })();
+        });
     </script>
 @endpush

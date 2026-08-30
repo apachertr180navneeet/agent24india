@@ -88,8 +88,8 @@
 
 <!-- jQuery -->
 <script src="{{ asset('public/plugins/jquery/jquery.min.js') }}" type="text/javascript"></script>
-
-{{--  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  --}}
+<!-- Select2 JS -->
+<script src="{{ asset('public/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
 
 <!-- ========================= JS here ========================= -->
 <script src="{{asset('public/front/assets/js/bootstrap.min.js')}}"></script>
@@ -237,11 +237,37 @@
 <script>
     $(document).ready(function () {
 
+        // Initialize Select2 in Auth Popup Modal
+        function initModalSelect2() {
+            if ($('#authOverlay').length && $.fn.select2) {
+                $('#business_category_id, #state_id, #district_id, #city_id').select2({
+                    dropdownParent: $('#authOverlay .auth-popup'),
+                    width: '100%'
+                });
+            }
+        }
+
+        initModalSelect2();
+
+        // Re-initialize or adjust Select2 when modal / tabs opened
+        $(document).on('click', '.open-signin, .open-signup, .tab', function() {
+            setTimeout(function() {
+                initModalSelect2();
+            }, 100);
+        });
+
+        // Initialize general select2 on any elements with .select2 or select-styled
+        if ($.fn.select2) {
+            $('select.select2').select2({
+                width: '100%'
+            });
+        }
+
         // STATE → DISTRICT
         $('#state_id').change(function () {
             let stateId = $(this).val();
-            $('#district_id').html('<option value="">Loading...</option>');
-            $('#city_id').html('<option value="">Select City</option>');
+            $('#district_id').html('<option value="">Loading...</option>').trigger('change.select2');
+            $('#city_id').html('<option value="">Select City</option>').trigger('change.select2');
 
             if (stateId) {
                 $.ajax({
@@ -252,18 +278,18 @@
                         $.each(data, function (key, value) {
                             options += `<option value="${value.id}">${value.name}</option>`;
                         });
-                        $('#district_id').html(options);
+                        $('#district_id').html(options).trigger('change.select2');
                     }
                 });
             } else {
-                $('#district_id').html('<option value="">Select District</option>');
+                $('#district_id').html('<option value="">Select District</option>').trigger('change.select2');
             }
         });
 
         // DISTRICT → CITY
         $('#district_id').change(function () {
             let districtId = $(this).val();
-            $('#city_id').html('<option value="">Loading...</option>');
+            $('#city_id').html('<option value="">Loading...</option>').trigger('change.select2');
 
             if (districtId) {
                 $.ajax({
@@ -274,11 +300,11 @@
                         $.each(data, function (key, value) {
                             options += `<option value="${value.id}">${value.name}</option>`;
                         });
-                        $('#city_id').html(options);
+                        $('#city_id').html(options).trigger('change.select2');
                     }
                 });
             } else {
-                $('#city_id').html('<option value="">Select City</option>');
+                $('#city_id').html('<option value="">Select City</option>').trigger('change.select2');
             }
         });
 

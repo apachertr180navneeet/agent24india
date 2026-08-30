@@ -8,45 +8,42 @@ Author: GrayGrids
 	"use strict";
 
 	//===== Prealoder
-
 	window.onload = function () {
 		window.setTimeout(fadeout, 200);
 	}
 
-
     function fadeout() {
-        document.querySelector('.preloader').style.opacity = '0';
-        document.querySelector('.preloader').style.display = 'none';
+        const preloader = document.querySelector('.preloader');
+        if (preloader) {
+            preloader.style.opacity = '0';
+            preloader.style.display = 'none';
+        }
     }
     
 })();
 
-
 const tabButtons = document.querySelectorAll(".tab-btn");
 const cards = document.querySelectorAll(".single-grid");
 
-tabButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
+if (tabButtons.length > 0) {
+    tabButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            tabButtons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
 
-        // Active tab
-        tabButtons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
+            const filter = btn.getAttribute("data-filter");
 
-        const filter = btn.getAttribute("data-filter");
-
-        // Filter cards
-        cards.forEach(card => {
-            const category = card.getAttribute("data-category");
-
-            if (category && category.includes(filter)) {
-                card.parentElement.style.display = "block";
-            } else {
-                card.parentElement.style.display = "none";
-            }
+            cards.forEach(card => {
+                const category = card.getAttribute("data-category");
+                if (category && category.includes(filter)) {
+                    if (card.parentElement) card.parentElement.style.display = "block";
+                } else {
+                    if (card.parentElement) card.parentElement.style.display = "none";
+                }
+            });
         });
-
     });
-});
+}
 
 const slides = document.querySelectorAll(".slide");
 const prev = document.querySelector(".prev");
@@ -57,29 +54,32 @@ let index = 0;
 let interval;
 
 /* Create dots */
-if(slides){
-slides.forEach((_, i) => {
-    const dot = document.createElement("span");
-    if (i === 0) dot.classList.add("active");
-    dot.addEventListener("click", () => goToSlide(i));
-    dotsContainer.appendChild(dot);
-});}
-
-const dots = document.querySelectorAll(".dots span");
+if (slides && slides.length > 0 && dotsContainer) {
+    slides.forEach((_, i) => {
+        const dot = document.createElement("span");
+        if (i === 0) dot.classList.add("active");
+        dot.addEventListener("click", () => goToSlide(i));
+        dotsContainer.appendChild(dot);
+    });
+}
 
 function showSlide(i) {
+    if (!slides || slides.length === 0) return;
+    const dots = document.querySelectorAll(".dots span");
     slides.forEach(slide => slide.classList.remove("active"));
     dots.forEach(dot => dot.classList.remove("active"));
-    slides[i].classList.add("active");
-    dots[i].classList.add("active");
+    if (slides[i]) slides[i].classList.add("active");
+    if (dots[i]) dots[i].classList.add("active");
     index = i;
 }
 
 function nextSlide() {
+    if (!slides || slides.length === 0) return;
     showSlide((index + 1) % slides.length);
 }
 
 function prevSlide() {
+    if (!slides || slides.length === 0) return;
     showSlide((index - 1 + slides.length) % slides.length);
 }
 
@@ -90,7 +90,9 @@ function goToSlide(i) {
 
 /* Auto slide */
 function startAuto() {
-    interval = setInterval(nextSlide, 4000);
+    if (slides && slides.length > 1) {
+        interval = setInterval(nextSlide, 4000);
+    }
 }
 
 function resetAuto() {
@@ -98,90 +100,88 @@ function resetAuto() {
     startAuto();
 }
 
-if(next){
+if (next) {
     next.addEventListener("click", () => {
         nextSlide();
         resetAuto();
     });
 }
 
-if(prev){
+if (prev) {
     prev.addEventListener("click", () => {
         prevSlide();
         resetAuto();
     });
 }
 
-if(next && prev){
+if (next && prev && slides && slides.length > 1) {
     startAuto();
 }
-
 
 const toggle = document.getElementById("menuToggle");
 const sideMenu = document.getElementById("sideMenu");
 const overlay = document.getElementById("menuOverlay");
 const closeBtn = document.getElementById("closeMenu");
 
-
-toggle.addEventListener("click", () => {
-    sideMenu.classList.add("active");
-    overlay.classList.add("active");
-});
 function closeMenu() {
-    sideMenu.classList.remove("active");
-    overlay.classList.remove("active");
+    if (sideMenu) sideMenu.classList.remove("active");
+    if (overlay) overlay.classList.remove("active");
 }
-overlay.addEventListener("click", closeMenu);
-closeBtn.addEventListener("click", closeMenu);
 
+if (toggle && sideMenu && overlay) {
+    toggle.addEventListener("click", () => {
+        sideMenu.classList.add("active");
+        overlay.classList.add("active");
+    });
+}
+
+if (overlay) {
+    overlay.addEventListener("click", closeMenu);
+}
+
+if (closeBtn) {
+    closeBtn.addEventListener("click", closeMenu);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
-
-//   fetch("signin-up.html")
-//     .then(res => res.text())
-//     .then(html => {
-//       document.body.insertAdjacentHTML("beforeend", html);
-//       initAuthPopup(); // 🔥 important
-//     });
-initAuthPopup();
-
+    initAuthPopup();
 });
 
-function initAuthPopup(){
+function initAuthPopup() {
+    const overlay = document.getElementById("authOverlay");
+    if (!overlay) return;
 
-  const overlay = document.getElementById("authOverlay");
-
-  // Open popup
-  document.querySelectorAll(".open-signin").forEach(btn => {
-    btn.addEventListener("click", () => {
-      overlay.style.display = "flex";
+    // Open popup
+    document.querySelectorAll(".open-signin").forEach(btn => {
+        btn.addEventListener("click", () => {
+            overlay.style.display = "flex";
+        });
     });
-  });
 
-  // ✅ FIXED CLOSE BUTTON
-  document.querySelector(".close-btn1").addEventListener("click", () => {
-    overlay.style.display = "none";
-  });
-
-  // ✅ CLOSE ON OUTSIDE CLICK (BONUS)
-  overlay.addEventListener("click", (e) => {
-    if (e.target === overlay) {
-      overlay.style.display = "none";
+    // Close button
+    const closeBtn1 = document.querySelector(".close-btn1");
+    if (closeBtn1) {
+        closeBtn1.addEventListener("click", () => {
+            overlay.style.display = "none";
+        });
     }
-  });
 
-  // Tabs switch
-  document.querySelectorAll(".tab").forEach(tab => {
-    tab.addEventListener("click", () => {
-
-      document.querySelectorAll(".tab, .auth-form")
-        .forEach(el => el.classList.remove("active"));
-
-      tab.classList.add("active");
-      document.getElementById(tab.dataset.tab).classList.add("active");
+    // Close on outside click
+    overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+            overlay.style.display = "none";
+        }
     });
-  });
 
+    // Tabs switch
+    document.querySelectorAll(".tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+            document.querySelectorAll(".tab, .auth-form").forEach(el => el.classList.remove("active"));
+            tab.classList.add("active");
+            const target = document.getElementById(tab.dataset.tab);
+            if (target) {
+                target.classList.add("active");
+            }
+        });
+    });
 }
-
-
