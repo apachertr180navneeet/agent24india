@@ -6,46 +6,82 @@
         .listing-card-box {
             background: #FFFFFF;
             border: 1px solid #E2E8F0;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            padding: 32px;
+            border-radius: 20px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
+            padding: 36px 32px;
             margin-bottom: 40px;
         }
 
-        .listing-tabs {
+        .listing-tabs-wrapper {
             display: flex;
-            gap: 12px;
-            border-bottom: 2px solid #F1F5F9;
-            padding-bottom: 12px;
-            margin-bottom: 24px;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 1.5px solid #F1F5F9;
+        }
+
+        .listing-tabs {
+            display: inline-flex;
+            background: #F1F5F9;
+            border-radius: 35px;
+            padding: 5px;
+            gap: 6px;
+            border: 1px solid #E2E8F0;
         }
 
         .listing-tabs .tab-btn {
             background: transparent;
             border: none;
-            padding: 10px 24px;
+            padding: 10px 26px;
             font-weight: 700;
-            font-size: 15px;
-            color: #64748B;
-            border-radius: 30px;
+            font-size: 14.5px;
+            color: #475569;
+            border-radius: 28px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.25s ease;
+            outline: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
         }
 
         .listing-tabs .tab-btn.active {
             background: #004BEE;
             color: #FFFFFF;
-            box-shadow: 0 4px 12px rgba(0, 75, 238, 0.25);
+            box-shadow: 0 4px 14px rgba(0, 75, 238, 0.35);
         }
 
         .listing-tabs .tab-btn:disabled {
-            opacity: 0.5;
+            opacity: 0.45;
             cursor: not-allowed;
+        }
+
+        /* Essential Tab Pane Hiding & Animation */
+        .tab-content > .tab-pane {
+            display: none !important;
+        }
+
+        .tab-content > .tab-pane.active {
+            display: block !important;
+            animation: tabFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes tabFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .custom-form-label {
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700;
             color: #1E293B;
             margin-bottom: 8px;
             display: block;
@@ -60,12 +96,12 @@
             font-size: 14.5px;
             background: #FFFFFF;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.2s ease;
         }
 
         .custom-form-input:focus {
             border-color: #004BEE;
-            box-shadow: 0 0 0 3px rgba(0, 75, 238, 0.1);
+            box-shadow: 0 0 0 3px rgba(0, 75, 238, 0.12);
         }
 
         .custom-form-input:read-only {
@@ -73,11 +109,35 @@
             color: #64748B;
         }
 
+        .btn-submit-listing {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: #004BEE;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 32px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 14px rgba(0, 75, 238, 0.25);
+        }
+
+        .btn-submit-listing:hover {
+            background-color: #0036B8;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 75, 238, 0.35);
+            color: #FFFFFF;
+        }
+
         .listing-price-summary {
             background: #EFF6FF;
             border: 1.5px solid #BFDBFE;
-            border-radius: 12px;
-            padding: 18px 24px;
+            border-radius: 14px;
+            padding: 20px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -87,40 +147,49 @@
 
         .listing-price-summary .price-text {
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 700;
             color: #1E3A8A;
         }
 
         .listing-price-summary .price-amount {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 800;
             color: #004BEE;
+            line-height: 1.1;
+            margin-top: 2px;
         }
 
         @media (max-width: 640px) {
             .listing-card-box {
                 padding: 20px 14px !important;
-                border-radius: 14px !important;
+                border-radius: 16px !important;
                 margin-bottom: 24px !important;
             }
+            .listing-tabs-wrapper {
+                margin-bottom: 20px;
+                padding-bottom: 12px;
+            }
             .listing-tabs {
-                overflow-x: auto;
-                gap: 8px;
-                padding-bottom: 8px;
+                width: 100%;
+                display: flex;
             }
             .listing-tabs .tab-btn {
-                padding: 8px 16px;
+                flex: 1;
+                justify-content: center;
+                padding: 9px 12px;
                 font-size: 13.5px;
-                white-space: nowrap;
             }
             .listing-price-summary {
-                padding: 14px 16px;
+                padding: 16px 14px;
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 8px;
+                gap: 12px;
             }
             .listing-price-summary .price-amount {
-                font-size: 20px;
+                font-size: 22px;
+            }
+            .btn-submit-listing {
+                width: 100%;
             }
         }
     </style>
@@ -146,22 +215,29 @@
             @if($user && $user->is_approved == '1')
                 <div class="listing-card-box">
                     
-                    <!-- Nav Tabs -->
-                    <div class="listing-tabs" role="tablist">
-                        <button class="tab-btn {{ !empty($disableFreeListing) ? '' : 'active' }}" id="free-tab" data-bs-toggle="tab"
-                            data-bs-target="#free" type="button" role="tab" @if (!empty($disableFreeListing)) disabled @endif>
-                            Free Listing
-                        </button>
+                    <!-- Segmented Pill Tabs -->
+                    <div class="listing-tabs-wrapper">
+                        <div class="listing-tabs" role="tablist">
+                            <button type="button" class="tab-btn {{ !empty($disableFreeListing) ? '' : 'active' }}" data-target="#free" @if (!empty($disableFreeListing)) disabled @endif>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 6L9 17l-5-5"/>
+                                </svg>
+                                <span>Free Listing</span>
+                            </button>
 
-                        <button class="tab-btn {{ !empty($disableFreeListing) ? 'active' : '' }}" id="paid-tab"
-                            data-bs-toggle="tab" data-bs-target="#paid" type="button" role="tab">
-                            Paid Listing
-                        </button>
+                            <button type="button" class="tab-btn {{ !empty($disableFreeListing) ? 'active' : '' }}" data-target="#paid">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <path d="M12 6v12M15 9.5a3.5 3.5 0 0 0-7 0c0 2.5 3.5 3 3.5 5.5a3.5 3.5 0 0 1-7 0"/>
+                                </svg>
+                                <span>Paid Listing</span>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="tab-content">
                         <!-- FREE LISTING -->
-                        <div class="tab-pane fade {{ !empty($disableFreeListing) ? '' : 'show active' }}" id="free">
+                        <div class="tab-pane {{ !empty($disableFreeListing) ? '' : 'active' }}" id="free">
                             @if (!empty($disableFreeListing))
                                 <div style="background: #FEF3C7; border: 1px solid #FCD34D; color: #92400E; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px;">
                                     Free listing is disabled because your paid listing is active.
@@ -184,7 +260,7 @@
                                 @csrf
                                 <input type="hidden" name="type" value="free">
 
-                                <div class="row g-3 mb-3">
+                                <div class="row g-3 mb-4">
                                     <div class="col-md-6">
                                         <label class="custom-form-label">Business Name</label>
                                         <input type="text" name="name" class="custom-form-input" value="{{ $user->business_name }}" readonly>
@@ -199,14 +275,16 @@
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn-send-message" style="width: auto; padding: 12px 32px; font-size: 15px; border-radius: 10px;">
-                                    <span>Submit Free Listing</span>
-                                </button>
+                                <div class="form-action-wrap" style="margin-top: 32px;">
+                                    <button type="submit" class="btn-submit-listing">
+                                        <span>Submit Free Listing</span>
+                                    </button>
+                                </div>
                             </form>
                         </div>
 
                         <!-- PAID LISTING -->
-                        <div class="tab-pane fade {{ !empty($disableFreeListing) ? 'show active' : '' }}" id="paid">
+                        <div class="tab-pane {{ !empty($disableFreeListing) ? 'active' : '' }}" id="paid">
                             <form action="{{ route('front.addListing.store') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="type" value="paid">
@@ -232,17 +310,17 @@
                                     </div>
                                 </div>
 
-                                <div class="listing-price-summary">
+                                <div class="listing-price-summary" style="margin-top: 32px;">
                                     <div>
                                         <span class="price-text" id="paid_price_label">1 Month Price</span>
                                         <div class="price-amount" id="paid_price_display">
-                                            {{ old('duration', '1') == '2' ? '443 Rs' : (old('duration') == '3' ? '590 Rs' : '295 Rs') }}
+                                             {{ old('duration', '1') == '2' ? '443 Rs' : (old('duration') == '3' ? '590 Rs' : '295 Rs') }}
                                         </div>
                                         <small style="color: #64748B; font-size: 13px;" id="paid_price_note"></small>
                                         <input type="hidden" name="price" id="paid_price" value="{{ old('duration', '1') == '2' ? '443' : (old('duration') == '3' ? '590' : '295') }}">
                                     </div>
 
-                                    <button type="submit" class="btn-send-message" style="width: auto; padding: 12px 36px; font-size: 15px; border-radius: 10px;">
+                                    <button type="submit" class="btn-submit-listing">
                                         <span>Confirm & Pay</span>
                                     </button>
                                 </div>
@@ -268,6 +346,19 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            // Tab switching handler
+            $(document).on('click', '.listing-tabs .tab-btn', function(e) {
+                e.preventDefault();
+                if ($(this).prop('disabled') || $(this).attr('disabled')) return;
+
+                var target = $(this).data('target');
+                $('.listing-tabs .tab-btn').removeClass('active');
+                $(this).addClass('active');
+
+                $('.tab-content > .tab-pane').removeClass('active');
+                $(target).addClass('active');
+            });
+
             if ($.fn.select2) {
                 $('#paid_duration').select2({
                     width: '100%'

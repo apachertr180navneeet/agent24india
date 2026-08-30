@@ -81,7 +81,7 @@ class ProfileController extends Controller
             $file->move(public_path('upload/user_profile'), $filename);
 
             // full URL
-            $profileImageUrl = asset('public/upload/user_profile/' . $filename);
+            $profileImageUrl = asset('upload/user_profile/' . $filename);
         }
 
         DB::beginTransaction();

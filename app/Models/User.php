@@ -106,6 +106,36 @@ class User extends Authenticatable implements OAuthenticatable
         return $this->belongsTo(City::class, 'city_id', 'id');
     }
 
+    public function getProfilePhotoUrlAttribute()
+    {
+        if (empty($this->profile_photo)) {
+            return asset('images/images.png');
+        }
+
+        $photo = $this->profile_photo;
+
+        if (str_starts_with($photo, 'http://') || str_starts_with($photo, 'https://')) {
+            $parsed = parse_url($photo, PHP_URL_PATH);
+            if ($parsed && str_starts_with($parsed, '/public/upload/')) {
+                $relative = substr($parsed, 8);
+                if (file_exists(public_path($relative))) {
+                    return asset($relative);
+                }
+            }
+            return $photo;
+        }
+
+        if (file_exists(public_path('upload/user_profile/' . $photo))) {
+            return asset('upload/user_profile/' . $photo);
+        }
+
+        if (file_exists(public_path($photo))) {
+            return asset($photo);
+        }
+
+        return asset('images/images.png');
+    }
+
     /**
      * Get users list
      */
