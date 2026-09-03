@@ -1,6 +1,14 @@
 @extends('front.layout.main')
 @section('title', $pageTitle ?? 'District Categories')
 
+@php
+    if (!isset($districtList)) {
+        $districtList = isset($district) && is_iterable($district) 
+            ? $district 
+            : \App\Models\District::where('status', 1)->orderBy('name')->get();
+    }
+@endphp
+
 @push('styles')
 <style>
     .vendorlist-page {
@@ -315,7 +323,7 @@
                     </svg>
                     <select id="subcategory" class="select2">
                         <option value="">Select Sub Category</option>
-                        @foreach($subCategories as $sub)
+                        @foreach(($subCategories ?? []) as $sub)
                             <option value="{{ $sub->id }}">
                                 {{ $sub->name }}
                             </option>
@@ -336,7 +344,7 @@
                     </svg>
                     <select name="category" id="category" class="select2">
                         <option value="none">Choose Categories</option>
-                        @foreach($category as $value)
+                        @foreach(($category ?? []) as $value)
                             <option value="{{ $value->id }}" {{ request()->route('category') == $value->id ? 'selected' : '' }}>
                                 {{ $value->name }}
                             </option>
@@ -372,7 +380,7 @@
             <!-- Left: Categories Grid -->
             <div>
                 <div class="vl-categories-grid">
-                    @foreach($category as $key => $value)
+                    @foreach(($category ?? []) as $key => $value)
                         <a href="{{ route('front.vendorlist.location.category', ['location' => $selectedDistrict->id ?? '', 'category' => $value->id]) }}{{ !empty($selectedCityId) ? '?city=' . urlencode($selectedCityId) : '' }}" class="vl-category-card">
                             <img src="{{ $value->image }}" alt="{{ $value->name }}">
                             <span>{{ $value->name }}</span>
