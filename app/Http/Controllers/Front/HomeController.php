@@ -59,6 +59,8 @@ class HomeController extends Controller
         $this->viewData['initialCities'] = $initialCities;
 
 
+        $paidlisting = Advertisment::where('status', 1)->whereDate('expiry_date', '>=', Carbon::today())->get();
+
         $this->viewData['banner'] = $banner;
         $this->viewData['vendoruser'] = $vendoruser;
         $this->viewData['category'] = $category;
