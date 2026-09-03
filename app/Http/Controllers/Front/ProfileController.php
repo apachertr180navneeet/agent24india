@@ -178,6 +178,9 @@ class ProfileController extends Controller
         }
 
         $user = Auth::user();
+        if ($user) {
+            $user->loadMissing(['city', 'district']);
+        }
 
         // Get active districts
         $districts = District::where('status', 1)->get();
@@ -205,12 +208,18 @@ class ProfileController extends Controller
             }
         }
 
+        $userCityName = $existingPaidListing->home_city 
+            ?? $user->city?->name 
+            ?? ($user->city_id ? City::where('id', $user->city_id)->value('name') : null) 
+            ?? '';
+
         $this->viewData = [
             'user'                => $user,
             'districts'           => $districts,
             'pageTitle'           => 'Add Listing',
             'existingListing'     => $existingListing,
             'existingPaidListing' => $existingPaidListing,
+            'userCityName'        => $userCityName,
             'disableFreeListing'  => $hasActivePaidListing,
             'hasFreeListing'      => $hasFreeListing,
         ];
@@ -272,7 +281,7 @@ class ProfileController extends Controller
                 if ($existingListing && $existingListing->paid_type == 'free') {
 
                     $existingListing->update([
-                        'home_city' => $request->home_city ?? $existingListing->home_city,
+                        'home_city' => $request->home_city ?? $existingListing->home_city ?? $user->city?->name,
                         'phone'     => $request->phone ?? $existingListing->phone,
                         'email'     => $request->email ?? $existingListing->email,
                         'name'      => $request->name ?? $existingListing->name,
@@ -308,7 +317,7 @@ class ProfileController extends Controller
                 */
                 PaidListing::create([
                     'bussines_id' => $user->id,
-                    'home_city'   => $request->home_city ?? null,
+                    'home_city'   => $request->home_city ?? $user->city?->name ?? null,
                     'phone'       => $request->phone ?? null,
                     'email'       => $request->email ?? null,
                     'name'        => $request->name ?? null,
@@ -394,7 +403,7 @@ class ProfileController extends Controller
                     'bussines_id'        => $user->id,
                     'primium_start_date' => $premiumStartDate->format('Y-m-d'),
                     'expiry_date'        => $expiryDate->format('Y-m-d'),
-                    'home_city'          => $request->home_city ?? $request->city ?? null,
+                    'home_city'          => $request->home_city ?? $request->city ?? $user->city?->name ?? null,
                     'amount'             => $amount,
                     'name'               => $request->name ?? null,
                     'status'             => 0,

@@ -273,6 +273,10 @@
                                         <label class="custom-form-label">WhatsApp Number (From Profile)</label>
                                         <input type="text" name="phone" class="custom-form-input" value="{{ old('phone', $user->whats_app) }}" readonly>
                                     </div>
+                                    <div class="col-md-6">
+                                        <label class="custom-form-label">Home City (From Profile)</label>
+                                        <input type="text" name="home_city" class="custom-form-input" value="{{ old('home_city', $userCityName ?? $user->city->name ?? $user->home_city ?? '') }}" readonly>
+                                    </div>
                                 </div>
 
                                 <div class="form-action-wrap" style="margin-top: 32px;">
@@ -297,7 +301,7 @@
 
                                     <div class="col-md-6">
                                         <label class="custom-form-label">Home City <span style="color: #EF4444;">*</span></label>
-                                        <input type="text" name="home_city" class="custom-form-input" value="{{ old('home_city', $existingPaidListing->home_city ?? '') }}" placeholder="Enter City" required>
+                                        <input type="text" name="home_city" class="custom-form-input" value="{{ old('home_city', $existingPaidListing->home_city ?? $userCityName ?? $user->city->name ?? $user->home_city ?? '') }}" placeholder="Enter City" required>
                                     </div>
 
                                     <div class="col-md-6">
