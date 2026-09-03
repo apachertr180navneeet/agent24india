@@ -56,6 +56,74 @@
             max-width: 170px;
         }
     }
+    .header-search-capsule {
+        display: flex;
+        align-items: center;
+        background: #F8FAFC;
+        border: 1.5px solid #E2E8F0;
+        border-radius: 40px;
+        padding: 4px 6px 4px 16px;
+        max-width: 520px;
+        width: 100%;
+        margin: 0 16px;
+        transition: all 0.2s ease;
+    }
+    .header-search-capsule:focus-within {
+        border-color: #004BEE;
+        box-shadow: 0 0 0 3.5px rgba(0, 75, 238, 0.12);
+        background: #FFFFFF;
+    }
+    .hsc-field {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        flex: 1;
+        min-width: 0;
+    }
+    .hsc-select {
+        border: none;
+        background: transparent;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: #1E293B;
+        width: 100%;
+        outline: none;
+        cursor: pointer;
+        padding: 6px 2px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    .hsc-divider {
+        width: 1px;
+        height: 22px;
+        background: #CBD5E1;
+        margin: 0 8px;
+        flex-shrink: 0;
+    }
+    .hsc-search-btn {
+        background: #004BEE;
+        color: #FFFFFF;
+        border: none;
+        border-radius: 30px;
+        padding: 7px 20px;
+        font-size: 13.5px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+        flex-shrink: 0;
+    }
+    .hsc-search-btn:hover {
+        background: #0036B8;
+    }
+    @media (max-width: 991px) {
+        .header-search-capsule {
+            display: none;
+        }
+    }
 </style>
 
 <!-- Header Start -->
@@ -123,52 +191,91 @@
             @endif
         </a>
 
-        <!-- Navigation Links -->
-        <nav class="main-nav" id="mainNav">
-            <ul class="nav-list">
-                <li class="nav-item {{ request()->routeIs('front.index') ? 'active' : '' }}">
-                    <a href="{{route('front.index')}}" class="nav-link">Home</a>
-                    @if(request()->routeIs('front.index'))
-                        <span class="active-bar"></span>
-                    @endif
-                </li>
-
-                <li class="nav-item {{ request()->routeIs('front.addListing') ? 'active' : '' }}">
-                    <a href="{{ \Auth::check() ? route('front.addListing') : route('login') }}" class="nav-link">Free Listing</a>
-                </li>
-
-                <li class="nav-item {{ request()->routeIs('front.addbanner') ? 'active' : '' }}">
-                    <a href="{{ \Auth::check() ? route('front.addbanner') : route('login') }}" class="nav-link">Banner Ad</a>
-                </li>
-
-                <li class="nav-item dropdown-item">
-                    <a href="javascript:void(0)" class="nav-link">
-                        Policies
-                        <svg class="chevron-icon" width="12" height="12" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M6 9l6 6 6-6" />
-                        </svg>
-                    </a>
-                    <div class="dropdown-menu">
-                        @if($privacy && $privacy->status == 1)
-                            <a href="{{route('front.privacyPolicy')}}" class="dropdown-link">Privacy Policy</a>
+        @if(request()->routeIs('front.vendorlist*'))
+            <!-- Central Search Capsule Bar in Header -->
+            <div class="header-search-capsule" id="headerSearchCapsule">
+                <div class="hsc-field hsc-category">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <select id="hscCategorySelect" class="hsc-select">
+                        <option value="">All Categories</option>
+                        @foreach(($category ?? \App\Models\Category::whereNull('parent_id')->where('status', 1)->get()) as $cat)
+                            <option value="{{ $cat->id }}" {{ (isset($selectedCategory) && $selectedCategory == $cat->id) ? 'selected' : '' }}>
+                                {{ $cat->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="hsc-divider"></div>
+                <div class="hsc-field hsc-location">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <select id="hscDistrictSelect" class="hsc-select">
+                        @foreach(($districtList ?? \App\Models\District::where('status', 1)->orderBy('name')->get()) as $dist)
+                            <option value="{{ $dist->id }}" {{ (isset($location) && $location == $dist->id) || ($dist->name == 'Jaipur' && empty($location)) ? 'selected' : '' }}>
+                                {{ $dist->name }}, Rajasthan
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <button type="button" id="hscSearchBtn" class="hsc-search-btn">
+                    <span>खोजें</span>
+                </button>
+            </div>
+        @else
+            <!-- Navigation Links -->
+            <nav class="main-nav" id="mainNav">
+                <ul class="nav-list">
+                    <li class="nav-item {{ request()->routeIs('front.index') ? 'active' : '' }}">
+                        <a href="{{route('front.index')}}" class="nav-link">Home</a>
+                        @if(request()->routeIs('front.index'))
+                            <span class="active-bar"></span>
                         @endif
-                        @if($trem && $trem->status == 1)
-                            <a href="{{route('front.termsAndConditions')}}" class="dropdown-link">Terms & Conditions</a>
-                        @endif
-                    </div>
-                </li>
+                    </li>
 
-                <li class="nav-item {{ request()->routeIs('front.support') ? 'active' : '' }}">
-                    <a href="{{route('front.support')}}" class="nav-link">Support & Help</a>
-                </li>
-            </ul>
-        </nav>
+                    <li class="nav-item {{ request()->routeIs('front.addListing') ? 'active' : '' }}">
+                        <a href="{{ \Auth::check() ? route('front.addListing') : route('login') }}" class="nav-link">Free Listing</a>
+                    </li>
+
+                    <li class="nav-item {{ request()->routeIs('front.addbanner') ? 'active' : '' }}">
+                        <a href="{{ \Auth::check() ? route('front.addbanner') : route('login') }}" class="nav-link">Banner Ad</a>
+                    </li>
+
+                    <li class="nav-item dropdown-item">
+                        <a href="javascript:void(0)" class="nav-link">
+                            Policies
+                            <svg class="chevron-icon" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 9l6 6 6-6" />
+                            </svg>
+                        </a>
+                        <div class="dropdown-menu">
+                            @if($privacy && $privacy->status == 1)
+                                <a href="{{route('front.privacyPolicy')}}" class="dropdown-link">Privacy Policy</a>
+                            @endif
+                            @if($trem && $trem->status == 1)
+                                <a href="{{route('front.termsAndConditions')}}" class="dropdown-link">Terms & Conditions</a>
+                            @endif
+                        </div>
+                    </li>
+
+                    <li class="nav-item {{ request()->routeIs('front.support') ? 'active' : '' }}">
+                        <a href="{{route('front.support')}}" class="nav-link">Support & Help</a>
+                    </li>
+                </ul>
+            </nav>
+        @endif
 
         <!-- Right Action Items -->
         <div class="header-actions">
             <!-- Saved Item -->
-            <a href="javascript:void(0)" class="action-btn saved-btn" title="Saved Items">
+            <a href="javascript:void(0)" class="action-btn saved-btn" id="headerSavedBtn" title="Saved Items">
                 <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path
@@ -198,8 +305,8 @@
                     </svg>
                     <span>Login</span>
                 </a>
-                <!-- Register Button -->
-                <a href="{{ route('front.register') }}" class="btn-register">Register</a>
+                <!-- Agent Bano Button -->
+                <a href="{{ route('front.register') }}" class="btn-register" style="background:#004BEE; color:#fff !important; font-weight:700;">Agent बनें</a>
             @endif
 
             <!-- Right Side Menu Toggle Button -->

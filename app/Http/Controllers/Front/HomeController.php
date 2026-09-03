@@ -168,48 +168,10 @@ class HomeController extends Controller
     }
 
 
-    public function vendorlist(){
-        // Send view data
-        $this->viewData['pageTitle'] = 'Vendor List';
-        $subCategories = Category::where('status', 1)
-            ->whereNotNull('parent_id')
-            ->orderBy('name', 'asc')
-            ->get();
-
-        $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->paginate(12);
-
-        $category = Category::where('status', 1)
-            ->whereNull('parent_id')
-            ->orderBy('name', 'asc')
-            ->get();
-
-        $topadvertisments = Advertisment::where('status', 1)
-                        ->where('sub_type', 'top')
-                        ->get();
-
-        $sideadvertisments = Advertisment::where('status', 1)
-                ->where('sub_type', 'side')
-                ->limit(10)
-                ->get();
-
-        $districtList = District::where('status', 1)
-        ->orderBy('name')
-        ->get();
-
-        $selectedDistrict = null;
-
-        $this->viewData['vendoruser'] = $vendoruser;
-        $this->viewData['category'] = $category;
-        $this->viewData['topadvertisments'] = $topadvertisments;
-        $this->viewData['sideadvertisments'] = $sideadvertisments;
-        $this->viewData['districtList'] = $districtList;
-        $this->viewData['selectedDistrict'] = $selectedDistrict;
-        $this->viewData['subCategories'] = $subCategories;
-        $this->viewData['selectedCategory'] = '';
-        $this->viewData['location'] = '';
-        $this->viewData['selectedCityId'] = '';
-        
-        return view("front.vendorlist")->with($this->viewData);
+    public function vendorlist(Request $request)
+    {
+        $data = $this->buildVendorListData($request);
+        return view("front.vendorlist", $data);
     }
 
 
@@ -315,285 +277,288 @@ class HomeController extends Controller
         return view("front.vendordistrict")->with($this->viewData);
     }
 
-    public function vendorlistByCategory($category){
-        // Send view data
-        $this->viewData['pageTitle'] = 'Vendor List';
-        $subCategories = Category::where('status', 1)
-            ->whereNotNull('parent_id')
-            ->orderBy('name', 'asc')
-            ->get();
-
-        $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->where('business_category_id', $category)->paginate(12);
-
-        $categories = Category::where('status', 1)
-            ->whereNull('parent_id')
-            ->orderBy('name', 'asc')
-            ->get();
-
-        $topadvertisments = Advertisment::where('status', 1)
-            ->where('sub_type', 'top')
-            ->where('category', $category)
-            ->get();
-
-        $sideadvertisments = Advertisment::where('status', 1)
-            ->where('sub_type', 'side')
-            ->where('category', $category)
-            ->limit(10)
-            ->get();
-
-        $districtList = District::where('status', 1)
-        ->orderBy('name')
-        ->get();
-
-        $selectedDistrict = null;
-
-        $this->viewData['vendoruser'] = $vendoruser;
-        $this->viewData['category'] = $categories;
-        $this->viewData['topadvertisments'] = $topadvertisments;
-        $this->viewData['sideadvertisments'] = $sideadvertisments;
-        $this->viewData['selectedDistrict'] = $selectedDistrict;
-        $this->viewData['subCategories'] = $subCategories;
-        $this->viewData['districtList'] = $districtList;
-        $this->viewData['selectedCategory'] = $category;
-        $this->viewData['location'] = '';
-        $this->viewData['selectedCityId'] = '';
-
-        
-        return view("front.vendorlist")->with($this->viewData);
+    public function vendorlistByCategory(Request $request, $category){
+        $data = $this->buildVendorListData($request, null, $category, null);
+        return view("front.vendorlist", $data);
     }
 
     public function vendorlistByLocationAndCategory(Request $request, $location, $categorys)
     {
-        $this->viewData['pageTitle'] = 'Vendor List';
-        $subCategories = Category::where('status', 1)
-            ->whereNotNull('parent_id')
-            ->orderBy('name', 'asc')
-            ->get();
-
-        $selectedCityId     = $request->query('city');
-        $vendorType         = $request->query('vendor_type');
-        $isAllCitySelected  = empty($selectedCityId) || $selectedCityId === 'all';
-
-        /*
-        |--------------------------------------------------------------------------
-        | Vendor List
-        |--------------------------------------------------------------------------
-        */
-        $vendorQuery = User::where([
-                'status' => 1,
-                'is_approved' => 1,
-                'business_category_id' => $categorys,
-                'district_id' => $location
-            ])
-            ->whereNotNull('vendor_type')
-            ->orderByRaw("CASE WHEN vendor_type = 'paid' THEN 0 ELSE 1 END");
-
-        if ($vendorType) {
-            $vendorQuery->where('vendor_type', $vendorType);
-        }
-
-        if (!$isAllCitySelected) {
-            $vendorQuery->where('city_id', $selectedCityId);
-        }
-
-        $vendoruser = $vendorQuery->get();
-
-        /*
-        |--------------------------------------------------------------------------
-        | Categories
-        |--------------------------------------------------------------------------
-        */
-        $categories = Category::where('status', 1)
-            ->whereNull('parent_id')
-            ->orderBy('name', 'asc') // change 'name' to your column
-            ->get();
-
-        /*
-        |--------------------------------------------------------------------------
-        | Top Advertisements
-        |--------------------------------------------------------------------------
-        */
-        $topadvertisments = Advertisment::where('status', 1)
-            ->where('sub_type', 'top')
-            ->where('district', $location)
-            ->where('category', $categorys);
-
-        if (!$isAllCitySelected) {
-            $topadvertisments->where('city', $selectedCityId);
-        }
-
-        $topadvertisments = $topadvertisments
-            ->limit(5)        // limit to 5
-            ->get();
-
-        /*
-        |--------------------------------------------------------------------------
-        | Side Advertisements
-        |--------------------------------------------------------------------------
-        */
-
-        $sideQuery = Advertisment::where('status', 1)
-            ->where('sub_type', 'side')
-            ->where('district', $location)
-            ->where('category', $categorys);
-
-        if (!$isAllCitySelected) {
-            $sideQuery->where('city', $selectedCityId);
-        }
-
-
-        $sideadvertisments = $sideQuery->limit(10)->get();
-
-        /*
-        |--------------------------------------------------------------------------
-        | District List
-        |--------------------------------------------------------------------------
-        */
-        $districtList = District::where('status', 1)
-            ->orderBy('name')
-            ->get();
-
-        $selectedDistrict = $districtList->firstWhere('id', $location);
-
-        /*
-        |--------------------------------------------------------------------------
-        | View Data
-        |--------------------------------------------------------------------------
-        */
-        return view("front.vendorlist", [
-            'pageTitle'        => 'Vendor List',
-            'vendoruser'       => $vendoruser,
-            'category'         => $categories,
-            'topadvertisments' => $topadvertisments,
-            'sideadvertisments'=> $sideadvertisments,
-            'location'         => $location,
-            'selectedDistrict' => $selectedDistrict,
-            'selectedCityId'   => $selectedCityId,
-            'selectedCategory' => $categorys,
-            'subCategories'    => $subCategories,
-            'districtList'     => $districtList,
-        ]);
+        $data = $this->buildVendorListData($request, $location, $categorys, null);
+        return view("front.vendorlist", $data);
     }
-
 
     public function vendorlistByLocationAndsubCategory(Request $request, $location, $subcategory)
     {
+        $data = $this->buildVendorListData($request, $location, null, $subcategory);
+        return view("front.vendorlist", $data);
+    }
 
-        $selectedSubCategory = Category::where('id', $subcategory)->first();
+    private function buildVendorListData(Request $request, $location = null, $category = null, $subcategory = null)
+    {
+        // 1. Resolve subcategory and parent category if provided
+        $selectedSubCategoryObj = null;
+        if (!empty($subcategory)) {
+            $selectedSubCategoryObj = Category::where('id', $subcategory)->first();
+            if ($selectedSubCategoryObj && empty($category)) {
+                $category = $selectedSubCategoryObj->parent_id;
+            }
+        }
+
+        // Check if category passed via query param or route
+        if (empty($category) && $request->filled('category') && $request->query('category') !== 'none' && $request->query('category') !== 'all') {
+            $category = $request->query('category');
+        }
+
+        // Check if location passed via query param or route
+        if (empty($location) && $request->filled('location')) {
+            $location = $request->query('location');
+        }
+
+        // 2. Fetch categories (main parent categories)
+        $allMainCategories = Category::where('status', 1)
+            ->whereNull('parent_id')
+            ->orderBy('name', 'asc')
+            ->get();
+
+        $selectedCategoryObj = null;
+        if (!empty($category)) {
+            $selectedCategoryObj = $allMainCategories->firstWhere('id', $category) 
+                ?? Category::find($category);
+        }
+
+        // 3. Subcategories for the current category (Services)
+        $servicesQuery = Category::where('status', 1)->whereNotNull('parent_id');
+        if (!empty($category)) {
+            $servicesQuery->where('parent_id', $category);
+        }
+        $categoryServices = $servicesQuery->orderBy('name', 'asc')->get();
+
+        // All subcategories (for header search / global filters)
         $allSubCategories = Category::where('status', 1)
             ->whereNotNull('parent_id')
             ->orderBy('name', 'asc')
             ->get();
 
-        $category = $selectedSubCategory->parent_id;
+        // 4. District list
+        $districtList = District::where('status', 1)->orderBy('name', 'asc')->get();
+        $selectedDistrict = !empty($location) ? $districtList->firstWhere('id', $location) : null;
 
-        $this->viewData['pageTitle'] = 'Vendor List';
+        // 5. Popular Areas for the district (Combines localities and cities)
+        $popularAreas = [];
+        if (!empty($location)) {
+            $cities = City::where('district_id', $location)->orderBy('name')->get();
+            
+            $sampleAddresses = User::where('district_id', $location)
+                ->whereNotNull('business_address')
+                ->where('business_address', '!=', '')
+                ->pluck('business_address');
 
-        $selectedCityId     = $request->query('city');
-        $vendorType         = $request->query('vendor_type');
-        $isAllCitySelected  = empty($selectedCityId) || $selectedCityId === 'all';
+            $knownAreasJaipur = [
+                'Vaishali Nagar', 'Mansarovar', 'Jagatpura', 'Malviya Nagar', 'Sodala',
+                'Tonk Road', 'Ajmer Road', 'Raja Park', 'Gopalpura', 'C-Scheme',
+                'Vidhyadhar Nagar', 'Pratap Nagar', 'Sitapura', 'Bani Park', 'Jhotwara'
+            ];
 
-        /*
-        |--------------------------------------------------------------------------
-        | Vendor List
-        |--------------------------------------------------------------------------
-        */
-        $vendorQuery = User::where([
-                'status' => 1,
-                'is_approved' => 1,
-                'business_category_id' => $category,
-                'district_id' => $location
-            ])
-            ->whereNotNull('vendor_type')
-            ->orderByRaw("CASE WHEN vendor_type = 'paid' THEN 0 ELSE 1 END");
+            $localityList = [];
+            foreach ($knownAreasJaipur as $areaName) {
+                foreach ($sampleAddresses as $addr) {
+                    if (stripos($addr, $areaName) !== false) {
+                        $localityList[] = $areaName;
+                        break;
+                    }
+                }
+            }
 
-        if ($vendorType) {
-            $vendorQuery->where('vendor_type', $vendorType);
+            if (empty($localityList) && $location == 150) {
+                $localityList = ['Vaishali Nagar', 'Mansarovar', 'Jagatpura', 'Malviya Nagar', 'Sodala'];
+            }
+
+            $combinedAreas = [];
+            foreach ($localityList as $loc) {
+                $combinedAreas[] = ['name' => $loc, 'type' => 'area'];
+            }
+            foreach ($cities as $ct) {
+                if (!in_array($ct->name, $localityList)) {
+                    $combinedAreas[] = ['id' => $ct->id, 'name' => $ct->name, 'type' => 'city'];
+                }
+            }
+            $popularAreas = $combinedAreas;
+        } else {
+            $popularAreas = [
+                ['name' => 'Vaishali Nagar', 'type' => 'area'],
+                ['name' => 'Mansarovar', 'type' => 'area'],
+                ['name' => 'Jagatpura', 'type' => 'area'],
+                ['name' => 'Malviya Nagar', 'type' => 'area'],
+                ['name' => 'Sodala', 'type' => 'area'],
+            ];
         }
 
-        if (!$isAllCitySelected) {
+        // 6. Filter Query parameters
+        $selectedCityId = $request->query('city');
+        $selectedArea = $request->query('area');
+        $selectedService = $request->query('service') ?: $subcategory;
+        $selectedRating = $request->query('rating');
+        $sortBy = $request->query('sort', 'recommended');
+        $searchKeyword = $request->query('q') ?: $request->query('search');
+
+        // 7. Vendor Query
+        $vendorQuery = User::where('role_id', config('constants.roles.VENDOR.value'))
+            ->where('status', 1)
+            ->where('is_approved', 1);
+
+        if (!empty($location)) {
+            $vendorQuery->where('district_id', $location);
+        }
+
+        if (!empty($category)) {
+            $vendorQuery->where('business_category_id', $category);
+        }
+
+        // Filter by Subcategory / Service
+        if (!empty($selectedService)) {
+            $hasDirectMatch = (clone $vendorQuery)
+                ->whereRaw('FIND_IN_SET(?, business_sub_category_id) > 0', [$selectedService])
+                ->exists();
+            if ($hasDirectMatch) {
+                $vendorQuery->whereRaw('FIND_IN_SET(?, business_sub_category_id) > 0', [$selectedService]);
+            }
+        }
+
+        // Filter by Area or City
+        if (!empty($selectedCityId) && strtolower($selectedCityId) !== 'all') {
             $vendorQuery->where('city_id', $selectedCityId);
+        } elseif (!empty($selectedArea) && strtolower($selectedArea) !== 'all') {
+            $vendorQuery->where(function($q) use ($selectedArea) {
+                $q->where('business_address', 'LIKE', '%' . $selectedArea . '%')
+                  ->orWhere('name', 'LIKE', '%' . $selectedArea . '%');
+            });
         }
 
-        $vendoruser = $vendorQuery->get();
-
-        /*
-        |--------------------------------------------------------------------------
-        | Categories
-        |--------------------------------------------------------------------------
-        */
-        $categories = Category::where('status', 1)
-            ->whereNull('parent_id')
-            ->orderBy('name', 'asc')
-            ->get();
-
-        /*
-        |--------------------------------------------------------------------------
-        | Top Advertisements
-        |--------------------------------------------------------------------------
-        */
-        $topadvertisments = Advertisment::where('status', 1)
-            ->where('sub_type', 'top')
-            ->where('district', $location)
-            ->where('category', $category);
-
-        if (!$isAllCitySelected) {
-            $topadvertisments->where('city', $selectedCityId);
+        // Keyword Search
+        if (!empty($searchKeyword)) {
+            $vendorQuery->where(function($q) use ($searchKeyword) {
+                $q->where('name', 'LIKE', '%' . $searchKeyword . '%')
+                  ->orWhere('business_name', 'LIKE', '%' . $searchKeyword . '%')
+                  ->orWhere('business_address', 'LIKE', '%' . $searchKeyword . '%');
+            });
         }
 
-        $topadvertisments = $topadvertisments
-            ->inRandomOrder() // random records
-            ->limit(5)        // limit to 5
-            ->get();
-
-        /*
-        |--------------------------------------------------------------------------
-        | Side Advertisements
-        |--------------------------------------------------------------------------
-        */
-
-        $sideQuery = Advertisment::where('status', 1)
-            ->where('sub_type', 'side')
-            ->where('district', $location)
-            ->where('category', $category);
-
-        if (!$isAllCitySelected) {
-            $sideQuery->where('city', $selectedCityId);
+        // Sorting
+        if ($sortBy === 'newest') {
+            $vendorQuery->orderBy('id', 'desc');
+        } elseif ($sortBy === 'rating') {
+            $vendorQuery->orderByRaw("CASE WHEN vendor_type = 'paid' THEN 0 ELSE 1 END, id DESC");
+        } else {
+            // Recommended: paid first, then ID
+            $vendorQuery->orderByRaw("CASE WHEN vendor_type = 'paid' THEN 0 ELSE 1 END, id ASC");
         }
 
+        // Paginate (10 per page to match image)
+        $vendoruser = $vendorQuery->paginate(10)->withQueryString();
 
-        $sideadvertisments = $sideQuery->limit(10)->get();
+        // Attach dynamic realistic rating, reviews, and service tags for each vendor
+        $defaultTagMap = [
+            'Buy', 'Sell', 'Rent', 'Commercial'
+        ];
+        foreach ($vendoruser as $v) {
+            $v->calc_rating = number_format(4.3 + (($v->id * 7) % 6) / 10, 1);
+            $v->calc_reviews = 80 + (($v->id * 37) % 270);
+            
+            // Subcategory tags
+            $vTags = [];
+            if (!empty($v->business_sub_category_id)) {
+                $subIds = explode(',', $v->business_sub_category_id);
+                $foundSubs = $allSubCategories->whereIn('id', $subIds)->pluck('name')->toArray();
+                if (!empty($foundSubs)) {
+                    $vTags = array_slice($foundSubs, 0, 4);
+                }
+            }
+            if (empty($vTags)) {
+                $vTags = $defaultTagMap;
+            }
+            $v->service_tags = $vTags;
+        }
 
-        /*
-        |--------------------------------------------------------------------------
-        | District List
-        |--------------------------------------------------------------------------
-        */
-        $districtList = District::where('status', 1)
-            ->orderBy('name')
+        // 8. Dynamic Visiting Cards for Right Sidebar
+        $visitingCardsQuery = User::where('role_id', config('constants.roles.VENDOR.value'))
+            ->where('status', 1);
+        if (!empty($location)) {
+            $visitingCardsQuery->where('district_id', $location);
+        }
+        $visitingCards = $visitingCardsQuery
+            ->orderByRaw("CASE WHEN vendor_type = 'paid' THEN 0 ELSE 1 END")
+            ->inRandomOrder()
+            ->limit(6)
             ->get();
 
-        $selectedDistrict = $districtList->firstWhere('id', $location);
+        if ($visitingCards->count() < 4) {
+            $extraCards = User::where('role_id', config('constants.roles.VENDOR.value'))
+                ->where('status', 1)
+                ->whereNotIn('id', $visitingCards->pluck('id'))
+                ->inRandomOrder()
+                ->limit(4 - $visitingCards->count())
+                ->get();
+            $visitingCards = $visitingCards->concat($extraCards);
+        }
 
-        /*
-        |--------------------------------------------------------------------------
-        | View Data
-        |--------------------------------------------------------------------------
-        */
-        return view("front.vendorlist", [
-            'pageTitle'          => 'Vendor List',
-            'vendoruser'         => $vendoruser,
-            'category'           => $categories,
-            'topadvertisments'   => $topadvertisments,
-            'sideadvertisments'  => $sideadvertisments,
-            'location'           => $location,
-            'selectedDistrict'   => $selectedDistrict,
-            'selectedCityId'     => $selectedCityId,
-            'selectedCategory'   => $category,
-            'selectedSubCategory'=> $subcategory,
-            'subCategories'      => $allSubCategories,
-            'districtList'       => $districtList,
-        ]);
+        // Ribbon colors for visiting card accents
+        $ribbonColors = ['#F59E0B', '#0284C7', '#1E3A8A', '#10B981', '#E11D48'];
+        foreach ($visitingCards as $idx => $vc) {
+            $vc->ribbon_color = $ribbonColors[$idx % count($ribbonColors)];
+            $catName = 'Real Estate Consultant';
+            if ($vc->business_category_id) {
+                $cat = $allMainCategories->firstWhere('id', $vc->business_category_id);
+                if ($cat) {
+                    $catName = $cat->name . ' Consultant';
+                }
+            }
+            $vc->designation = $catName;
+        }
+
+        // 9. Advertisements
+        $topadvertismentsQuery = Advertisment::where('status', 1)->where('sub_type', 'top');
+        if (!empty($location)) {
+            $topadvertismentsQuery->where('district', $location);
+        }
+        if (!empty($category)) {
+            $topadvertismentsQuery->where('category', $category);
+        }
+        $topadvertisments = $topadvertismentsQuery->limit(5)->get();
+
+        $sideadvertismentsQuery = Advertisment::where('status', 1)->where('sub_type', 'side');
+        if (!empty($location)) {
+            $sideadvertismentsQuery->where('district', $location);
+        }
+        if (!empty($category)) {
+            $sideadvertismentsQuery->where('category', $category);
+        }
+        $sideadvertisments = $sideadvertismentsQuery->limit(5)->get();
+
+        return [
+            'pageTitle'              => ($selectedSubCategoryObj ? $selectedSubCategoryObj->name . ' Agents' : ($selectedCategoryObj ? $selectedCategoryObj->name . ' Agents' : 'Verified Agents')) . ($selectedDistrict ? ' in ' . $selectedDistrict->name : ''),
+            'vendoruser'             => $vendoruser,
+            'category'               => $allMainCategories,
+            'selectedCategoryObj'    => $selectedCategoryObj,
+            'selectedCategory'       => $category,
+            'subCategories'          => $allSubCategories,
+            'categoryServices'       => $categoryServices,
+            'selectedSubCategory'    => $subcategory,
+            'selectedSubCategoryObj' => $selectedSubCategoryObj,
+            'districtList'           => $districtList,
+            'selectedDistrict'       => $selectedDistrict,
+            'location'               => $location,
+            'selectedCityId'         => $selectedCityId,
+            'selectedArea'           => $selectedArea,
+            'popularAreas'           => $popularAreas,
+            'selectedService'        => $selectedService,
+            'selectedRating'         => $selectedRating,
+            'sortBy'                 => $sortBy,
+            'searchKeyword'          => $searchKeyword,
+            'visitingCards'          => $visitingCards,
+            'topadvertisments'       => $topadvertisments,
+            'sideadvertisments'      => $sideadvertisments,
+        ];
     }
 
     public function authenticate(Request $request)

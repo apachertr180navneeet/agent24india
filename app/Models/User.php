@@ -109,31 +109,30 @@ class User extends Authenticatable implements OAuthenticatable
     public function getProfilePhotoUrlAttribute()
     {
         if (empty($this->profile_photo)) {
-            return asset('images/images.png');
+            return asset('public/images/images.png');
         }
 
         $photo = $this->profile_photo;
 
         if (str_starts_with($photo, 'http://') || str_starts_with($photo, 'https://')) {
             $parsed = parse_url($photo, PHP_URL_PATH);
-            if ($parsed && str_starts_with($parsed, '/public/upload/')) {
-                $relative = substr($parsed, 8);
-                if (file_exists(public_path($relative))) {
-                    return asset($relative);
-                }
+            $filename = basename($parsed ?? $photo);
+            if ($filename && file_exists(public_path('upload/user_profile/' . $filename))) {
+                return asset('public/upload/user_profile/' . $filename);
             }
             return $photo;
         }
 
-        if (file_exists(public_path('upload/user_profile/' . $photo))) {
-            return asset('upload/user_profile/' . $photo);
+        $filename = basename($photo);
+        if (file_exists(public_path('upload/user_profile/' . $filename))) {
+            return asset('public/upload/user_profile/' . $filename);
         }
 
         if (file_exists(public_path($photo))) {
-            return asset($photo);
+            return asset('public/' . ltrim($photo, '/'));
         }
 
-        return asset('images/images.png');
+        return asset('public/images/images.png');
     }
 
     /**

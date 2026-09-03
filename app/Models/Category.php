@@ -25,6 +25,28 @@ class Category extends Model
         'updated_by'
     ];
 
+    public function getImageAttribute($value)
+    {
+        if (empty($value)) {
+            return asset('images/images.png');
+        }
+
+        $filename = basename(parse_url($value, PHP_URL_PATH) ?? $value);
+        if ($filename && file_exists(public_path('upload/category/' . $filename))) {
+            return asset('public/upload/category/' . $filename);
+        }
+
+        if (file_exists(public_path($value))) {
+            return asset('public/' . ltrim($value, '/'));
+        }
+
+        if (filter_var($value, FILTER_VALIDATE_URL)) {
+            return $value;
+        }
+
+        return asset('images/images.png');
+    }
+
     /**
      * Get Parent Category
      */

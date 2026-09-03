@@ -31,6 +31,29 @@ class Advertisment extends Model
         'price',
         'order_id'
     ];
+    
+
+    public function getImageAttribute($value)
+    {
+        if (empty($value)) {
+            return asset('public/images/sidebanner.jpeg');
+        }
+
+        $filename = basename(parse_url($value, PHP_URL_PATH) ?? $value);
+        if ($filename && file_exists(public_path('upload/advertisment/' . $filename))) {
+            return asset('public/upload/advertisment/' . $filename);
+        }
+
+        if (file_exists(public_path($value))) {
+            return asset('public/' . ltrim($value, '/'));
+        }
+
+        if (filter_var($value, FILTER_VALIDATE_URL)) {
+            return $value;
+        }
+
+        return asset('public/images/sidebanner.jpeg');
+    }
 
     /**
      * Get Advertisment List

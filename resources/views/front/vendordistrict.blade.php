@@ -382,7 +382,7 @@
                 <div class="vl-categories-grid">
                     @foreach(($category ?? []) as $key => $value)
                         <a href="{{ route('front.vendorlist.location.category', ['location' => $selectedDistrict->id ?? '', 'category' => $value->id]) }}{{ !empty($selectedCityId) ? '?city=' . urlencode($selectedCityId) : '' }}" class="vl-category-card">
-                            <img src="{{ $value->image }}" alt="{{ $value->name }}">
+                            <img src="{{ $value->image }}" alt="{{ $value->name }}" onerror="this.onerror=null; this.src='{{ asset('images/images.png') }}';">
                             <span>{{ $value->name }}</span>
                         </a>
                     @endforeach
