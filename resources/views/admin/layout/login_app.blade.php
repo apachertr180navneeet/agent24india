@@ -5,28 +5,38 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{{$siteTitle ?? ''}} | @yield('title')</title>
 
+        @php
+            $assetUrl = function($path) {
+                $clean = ltrim($path, '/');
+                if (str_starts_with($clean, 'public/')) {
+                    $clean = substr($clean, 7);
+                }
+                return asset(str_contains(request()->getBaseUrl(), '/public') ? $clean : 'public/' . $clean);
+            };
+        @endphp
+
         <!-- Google Font: Source Sans Pro -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="{{ asset('public/plugins/fontawesome-free/css/all.min.css'); }}">
+        <link rel="stylesheet" href="{{ $assetUrl('plugins/fontawesome-free/css/all.min.css') }}">
         <!-- icheck bootstrap -->
-        <link rel="stylesheet" href="{{ asset('public/plugins/icheck-bootstrap/icheck-bootstrap.min.css'); }}">
+        <link rel="stylesheet" href="{{ $assetUrl('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
         <!-- Theme style -->
-        <link rel="stylesheet" href="{{ asset('public/dist/css/adminlte.min.css'); }}">
+        <link rel="stylesheet" href="{{ $assetUrl('dist/css/adminlte.min.css') }}">
     </head>
     <body class="hold-transition login-page">
        @yield('content')
        <!-- jQuery -->
-       <script src="{{ asset('public/plugins/jquery/jquery.min.js') }}" type="text/javascript"></script>
+       <script src="{{ $assetUrl('plugins/jquery/jquery.min.js') }}" type="text/javascript"></script>
        <!-- Bootstrap 4 -->
-       <script src="{{ asset('public/plugins/bootstrap/js/bootstrap.bundle.min.js') }}" type="text/javascript"></script>
+       <script src="{{ $assetUrl('plugins/bootstrap/js/bootstrap.bundle.min.js') }}" type="text/javascript"></script>
        <!-- jquery-validation -->
-       <script src="{{ asset('public/plugins/jquery-validation/jquery.validate.min.js') }}" type="text/javascript"></script>
-       <script src="{{ asset('public/plugins/jquery-validation/additional-methods.min.js') }}" type="text/javascript"></script>
+       <script src="{{ $assetUrl('plugins/jquery-validation/jquery.validate.min.js') }}" type="text/javascript"></script>
+       <script src="{{ $assetUrl('plugins/jquery-validation/additional-methods.min.js') }}" type="text/javascript"></script>
        <!-- AdminLTE App -->
-       <script src="{{ asset('public/dist/js/adminlte.min.js') }}" type="text/javascript"></script>
+       <script src="{{ $assetUrl('dist/js/adminlte.min.js') }}" type="text/javascript"></script>
        <!-- AdminLTE for demo purposes -->
-       <script src="{{ asset('public/dist/js/demo.js') }}" type="text/javascript"></script>
+       <script src="{{ $assetUrl('dist/js/demo.js') }}" type="text/javascript"></script>
        <script>
         $(function () {
             $.validator.setDefaults({

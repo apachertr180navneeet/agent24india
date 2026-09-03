@@ -38,6 +38,7 @@ Route::get('/run-seeder/{seeder}', function ($seeder) {
 
 Route::prefix('admin')->name('admin.')->group(function(){
     Route::get('/', [Admin\Auth\LoginController::class, "index"])->name('login');
+    Route::get('/login', [Admin\Auth\LoginController::class, "index"]);
     Route::post("/login", [Admin\Auth\LoginController::class, "authenticate"])->name("login.post");
     Route::get("/forgot-password", [Admin\Auth\ForgotPasswordController::class, "index"])->name("forgotPassword");
     Route::post("/forgot-password", [Admin\Auth\ForgotPasswordController::class, "sendForgotPasswordMail"])->name("forgotPassword.post");
