@@ -1172,7 +1172,7 @@
                         <line x1="9" y1="8" x2="15" y2="8"></line>
                         <line x1="17" y1="16" x2="23" y2="16"></line>
                     </svg>
-                    <span>फ़िल्टर करें</span>
+                    <span>Filters</span>
                 </button>
 
                 <!-- Category Capsule -->
@@ -1279,7 +1279,7 @@
                                 <line x1="9" y1="8" x2="15" y2="8"></line>
                                 <line x1="17" y1="16" x2="23" y2="16"></line>
                             </svg>
-                            <span>फ़िल्टर करें</span>
+                            <span>Filters</span>
                         </h3>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#94A3B8;">
                             <polyline points="18 15 12 9 6 15"></polyline>
@@ -1324,7 +1324,7 @@
                                 <circle cx="11" cy="11" r="8"></circle>
                                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                             </svg>
-                            <input type="text" id="areaSearchInput" placeholder="Area खोजें..." autocomplete="off">
+                            <input type="text" id="areaSearchInput" placeholder="Search Area..." autocomplete="off">
                         </div>
                         <div class="vl-checkbox-list" id="areaCheckboxList">
                             @foreach($popularAreas as $idx => $pa)
@@ -1338,7 +1338,7 @@
                             @endforeach
                         </div>
                         @if(count($popularAreas) > 5)
-                            <a href="javascript:void(0)" class="vl-more-link" id="toggleMoreAreas">और देखें +</a>
+                            <a href="javascript:void(0)" class="vl-more-link" id="toggleMoreAreas">Show More +</a>
                         @endif
                     </div>
 
@@ -1384,7 +1384,7 @@
 
                     <!-- Reset Filters Button -->
                     <button type="button" class="vl-btn-reset-filters" id="btnResetFilters">
-                        फ़िल्टर रीसेट करें
+                        Reset Filters
                     </button>
 
                 </div>
@@ -1516,12 +1516,12 @@
                                     <span>{{ $addressText }}</span>
                                 </div>
 
-                                <!-- Description / Hindi tagline -->
+                                <!-- Description / Tagline -->
                                 <div class="vl-card-desc">
                                     @if(!empty($vendor->description))
                                         {{ $vendor->description }}
                                     @else
-                                        हम {{ implode(', ', array_slice($vendor->service_tags, 0, 3)) }} में बेहतर सुविधा और मार्गदर्शन प्रदान करते हैं।
+                                        Providing verified services and professional assistance in {{ implode(', ', array_slice($vendor->service_tags, 0, 3)) }}.
                                     @endif
                                 </div>
 
@@ -1678,7 +1678,7 @@
                     </div>
 
                     <a href="{{ route('front.addbanner') }}" class="vl-vc-view-all">
-                        <span>और देखें सभी</span>
+                        <span>View All</span>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                             <polyline points="12 5 19 12 12 19"></polyline>
@@ -1838,16 +1838,16 @@
             }
         });
 
-        // Toggle "और देखें +"
+        // Toggle "Show More +"
         $('#toggleMoreAreas').on('click', function () {
             var $this = $(this);
             var isExpanded = $this.data('expanded') || false;
             if (!isExpanded) {
                 $('.area-extra').slideDown(150);
-                $this.text('कम देखें -').data('expanded', true);
+                $this.text('Show Less -').data('expanded', true);
             } else {
                 $('.area-extra').slideUp(150);
-                $this.text('और देखें +').data('expanded', false);
+                $this.text('Show More +').data('expanded', false);
             }
         });
 

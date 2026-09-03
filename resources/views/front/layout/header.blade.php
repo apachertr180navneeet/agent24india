@@ -225,7 +225,7 @@
                     </select>
                 </div>
                 <button type="button" id="hscSearchBtn" class="hsc-search-btn">
-                    <span>खोजें</span>
+                    <span>Search</span>
                 </button>
             </div>
         @else
@@ -305,8 +305,8 @@
                     </svg>
                     <span>Login</span>
                 </a>
-                <!-- Agent Bano Button -->
-                <a href="{{ route('front.register') }}" class="btn-register" style="background:#004BEE; color:#fff !important; font-weight:700;">Agent बनें</a>
+                <!-- Register Button -->
+                <a href="{{ route('front.register') }}" class="btn-register" style="background:#004BEE; color:#fff !important; font-weight:700;">Become an Agent</a>
             @endif
 
             <!-- Right Side Menu Toggle Button -->

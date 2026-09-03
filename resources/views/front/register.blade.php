@@ -509,7 +509,7 @@
 
                     <!-- State -->
                     <div class="reg-field-group">
-                        <label class="reg-label">State / राज्य <span class="reg-req">*</span></label>
+                        <label class="reg-label">State <span class="reg-req">*</span></label>
                         <div class="reg-input-wrap">
                             <select name="state_id" id="state_id" class="select2" required>
                                 <option value="">Select State</option>
@@ -524,7 +524,7 @@
 
                     <!-- District -->
                     <div class="reg-field-group">
-                        <label class="reg-label">District / जिला <span class="reg-req">*</span></label>
+                        <label class="reg-label">District <span class="reg-req">*</span></label>
                         <div class="reg-input-wrap">
                             <select name="district_id" id="district_id" class="select2" required>
                                 <option value="">Select District</option>
@@ -539,7 +539,7 @@
 
                     <!-- City -->
                     <div class="reg-field-group">
-                        <label class="reg-label">City / शहर <span class="reg-req">*</span></label>
+                        <label class="reg-label">City <span class="reg-req">*</span></label>
                         <div class="reg-input-wrap">
                             <select name="city_id" id="city_id" class="select2" required>
                                 <option value="">Select City</option>
