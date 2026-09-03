@@ -318,10 +318,10 @@
                                     <div>
                                         <span class="price-text" id="paid_price_label">1 Month Price</span>
                                         <div class="price-amount" id="paid_price_display">
-                                             {{ old('duration', '1') == '2' ? '443 Rs' : (old('duration') == '3' ? '590 Rs' : '1 Rs') }}
+                                             {{ old('duration', '1') == '2' ? '443 Rs' : (old('duration') == '3' ? '590 Rs' : '295 Rs') }}
                                         </div>
-                                        <small style="color: #64748B; font-size: 13px;" id="paid_price_note">Test price Rs. 1</small>
-                                        <input type="hidden" name="price" id="paid_price" value="{{ old('duration', '1') == '2' ? '443' : (old('duration') == '3' ? '590' : '1') }}">
+                                        <small style="color: #64748B; font-size: 13px;" id="paid_price_note">Base price Rs. 250 + 18% GST = Rs. 295</small>
+                                        <input type="hidden" name="price" id="paid_price" value="{{ old('duration', '1') == '2' ? '443' : (old('duration') == '3' ? '590' : '295') }}">
                                     </div>
 
                                     <button type="submit" class="btn-submit-listing">
@@ -373,26 +373,22 @@
                 let duration = $('#paid_duration').val();
                 let basePrice = 0;
                 let label = '1 Month Price';
-                let totalPrice = 1;
 
                 if (duration === '2') {
                     basePrice = 375;
                     label = '2 Month Price';
-                    totalPrice = (basePrice * 1.18).toFixed(0);
-                    $('#paid_price_note').text(`Base price Rs. ${basePrice} + 18% GST = Rs. ${totalPrice}`);
                 } else if (duration === '3') {
                     basePrice = 500;
                     label = '3 Month Price';
-                    totalPrice = (basePrice * 1.18).toFixed(0);
-                    $('#paid_price_note').text(`Base price Rs. ${basePrice} + 18% GST = Rs. ${totalPrice}`);
                 } else {
-                    basePrice = 1;
-                    totalPrice = 1;
-                    $('#paid_price_note').text('Test price Rs. 1');
+                    basePrice = 250;
                 }
+
+                let totalPrice = (basePrice * 1.18).toFixed(0);
 
                 $('#paid_price_label').text(label);
                 $('#paid_price_display').text(`${totalPrice} Rs`);
+                $('#paid_price_note').text(`Base price Rs. ${basePrice} + 18% GST = Rs. ${totalPrice}`);
                 $('#paid_price').val(totalPrice);
             }
 
