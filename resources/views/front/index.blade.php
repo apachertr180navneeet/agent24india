@@ -312,7 +312,7 @@
                 <!-- Top Center Title Header -->
                 <div class="custom-why-header">
                     <span class="custom-why-line"></span>
-                    <h2 class="custom-why-title">Agent 24 India क्यों चुनें?</h2>
+                    <h2 class="custom-why-title">Why Choose Agent 24 India?</h2>
                     <span class="custom-why-line"></span>
                 </div>
 
@@ -333,7 +333,7 @@
                             </div>
                             <div class="custom-why-text">
                                 <h3 class="custom-why-head">100% Verified & Trusted</h3>
-                                <p class="custom-why-sub">हर Agent की जांच के बाद ही Listing</p>
+                                <p class="custom-why-sub">Listing only after thorough verification</p>
                             </div>
                         </div>
 
@@ -350,7 +350,7 @@
                             </div>
                             <div class="custom-why-text">
                                 <h3 class="custom-why-head">Direct Contact With Agent</h3>
-                                <p class="custom-why-sub">बीच में कोई Third Party नहीं</p>
+                                <p class="custom-why-sub">No middleman or third-party commission</p>
                             </div>
                         </div>
 
@@ -364,8 +364,8 @@
                                 </svg>
                             </div>
                             <div class="custom-why-text">
-                                <h3 class="custom-why-head">Sahi Jankari, Sahi Faisla</h3>
-                                <p class="custom-why-sub">सही जानकारी के साथ सही Agent चुनें</p>
+                                <h3 class="custom-why-head">Right Details, Right Decision</h3>
+                                <p class="custom-why-sub">Choose certified agents with transparent info</p>
                             </div>
                         </div>
 
@@ -380,7 +380,7 @@
                             </div>
                             <div class="custom-why-text">
                                 <h3 class="custom-why-head">Save Time & Money</h3>
-                                <p class="custom-why-sub">सही Agent से काम, समय और पैसों की बचत</p>
+                                <p class="custom-why-sub">Fast completion and cost-effective services</p>
                             </div>
                         </div>
 
@@ -396,7 +396,7 @@
                             </div>
                             <div class="custom-why-text">
                                 <h3 class="custom-why-head">24x7 Support Team</h3>
-                                <p class="custom-why-sub">हमेशा आपकी मदद के लिए तैयार</p>
+                                <p class="custom-why-sub">Dedicated support team always ready to help</p>
                             </div>
                         </div>
 
@@ -898,7 +898,7 @@
                         <path d="M36 1L43 6L36 11" stroke="#004BEE" stroke-width="2" stroke-linecap="round" />
                     </svg>
                 </div>
-                <h2 class="testimonials-title">हमारे Happy Customers क्या कहते हैं?</h2>
+                <h2 class="testimonials-title">What Our Happy Customers Say</h2>
                 <div class="header-arrow-line right-line">
                     <svg width="50" height="12" viewBox="0 0 50 12" fill="none">
                         <line x1="8" y1="6" x2="50" y2="6" stroke="#004BEE" stroke-width="2" />
@@ -943,8 +943,7 @@
                         </div>
                         <div class="testimonial-content">
                             <div class="testimonial-stars">★★★★★</div>
-                            <p class="testimonial-quote">"Agent 24 India की मदद से हमें Jaipur में भरोसेमंद Property
-                                Consultant बहुत जल्दी मिल गया। अब घर लेना आसान हो गया!"</p>
+                            <p class="testimonial-quote">"Agent 24 India helped us find a trustworthy Property Consultant in Jaipur very quickly. Buying our new home became so smooth and easy!"</p>
                             <h4 class="testimonial-author">Neha Sharma, Jaipur</h4>
                         </div>
                     </div>
@@ -967,8 +966,7 @@
                         </div>
                         <div class="testimonial-content">
                             <div class="testimonial-stars">★★★★★</div>
-                            <p class="testimonial-quote">"RTO का काम महीनों से अटका था, यहाँ सही Agent मिला और 2 दिन में
-                                काम पूरा हो गया!"</p>
+                            <p class="testimonial-quote">"My RTO paperwork was pending for weeks. Found the right agent here and everything was sorted in just 2 days!"</p>
                             <h4 class="testimonial-author">Rahul Mehta, Udaipur</h4>
                         </div>
                     </div>
@@ -991,8 +989,7 @@
                         </div>
                         <div class="testimonial-content">
                             <div class="testimonial-stars">★★★★★</div>
-                            <p class="testimonial-quote">"Insurance Agent यहाँ से खोजकर सही प्लान लिया। शानदार
-                                प्लेटफॉर्म है!"</p>
+                            <p class="testimonial-quote">"Found a certified Insurance Advisor here and selected the best plan for my family. Outstanding service and platform!"</p>
                             <h4 class="testimonial-author">Suresh Choudhary, Jodhpur</h4>
                         </div>
                     </div>

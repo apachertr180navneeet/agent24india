@@ -518,7 +518,7 @@
         <!-- 1. Top Hero Banner -->
         <div class="contact-hero-banner-wrap">
             <img src="{{ asset('front/assets/images/contact_hero_banner.png') }}" 
-                 alt="Contact Us - हमसे संपर्क करें" 
+                 alt="Contact Us - Agent 24 India" 
                  class="contact-hero-img"
                  onerror="this.onerror=null; this.src='{{ asset('public/front/assets/images/contact_hero_banner.png') }}';">
         </div>
@@ -526,9 +526,9 @@
         <!-- 2. Middle Section: Talk To Us & Send Message Form -->
         <div class="contact-middle-grid">
             
-            <!-- Left Card: हमसे बात करें -->
+            <!-- Left Card: Talk to Us -->
             <div class="contact-card-box contact-talk-card">
-                <h2 class="contact-box-title">हमसे बात करें</h2>
+                <h2 class="contact-box-title">Talk to Us</h2>
                 
                 <div class="contact-info-list">
                     <!-- Item 1: Phone -->
@@ -581,16 +581,16 @@
                         </div>
                         <div class="contact-detail-text">
                             <span class="contact-detail-label">Working Hours</span>
-                            <span class="contact-detail-sub">सोमवार - शनिवार : 10:00 AM - 6:00 PM</span>
-                            <span class="contact-detail-sub">रविवार : अवकाश</span>
+                            <span class="contact-detail-sub">Monday - Saturday: 10:00 AM - 6:00 PM</span>
+                            <span class="contact-detail-sub">Sunday: Closed</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Card: हमें मैसेज भेजें -->
+            <!-- Right Card: Send Us a Message -->
             <div class="contact-card-box contact-message-card">
-                <h2 class="contact-box-title">हमें मैसेज भेजें</h2>
+                <h2 class="contact-box-title">Send Us a Message</h2>
 
                 @if(session('success'))
                     <div style="background: #DCFCE7; border: 1px solid #86EFAC; color: #166534; padding: 12px 16px; border-radius: 8px; margin-bottom: 18px; font-size: 14px; font-weight: 600;">
@@ -610,31 +610,31 @@
                     <!-- Row 1: Name & Mobile -->
                     <div class="contact-form-grid-2">
                         <div class="contact-form-group">
-                            <label class="contact-field-label">आपका नाम <span class="req-star">*</span></label>
-                            <input type="text" name="name" class="contact-input-control" placeholder="अपना नाम लिखें" value="{{ old('name') }}" required>
+                            <label class="contact-field-label">Your Name <span class="req-star">*</span></label>
+                            <input type="text" name="name" class="contact-input-control" placeholder="Enter your name" value="{{ old('name') }}" required>
                             @error('name') <small style="color: #EF4444; font-size: 12px; margin-top: 4px;">{{ $message }}</small> @enderror
                         </div>
 
                         <div class="contact-form-group">
-                            <label class="contact-field-label">मोबाइल नंबर <span class="req-star">*</span></label>
-                            <input type="tel" name="phone" class="contact-input-control" placeholder="मोबाइल नंबर लिखें" value="{{ old('phone') }}" required>
+                            <label class="contact-field-label">Mobile Number <span class="req-star">*</span></label>
+                            <input type="tel" name="phone" class="contact-input-control" placeholder="Enter mobile number" value="{{ old('phone') }}" required>
                             @error('phone') <small style="color: #EF4444; font-size: 12px; margin-top: 4px;">{{ $message }}</small> @enderror
                         </div>
                     </div>
 
                     <!-- Row 2: Email -->
                     <div class="contact-form-group">
-                        <label class="contact-field-label">ईमेल आईडी</label>
-                        <input type="email" name="email" class="contact-input-control" placeholder="ईमेल आईडी लिखें" value="{{ old('email') }}" required>
+                        <label class="contact-field-label">Email Address</label>
+                        <input type="email" name="email" class="contact-input-control" placeholder="Enter email address" value="{{ old('email') }}" required>
                         @error('email') <small style="color: #EF4444; font-size: 12px; margin-top: 4px;">{{ $message }}</small> @enderror
                     </div>
 
                     <!-- Row 3: Subject Dropdown -->
                     <div class="contact-form-group">
-                        <label class="contact-field-label">विषय <span class="req-star">*</span></label>
+                        <label class="contact-field-label">Subject <span class="req-star">*</span></label>
                         <div class="contact-select-wrap">
                             <select name="subject" class="contact-select-control" required>
-                                <option value="" disabled {{ old('subject') ? '' : 'selected' }}>विषय चुनें</option>
+                                <option value="" disabled {{ old('subject') ? '' : 'selected' }}>Select Subject</option>
                                 <option value="General Inquiry" {{ old('subject') == 'General Inquiry' ? 'selected' : '' }}>General Inquiry</option>
                                 <option value="Agent Registration" {{ old('subject') == 'Agent Registration' ? 'selected' : '' }}>Agent Registration</option>
                                 <option value="Customer Support" {{ old('subject') == 'Customer Support' ? 'selected' : '' }}>Customer Support</option>
@@ -650,14 +650,14 @@
 
                     <!-- Row 4: Message Textarea -->
                     <div class="contact-form-group">
-                        <label class="contact-field-label">आपका संदेश <span class="req-star">*</span></label>
-                        <textarea name="message" class="contact-textarea-control" placeholder="अपना संदेश लिखें..." rows="4" required>{{ old('message') }}</textarea>
+                        <label class="contact-field-label">Your Message <span class="req-star">*</span></label>
+                        <textarea name="message" class="contact-textarea-control" placeholder="Write your message here..." rows="4" required>{{ old('message') }}</textarea>
                         @error('message') <small style="color: #EF4444; font-size: 12px; margin-top: 4px;">{{ $message }}</small> @enderror
                     </div>
 
                     <!-- Submit Button -->
                     <button type="submit" class="btn-submit-message">
-                        <span>मैसेज भेजें</span>
+                        <span>Send Message</span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                             <polyline points="12 5 19 12 12 19"></polyline>
@@ -672,7 +672,7 @@
         <div class="contact-office-card">
             <!-- Left: Office Details -->
             <div class="office-info-left">
-                <h2 class="office-title">हमारा ऑफिस</h2>
+                <h2 class="office-title">Our Office</h2>
                 <div class="office-company-name">Agent 24 India</div>
                 <p class="office-address-p">
                     F-208, 2nd Floor, Shyam Nagar,<br>
@@ -700,10 +700,10 @@
             <div class="trust-promise-header">
                 <div class="trust-header-title">
                     <span class="trust-line"></span>
-                    <span>जल्द जवाब का वादा</span>
+                    <span>Our Prompt Response Promise</span>
                     <span class="trust-line"></span>
                 </div>
-                <p class="trust-subtitle-p">हम आपकी सभी पूछताछ का 24 घंटे के भीतर जवाब देने की पूरी कोशिश करते हैं।</p>
+                <p class="trust-subtitle-p">We make every effort to respond to all inquiries within 24 hours.</p>
             </div>
 
             <div class="trust-badges-row">
@@ -716,8 +716,8 @@
                         </svg>
                     </div>
                     <div class="trust-badge-info">
-                        <h4 class="trust-badge-heading">जल्द जवाब</h4>
-                        <span class="trust-badge-desc">24 घंटे के भीतर</span>
+                        <h4 class="trust-badge-heading">Quick Response</h4>
+                        <span class="trust-badge-desc">Within 24 Hours</span>
                     </div>
                 </div>
 
@@ -730,8 +730,8 @@
                         </svg>
                     </div>
                     <div class="trust-badge-info">
-                        <h4 class="trust-badge-heading">100% सहायता</h4>
-                        <span class="trust-badge-desc">हमेशा आपकी मदद के लिए</span>
+                        <h4 class="trust-badge-heading">100% Assistance</h4>
+                        <span class="trust-badge-desc">Always here to help you</span>
                     </div>
                 </div>
 
@@ -744,8 +744,8 @@
                         </svg>
                     </div>
                     <div class="trust-badge-info">
-                        <h4 class="trust-badge-heading">भरोसा और सुरक्षा</h4>
-                        <span class="trust-badge-desc">आपकी जानकारी सुरक्षित</span>
+                        <h4 class="trust-badge-heading">Trust & Security</h4>
+                        <span class="trust-badge-desc">Your data is 100% protected</span>
                     </div>
                 </div>
 
@@ -758,8 +758,8 @@
                         </svg>
                     </div>
                     <div class="trust-badge-info">
-                        <h4 class="trust-badge-heading">समाधान केंद्रित टीम</h4>
-                        <span class="trust-badge-desc">Best समाधान हमारा लक्ष्य</span>
+                        <h4 class="trust-badge-heading">Dedicated Solution Team</h4>
+                        <span class="trust-badge-desc">Committed to best solutions</span>
                     </div>
                 </div>
             </div>

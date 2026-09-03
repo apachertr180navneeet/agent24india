@@ -5,7 +5,10 @@
     <!-- Pricing Hero Banner Section Start -->
     <section class="price-hero-banner-section">
         <div class="price-hero-banner-container">
-            <img src="{{ asset('public/front/assets/images/price_hero_banner.png') }}" alt="Pricing Plans - अपने बिज़नेस को दें सही Visibility और अधिक Customers" class="price-hero-banner-img">
+            <img src="{{ asset('front/assets/images/price_hero_banner.png') }}" 
+                 alt="Pricing Plans - Give your business maximum visibility and verified customers" 
+                 class="price-hero-banner-img"
+                 onerror="this.onerror=null; this.src='{{ asset('public/front/assets/images/price_hero_banner.png') }}';">
         </div>
     </section>
     <!-- Pricing Hero Banner Section End -->
@@ -42,7 +45,7 @@
                             <div class="pricing-price-wrap">
                                 <div class="price-amount text-green">₹0</div>
                                 <div class="price-duration">/ 3 Months</div>
-                                <div class="price-subtag-green">(बिल्कुल फ्री)</div>
+                                <div class="price-subtag-green">(Completely Free)</div>
                             </div>
 
                             <!-- Divider line -->
@@ -66,13 +69,13 @@
                                     <span class="check-icon check-green">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                     </span>
-                                    <span>District Page पर Limited</span>
+                                    <span>Limited on District Page</span>
                                 </li>
                                 <li>
                                     <span class="check-icon check-green">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                     </span>
-                                    <span>City Page पर Show</span>
+                                    <span>Listed on City Page</span>
                                 </li>
                                 <li>
                                     <span class="check-icon check-green">
@@ -86,9 +89,9 @@
                         <!-- Card Action Button -->
                         <div class="pricing-action-wrap">
                             @if(\Auth::check())
-                                <a href="{{ route('front.addListing') }}" class="pricing-btn btn-outline-green">फ्री में शुरू करें</a>
+                                <a href="{{ route('front.addListing') }}" class="pricing-btn btn-outline-green">Start For Free</a>
                             @else
-                                <a href="javascript:void(0)" class="pricing-btn btn-outline-green open-signin" onclick="$('.tab[data-tab=signup]').trigger('click');">फ्री में शुरू करें</a>
+                                <a href="javascript:void(0)" class="pricing-btn btn-outline-green open-signin" onclick="$('.tab[data-tab=signup]').trigger('click');">Start For Free</a>
                             @endif
                         </div>
                     </div>
@@ -137,7 +140,7 @@
                                     <span class="check-icon check-blue">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                     </span>
-                                    <span>City Page पर Show</span>
+                                    <span>Listed on City Page</span>
                                 </li>
                                 <li>
                                     <span class="check-icon check-blue">
@@ -157,9 +160,9 @@
                         <!-- Card Action Button -->
                         <div class="pricing-action-wrap">
                             @if(\Auth::check())
-                                <a href="{{ route('front.addbanner') }}" class="pricing-btn btn-solid-blue">Plan चुनें</a>
+                                <a href="{{ route('front.addbanner') }}" class="pricing-btn btn-solid-blue">Choose Plan</a>
                             @else
-                                <a href="javascript:void(0)" class="pricing-btn btn-solid-blue open-signin">Plan चुनें</a>
+                                <a href="javascript:void(0)" class="pricing-btn btn-solid-blue open-signin">Choose Plan</a>
                             @endif
                         </div>
                     </div>
@@ -207,7 +210,7 @@
                                     <span class="check-icon check-orange">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                     </span>
-                                    <span>City Page पर Highlight</span>
+                                    <span>Highlighted on City Page</span>
                                 </li>
                                 <li>
                                     <span class="check-icon check-orange">
@@ -233,9 +236,9 @@
                         <!-- Card Action Button -->
                         <div class="pricing-action-wrap">
                             @if(\Auth::check())
-                                <a href="{{ route('front.addListing') }}" class="pricing-btn btn-solid-orange">Plan चुनें</a>
+                                <a href="{{ route('front.addListing') }}" class="pricing-btn btn-solid-orange">Choose Plan</a>
                             @else
-                                <a href="javascript:void(0)" class="pricing-btn btn-solid-orange open-signin">Plan चुनें</a>
+                                <a href="javascript:void(0)" class="pricing-btn btn-solid-orange open-signin">Choose Plan</a>
                             @endif
                         </div>
                     </div>
@@ -308,9 +311,9 @@
                         <!-- Card Action Button -->
                         <div class="pricing-action-wrap">
                             @if(\Auth::check())
-                                <a href="{{ route('front.addbanner') }}" class="pricing-btn btn-solid-purple">Plan चुनें</a>
+                                <a href="{{ route('front.addbanner') }}" class="pricing-btn btn-solid-purple">Choose Plan</a>
                             @else
-                                <a href="javascript:void(0)" class="pricing-btn btn-solid-purple open-signin">Plan चुनें</a>
+                                <a href="javascript:void(0)" class="pricing-btn btn-solid-purple open-signin">Choose Plan</a>
                             @endif
                         </div>
                     </div>
@@ -338,7 +341,7 @@
                             </div>
                             <div class="pf-text-wrap">
                                 <h3 class="pf-title">Trusted Platform</h3>
-                                <p class="pf-subtitle">100% भरोसेमंद और सुरक्षित</p>
+                                <p class="pf-subtitle">100% Verified & Secure</p>
                             </div>
                         </div>
 
@@ -352,7 +355,7 @@
                             </div>
                             <div class="pf-text-wrap">
                                 <h3 class="pf-title">All India Visibility</h3>
-                                <p class="pf-subtitle">हर शहर, हर जिले में आपकी पहचान</p>
+                                <p class="pf-subtitle">Reach clients across every district</p>
                             </div>
                         </div>
 
@@ -366,7 +369,7 @@
                             </div>
                             <div class="pf-text-wrap">
                                 <h3 class="pf-title">Affordable Plans</h3>
-                                <p class="pf-subtitle">कम कीमत में बेहतरीन फायदे</p>
+                                <p class="pf-subtitle">Maximum value at best prices</p>
                             </div>
                         </div>
 
@@ -382,7 +385,7 @@
                             </div>
                             <div class="pf-text-wrap">
                                 <h3 class="pf-title">Grow Your Business</h3>
-                                <p class="pf-subtitle">ज्यादा Visibility, ज्यादा Customers</p>
+                                <p class="pf-subtitle">More visibility, more customers</p>
                             </div>
                         </div>
 
@@ -391,12 +394,12 @@
                             <div class="pf-icon-wrap">
                                 <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
-                                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2H3z"></path>
+                                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
                                 </svg>
                             </div>
                             <div class="pf-text-wrap">
                                 <h3 class="pf-title">24x7 Support</h3>
-                                <p class="pf-subtitle">हमेशा आपके साथ, हमेशा तैयार</p>
+                                <p class="pf-subtitle">Always here to support you</p>
                             </div>
                         </div>
 
@@ -427,7 +430,7 @@
 
                     <!-- Middle Column: Heading + 4 Inline Checkmark Features -->
                     <div class="why-join-middle">
-                        <h2 class="why-join-heading">क्यों जुड़ें Agent 24 India के साथ?</h2>
+                        <h2 class="why-join-heading">Why Join Agent 24 India?</h2>
                         
                         <div class="why-join-features-row">
                             <!-- Feature 1 -->
@@ -435,7 +438,7 @@
                                 <span class="wj-check-icon">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                 </span>
-                                <span>ज्यादा Visibility</span>
+                                <span>High Visibility</span>
                             </div>
 
                             <!-- Feature 2 -->
@@ -468,7 +471,7 @@
                     <div class="why-join-right">
                         @if(\Auth::check())
                             <a href="{{ route('front.addListing') }}" class="btn-why-join-register">
-                                <span>अभी Listing जोड़ें</span>
+                                <span>Add Listing Now</span>
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                     <line x1="5" y1="12" x2="19" y2="12"></line>
                                     <polyline points="12 5 19 12 12 19"></polyline>
@@ -476,7 +479,7 @@
                             </a>
                         @else
                             <a href="javascript:void(0)" class="btn-why-join-register open-signin" onclick="$('.tab[data-tab=signup]').trigger('click');">
-                                <span>अभी Register करें</span>
+                                <span>Register Now</span>
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                     <line x1="5" y1="12" x2="19" y2="12"></line>
                                     <polyline points="12 5 19 12 12 19"></polyline>
@@ -590,7 +593,7 @@
                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                         <path d="M9 12l2 2 4-4"></path>
                     </svg>
-                    <span><strong>हमारी गारंटी:</strong> आपकी Privacy और Data पूरी तरह सुरक्षित है।</span>
+                    <span><strong>Our Guarantee:</strong> Your privacy and data are completely protected.</span>
                 </div>
 
             </div>

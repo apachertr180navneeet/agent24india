@@ -24,7 +24,7 @@
     </section>
     @endif
 
-    <!-- Our Goal Section (हमारा लक्ष्य) Start -->
+    <!-- Our Mission Section Start -->
     <section class="our-goal-section">
         <div class="section-container" style="max-width: 1240px; margin: 0 auto; padding: 10px 24px 10px 24px;">
             
@@ -32,12 +32,12 @@
             <div class="our-goal-header">
                 <div class="goal-tagline">
                     <span class="goal-line"></span>
-                    <span class="goal-tag-text">हमारा लक्ष्य</span>
+                    <span class="goal-tag-text">Our Mission</span>
                     <span class="goal-line"></span>
                 </div>
                 <h2 class="goal-main-title">
                     <span class="goal-subline"></span>
-                    हर व्यक्ति को सही Agent से जोड़ना और उनका समय, पैसा और मेहनत बचाना।
+                    Connecting every individual with the right agent, saving time, money, and effort.
                     <span class="goal-subline"></span>
                 </h2>
             </div>
@@ -55,8 +55,8 @@
                             <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                         </svg>
                     </div>
-                    <h3 class="goal-card-title">सही Agent ढूंढना</h3>
-                    <p class="goal-card-desc">आपकी ज़रूरत के अनुसार Best Agents से जुड़ें।</p>
+                    <h3 class="goal-card-title">Find the Right Agent</h3>
+                    <p class="goal-card-desc">Connect with top verified professionals tailored to your exact needs.</p>
                 </div>
 
                 <!-- Card 2 -->
@@ -67,8 +67,8 @@
                             <polyline points="9 12 11 14 15 10"></polyline>
                         </svg>
                     </div>
-                    <h3 class="goal-card-title">भरोसा और सुरक्षा</h3>
-                    <p class="goal-card-desc">सभी Agents Verified और Trusted होते हैं।</p>
+                    <h3 class="goal-card-title">Trust & Transparency</h3>
+                    <p class="goal-card-desc">Every agent on our platform is authenticated and trustworthy.</p>
                 </div>
 
                 <!-- Card 3 -->
@@ -79,8 +79,8 @@
                             <polyline points="12 6 12 12 16 14"></polyline>
                         </svg>
                     </div>
-                    <h3 class="goal-card-title">समय की बचत</h3>
-                    <p class="goal-card-desc">एक ही जगह सभी जानकारी आसान और तेज़।</p>
+                    <h3 class="goal-card-title">Save Time & Effort</h3>
+                    <p class="goal-card-desc">All verified details in one unified place for quick decisions.</p>
                 </div>
 
                 <!-- Card 4 -->
@@ -91,8 +91,8 @@
                             <circle cx="12" cy="12" r="9" stroke="#16A34A"></circle>
                         </svg>
                     </div>
-                    <h3 class="goal-card-title">सही कीमत, सही सेवा</h3>
-                    <p class="goal-card-desc">Affordable Plans के साथ बेहतरीन Visibility।</p>
+                    <h3 class="goal-card-title">Affordable & Value-Driven</h3>
+                    <p class="goal-card-desc">Cost-effective plans delivering superior reach and visibility.</p>
                 </div>
 
             </div>
@@ -107,7 +107,7 @@
             
             <div class="blue-why-banner-card">
                 <!-- Banner Title -->
-                <h2 class="blue-banner-title">Agent 24 India क्यों चुनें?</h2>
+                <h2 class="blue-banner-title">Why Choose Agent 24 India?</h2>
 
                 <!-- 4 Columns Grid -->
                 <div class="blue-banner-grid">
@@ -122,7 +122,7 @@
                         </div>
                         <div class="blue-banner-info">
                             <h3 class="blue-banner-head">All India Network</h3>
-                            <p class="blue-banner-sub">हर शहर, हर जिले में हमारी पहुँच</p>
+                            <p class="blue-banner-sub">Pan-India coverage across all districts</p>
                         </div>
                     </div>
 
@@ -136,7 +136,7 @@
                         </div>
                         <div class="blue-banner-info">
                             <h3 class="blue-banner-head">Affordable Plans</h3>
-                            <p class="blue-banner-sub">कम कीमत में बेहतरीन प्लान्स</p>
+                            <p class="blue-banner-sub">High-value growth subscription plans</p>
                         </div>
                     </div>
 
@@ -154,7 +154,7 @@
                         </div>
                         <div class="blue-banner-info">
                             <h3 class="blue-banner-head">Grow Your Business</h3>
-                            <p class="blue-banner-sub">ज्यादा Visibility, ज्यादा Customers</p>
+                            <p class="blue-banner-sub">Enhanced visibility and verified leads</p>
                         </div>
                     </div>
 
@@ -168,7 +168,7 @@
                         </div>
                         <div class="blue-banner-info">
                             <h3 class="blue-banner-head">24x7 Support</h3>
-                            <p class="blue-banner-sub">हमेशा आपकी मदद के लिए तैयार</p>
+                            <p class="blue-banner-sub">Dedicated support team always available</p>
                         </div>
                     </div>
 
@@ -184,14 +184,14 @@
             
             <h2 class="about-cta-title">
                 <span class="cta-line"></span>
-                हमारे साथ जुड़ें और अपने Business को नई ऊँचाइयों पर ले जाएं।
+                Partner with us and take your business to new heights.
                 <span class="cta-line"></span>
             </h2>
 
             <div class="about-cta-btn-wrap">
                 @if(\Auth::check())
                     <a href="{{ route('front.addListing') }}" class="btn-yellow-cta">
-                        <span>Free Listing बनाएं</span>
+                        <span>Create Free Listing</span>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                             <polyline points="12 5 19 12 12 19"></polyline>
@@ -199,7 +199,7 @@
                     </a>
                 @else
                     <a href="javascript:void(0)" class="btn-yellow-cta open-signin" onclick="$('.tab[data-tab=signup]').trigger('click');">
-                        <span>अभी Register करें</span>
+                        <span>Register Now</span>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                             <polyline points="12 5 19 12 12 19"></polyline>
@@ -222,8 +222,8 @@
                 <div class="happy-customers-header">
                     <span class="hc-dash-line"></span>
                     <h2 class="happy-customers-title">
-                        <span class="hc-text-blue">हमारे</span>
-                        <span class="hc-text-navy">Happy Customers</span>
+                        <span class="hc-text-blue">What Our</span>
+                        <span class="hc-text-navy">Happy Customers Say</span>
                     </h2>
                     <span class="hc-dash-line"></span>
                 </div>
@@ -250,7 +250,7 @@
                             </div>
                             <div class="hc-content">
                                 <div class="hc-stars">★★★★★</div>
-                                <p class="hc-quote">"Agent 24 India की मदद से मुझे Jaipur में सही Real Estate Agent मिला। बहुत आसान और भरोसेमंद प्लेटफ़ॉर्म!"</p>
+                                <p class="hc-quote">"With Agent 24 India, I found the perfect Real Estate Consultant in Jaipur in no time. Extremely smooth and reliable platform!"</p>
                             </div>
                         </div>
                         <div class="hc-author">Neha Sharma, Jaipur</div>
@@ -274,7 +274,7 @@
                             </div>
                             <div class="hc-content">
                                 <div class="hc-stars">★★★★★</div>
-                                <p class="hc-quote">"Insurance Agent के लिए इनका सर्च फ़ीचर बहुत ही बढ़िया है। लीड्स और कस्टमर दोनों बढ़े हैं!"</p>
+                                <p class="hc-quote">"Their agent search feature is truly remarkable. Our customer base and verified leads have grown substantially!"</p>
                             </div>
                         </div>
                         <div class="hc-author">Suresh Choudhary, Jodhpur</div>
@@ -299,7 +299,7 @@
                             </div>
                             <div class="hc-content">
                                 <div class="hc-stars">★★★★★</div>
-                                <p class="hc-quote">"Business Listing से मुझे बहुत फायदा हुआ, अब मेरे पास हर दिन नए ग्राहक आते हैं!"</p>
+                                <p class="hc-quote">"Listing my business on Agent 24 India gave me immense exposure. I receive authentic client inquiries every single day!"</p>
                             </div>
                         </div>
                         <div class="hc-author">Rahul Mehta, Udaipur</div>
