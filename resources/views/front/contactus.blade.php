@@ -1,11 +1,11 @@
 @extends('front.layout.main')
-@section('title', $pageTitle ?? 'Contact Us')
+@section('title', $pageTitle ?? 'Contact Us - Agent 24 India')
 
 @push('styles')
 <style>
-    /* Contact Us Page Scope Styles - Matching Reference Design Exactly */
+    /* Contact Us Page Dedicated Styles - Matching Reference Design Exactly */
     .contact-page-wrapper {
-        background-color: #F3F7FC;
+        background: linear-gradient(180deg, #EAF3FD 0%, #F1F6FD 30%, #F6F9FE 70%, #EEF5FD 100%);
         padding: 24px 0 60px 0;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
@@ -17,17 +17,15 @@
     }
 
     /* 1. Hero Banner */
-    .contact-banner-card {
+    .contact-hero-banner-wrap {
         width: 100%;
-        background: #EBF4FE;
         border-radius: 16px;
         overflow: hidden;
         margin-bottom: 24px;
-        box-shadow: 0 4px 20px rgba(0, 75, 238, 0.05);
-        border: 1px solid #E2E8F0;
+        box-shadow: 0 6px 25px rgba(0, 75, 238, 0.07);
     }
 
-    .contact-banner-card img {
+    .contact-hero-img {
         width: 100%;
         height: auto;
         display: block;
@@ -37,7 +35,7 @@
     /* 2. Middle Grid: Info Card & Form Card */
     .contact-middle-grid {
         display: grid;
-        grid-template-columns: 340px 1fr;
+        grid-template-columns: 330px 1fr;
         gap: 20px;
         margin-bottom: 24px;
         align-items: stretch;
@@ -60,7 +58,7 @@
     .contact-box-title {
         font-size: 20px;
         font-weight: 800;
-        color: #0F172A;
+        color: #0A2540;
         margin-bottom: 24px;
         letter-spacing: -0.2px;
     }
@@ -106,7 +104,7 @@
         font-size: 13px;
         font-weight: 600;
         color: #64748B;
-        margin-bottom: 3px;
+        margin-bottom: 2px;
     }
 
     .contact-detail-val {
@@ -207,7 +205,7 @@
     }
 
     .btn-submit-message {
-        background: #004BEE;
+        background: #003ECC;
         color: #FFFFFF;
         border: none;
         border-radius: 8px;
@@ -220,15 +218,15 @@
         justify-content: center;
         gap: 8px;
         width: 100%;
-        box-shadow: 0 4px 12px rgba(0, 75, 238, 0.2);
+        box-shadow: 0 4px 12px rgba(0, 62, 204, 0.25);
         transition: all 0.2s ease;
         margin-top: 4px;
     }
 
     .btn-submit-message:hover {
-        background: #003ECC;
+        background: #0031A6;
         transform: translateY(-1px);
-        box-shadow: 0 6px 16px rgba(0, 75, 238, 0.3);
+        box-shadow: 0 6px 16px rgba(0, 62, 204, 0.35);
     }
 
     /* 3. Office Location Card */
@@ -238,7 +236,7 @@
         border: 1px solid #E2E8F0;
         padding: 24px 28px;
         display: grid;
-        grid-template-columns: 340px 1fr;
+        grid-template-columns: 330px 1fr;
         gap: 24px;
         align-items: center;
         margin-bottom: 32px;
@@ -253,7 +251,7 @@
     .office-title {
         font-size: 20px;
         font-weight: 800;
-        color: #0F172A;
+        color: #0A2540;
         margin-bottom: 12px;
         letter-spacing: -0.2px;
     }
@@ -311,10 +309,11 @@
     /* 4. Trust Promise Section */
     .trust-promise-wrap {
         text-align: center;
+        margin-bottom: 28px;
     }
 
     .trust-promise-header {
-        margin-bottom: 24px;
+        margin-bottom: 22px;
     }
 
     .trust-header-title {
@@ -390,8 +389,73 @@
         line-height: 1.25;
     }
 
+    /* 5. Dark Blue Stats Footer Bar */
+    .contact-dark-stats-bar {
+        background: #081938;
+        border-radius: 14px;
+        padding: 22px 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 10px 30px rgba(8, 25, 56, 0.15);
+    }
+
+    .contact-dark-col {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex: 1;
+        justify-content: center;
+    }
+
+    .contact-dark-col:first-child {
+        justify-content: flex-start;
+    }
+
+    .contact-dark-col:last-child {
+        justify-content: flex-end;
+    }
+
+    .contact-dark-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: #FFFFFF;
+    }
+
+    .contact-dark-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .contact-dark-number {
+        font-size: 20px;
+        font-weight: 800;
+        color: #FFFFFF;
+        line-height: 1.1;
+    }
+
+    .contact-dark-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.7);
+        margin-top: 3px;
+    }
+
+    .contact-dark-divider {
+        width: 1px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.15);
+        margin: 0 8px;
+    }
+
     /* Responsive Breakpoints */
-    @media (max-width: 900px) {
+    @media (max-width: 991px) {
         .contact-middle-grid {
             grid-template-columns: 1fr;
         }
@@ -403,6 +467,20 @@
         .trust-badges-row {
             grid-template-columns: repeat(2, 1fr);
         }
+
+        .contact-dark-stats-bar {
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .contact-dark-col {
+            flex: 1 1 40%;
+            justify-content: flex-start;
+        }
+
+        .contact-dark-divider {
+            display: none;
+        }
     }
 
     @media (max-width: 540px) {
@@ -412,6 +490,10 @@
 
         .trust-badges-row {
             grid-template-columns: 1fr;
+        }
+
+        .contact-dark-col {
+            flex: 1 1 100%;
         }
 
         .contact-message-card {
@@ -433,10 +515,11 @@
 <div class="contact-page-wrapper">
     <div class="contact-container">
 
-        <!-- 1. Hero Banner (Matches Reference Exactly) -->
-        <div class="contact-banner-card">
+        <!-- 1. Top Hero Banner -->
+        <div class="contact-hero-banner-wrap">
             <img src="{{ asset('front/assets/images/contact_hero_banner.png') }}" 
                  alt="Contact Us - हमसे संपर्क करें" 
+                 class="contact-hero-img"
                  onerror="this.onerror=null; this.src='{{ asset('public/front/assets/images/contact_hero_banner.png') }}';">
         </div>
 
@@ -670,16 +753,99 @@
                 <div class="trust-badge-pill">
                     <div class="trust-badge-icon">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="9" cy="7" r="4"></circle>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
                         </svg>
                     </div>
                     <div class="trust-badge-info">
-                        <h4 class="trust-badge-heading">समर्पित सपोर्ट टीम</h4>
+                        <h4 class="trust-badge-heading">समाधान केंद्रित टीम</h4>
                         <span class="trust-badge-desc">Best समाधान हमारा लक्ष्य</span>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Dark Blue Stats Footer Bar (As shown in screenshot) -->
+        <div class="contact-dark-stats-bar">
+            <!-- Stat 1 -->
+            <div class="contact-dark-col">
+                <div class="contact-dark-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <div class="contact-dark-info">
+                    <span class="contact-dark-number">10,000+</span>
+                    <span class="contact-dark-label">Verified Agents</span>
+                </div>
+            </div>
+
+            <div class="contact-dark-divider"></div>
+
+            <!-- Stat 2 -->
+            <div class="contact-dark-col">
+                <div class="contact-dark-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                </div>
+                <div class="contact-dark-info">
+                    <span class="contact-dark-number">500+</span>
+                    <span class="contact-dark-label">Cities Covered</span>
+                </div>
+            </div>
+
+            <div class="contact-dark-divider"></div>
+
+            <!-- Stat 3 -->
+            <div class="contact-dark-col">
+                <div class="contact-dark-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                </div>
+                <div class="contact-dark-info">
+                    <span class="contact-dark-number">50+</span>
+                    <span class="contact-dark-label">Categories</span>
+                </div>
+            </div>
+
+            <div class="contact-dark-divider"></div>
+
+            <!-- Stat 4 -->
+            <div class="contact-dark-col">
+                <div class="contact-dark-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                </div>
+                <div class="contact-dark-info">
+                    <span class="contact-dark-number">1L+</span>
+                    <span class="contact-dark-label">Happy Customers</span>
+                </div>
+            </div>
+
+            <div class="contact-dark-divider"></div>
+
+            <!-- Stat 5 -->
+            <div class="contact-dark-col">
+                <div class="contact-dark-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                        <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+                    </svg>
+                </div>
+                <div class="contact-dark-info">
+                    <span class="contact-dark-number">24x7</span>
+                    <span class="contact-dark-label">Support Available</span>
                 </div>
             </div>
         </div>

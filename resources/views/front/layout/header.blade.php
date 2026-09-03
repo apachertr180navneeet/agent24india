@@ -268,6 +268,13 @@
                     <li class="nav-item {{ request()->routeIs('front.support') ? 'active' : '' }}">
                         <a href="{{route('front.support')}}" class="nav-link">Support & Help</a>
                     </li>
+
+                    <li class="nav-item {{ request()->routeIs('front.contactus') ? 'active' : '' }}">
+                        <a href="{{route('front.contactus')}}" class="nav-link">Contact Us</a>
+                        @if(request()->routeIs('front.contactus'))
+                            <span class="active-bar"></span>
+                        @endif
+                    </li>
                 </ul>
             </nav>
         @endif
