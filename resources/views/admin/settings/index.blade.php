@@ -108,7 +108,33 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Logo Image</label>
-                                        <input type="file" class="form-control" name="logo_image">
+                                        <input type="file" class="form-control" name="logo_image" accept="image/*">
+                                        @php
+                                            $adminLogoPreview = null;
+                                            if (!empty($setting->logo_image)) {
+                                                $fn = basename(parse_url($setting->logo_image, PHP_URL_PATH) ?? $setting->logo_image);
+                                                if (file_exists(public_path('upload/setting/' . $fn))) {
+                                                    $adminLogoPreview = asset('public/upload/setting/' . $fn);
+                                                } else {
+                                                    $adminLogoPreview = $setting->logo_image;
+                                                }
+                                            }
+                                            if (empty($adminLogoPreview)) {
+                                                $latestLogo = glob(public_path('upload/setting/*.*'));
+                                                if (!empty($latestLogo)) {
+                                                    usort($latestLogo, function($a, $b) {
+                                                        return filemtime($b) - filemtime($a);
+                                                    });
+                                                    $adminLogoPreview = asset('public/upload/setting/' . basename($latestLogo[0]));
+                                                }
+                                            }
+                                        @endphp
+                                        @if(!empty($adminLogoPreview))
+                                            <div class="mt-2 p-2 border rounded bg-light d-inline-block">
+                                                <small class="text-muted d-block mb-1 font-weight-bold">Current Dynamic Logo:</small>
+                                                <img src="{{ $adminLogoPreview }}" alt="Current Logo" style="max-height: 48px; max-width: 220px; object-fit: contain;">
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
 

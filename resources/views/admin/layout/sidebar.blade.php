@@ -1,16 +1,41 @@
 @php 
 use Illuminate\Support\Str;
 $currentRoute = request()->route()->getName();
+$setting = \App\Models\Setting::orderBy('id', 'asc')->first();
+$adminSidebarLogo = null;
+if ($setting && !empty($setting->logo_image)) {
+    $fn = basename(parse_url($setting->logo_image, PHP_URL_PATH) ?? $setting->logo_image);
+    if (file_exists(public_path('upload/setting/' . $fn))) {
+        $adminSidebarLogo = asset('public/upload/setting/' . $fn);
+    } else {
+        $adminSidebarLogo = $setting->logo_image;
+    }
+}
+if (empty($adminSidebarLogo)) {
+    $latestLogo = glob(public_path('upload/setting/*.*'));
+    if (!empty($latestLogo)) {
+        usort($latestLogo, function($a, $b) {
+            return filemtime($b) - filemtime($a);
+        });
+        $adminSidebarLogo = asset('public/upload/setting/' . basename($latestLogo[0]));
+    }
+}
 @endphp
 
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
     <!-- Brand Logo -->
-    <a href="{{ route('admin.dashboard') }}" class="brand-link">
-        <img src="{{ asset('public/dist/img/AdminLTELogo.png') }}" 
-             class="brand-image img-circle elevation-3" />
-        <span class="brand-text font-weight-light">AgentIndia</span>
+    <a href="{{ route('admin.dashboard') }}" class="brand-link" style="display: flex; align-items: center; gap: 8px;">
+        @if(!empty($adminSidebarLogo))
+            <img src="{{ $adminSidebarLogo }}" 
+                 alt="{{ $setting->logo_title ?? 'Logo' }}" 
+                 style="max-height: 33px; max-width: 140px; object-fit: contain; background: #fff; border-radius: 4px; padding: 2px 6px;" />
+        @else
+            <img src="{{ asset('public/dist/img/AdminLTELogo.png') }}" 
+                 class="brand-image img-circle elevation-3" />
+            <span class="brand-text font-weight-light">{{ $setting->logo_title ?? 'AgentIndia' }}</span>
+        @endif
     </a>
 
     <div class="sidebar">

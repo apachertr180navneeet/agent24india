@@ -1,8 +1,37 @@
 @php
     $cmsModel = new \App\Models\Cms();
+    $settingModel = new \App\Models\Setting();
     $privacy = $cmsModel->where('id', 3)->first();
     $trem = $cmsModel->where('id', 2)->first();
     $about = $cmsModel->where('id', 1)->first();
+    $setting = $settingModel->orderBy('id', 'asc')->first();
+
+    $dynamicLogo = null;
+    if ($setting && !empty($setting->logo_image)) {
+        $val = $setting->logo_image;
+        $fn = basename(parse_url($val, PHP_URL_PATH) ?? $val);
+        if ($fn && file_exists(public_path('upload/setting/' . $fn))) {
+            $dynamicLogo = asset('public/upload/setting/' . $fn);
+        } elseif (filter_var($val, FILTER_VALIDATE_URL)) {
+            $dynamicLogo = $val;
+        } else {
+            $cleanPath = ltrim($val, '/');
+            if (file_exists(public_path($cleanPath))) {
+                $dynamicLogo = asset('public/' . $cleanPath);
+            } else {
+                $dynamicLogo = asset($cleanPath);
+            }
+        }
+    }
+    if (empty($dynamicLogo)) {
+        $latestSettingLogo = glob(public_path('upload/setting/*.*'));
+        if (!empty($latestSettingLogo)) {
+            usort($latestSettingLogo, function($a, $b) {
+                return filemtime($b) - filemtime($a);
+            });
+            $dynamicLogo = asset('public/upload/setting/' . basename($latestSettingLogo[0]));
+        }
+    }
 @endphp
 
 <!-- Footer Start -->
@@ -12,23 +41,28 @@
 
             <!-- Brand Info Column -->
             <div class="footer-col brand-col">
-                <div class="brand-logo">
-                    <div class="logo-icon-wrapper">
-                        <svg width="38" height="38" viewBox="0 0 50 50" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 40L24 10L36 40H28L24 29L20 40H12Z" fill="#0066FF" />
-                            <path d="M18.5 33H29.5L24 19L18.5 33Z" fill="#FFFFFF" />
-                            <circle cx="28" cy="11" r="4.5" fill="#FFB800" />
-                        </svg>
-                    </div>
-                    <div class="logo-text-group">
-                        <div class="brand-name">
-                            <span class="white-text">AGENT 24</span>
-                            <span class="blue-text">INDIA</span>
+                <a href="{{route('front.index')}}" class="brand-logo" style="text-decoration: none;" title="{{ $setting->logo_title ?? 'Agent 24 India' }}">
+                    @if(!empty($dynamicLogo))
+                        <div class="footer-logo-wrapper" style="background: #ffffff; padding: 6px 14px; border-radius: 8px; display: inline-flex; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+                            <img src="{{ $dynamicLogo }}" alt="{{ $setting->logo_title ?? 'Agent 24 India' }}" style="height: 36px; max-width: 180px; object-fit: contain;">
                         </div>
-                        <span class="brand-tagline light-tagline">Sahi Agent, Sahi Connection</span>
-                    </div>
-                </div>
+                    @else
+                        <div class="logo-icon-wrapper">
+                            <svg width="38" height="38" viewBox="0 0 50 50" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 40L24 10L36 40H28L24 29L20 40H12Z" fill="#0066FF" />
+                                <path d="M18.5 33H29.5L24 19L18.5 33Z" fill="#FFFFFF" />
+                                <circle cx="28" cy="11" r="4.5" fill="#FFB800" />
+                            </svg>
+                        </div>
+                        <div class="logo-text-group">
+                            <div class="brand-name">
+                                <span class="white-text">{{ $setting->logo_title ?? 'AGENT 24 INDIA' }}</span>
+                            </div>
+                            <span class="brand-tagline light-tagline">Sahi Agent, Sahi Connection</span>
+                        </div>
+                    @endif
+                </a>
                 <p class="footer-desc">Bharat ka sabse trusted aur verified Agent Directory platform. Aapki zarurat,
                     aapke city ka sahi agent!</p>
             </div>
@@ -75,7 +109,7 @@
         </div>
 
         <div class="footer-bottom">
-            <p>© 2026 AGENT 24 INDIA. All rights reserved. Sahi Agent, Sahi Connection.</p>
+            <p>© {{ date('Y') }} {{ $setting->logo_title ?? 'AGENT 24 INDIA' }}. All rights reserved. Sahi Agent, Sahi Connection.</p>
         </div>
     </div>
 </footer>

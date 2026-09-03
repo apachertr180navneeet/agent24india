@@ -83,7 +83,8 @@ class SettingController extends Controller
 
             // Optional: delete old image
             if (!empty($setting->logo_image)) {
-                $oldPath = public_path(str_replace(asset('public/'), '', $setting->logo_image));
+                $oldFilename = basename(parse_url($setting->logo_image, PHP_URL_PATH) ?? $setting->logo_image);
+                $oldPath = public_path('upload/setting/' . $oldFilename);
                 if (File::exists($oldPath)) {
                     File::delete($oldPath);
                 }

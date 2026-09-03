@@ -5,41 +5,122 @@
     $privacy = $cmsModel->where('id', 3)->first();
     $trem = $cmsModel->where('id', 2)->first();
     $about = $cmsModel->where('id', 1)->first();
-    $setting = $settingModel->where('id', 1)->first();
+    $setting = $settingModel->orderBy('id', 'asc')->first();
     $districtList = $districtModel->select('id', 'name')->where('status', 1)->orderBy('name')->get();
+
+    $dynamicLogo = null;
+    if ($setting && !empty($setting->logo_image)) {
+        $val = $setting->logo_image;
+        $fn = basename(parse_url($val, PHP_URL_PATH) ?? $val);
+        if ($fn && file_exists(public_path('upload/setting/' . $fn))) {
+            $dynamicLogo = asset('public/upload/setting/' . $fn);
+        } elseif (filter_var($val, FILTER_VALIDATE_URL)) {
+            $dynamicLogo = $val;
+        } else {
+            $cleanPath = ltrim($val, '/');
+            if (file_exists(public_path($cleanPath))) {
+                $dynamicLogo = asset('public/' . $cleanPath);
+            } else {
+                $dynamicLogo = asset($cleanPath);
+            }
+        }
+    }
+    if (empty($dynamicLogo)) {
+        $latestSettingLogo = glob(public_path('upload/setting/*.*'));
+        if (!empty($latestSettingLogo)) {
+            usort($latestSettingLogo, function($a, $b) {
+                return filemtime($b) - filemtime($a);
+            });
+            $dynamicLogo = asset('public/upload/setting/' . basename($latestSettingLogo[0]));
+        }
+    }
 @endphp
+
+<style>
+    .site-header-logo-img {
+        height: 46px;
+        max-height: 48px;
+        width: auto;
+        max-width: 240px;
+        object-fit: contain;
+        display: block;
+        transition: transform 0.2s ease;
+    }
+    .site-header-logo-img:hover {
+        transform: scale(1.02);
+    }
+    @media (max-width: 640px) {
+        .site-header-logo-img {
+            height: 36px;
+            max-height: 38px;
+            max-width: 170px;
+        }
+    }
+</style>
 
 <!-- Header Start -->
 <header class="site-header" id="siteHeader">
     <div class="header-container">
 
         <!-- Logo Section -->
-        <a href="{{route('front.index')}}" class="brand-logo">
-            <div class="logo-icon-wrapper">
-                <svg width="42" height="42" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Blue A shape -->
-                    <path d="M12 40L24 10L36 40H28L24 29L20 40H12Z" fill="url(#blue-grad)" />
-                    <path d="M18.5 33H29.5L24 19L18.5 33Z" fill="#004BEE" />
-                    <!-- Curved swoosh under A -->
-                    <path d="M6 38C14 34 26 38 42 30C34 38 20 44 6 38Z" fill="#0F172A" />
-                    <!-- Golden yellow accent figure -->
-                    <circle cx="28" cy="11" r="4.5" fill="#FFB800" />
-                    <defs>
-                        <linearGradient id="blue-grad" x1="12" y1="10" x2="36" y2="40"
-                            gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#0066FF" />
-                            <stop offset="1" stop-color="#0038A8" />
-                        </linearGradient>
-                    </defs>
-                </svg>
-            </div>
-            <div class="logo-text-group">
-                <div class="brand-name">
-                    <span class="navy-text">AGENT 24</span>
-                    <span class="blue-text">INDIA</span>
+        <a href="{{route('front.index')}}" class="brand-logo" title="{{ $setting->logo_title ?? 'Agent 24 India' }}">
+            @if(!empty($dynamicLogo))
+                <img src="{{ $dynamicLogo }}" 
+                     alt="{{ $setting->logo_title ?? 'Agent 24 India' }}" 
+                     class="site-header-logo-img"
+                     onerror="this.style.display='none'; var fb = document.getElementById('headerLogoFallback'); if(fb){ fb.style.display='flex'; }">
+                <div id="headerLogoFallback" class="logo-fallback-wrapper" style="display: none; align-items: center; gap: 12px;">
+                    <div class="logo-icon-wrapper">
+                        <svg width="42" height="42" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Blue A shape -->
+                            <path d="M12 40L24 10L36 40H28L24 29L20 40H12Z" fill="url(#blue-grad-fallback)" />
+                            <path d="M18.5 33H29.5L24 19L18.5 33Z" fill="#004BEE" />
+                            <!-- Curved swoosh under A -->
+                            <path d="M6 38C14 34 26 38 42 30C34 38 20 44 6 38Z" fill="#0F172A" />
+                            <!-- Golden yellow accent figure -->
+                            <circle cx="28" cy="11" r="4.5" fill="#FFB800" />
+                            <defs>
+                                <linearGradient id="blue-grad-fallback" x1="12" y1="10" x2="36" y2="40"
+                                    gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#0066FF" />
+                                    <stop offset="1" stop-color="#0038A8" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="logo-text-group">
+                        <div class="brand-name">
+                            <span class="navy-text">{{ $setting->logo_title ?? 'AGENT 24 INDIA' }}</span>
+                        </div>
+                        <span class="brand-tagline">Sahi Agent, Sahi Connection</span>
+                    </div>
                 </div>
-                <span class="brand-tagline">Sahi Agent, Sahi Connection</span>
-            </div>
+            @else
+                <div class="logo-icon-wrapper">
+                    <svg width="42" height="42" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Blue A shape -->
+                        <path d="M12 40L24 10L36 40H28L24 29L20 40H12Z" fill="url(#blue-grad)" />
+                        <path d="M18.5 33H29.5L24 19L18.5 33Z" fill="#004BEE" />
+                        <!-- Curved swoosh under A -->
+                        <path d="M6 38C14 34 26 38 42 30C34 38 20 44 6 38Z" fill="#0F172A" />
+                        <!-- Golden yellow accent figure -->
+                        <circle cx="28" cy="11" r="4.5" fill="#FFB800" />
+                        <defs>
+                            <linearGradient id="blue-grad" x1="12" y1="10" x2="36" y2="40"
+                                gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#0066FF" />
+                                <stop offset="1" stop-color="#0038A8" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="logo-text-group">
+                    <div class="brand-name">
+                        <span class="navy-text">{{ $setting->logo_title ?? 'AGENT 24 INDIA' }}</span>
+                    </div>
+                    <span class="brand-tagline">Sahi Agent, Sahi Connection</span>
+                </div>
+            @endif
         </a>
 
         <!-- Navigation Links -->
@@ -154,7 +235,11 @@
         @if(\Auth::check())
             <div style="font-weight: 700; color: #0B1948; font-size: 15px;">{{ auth()->user()->name }}</div>
         @else
-            <div style="font-weight: 700; color: #0B1948; font-size: 15px;">AGENT 24 INDIA</div>
+            @if(!empty($dynamicLogo))
+                <img src="{{ $dynamicLogo }}" alt="{{ $setting->logo_title ?? 'AGENT 24 INDIA' }}" style="height: 32px; max-width: 140px; object-fit: contain;">
+            @else
+                <div style="font-weight: 700; color: #0B1948; font-size: 15px;">{{ $setting->logo_title ?? 'AGENT 24 INDIA' }}</div>
+            @endif
         @endif
         <button class="drawer-close-btn" id="drawerCloseBtn" aria-label="Close menu">&times;</button>
     </div>
