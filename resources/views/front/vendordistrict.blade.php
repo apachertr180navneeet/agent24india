@@ -283,7 +283,7 @@
                     <input type="text" id="location_search" class="vl-input" placeholder="Search District..." autocomplete="off" value="{{ $selectedDistrict ? $selectedDistrict->name : '' }}">
 
                     <div id="searchResults" class="search-results" style="display:none;">
-                        @foreach($districtList as $value)
+                        @foreach(($districtList ?? $district ?? []) as $value)
                             <div class="result-item" data-id="{{ $value->id }}" data-name="{{ strtolower(trim($value->name)) }}">
                                 {{ $value->name }}
                             </div>

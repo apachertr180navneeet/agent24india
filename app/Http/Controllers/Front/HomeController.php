@@ -301,6 +301,7 @@ class HomeController extends Controller
         $this->viewData['vendoruser'] = $vendoruser;
         $this->viewData['category'] = $category;
         $this->viewData['district'] = $district;
+        $this->viewData['districtList'] = $districtList;
         $this->viewData['banner'] = $banner;
         $this->viewData['selectedDistrict'] = $selectedDistrict;
         $this->viewData['location'] = $location;
