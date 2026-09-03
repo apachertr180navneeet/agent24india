@@ -55,56 +55,44 @@
                             </div>
                         </div>
 
-                        <!-- Input 2: Aapka shahar / jila chunen -->
+                        <!-- Input 2: Select District -->
                         <div class="form-field">
-                            <label class="field-label">Select City / District</label>
+                            <label class="field-label">Select District</label>
                             <div class="input-with-icon">
                                 <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
                                     stroke="#004BEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                                     <circle cx="12" cy="10" r="3"></circle>
                                 </svg>
-                                <select class="select2 custom-select" id="cityInput">
-                                    <option value="">Select District / City</option>
+                                <select class="select2 custom-select" id="districtSelect">
+                                    <option value="">Select District</option>
                                     @if(isset($district) && count($district) > 0)
                                         @foreach($district as $d)
                                             <option value="{{ $d->id }}" {{ $d->name == 'Jaipur' ? 'selected' : '' }}>{{ $d->name }}</option>
                                         @endforeach
                                     @else
-                                        <option value="Jaipur" selected>Jaipur, Rajasthan</option>
-                                        <option value="Jodhpur">Jodhpur, Rajasthan</option>
-                                        <option value="Udaipur">Udaipur, Rajasthan</option>
-                                        <option value="Kota">Kota, Rajasthan</option>
-                                        <option value="Bikaner">Bikaner, Rajasthan</option>
-                                        <option value="Ajmer">Ajmer, Rajasthan</option>
+                                        <option value="150" selected>Jaipur</option>
+                                        <option value="155">Jodhpur</option>
                                     @endif
                                 </select>
                             </div>
                         </div>
 
-                        <!-- Input 3: Category chunen -->
+                        <!-- Input 3: Select City (Replaced Category) -->
                         <div class="form-field">
-                            <label class="field-label">Select Category</label>
+                            <label class="field-label">Select City</label>
                             <div class="input-with-icon">
                                 <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
                                     stroke="#004BEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="3" y="3" width="7" height="7"></rect>
-                                    <rect x="14" y="3" width="7" height="7"></rect>
-                                    <rect x="14" y="14" width="7" height="7"></rect>
-                                    <rect x="3" y="14" width="7" height="7"></rect>
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
                                 </svg>
-                                <select class="select2 custom-select" id="categorySelect">
-                                    <option value="" selected>All Categories</option>
-                                    @if(isset($category) && count($category) > 0)
-                                        @foreach($category as $cat)
-                                            <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                <select class="select2 custom-select" id="citySelect">
+                                    <option value="">All Cities / Areas</option>
+                                    @if(isset($initialCities) && count($initialCities) > 0)
+                                        @foreach($initialCities as $c)
+                                            <option value="{{ $c->id }}">{{ $c->name }}</option>
                                         @endforeach
-                                    @else
-                                        <option value="property">Property & Housing</option>
-                                        <option value="loans">Loans & Finance</option>
-                                        <option value="life_insurance">Life & Health Insurance</option>
-                                        <option value="tour">Tours & Visas</option>
-                                        <option value="law">Law & Registration</option>
                                     @endif
                                 </select>
                             </div>
@@ -1390,26 +1378,47 @@
                 width: '100%'
             });
 
-            $('#cityInput').select2({
-                placeholder: "Select District / City",
+            $('#districtSelect').select2({
+                placeholder: "Select District",
                 allowClear: true,
                 width: '100%'
             });
 
-            $('#categorySelect').select2({
-                placeholder: "All Categories",
+            $('#citySelect').select2({
+                placeholder: "All Cities / Areas",
                 allowClear: true,
                 width: '100%'
             });
         }
+
+        // Fetch Cities when District Changes
+        $('#districtSelect').on('change', function () {
+            var districtId = $(this).val();
+            var $citySelect = $('#citySelect');
+            $citySelect.empty().append('<option value="">All Cities / Areas</option>');
+
+            if (districtId) {
+                var url = "{{ route('get.cities', ':id') }}".replace(':id', districtId);
+                $.get(url, function (cities) {
+                    if (Array.isArray(cities) && cities.length > 0) {
+                        cities.forEach(function (ct) {
+                            $citySelect.append(`<option value="${ct.id}">${ct.name}</option>`);
+                        });
+                    }
+                    $citySelect.trigger('change.select2');
+                });
+            } else {
+                $citySelect.trigger('change.select2');
+            }
+        });
 
         // Search Form Submission Redirection
         $('#agentSearchForm').on('submit', function (e) {
             e.preventDefault();
 
             var subcategory = $('#agentTypeSelect').val();
-            var district = $('#cityInput').val();
-            var category = $('#categorySelect').val();
+            var district = $('#districtSelect').val();
+            var city = $('#citySelect').val();
 
             var searchBtn = $('#searchAgentBtn');
             var originalBtnHtml = searchBtn.html();
@@ -1431,18 +1440,18 @@
             setTimeout(function () {
                 var redirectUrl = "{{ route('front.vendorlist') }}";
 
-                if (district && category) {
-                    var template = "{{ route('front.vendorlist.location.category', ['location' => 'LOC_ID', 'category' => 'CAT_ID']) }}";
-                    redirectUrl = template.replace('LOC_ID', encodeURIComponent(district)).replace('CAT_ID', encodeURIComponent(category));
-                } else if (district && subcategory) {
+                if (district && subcategory) {
                     var template = "{{ route('front.vendorlist.location.subcategory', ['location' => 'LOC_ID', 'subcategory' => 'SUBCAT_ID']) }}";
                     redirectUrl = template.replace('LOC_ID', encodeURIComponent(district)).replace('SUBCAT_ID', encodeURIComponent(subcategory));
                 } else if (district) {
                     var template = "{{ route('front.vendorlist.location', ['location' => 'LOC_ID']) }}";
                     redirectUrl = template.replace('LOC_ID', encodeURIComponent(district));
-                } else if (category) {
-                    var template = "{{ route('front.vendorlist.category', ['category' => 'CAT_ID']) }}";
-                    redirectUrl = template.replace('CAT_ID', encodeURIComponent(category));
+                } else if (subcategory) {
+                    redirectUrl = "{{ route('front.vendorlist') }}?service=" + encodeURIComponent(subcategory);
+                }
+
+                if (city) {
+                    redirectUrl += (redirectUrl.indexOf('?') !== -1 ? '&' : '?') + 'city=' + encodeURIComponent(city);
                 }
 
                 window.location.href = redirectUrl;

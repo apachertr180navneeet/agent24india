@@ -54,10 +54,9 @@ class HomeController extends Controller
 
         $district = District::where('status', 1)->get();
 
-        $paidlisting = User::where('status','1')
-        ->where('is_approved', '1')
-        ->get();
-        
+        $defaultDistrict = $district->where('name', 'Jaipur')->first() ?? $district->first();
+        $initialCities = $defaultDistrict ? City::where('district_id', $defaultDistrict->id)->orderBy('name', 'asc')->get() : collect();
+        $this->viewData['initialCities'] = $initialCities;
 
 
         $this->viewData['banner'] = $banner;
@@ -761,9 +760,9 @@ class HomeController extends Controller
         return response()->json($districts);
     }
 
-    public function getCities(Request $request)
+    public function getCities(Request $request, $district = null)
     {
-        $districtId = $request->district;
+        $districtId = $district ?: ($request->route('district') ?: $request->district);
         $cities = City::where('district_id', $districtId)
             ->orderBy('name', 'asc') // A to Z
             ->get();
