@@ -2,16 +2,45 @@
 @section('title', $pageTitle ?? 'Price Plans')
 
 @section('content')
-    <!-- Pricing Hero Banner Section Start -->
-    <section class="price-hero-banner-section">
-        <div class="price-hero-banner-container">
-            <img src="{{ asset('front/assets/images/price_hero_banner.png') }}" 
-                 alt="Pricing Plans - Give your business maximum visibility and verified customers" 
-                 class="price-hero-banner-img"
-                 onerror="this.onerror=null; this.src='{{ asset('public/front/assets/images/price_hero_banner.png') }}';">
+    <!-- Pricing Hero Section Start -->
+    <section class="price-hero-section">
+        <div class="price-hero-container">
+            <!-- Left Content -->
+            <div class="price-hero-left">
+                <h1 class="price-hero-title">Pricing Plans</h1>
+                <p class="price-hero-subtitle">Give Your Business the Right Visibility and More Customers</p>
+                <p class="price-hero-desc">Get more Visibility and Trusted Customers with our Affordable Plans!</p>
+                
+                <!-- Monthly / 3 Months Toggle -->
+                <div class="price-toggle-wrap">
+                    <button class="price-toggle-btn" id="toggleMonthly">Monthly</button>
+                    <button class="price-toggle-btn active" id="toggle3Months">3 Months (Best Value)</button>
+                </div>
+            </div>
+            
+            <!-- Right Illustration -->
+            <div class="price-hero-right">
+                <div class="price-hero-illustration">
+                    <!-- Shield with checkmark -->
+                    <div class="price-shield-wrap">
+                        <svg width="120" height="140" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M60 10L15 30V65C15 95 37.5 122.5 60 130C82.5 122.5 105 95 105 65V30L60 10Z" fill="#004BEE" stroke="#0036A8" stroke-width="3"/>
+                            <path d="M42 70L55 83L80 55" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <!-- Floating badge -->
+                        <div class="price-hero-badge">
+                            <span class="badge-logo-text">AGENT 24 INDIA</span>
+                        </div>
+                    </div>
+                    <!-- Decorative elements -->
+                    <div class="price-hero-deco deco-1"></div>
+                    <div class="price-hero-deco deco-2"></div>
+                    <div class="price-hero-deco deco-3"></div>
+                </div>
+            </div>
         </div>
     </section>
-    <!-- Pricing Hero Banner Section End -->
+    <!-- Pricing Hero Section End -->
 
     <!-- Pricing Page Main Content Area Start -->
     <main class="price-page-main" id="priceMainContent">
@@ -355,7 +384,7 @@
                             </div>
                             <div class="pf-text-wrap">
                                 <h3 class="pf-title">All India Visibility</h3>
-                                <p class="pf-subtitle">Reach clients across every district</p>
+                                <p class="pf-subtitle">Reach Every City, Every District</p>
                             </div>
                         </div>
 
@@ -369,7 +398,7 @@
                             </div>
                             <div class="pf-text-wrap">
                                 <h3 class="pf-title">Affordable Plans</h3>
-                                <p class="pf-subtitle">Maximum value at best prices</p>
+                                <p class="pf-subtitle">Maximum Value at Best Prices</p>
                             </div>
                         </div>
 
@@ -385,7 +414,7 @@
                             </div>
                             <div class="pf-text-wrap">
                                 <h3 class="pf-title">Grow Your Business</h3>
-                                <p class="pf-subtitle">More visibility, more customers</p>
+                                <p class="pf-subtitle">More Visibility, More Customers</p>
                             </div>
                         </div>
 
@@ -399,7 +428,7 @@
                             </div>
                             <div class="pf-text-wrap">
                                 <h3 class="pf-title">24x7 Support</h3>
-                                <p class="pf-subtitle">Always here to support you</p>
+                                <p class="pf-subtitle">Always Here to Support You</p>
                             </div>
                         </div>
 
@@ -471,7 +500,7 @@
                     <div class="why-join-right">
                         @if(\Auth::check())
                             <a href="{{ route('front.addListing') }}" class="btn-why-join-register">
-                                <span>Add Listing Now</span>
+                                <span>Register Now</span>
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                     <line x1="5" y1="12" x2="19" y2="12"></line>
                                     <polyline points="12 5 19 12 12 19"></polyline>
@@ -493,6 +522,75 @@
             </div>
         </section>
         <!-- Why Join Agent 24 Cream CTA Banner Section End -->
+
+        <!-- Ready to Grow Your Business CTA Section Start -->
+        <section class="price-ready-grow-section">
+            <div class="section-container" style="max-width: 1240px; margin: 0 auto; padding: 0 24px 15px 24px;">
+                
+                <div class="price-ready-grow-card">
+                    <!-- Left: Dashboard Image Mockup -->
+                    <div class="ready-grow-img-wrap">
+                        <div class="ready-grow-mockup">
+                            <svg width="180" height="130" viewBox="0 0 180 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Laptop frame -->
+                                <rect x="10" y="5" width="160" height="100" rx="8" fill="#1E293B" stroke="#475569" stroke-width="2"/>
+                                <rect x="18" y="13" width="144" height="80" rx="4" fill="#F8FAFC"/>
+                                <!-- Screen content -->
+                                <rect x="24" y="20" width="40" height="6" rx="2" fill="#004BEE"/>
+                                <rect x="24" y="30" width="55" height="4" rx="2" fill="#CBD5E1"/>
+                                <rect x="24" y="38" width="45" height="4" rx="2" fill="#CBD5E1"/>
+                                <!-- Chart bars -->
+                                <rect x="24" y="70" width="12" height="18" rx="2" fill="#3B82F6"/>
+                                <rect x="40" y="60" width="12" height="28" rx="2" fill="#60A5FA"/>
+                                <rect x="56" y="50" width="12" height="38" rx="2" fill="#2563EB"/>
+                                <rect x="72" y="55" width="12" height="33" rx="2" fill="#93C5FD"/>
+                                <!-- Pie chart -->
+                                <circle cx="125" cy="55" r="22" fill="#DBEAFE" stroke="#3B82F6" stroke-width="2"/>
+                                <path d="M125 33A22 22 0 0 1 147 55H125V33Z" fill="#004BEE"/>
+                                <path d="M125 55A22 22 0 0 1 110 73L125 55Z" fill="#60A5FA"/>
+                                <!-- Laptop base -->
+                                <path d="M0 105H180L170 120H10L0 105Z" fill="#1E293B"/>
+                                <rect x="60" y="105" width="60" height="4" rx="2" fill="#334155"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Middle: Text Content -->
+                    <div class="ready-grow-text-wrap">
+                        <h2 class="ready-grow-title">Ready to Grow Your Business?</h2>
+                        <p class="ready-grow-desc">Thousands of Agents are joining us to give their Business a new identity and get Quality Customers.</p>
+                        @if(\Auth::check())
+                            <a href="{{ route('front.addListing') }}" class="ready-grow-btn">
+                                <span>Choose a Plan Now</span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </a>
+                        @else
+                            <a href="javascript:void(0)" class="ready-grow-btn open-signin" onclick="$('.tab[data-tab=signup]').trigger('click');">
+                                <span>Choose a Plan Now</span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </a>
+                        @endif
+                    </div>
+
+                    <!-- Right: Trust Badge -->
+                    <div class="ready-grow-badge-wrap">
+                        <div class="ready-grow-trust-badge">
+                            <div class="trust-badge-stars">★★★★★</div>
+                            <div class="trust-badge-number">10,000+</div>
+                            <div class="trust-badge-text">Agents Trust<br>Agent 24 India</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <!-- Ready to Grow Your Business CTA Section End -->
 
         <!-- White 5-Stat Metrics Banner & Privacy Guarantee Section Start -->
         <section class="price-white-stats-section">
@@ -593,7 +691,7 @@
                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                         <path d="M9 12l2 2 4-4"></path>
                     </svg>
-                    <span><strong>Our Guarantee:</strong> Your privacy and data are completely protected.</span>
+                    <span><strong>Our Guarantee:</strong> Your Privacy and Data are completely protected.</span>
                 </div>
 
             </div>
