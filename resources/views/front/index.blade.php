@@ -40,16 +40,16 @@
                                 <select class="select2 custom-select" id="agentTypeSelect">
                                     <option value="" selected>All Agent Services</option>
                                     @if(isset($subCategories) && count($subCategories) > 0)
-                                        @foreach($subCategories as $subCat)
+                                        @foreach($subCategories->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $subCat)
                                             <option value="{{ $subCat->id }}">{{ $subCat->name }}</option>
                                         @endforeach
                                     @else
-                                        <option value="real_estate">Real Estate Agent</option>
+                                        <option value="education">Education Consultant</option>
                                         <option value="financial">Financial Advisor</option>
                                         <option value="insurance">Insurance Agent</option>
-                                        <option value="travel">Travel & Tour Agent</option>
                                         <option value="legal">Legal Consultant</option>
-                                        <option value="education">Education Consultant</option>
+                                        <option value="real_estate">Real Estate Agent</option>
+                                        <option value="travel">Travel & Tour Agent</option>
                                     @endif
                                 </select>
                             </div>
@@ -67,7 +67,7 @@
                                 <select class="select2 custom-select" id="districtSelect">
                                     <option value="">Select District</option>
                                     @if(isset($district) && count($district) > 0)
-                                        @foreach($district as $d)
+                                        @foreach($district->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $d)
                                             <option value="{{ $d->id }}" {{ $d->name == 'Jaipur' ? 'selected' : '' }}>{{ $d->name }}</option>
                                         @endforeach
                                     @else
@@ -90,7 +90,7 @@
                                 <select class="select2 custom-select" id="citySelect">
                                     <option value="">All Cities / Areas</option>
                                     @if(isset($initialCities) && count($initialCities) > 0)
-                                        @foreach($initialCities as $c)
+                                        @foreach($initialCities->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $c)
                                             <option value="{{ $c->id }}">{{ $c->name }}</option>
                                         @endforeach
                                     @endif

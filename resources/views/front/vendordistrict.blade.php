@@ -291,7 +291,7 @@
                     <input type="text" id="location_search" class="vl-input" placeholder="Search District..." autocomplete="off" value="{{ $selectedDistrict ? $selectedDistrict->name : '' }}">
 
                     <div id="searchResults" class="search-results" style="display:none;">
-                        @foreach(($districtList ?? $district ?? []) as $value)
+                        @foreach(collect($districtList ?? $district ?? [])->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $value)
                             <div class="result-item" data-id="{{ $value->id }}" data-name="{{ strtolower(trim($value->name)) }}">
                                 {{ $value->name }}
                             </div>
@@ -323,7 +323,7 @@
                     </svg>
                     <select id="subcategory" class="select2">
                         <option value="">Select Sub Category</option>
-                        @foreach(($subCategories ?? []) as $sub)
+                        @foreach(collect($subCategories ?? [])->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $sub)
                             <option value="{{ $sub->id }}">
                                 {{ $sub->name }}
                             </option>
@@ -344,7 +344,7 @@
                     </svg>
                     <select name="category" id="category" class="select2">
                         <option value="none">Choose Categories</option>
-                        @foreach(($category ?? []) as $value)
+                        @foreach(collect($category ?? [])->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $value)
                             <option value="{{ $value->id }}" {{ request()->route('category') == $value->id ? 'selected' : '' }}>
                                 {{ $value->name }}
                             </option>

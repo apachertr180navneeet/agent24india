@@ -48,11 +48,12 @@ class HomeController extends Controller
 
         $subCategories = Category::where('status', 1)
         ->whereNotNull('parent_id')
+        ->orderBy('name', 'asc')
         ->get();
 
         $districthome = District::where('status', 1)->where('is_home', 1)->orderBy('district_order', 'asc')->get();
 
-        $district = District::where('status', 1)->get();
+        $district = District::where('status', 1)->orderBy('name', 'asc')->get();
 
         $defaultDistrict = $district->where('name', 'Jaipur')->first() ?? $district->first();
         $initialCities = $defaultDistrict ? City::where('district_id', $defaultDistrict->id)->orderBy('name', 'asc')->get() : collect();
@@ -181,6 +182,7 @@ class HomeController extends Controller
 
         $subCategories = Category::where('status', 1)
         ->whereNotNull('parent_id')
+        ->orderBy('name', 'asc')
         ->get();
 
 
@@ -188,7 +190,7 @@ class HomeController extends Controller
         // Send view data
         $this->viewData['pageTitle'] = 'Vendor List';
 
-        $district = District::where('status', 1)->get();
+        $district = District::where('status', 1)->orderBy('name', 'asc')->get();
         $selectedCityId = $request->query('city');
         $isAllCitySelected = empty($selectedCityId) || strtolower((string) $selectedCityId) === 'all';
 
