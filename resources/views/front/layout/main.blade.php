@@ -18,7 +18,6 @@
         rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('public/plugins/select2/css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('front/assets/css/prototype-style.css') }}" />
-    <link rel="stylesheet" href="{{ asset('public/front/assets/css/prototype-style.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
