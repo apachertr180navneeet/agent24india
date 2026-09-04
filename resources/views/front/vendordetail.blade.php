@@ -28,6 +28,1396 @@
     $description = $vendoruser->description ?: ($bizName . ' ' . $city . ' mein ek bharosemand Real Estate Consultant hai. Hum Residential, Commercial, Rental aur Investment Properties mein visheshagyata rakhte hai. Humara uddeshya pardarshita, imandari aur grahak santushti hai.');
 @endphp
 
+<link rel="stylesheet" href="{{ asset('public/front/assets/css/prototype-style.css') }}?v={{ time() }}" />
+<link rel="stylesheet" href="{{ asset('front/assets/css/prototype-style.css') }}?v={{ time() }}" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<style id="vd-styles">
+.vd-page-wrapper {
+    background-color: #F8FAFC;
+    padding: 24px 0 60px 0;
+    min-height: 80vh;
+}
+
+.vd-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Breadcrumbs */
+.vd-breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #64748B;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.vd-breadcrumbs a {
+    color: #64748B;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.vd-breadcrumbs a:hover {
+    color: #004BEE;
+}
+
+.vd-breadcrumbs .vd-sep {
+    font-size: 10px;
+    color: #94A3B8;
+}
+
+.vd-breadcrumbs .active {
+    color: #004BEE;
+    font-weight: 700;
+}
+
+/* 2-Column Grid Layout */
+.vd-layout-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 24px;
+    align-items: start;
+}
+
+/* --- HERO PROFILE CARD --- */
+.vd-hero-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.03);
+    margin-bottom: 20px;
+}
+
+.vd-hero-inner {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+/* Logo / Photo Frame */
+.vd-logo-box {
+    width: 155px;
+    height: 155px;
+    border-radius: 14px;
+    background: #0B132B;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+    overflow: visible;
+    box-shadow: 0 4px 16px rgba(11, 19, 43, 0.15);
+}
+
+.vd-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 14px;
+}
+
+.vd-logo-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+}
+
+.vd-placeholder-icon {
+    margin-bottom: 4px;
+}
+
+.vd-placeholder-name {
+    font-size: 11px;
+    font-weight: 800;
+    color: #F59E0B;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.vd-placeholder-tag {
+    font-size: 8.5px;
+    font-weight: 700;
+    color: #94A3B8;
+    letter-spacing: 1px;
+    margin-top: 2px;
+}
+
+.vd-verified-pill {
+    position: absolute;
+    bottom: -10px;
+    background: #16A34A;
+    color: #FFFFFF;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3);
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+}
+
+/* Hero Info Right Column */
+.vd-hero-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.vd-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.vd-biz-name {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0F172A;
+    line-height: 1.25;
+    margin: 0;
+}
+
+.vd-blue-badge {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* Rating Row */
+.vd-rating-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.vd-rating-num {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: #0F172A;
+}
+
+.vd-stars-wrap {
+    color: #F59E0B;
+    font-size: 13px;
+    display: flex;
+    gap: 2px;
+}
+
+.vd-reviews-count {
+    font-size: 12.5px;
+    color: #64748B;
+    font-weight: 600;
+}
+
+/* Tags Row */
+.vd-tags-row {
+    font-size: 13px;
+    color: #64748B;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+/* Address Row */
+.vd-address-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13.5px;
+    color: #475569;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+.vd-address-text {
+    font-weight: 500;
+}
+
+.vd-view-map-link {
+    color: #004BEE;
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: 4px;
+    font-size: 13px;
+}
+
+.vd-view-map-link:hover {
+    text-decoration: underline;
+}
+
+/* 4 Metric Badges in Hero */
+.vd-metrics-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding-top: 14px;
+    border-top: 1px solid #F1F5F9;
+}
+
+.vd-metric-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+}
+
+.vd-metric-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.vd-metric-texts {
+    display: flex;
+    flex-direction: column;
+}
+
+.vd-metric-val {
+    font-size: 14px;
+    font-weight: 800;
+    color: #0F172A;
+    line-height: 1.2;
+}
+
+.vd-metric-lbl {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748B;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+/* --- TABS NAVIGATION --- */
+.vd-tabs-nav-wrap {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 0 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.vd-tabs-nav {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 28px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.vd-tabs-nav::-webkit-scrollbar {
+    display: none;
+}
+
+.vd-tab-item {
+    padding: 14px 4px;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #64748B;
+    cursor: pointer;
+    position: relative;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+.vd-tab-item:hover {
+    color: #004BEE;
+}
+
+.vd-tab-item.active {
+    color: #004BEE;
+    font-weight: 700;
+}
+
+.vd-tab-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #004BEE;
+    border-radius: 3px 3px 0 0;
+}
+
+/* TAB PANES */
+.vd-tab-pane {
+    display: none;
+}
+
+.vd-tab-pane.active {
+    display: block;
+    animation: vdFade 0.25s ease;
+}
+
+@keyframes vdFade {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* SECTION CARDS */
+.vd-section-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.03);
+    margin-bottom: 20px;
+}
+
+.vd-card-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0F172A;
+    margin-bottom: 12px;
+}
+
+.vd-about-desc {
+    font-size: 14px;
+    color: #475569;
+    line-height: 1.65;
+    margin-bottom: 18px;
+}
+
+/* 5 Feature Highlight Pills */
+.vd-feature-pills {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.vd-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 16px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #0F172A;
+    transition: all 0.2s;
+}
+
+.vd-pill:hover {
+    border-color: #BFDBFE;
+    background: #EFF6FF;
+    color: #004BEE;
+}
+
+/* Office & Team Gallery Grid */
+.vd-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+
+.vd-gallery-item {
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    background: #F1F5F9;
+    aspect-ratio: 4 / 3;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.vd-gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    display: block;
+}
+
+.vd-gallery-item:hover .vd-gallery-img {
+    transform: scale(1.05);
+}
+
+.vd-gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.8) 100%);
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 18px 10px 8px 10px;
+    text-align: center;
+    pointer-events: none;
+}
+
+/* Why Choose Us Grid */
+.vd-why-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+}
+
+.vd-why-col {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    transition: all 0.2s;
+}
+
+.vd-why-col:hover {
+    border-color: #BFDBFE;
+    background: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(0, 75, 238, 0.06);
+    transform: translateY(-2px);
+}
+
+.vd-why-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: #EFF6FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.vd-why-title {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #0F172A;
+    margin-bottom: 4px;
+}
+
+.vd-why-desc {
+    font-size: 11.5px;
+    color: #64748B;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* Royal Blue CTA Banner Strip */
+.vd-cta-banner {
+    background: linear-gradient(90deg, #0038A8 0%, #004BEE 100%);
+    border-radius: 16px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    box-shadow: 0 6px 20px rgba(0, 75, 238, 0.2);
+}
+
+.vd-cta-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.vd-cta-icon-circle {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.vd-cta-title {
+    font-size: 16.5px;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin: 0 0 3px 0;
+}
+
+.vd-cta-sub {
+    font-size: 13px;
+    font-weight: 500;
+    color: #BFDBFE;
+    margin: 0;
+}
+
+.btn-cta-enquire {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    background: #FFFFFF;
+    color: #004BEE;
+    font-size: 14px;
+    font-weight: 800;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn-cta-enquire:hover {
+    background: #F1F5F9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* --- SIDEBAR CARDS --- */
+.vd-sidebar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.vd-side-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.03);
+}
+
+.vd-side-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0 0 16px 0;
+}
+
+/* Action Buttons */
+.vd-btn-side {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.vd-btn-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.vd-btn-right {
+    font-size: 13.5px;
+    font-weight: 600;
+}
+
+.vd-btn-call {
+    background: #004BEE;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 12px rgba(0, 75, 238, 0.2);
+}
+
+.vd-btn-call:hover {
+    background: #0036B8;
+    transform: translateY(-2px);
+}
+
+.vd-btn-wa {
+    background: #16A34A;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+}
+
+.vd-btn-wa:hover {
+    background: #15803D;
+    transform: translateY(-2px);
+}
+
+.vd-btn-email {
+    background: #FFFFFF;
+    color: #0F172A !important;
+    border: 1.5px solid #E2E8F0;
+}
+
+.vd-btn-email:hover {
+    border-color: #004BEE;
+    color: #004BEE !important;
+}
+
+.vd-truncate-email {
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Green Security Trust Box */
+.vd-side-trust-box {
+    background: #F0FDF4;
+    border: 1px solid #BBF7D0;
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.vd-trust-icon-green {
+    flex-shrink: 0;
+}
+
+.vd-trust-head {
+    font-size: 13px;
+    font-weight: 800;
+    color: #15803D;
+    margin: 0 0 2px 0;
+}
+
+.vd-trust-sub {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #166534;
+    margin: 0;
+}
+
+/* Working Hours Card */
+.vd-hours-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.vd-side-subtitle {
+    font-size: 15px;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0;
+}
+
+.vd-hours-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #334155;
+    background: #F8FAFC;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #E2E8F0;
+}
+
+.vd-hours-time {
+    color: #004BEE;
+}
+
+/* Office & Map Card */
+.vd-office-split {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.vd-office-address-wrap {
+    flex: 1;
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.5;
+}
+
+.vd-office-address-wrap p {
+    margin: 0 0 2px 0;
+}
+
+.vd-office-map-link {
+    display: inline-block;
+    color: #004BEE;
+    font-weight: 700;
+    text-decoration: none;
+    margin-top: 6px;
+    font-size: 12.5px;
+}
+
+.vd-office-map-link:hover {
+    text-decoration: underline;
+}
+
+.vd-map-preview-wrap {
+    width: 120px;
+    height: 85px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #CBD5E1;
+}
+
+.vd-map-box {
+    width: 100%;
+    height: 100%;
+}
+
+/* What Our Clients Say Widget */
+.vd-side-rev-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.vd-side-all-link {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #004BEE;
+    text-decoration: none;
+}
+
+.vd-client-review-box {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.vd-cr-user-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.vd-cr-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #FEE2E2;
+    color: #DC2626;
+    font-weight: 800;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.vd-cr-meta {
+    flex: 1;
+}
+
+.vd-cr-name {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0 0 2px 0;
+}
+
+.vd-cr-rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.vd-stars-mini {
+    color: #F59E0B;
+    font-size: 10.5px;
+    display: flex;
+    gap: 1px;
+}
+
+.vd-cr-score {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #64748B;
+}
+
+.vd-cr-time {
+    font-size: 11px;
+    color: #94A3B8;
+    white-space: nowrap;
+}
+
+.vd-cr-quote {
+    font-size: 12.5px;
+    color: #334155;
+    line-height: 1.5;
+    margin: 0 0 10px 0;
+    font-style: italic;
+}
+
+.vd-cr-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.vd-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #CBD5E1;
+    cursor: pointer;
+}
+
+.vd-dot.active {
+    width: 14px;
+    border-radius: 4px;
+    background: #004BEE;
+}
+
+/* --- PROPERTIES PANE --- */
+.vd-pane-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.vd-prop-filter-badge {
+    font-size: 12px;
+    font-weight: 700;
+    background: #EFF6FF;
+    color: #004BEE;
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.vd-prop-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.vd-prop-card {
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #FFFFFF;
+    transition: all 0.25s;
+}
+
+.vd-prop-card:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    transform: translateY(-3px);
+}
+
+.vd-prop-img-wrap {
+    height: 150px;
+    position: relative;
+    overflow: hidden;
+}
+
+.vd-prop-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.vd-prop-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+}
+
+.vd-prop-tag.for-sale {
+    background: #16A34A;
+    color: #FFFFFF;
+}
+
+.vd-prop-tag.for-rent {
+    background: #004BEE;
+    color: #FFFFFF;
+}
+
+.vd-prop-price {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(4px);
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+.vd-prop-body {
+    padding: 14px;
+}
+
+.vd-prop-name {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0 0 4px 0;
+}
+
+.vd-prop-loc {
+    font-size: 12px;
+    color: #64748B;
+    margin: 0 0 10px 0;
+}
+
+.vd-prop-amenities {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11.5px;
+    color: #475569;
+    padding: 8px 0;
+    border-top: 1px solid #F1F5F9;
+    border-bottom: 1px solid #F1F5F9;
+    margin-bottom: 12px;
+}
+
+.btn-prop-enq {
+    width: 100%;
+    padding: 8px;
+    background: #EFF6FF;
+    border: 1px solid #BFDBFE;
+    color: #004BEE;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-prop-enq:hover {
+    background: #004BEE;
+    color: #FFFFFF;
+}
+
+/* --- SERVICES PANE --- */
+.vd-services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.vd-service-box {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 18px;
+    transition: all 0.2s;
+}
+
+.vd-service-box:hover {
+    border-color: #BFDBFE;
+    background: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(0, 75, 238, 0.05);
+}
+
+.vd-service-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: #EFF6FF;
+    color: #004BEE;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.vd-service-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0 0 6px 0;
+}
+
+.vd-service-desc {
+    font-size: 13px;
+    color: #64748B;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* --- REVIEWS PANE --- */
+.vd-reviews-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #F1F5F9;
+    margin-bottom: 20px;
+}
+
+.vd-reviews-sub {
+    font-size: 13px;
+    color: #64748B;
+    margin: 4px 0 0 0;
+}
+
+.vd-score-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 10px 16px;
+}
+
+.vd-score-huge {
+    font-size: 28px;
+    font-weight: 900;
+    color: #0F172A;
+    line-height: 1;
+}
+
+.vd-stars-gold {
+    color: #F59E0B;
+    font-size: 14px;
+}
+
+.vd-reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.vd-single-review {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.vd-reviewer-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.vd-avatar-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.vd-reviewer-name {
+    font-size: 14px;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0;
+}
+
+.vd-review-date {
+    font-size: 11.5px;
+    color: #94A3B8;
+}
+
+.vd-rev-stars {
+    margin-left: auto;
+    color: #F59E0B;
+    font-size: 12px;
+}
+
+.vd-rev-comment {
+    font-size: 13.5px;
+    color: #334155;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* --- ABOUT SPECS TABLE --- */
+.vd-about-specs-table {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.vd-spec-row {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.vd-spec-k {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #64748B;
+    text-transform: uppercase;
+}
+
+.vd-spec-v {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0F172A;
+}
+
+/* --- CONTACT DIRECT FORM --- */
+.vd-direct-form {
+    margin-top: 14px;
+}
+
+.vd-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.vd-form-group {
+    margin-bottom: 14px;
+}
+
+.vd-form-group label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 6px;
+}
+
+.vd-input,
+.vd-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.2s;
+    box-sizing: border-box;
+}
+
+.vd-input:focus,
+.vd-textarea:focus {
+    border-color: #004BEE;
+    box-shadow: 0 0 0 3px rgba(0, 75, 238, 0.1);
+}
+
+.btn-submit-enq {
+    padding: 12px 28px;
+    background: #004BEE;
+    color: #FFFFFF;
+    font-size: 14.5px;
+    font-weight: 800;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-submit-enq:hover {
+    background: #0036B8;
+}
+
+/* --- QUICK INQUIRY MODAL --- */
+.vd-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    padding: 16px;
+}
+
+.vd-modal-card {
+    background: #FFFFFF;
+    border-radius: 16px;
+    width: 480px;
+    max-width: 100%;
+    padding: 28px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    animation: vdPop 0.25s ease;
+}
+
+@keyframes vdPop {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.vd-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-size: 26px;
+    border: none;
+    background: transparent;
+    color: #64748B;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.vd-modal-close:hover {
+    color: #0F172A;
+}
+
+.vd-modal-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0 0 4px 0;
+}
+
+.vd-modal-sub {
+    font-size: 12.5px;
+    color: #64748B;
+    margin: 0 0 16px 0;
+}
+
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES (VENDOR DETAIL)
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+    .vd-why-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .vd-gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 991px) {
+    .vd-layout-grid {
+        grid-template-columns: 1fr;
+    }
+    .vd-sidebar-content {
+        margin-top: 10px;
+    }
+    .vd-metrics-strip {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .vd-prop-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .vd-hero-inner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .vd-title-row {
+        justify-content: center;
+    }
+    .vd-rating-row {
+        justify-content: center;
+    }
+    .vd-address-row {
+        justify-content: center;
+    }
+    .vd-metrics-strip {
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+    }
+    .vd-why-grid {
+        grid-template-columns: 1fr;
+    }
+    .vd-cta-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 16px;
+    }
+    .vd-cta-left {
+        flex-direction: column;
+    }
+    .vd-gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .vd-prop-grid {
+        grid-template-columns: 1fr;
+    }
+    .vd-services-grid {
+        grid-template-columns: 1fr;
+    }
+    .vd-about-specs-table {
+        grid-template-columns: 1fr;
+    }
+    .vd-form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .vd-hero-card {
+        padding: 20px 14px;
+    }
+    .vd-section-card {
+        padding: 18px 14px;
+    }
+    .vd-biz-name {
+        font-size: 20px;
+    }
+    .vd-metrics-strip {
+        grid-template-columns: 1fr;
+    }
+    .vd-feature-pills {
+        gap: 6px;
+    }
+    .vd-pill {
+        width: 100%;
+        justify-content: center;
+    }
+    .vd-gallery-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+
+
+
+
+
+</style>
+
+
 <div class="vd-page-wrapper">
     <div class="vd-container">
 
@@ -263,19 +1653,19 @@
                             <h2 class="vd-card-title">Our Office & Team</h2>
                             <div class="vd-gallery-grid">
                                 <div class="vd-gallery-item">
-                                    <img src="{{ asset('public/front/assets/images/office_reception.jpg') }}" alt="Office Reception" class="vd-gallery-img">
+                                    <img src="{{ asset('public/front/assets/images/office_reception.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/office_reception.jpg') }}';" alt="Office Reception" class="vd-gallery-img">
                                     <div class="vd-gallery-caption">Office Reception</div>
                                 </div>
                                 <div class="vd-gallery-item">
-                                    <img src="{{ asset('public/front/assets/images/office_conference.jpg') }}" alt="Conference Meeting Room" class="vd-gallery-img">
+                                    <img src="{{ asset('public/front/assets/images/office_conference.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/office_conference.jpg') }}';" alt="Conference Meeting Room" class="vd-gallery-img">
                                     <div class="vd-gallery-caption">Conference Room</div>
                                 </div>
                                 <div class="vd-gallery-item">
-                                    <img src="{{ asset('public/front/assets/images/office_team.jpg') }}" alt="Real Estate Agent Team" class="vd-gallery-img">
+                                    <img src="{{ asset('public/front/assets/images/office_team.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/office_team.jpg') }}';" alt="Real Estate Agent Team" class="vd-gallery-img">
                                     <div class="vd-gallery-caption">Professional Team</div>
                                 </div>
                                 <div class="vd-gallery-item">
-                                    <img src="{{ asset('public/front/assets/images/office_building.jpg') }}" alt="Commercial Office Building" class="vd-gallery-img">
+                                    <img src="{{ asset('public/front/assets/images/office_building.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/office_building.jpg') }}';" alt="Commercial Office Building" class="vd-gallery-img">
                                     <div class="vd-gallery-caption">Office Building</div>
                                 </div>
                             </div>
@@ -400,7 +1790,7 @@
                             <div class="vd-prop-grid">
                                 <div class="vd-prop-card">
                                     <div class="vd-prop-img-wrap">
-                                        <img src="{{ asset('public/front/assets/images/district_jaipur.jpg') }}" alt="Luxury Flat">
+                                        <img src="{{ asset('public/front/assets/images/district_jaipur.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/district_jaipur.jpg') }}';" alt="Luxury Flat">
                                         <span class="vd-prop-tag for-sale">For Sale</span>
                                         <span class="vd-prop-price">₹ 75 Lakh</span>
                                     </div>
@@ -418,7 +1808,7 @@
 
                                 <div class="vd-prop-card">
                                     <div class="vd-prop-img-wrap">
-                                        <img src="{{ asset('public/front/assets/images/office_building.jpg') }}" alt="Commercial Space">
+                                        <img src="{{ asset('public/front/assets/images/office_building.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/office_building.jpg') }}';" alt="Commercial Space">
                                         <span class="vd-prop-tag for-rent">For Rent</span>
                                         <span class="vd-prop-price">₹ 45,000 / mo</span>
                                     </div>
@@ -436,7 +1826,7 @@
 
                                 <div class="vd-prop-card">
                                     <div class="vd-prop-img-wrap">
-                                        <img src="{{ asset('public/front/assets/images/office_reception.jpg') }}" alt="Villa">
+                                        <img src="{{ asset('public/front/assets/images/office_reception.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/office_reception.jpg') }}';" alt="Villa">
                                         <span class="vd-prop-tag for-sale">For Sale</span>
                                         <span class="vd-prop-price">₹ 1.45 Cr</span>
                                     </div>
