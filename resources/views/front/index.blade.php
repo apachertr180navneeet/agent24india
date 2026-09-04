@@ -1111,7 +1111,7 @@
                             </svg>
                         </a>
                     @else
-                        <a href="javascript:void(0)" class="btn-register-yellow open-signin" onclick="$('.tab[data-tab=signup]').trigger('click');">
+                        <a href="{{ route('front.register') }}" class="btn-register-yellow">
                             <span>Abhi Register Kare</span>
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">

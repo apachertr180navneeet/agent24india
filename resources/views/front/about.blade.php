@@ -198,7 +198,7 @@
                         </svg>
                     </a>
                 @else
-                    <a href="javascript:void(0)" class="btn-yellow-cta open-signin" onclick="$('.tab[data-tab=signup]').trigger('click');">
+                    <a href="{{ route('front.register') }}" class="btn-yellow-cta">
                         <span>Register Now</span>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
