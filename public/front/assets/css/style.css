@@ -2153,23 +2153,120 @@ body {
 
 @media (max-width: 768px) {
     .agent-cta-card {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         text-align: center;
+        padding: 24px 18px !important;
+        gap: 18px !important;
+        border-radius: 16px !important;
     }
     .cta-graphic-col {
         justify-content: center;
+        width: 100%;
+        display: flex;
+    }
+    .laptop-illustration-wrapper {
+        justify-content: center;
+        max-width: 100%;
+    }
+    .laptop-device {
+        width: 170px !important;
+        max-width: 100%;
+    }
+    .plant-left svg,
+    .plant-right svg {
+        width: 32px;
+        height: 48px;
     }
     .cta-content-col {
         align-items: center;
+        text-align: center;
+        width: 100%;
+    }
+    .cta-main-title {
+        font-size: 20px !important;
+        line-height: 1.3 !important;
+        text-align: center !important;
+        margin-bottom: 8px !important;
+    }
+    .cta-subtitle {
+        font-size: 13.5px !important;
+        line-height: 1.45 !important;
+        text-align: center !important;
+        margin-bottom: 18px !important;
+        max-width: 360px;
+    }
+    .btn-register-yellow {
+        font-size: 14.5px;
+        padding: 10px 24px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .cta-features-col {
+        grid-column: 1 / -1 !important;
+        justify-content: center !important;
+        width: 100%;
+        border-top: 1px solid #BFDBFE;
+        padding-top: 16px;
     }
     .cta-feature-list {
-        grid-template-columns: 1fr;
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+        width: fit-content;
+        max-width: 100%;
+        margin: 0 auto;
+        text-align: left;
+    }
+    .cta-feature-item {
+        font-size: 13.5px !important;
+        justify-content: flex-start;
     }
     .testimonials-title {
         font-size: 20px;
     }
     .header-arrow-line {
         display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .agent-cta-card {
+        padding: 20px 14px !important;
+        gap: 16px !important;
+        border-radius: 14px !important;
+    }
+    .laptop-device {
+        width: 140px !important;
+    }
+    .plant-left svg,
+    .plant-right svg {
+        width: 26px;
+        height: 40px;
+    }
+    .plant-left {
+        margin-right: -6px;
+    }
+    .plant-right {
+        margin-left: -6px;
+    }
+    .cta-main-title {
+        font-size: 18px !important;
+    }
+    .cta-subtitle {
+        font-size: 12.5px !important;
+        margin-bottom: 14px !important;
+    }
+    .btn-register-yellow {
+        width: 100%;
+        max-width: 240px;
+        font-size: 13.5px;
+        padding: 10px 16px;
+        justify-content: center;
+    }
+    .cta-feature-item {
+        font-size: 12.5px !important;
     }
 }
 
