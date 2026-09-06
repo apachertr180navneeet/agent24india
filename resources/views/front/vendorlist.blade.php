@@ -911,22 +911,20 @@
     .vl-visiting-title {
         font-size: 14px;
         font-weight: 800;
-        color: #0F172A;
+        color: #16A34A;
         text-transform: uppercase;
         letter-spacing: 0.4px;
         margin: 0;
     }
 
     .vl-visiting-slots {
-        font-size: 11.5px;
+        font-size: 12.5px;
         font-weight: 600;
         color: var(--slate-muted);
     }
 
     .vl-vc-slider-controls {
-        display: flex;
-        align-items: center;
-        gap: 6px;
+        display: none;
     }
 
     .vl-vc-nav-btn {
@@ -1789,7 +1787,7 @@
             box-shadow: none !important;
         }
 
-        /* Right Column / Area Agent Visiting Card Slider on Mobile */
+        /* Right Column / Area Agent Visiting Card Slider on Mobile (2 Cards per view) */
         .vl-right-col,
         .vl-visiting-sidebar {
             width: 100% !important;
@@ -1799,20 +1797,30 @@
             margin-top: 18px !important;
         }
         .vl-visiting-card-container {
-            border-radius: 16px !important;
-            padding: 16px 14px !important;
+            border-radius: 18px !important;
+            padding: 16px 14px 14px 14px !important;
             background: #FFFFFF !important;
             border: 1.5px solid #E5E7EB !important;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03) !important;
         }
+        .vl-visiting-title {
+            color: #16A34A !important;
+            font-size: 13.5px !important;
+            font-weight: 800 !important;
+        }
+        .vl-visiting-slots {
+            font-size: 12px !important;
+            color: #64748B !important;
+            font-weight: 500 !important;
+        }
         .vl-vc-slider-wrapper {
-            overflow: visible !important;
+            overflow: hidden !important;
             width: 100% !important;
         }
         .vl-vc-list {
             display: flex !important;
             flex-direction: row !important;
-            gap: 12px !important;
+            gap: 10px !important;
             max-height: none !important;
             overflow-x: auto !important;
             overflow-y: hidden !important;
@@ -1820,18 +1828,108 @@
             scroll-behavior: smooth !important;
             -webkit-overflow-scrolling: touch !important;
             scrollbar-width: none !important;
-            padding: 4px 2px 8px 2px !important;
+            padding: 2px 1px 4px 1px !important;
         }
         .vl-vc-list::-webkit-scrollbar {
             display: none !important;
         }
         .vl-vc-item {
-            width: 265px !important;
-            min-width: 265px !important;
-            max-width: 265px !important;
+            width: calc(50% - 5px) !important;
+            min-width: 145px !important;
+            max-width: 185px !important;
+            flex: 0 0 calc(50% - 5px) !important;
             scroll-snap-align: start !important;
+            padding: 10px 8px !important;
+            border-radius: 14px !important;
+            gap: 8px !important;
+            background: #FFFFFF !important;
+            border: 1px solid #E2E8F0 !important;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02) !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+        .vl-vc-ribbon {
+            border-width: 0 28px 28px 0 !important;
+        }
+        .vl-vc-logo {
+            width: 44px !important;
+            height: 44px !important;
+            min-width: 44px !important;
+            border-radius: 8px !important;
+            font-size: 11px !important;
+            font-weight: 800 !important;
+        }
+        .vl-vc-info {
+            flex: 1 !important;
+            min-width: 0 !important;
+        }
+        .vl-vc-name {
+            font-size: 12px !important;
+            font-weight: 800 !important;
+            color: #0F172A !important;
+            margin-bottom: 2px !important;
+            line-height: 1.2 !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+        }
+        .vl-vc-role {
+            font-size: 10px !important;
+            color: #64748B !important;
+            margin-bottom: 3px !important;
+            line-height: 1.15 !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+        }
+        .vl-vc-meta {
+            font-size: 10px !important;
+            font-weight: 700 !important;
+            color: #0F172A !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 3px !important;
+            margin-bottom: 2px !important;
+            line-height: 1.1 !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+        }
+        .vl-vc-meta svg {
+            color: #DB2777 !important;
+            stroke: #DB2777 !important;
+            width: 10px !important;
+            height: 10px !important;
             flex-shrink: 0 !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+        }
+        .vl-vc-location {
+            font-size: 9.5px !important;
+            color: #64748B !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 3px !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            line-height: 1.1 !important;
+        }
+        .vl-vc-location svg {
+            color: #DB2777 !important;
+            stroke: #DB2777 !important;
+            width: 10px !important;
+            height: 10px !important;
+            flex-shrink: 0 !important;
+        }
+        .vl-vc-view-all {
+            font-size: 14.5px !important;
+            font-weight: 800 !important;
+            color: #004BEE !important;
+            text-align: center !important;
+            justify-content: center !important;
+            margin-top: 14px !important;
+            padding-top: 10px !important;
+            border-top: 1px solid #F1F5F9 !important;
+            text-decoration: none !important;
         }
 
         /* Pagination */
@@ -2394,20 +2492,8 @@
                     
                     <div class="vl-visiting-header">
                         <div class="vl-visiting-title-wrap">
-                            <h4 class="vl-visiting-title">AREA AGENT</h4>
+                            <h4 class="vl-visiting-title">VISITING CARD AD SPACE</h4>
                             <span class="vl-visiting-slots">10 Slots Available</span>
-                        </div>
-                        <div class="vl-vc-slider-controls">
-                            <button type="button" class="vl-vc-nav-btn prev" id="vcPrevBtn" aria-label="Previous Area Agent">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="15 18 9 12 15 6"></polyline>
-                                </svg>
-                            </button>
-                            <button type="button" class="vl-vc-nav-btn next" id="vcNextBtn" aria-label="Next Area Agent">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="9 18 15 12 9 6"></polyline>
-                                </svg>
-                            </button>
                         </div>
                     </div>
 
@@ -2442,17 +2528,17 @@
                                         <div class="vl-vc-name" title="{{ $vcName }}">{{ $vcName }}</div>
                                         <div class="vl-vc-role">{{ $vc->designation ?? 'Real Estate Consultant' }}</div>
                                         <div class="vl-vc-meta">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#DB2777" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                                             </svg>
                                             <span>{{ $vcMobile }}</span>
                                         </div>
                                         <div class="vl-vc-location">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#DB2777" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                                                 <circle cx="12" cy="10" r="3"></circle>
                                             </svg>
-                                            <span>{{ Str::limit($vcAddress, 24) }}</span>
+                                            <span>{{ Str::limit($vcAddress, 18) }}</span>
                                         </div>
                                     </div>
                                 </a>
@@ -2461,11 +2547,7 @@
                     </div>
 
                     <a href="{{ route('front.addbanner') }}" class="vl-vc-view-all">
-                        <span>View All</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
+                        <span>और देखें सभी →</span>
                     </a>
 
                 </div>
@@ -2720,53 +2802,56 @@
             $('#btnResetFilters').trigger('click');
         });
 
-        // 13. Area Agent Visiting Card Slider Control & Auto-slide
+        // 13. Visiting Card Slider Control & Auto-slide (2 Cards per Slide)
         var vcTrack = document.getElementById('vcSliderTrack');
         if (vcTrack) {
-            $('#vcNextBtn').on('click', function () {
+            function slideNextVc() {
                 var isMobile = window.innerWidth <= 768;
                 if (isMobile) {
-                    var scrollAmount = 277; // card width + gap
+                    var scrollStep = vcTrack.clientWidth * 0.95;
                     var maxScroll = vcTrack.scrollWidth - vcTrack.clientWidth;
-                    if (vcTrack.scrollLeft + scrollAmount >= maxScroll - 10) {
+                    if (vcTrack.scrollLeft + scrollStep >= maxScroll - 15) {
                         vcTrack.scrollTo({ left: 0, behavior: 'smooth' });
                     } else {
-                        vcTrack.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                        vcTrack.scrollBy({ left: scrollStep, behavior: 'smooth' });
                     }
                 } else {
-                    var scrollAmount = 140;
+                    var scrollStep = 150;
                     var maxScroll = vcTrack.scrollHeight - vcTrack.clientHeight;
-                    if (vcTrack.scrollTop + scrollAmount >= maxScroll - 10) {
+                    if (vcTrack.scrollTop + scrollStep >= maxScroll - 15) {
                         vcTrack.scrollTo({ top: 0, behavior: 'smooth' });
                     } else {
-                        vcTrack.scrollBy({ top: scrollAmount, behavior: 'smooth' });
+                        vcTrack.scrollBy({ top: scrollStep, behavior: 'smooth' });
                     }
                 }
-            });
+            }
 
-            $('#vcPrevBtn').on('click', function () {
+            function slidePrevVc() {
                 var isMobile = window.innerWidth <= 768;
                 if (isMobile) {
-                    var scrollAmount = 277;
-                    if (vcTrack.scrollLeft <= 10) {
+                    var scrollStep = vcTrack.clientWidth * 0.95;
+                    if (vcTrack.scrollLeft <= 15) {
                         vcTrack.scrollTo({ left: vcTrack.scrollWidth, behavior: 'smooth' });
                     } else {
-                        vcTrack.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                        vcTrack.scrollBy({ left: -scrollStep, behavior: 'smooth' });
                     }
                 } else {
-                    var scrollAmount = 140;
-                    if (vcTrack.scrollTop <= 10) {
+                    var scrollStep = 150;
+                    if (vcTrack.scrollTop <= 15) {
                         vcTrack.scrollTo({ top: vcTrack.scrollHeight, behavior: 'smooth' });
                     } else {
-                        vcTrack.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
+                        vcTrack.scrollBy({ top: -scrollStep, behavior: 'smooth' });
                     }
                 }
-            });
+            }
+
+            $('#vcNextBtn').on('click', slideNextVc);
+            $('#vcPrevBtn').on('click', slidePrevVc);
 
             // Auto-advance visiting cards slider periodically
             var vcAutoSlide = setInterval(function () {
                 if (!$(vcTrack).is(':hover')) {
-                    $('#vcNextBtn').trigger('click');
+                    slideNextVc();
                 }
             }, 3500);
 
