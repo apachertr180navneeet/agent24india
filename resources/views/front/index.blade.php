@@ -38,16 +38,40 @@
     }
 
     /* Mobile How It Works Styles matching Screenshot */
+    .m-how-it-works-section {
+        padding: 24px 16px 14px 16px;
+    }
+    .m-how-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        margin-bottom: 18px;
+    }
+    .m-how-title {
+        font-size: 20px;
+        font-weight: 800;
+        color: #0F172A;
+        margin: 0;
+        text-align: center;
+        white-space: nowrap;
+    }
+    .m-how-header .m-line {
+        height: 1.5px;
+        background: #CBD5E1;
+        flex: 1;
+        max-width: 55px;
+    }
     .m-steps-flow {
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
         gap: 2px;
         background-color: #FFFFFF;
-        border: 1.5px solid #E2E8F0;
-        border-radius: 16px;
-        padding: 16px 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        border: 1px solid #E2E8F0;
+        border-radius: 20px;
+        padding: 22px 8px 18px 8px;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
     }
     .m-step-item {
         display: flex;
@@ -55,6 +79,7 @@
         align-items: center;
         text-align: center;
         flex: 1;
+        min-width: 0;
     }
     .m-step-badge {
         width: 20px;
@@ -68,27 +93,27 @@
         justify-content: center;
         margin-bottom: 6px;
     }
-    .m-step-badge.step-1 { background-color: #004BEE; }
+    .m-step-badge.step-1 { background-color: #2563EB; }
     .m-step-badge.step-2 { background-color: #F97316; }
     .m-step-badge.step-3 { background-color: #16A34A; }
     .m-step-badge.step-4 { background-color: #9333EA; }
 
     .m-step-icon-box {
-        width: 44px;
-        height: 44px;
+        width: 48px;
+        height: 48px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         margin-bottom: 8px;
     }
-    .bg-blue-light   { background-color: #EFF6FF; }
-    .bg-orange-light { background-color: #FFF7ED; }
-    .bg-green-light  { background-color: #F0FDF4; }
-    .bg-purple-light { background-color: #FAF5FF; }
+    .bg-blue-light   { background-color: #EEF5FF; }
+    .bg-orange-light { background-color: #FFF4EB; }
+    .bg-green-light  { background-color: #EAF8EE; }
+    .bg-purple-light { background-color: #F7EEFF; }
 
     .m-step-text {
-        font-size: 10.5px;
+        font-size: 11px;
         font-weight: 700;
         color: #0F172A;
         line-height: 1.25;
@@ -96,28 +121,33 @@
     }
     .m-step-arrow {
         color: #94A3B8;
-        font-size: 13px;
-        margin-top: 32px;
+        font-size: 12px;
+        margin-top: 38px;
         font-weight: 700;
+        flex-shrink: 0;
+        padding: 0 1px;
     }
 
     /* Mobile Top Verified Agents Slider Styles */
+    .m-top-agents-section {
+        padding: 16px 16px 20px 16px;
+    }
     .m-top-agents-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 14px;
+        margin-bottom: 16px;
     }
     .m-top-agents-title {
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 800;
         color: #0F172A;
         margin: 0;
     }
     .m-top-agents-link {
-        font-size: 13.5px;
+        font-size: 14.5px;
         font-weight: 700;
-        color: #004BEE;
+        color: #2563EB;
         text-decoration: none;
     }
     .m-agent-carousel-wrapper {
@@ -129,9 +159,9 @@
     }
     .m-carousel-arrow {
         background-color: #FFFFFF;
-        border: 1.5px solid #CBD5E1;
-        width: 32px;
-        height: 32px;
+        border: 1px solid #CBD5E1;
+        width: 34px;
+        height: 34px;
         border-radius: 50%;
         color: #475569;
         display: flex;
@@ -139,7 +169,7 @@
         justify-content: center;
         cursor: pointer;
         flex-shrink: 0;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         transition: all 0.2s ease;
         padding: 0;
         z-index: 5;
@@ -166,14 +196,16 @@
     .m-agent-slide-card {
         flex: 0 0 100%;
         min-width: 100%;
+        max-width: 100%;
         scroll-snap-align: center;
         background-color: #FFFFFF;
-        border: 1.5px solid #E2E8F0;
-        border-radius: 16px;
+        border: 1px solid #E2E8F0;
+        border-radius: 20px;
         padding: 16px 14px 14px 14px;
         position: relative;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
         box-sizing: border-box;
+        overflow: hidden;
     }
     .m-verified-pill {
         position: absolute;
@@ -183,26 +215,27 @@
         color: #FFFFFF;
         font-size: 8.5px;
         font-weight: 800;
-        padding: 3px 8px;
-        border-top-left-radius: 14px;
+        padding: 4px 10px;
+        border-top-left-radius: 18px;
         border-bottom-right-radius: 8px;
         line-height: 1.2;
-        letter-spacing: 0.3px;
+        letter-spacing: 0.4px;
         z-index: 2;
     }
     .m-agent-card-body {
         display: flex;
-        gap: 12px;
+        gap: 14px;
         align-items: center;
-        margin-top: 4px;
+        margin-top: 8px;
     }
     .m-agent-avatar-wrap {
-        width: 62px;
-        height: 62px;
+        width: 70px;
+        height: 70px;
         border-radius: 50%;
         overflow: hidden;
         flex-shrink: 0;
-        border: 2px solid #E2E8F0;
+        border: 2px solid #F1F5F9;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
     }
     .m-agent-avatar-img {
         width: 100%;
@@ -215,37 +248,51 @@
         min-width: 0;
     }
     .m-agent-card-name {
-        font-size: 15px;
+        font-size: 16px;
         font-weight: 800;
         color: #0F172A;
         margin: 0 0 2px 0;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        line-height: 1.25;
     }
     .m-agent-card-type {
         display: block;
-        font-size: 11.5px;
-        color: #475569;
+        font-size: 12.5px;
+        font-weight: 500;
+        color: #64748B;
         margin-bottom: 2px;
+        line-height: 1.2;
     }
     .m-agent-card-loc {
         display: block;
-        font-size: 11.5px;
+        font-size: 12.5px;
+        font-weight: 500;
         color: #64748B;
         margin-bottom: 4px;
+        line-height: 1.2;
     }
     .m-agent-card-stars {
-        font-size: 11.5px;
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        font-size: 12.5px;
+    }
+    .stars-gold {
         color: #F59E0B;
+        letter-spacing: 1px;
     }
     .m-star-score {
         font-weight: 800;
+        font-size: 13px;
         color: #0F172A;
-        margin-left: 2px;
+        margin-left: 3px;
     }
     .m-star-count {
         color: #64748B;
+        font-size: 12px;
+        margin-left: 2px;
     }
     .m-agent-card-actions {
         display: grid;
@@ -259,24 +306,115 @@
         border: 1.5px solid #CBD5E1;
         background-color: #FFFFFF;
         color: #0F172A;
-        font-size: 13px;
+        font-size: 13.5px;
         font-weight: 700;
         border-radius: 8px;
-        padding: 8px 0;
+        padding: 9px 0;
         text-align: center;
         text-decoration: none;
         display: block;
     }
     .m-btn-call-now {
-        background-color: #004BEE;
+        background-color: #2563EB;
         color: #FFFFFF;
-        font-size: 13px;
+        font-size: 13.5px;
         font-weight: 700;
         border-radius: 8px;
-        padding: 8px 0;
+        padding: 9px 0;
         text-align: center;
         text-decoration: none;
         display: block;
+        box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
+    }
+
+    /* Mobile District Cards Grid Section matching screenshot */
+    .m-district-section {
+        padding: 20px 16px 24px 16px;
+    }
+    .m-district-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+    }
+    .m-district-title {
+        font-size: 18.5px;
+        font-weight: 800;
+        color: #0F172A;
+        margin: 0;
+        line-height: 1.25;
+    }
+    .m-district-link {
+        font-size: 14px;
+        font-weight: 700;
+        color: #2563EB;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+    .m-district-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px 12px;
+    }
+    .m-district-card {
+        background-color: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 16px;
+        overflow: hidden;
+        text-decoration: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .m-district-card:active {
+        transform: scale(0.97);
+    }
+    .m-district-img {
+        width: 100%;
+        height: 110px;
+        object-fit: cover;
+        display: block;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+    .m-district-info {
+        padding: 10px 12px 14px 12px;
+        display: flex;
+        flex-direction: column;
+    }
+    .m-district-name {
+        font-size: 15.5px;
+        font-weight: 800;
+        color: #0F172A;
+        margin: 0 0 4px 0;
+        line-height: 1.2;
+    }
+    .m-district-agents {
+        font-size: 13px;
+        font-weight: 700;
+        color: #2563EB;
+        line-height: 1.2;
+    }
+    .m-district-btn-wrap {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .m-btn-see-all-districts {
+        display: inline-block;
+        border: 1.5px solid #DBEAFE;
+        background-color: #FFFFFF;
+        color: #2563EB;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 9px 24px;
+        border-radius: 10px;
+        text-decoration: none;
+        box-shadow: 0 2px 6px rgba(37, 99, 235, 0.05);
+        transition: all 0.2s ease;
+    }
+    .m-btn-see-all-districts:active {
+        background-color: #EFF6FF;
     }
 </style>
 @endpush
@@ -477,62 +615,86 @@
             <a href="{{ route('front.vendorlist') }}" class="m-pop-cat-link">सभी देखें &rarr;</a>
         </div>
         <div class="m-pop-cat-grid">
-            <!-- Card 1 -->
-            <a href="{{ route('front.vendorlist') }}?search=Real+Estate" class="m-cat-card">
-                <div class="m-cat-icon-container bg-orange">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                </div>
-                <span class="m-cat-label">Real Estate<br>Agent</span>
-            </a>
-            <!-- Card 2 -->
-            <a href="{{ route('front.vendorlist') }}?search=Automobile" class="m-cat-card">
-                <div class="m-cat-icon-container bg-blue">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><circle cx="17" cy="17" r="2"></circle></svg>
-                </div>
-                <span class="m-cat-label">Automobile<br>Agent</span>
-            </a>
-            <!-- Card 3 -->
-            <a href="{{ route('front.vendorlist') }}?search=RTO" class="m-cat-card">
-                <div class="m-cat-icon-container bg-green">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-                </div>
-                <span class="m-cat-label">RTO<br>Agent</span>
-            </a>
-            <!-- Card 4 -->
-            <a href="{{ route('front.vendorlist') }}?search=Insurance" class="m-cat-card">
-                <div class="m-cat-icon-container bg-purple">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9333EA" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
-                </div>
-                <span class="m-cat-label">Insurance<br>Agent</span>
-            </a>
-            <!-- Card 5 -->
-            <a href="{{ route('front.vendorlist') }}?search=Finance" class="m-cat-card">
-                <div class="m-cat-icon-container bg-rupee">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v12M8 9h8M8 15h6"></path></svg>
-                </div>
-                <span class="m-cat-label">Finance<br>Agent</span>
-            </a>
-            <!-- Card 6 -->
-            <a href="{{ route('front.vendorlist') }}?search=Legal" class="m-cat-card">
-                <div class="m-cat-icon-container bg-scale">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M12 3v18M3 7l9-4 9 4M5 7v4a4 4 0 0 0 4 4h0a4 4 0 0 0 4-4V7M15 7v4a4 4 0 0 0 4 4h0a4 4 0 0 0 4-4V7"></path></svg>
-                </div>
-                <span class="m-cat-label">Legal<br>Agent</span>
-            </a>
-            <!-- Card 7 -->
-            <a href="{{ route('front.vendorlist') }}?search=Transport" class="m-cat-card">
-                <div class="m-cat-icon-container bg-truck">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-                </div>
-                <span class="m-cat-label">Transport<br>Agent</span>
-            </a>
-            <!-- Card 8 -->
-            <a href="{{ route('front.vendorlist') }}" class="m-cat-card">
-                <div class="m-cat-icon-container bg-dots">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="5" cy="12" r="2"></circle></svg>
-                </div>
-                <span class="m-cat-label">और भी<br>बहुत कुछ</span>
-            </a>
+            @if(isset($category) && $category->count() > 0)
+                @php
+                    $mCatColors = ['bg-orange', 'bg-blue', 'bg-green', 'bg-purple', 'bg-rupee', 'bg-scale', 'bg-truck'];
+                @endphp
+                @foreach($category->take(7) as $index => $cat)
+                    <a href="{{ route('front.vendorlist') }}?category={{ $cat->id }}" class="m-cat-card">
+                        <div class="m-cat-icon-container {{ $mCatColors[$index % count($mCatColors)] }}">
+                            @if(!empty($cat->image) && !str_contains($cat->image, 'images.png'))
+                                <img src="{{ $cat->image }}" alt="{{ $cat->name }}" style="width: 26px; height: 26px; object-fit: contain; border-radius: 4px;">
+                            @else
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                            @endif
+                        </div>
+                        <span class="m-cat-label">{{ $cat->name }}</span>
+                    </a>
+                @endforeach
+                <a href="{{ route('front.vendorlist') }}" class="m-cat-card">
+                    <div class="m-cat-icon-container bg-dots">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="5" cy="12" r="2"></circle></svg>
+                    </div>
+                    <span class="m-cat-label">और भी<br>बहुत कुछ</span>
+                </a>
+            @else
+                <!-- Card 1 -->
+                <a href="{{ route('front.vendorlist') }}?search=Real+Estate" class="m-cat-card">
+                    <div class="m-cat-icon-container bg-orange">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    </div>
+                    <span class="m-cat-label">Real Estate<br>Agent</span>
+                </a>
+                <!-- Card 2 -->
+                <a href="{{ route('front.vendorlist') }}?search=Automobile" class="m-cat-card">
+                    <div class="m-cat-icon-container bg-blue">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><circle cx="17" cy="17" r="2"></circle></svg>
+                    </div>
+                    <span class="m-cat-label">Automobile<br>Agent</span>
+                </a>
+                <!-- Card 3 -->
+                <a href="{{ route('front.vendorlist') }}?search=RTO" class="m-cat-card">
+                    <div class="m-cat-icon-container bg-green">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                    </div>
+                    <span class="m-cat-label">RTO<br>Agent</span>
+                </a>
+                <!-- Card 4 -->
+                <a href="{{ route('front.vendorlist') }}?search=Insurance" class="m-cat-card">
+                    <div class="m-cat-icon-container bg-purple">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9333EA" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
+                    </div>
+                    <span class="m-cat-label">Insurance<br>Agent</span>
+                </a>
+                <!-- Card 5 -->
+                <a href="{{ route('front.vendorlist') }}?search=Finance" class="m-cat-card">
+                    <div class="m-cat-icon-container bg-rupee">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v12M8 9h8M8 15h6"></path></svg>
+                    </div>
+                    <span class="m-cat-label">Finance<br>Agent</span>
+                </a>
+                <!-- Card 6 -->
+                <a href="{{ route('front.vendorlist') }}?search=Legal" class="m-cat-card">
+                    <div class="m-cat-icon-container bg-scale">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M12 3v18M3 7l9-4 9 4M5 7v4a4 4 0 0 0 4 4h0a4 4 0 0 0 4-4V7M15 7v4a4 4 0 0 0 4 4h0a4 4 0 0 0 4-4V7"></path></svg>
+                    </div>
+                    <span class="m-cat-label">Legal<br>Agent</span>
+                </a>
+                <!-- Card 7 -->
+                <a href="{{ route('front.vendorlist') }}?search=Transport" class="m-cat-card">
+                    <div class="m-cat-icon-container bg-truck">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                    </div>
+                    <span class="m-cat-label">Transport<br>Agent</span>
+                </a>
+                <!-- Card 8 -->
+                <a href="{{ route('front.vendorlist') }}" class="m-cat-card">
+                    <div class="m-cat-icon-container bg-dots">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="5" cy="12" r="2"></circle></svg>
+                    </div>
+                    <span class="m-cat-label">और भी<br>बहुत कुछ</span>
+                </a>
+            @endif
         </div>
     </section>
 
@@ -610,9 +772,9 @@
             <div class="m-step-item">
                 <span class="m-step-badge step-1">1</span>
                 <div class="m-step-icon-box bg-blue-light">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                 </div>
-                <span class="m-step-text">अपनी जरूरत बताएं</span>
+                <span class="m-step-text">अपनी<br>जरूरत बताएं</span>
             </div>
 
             <span class="m-step-arrow">&rarr;</span>
@@ -620,9 +782,9 @@
             <div class="m-step-item">
                 <span class="m-step-badge step-2">2</span>
                 <div class="m-step-icon-box bg-orange-light">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2.5"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="9" cy="10" r="2.5"></circle><path d="M15 8h2M15 12h2M7 16h10"></path></svg>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"></rect><line x1="8" y1="8" x2="16" y2="8"></line><line x1="8" y1="12" x2="16" y2="12"></line><line x1="8" y1="16" x2="12" y2="16"></line></svg>
                 </div>
-                <span class="m-step-text">Best Agents देखें</span>
+                <span class="m-step-text">Best<br>Agents देखें</span>
             </div>
 
             <span class="m-step-arrow">&rarr;</span>
@@ -630,9 +792,9 @@
             <div class="m-step-item">
                 <span class="m-step-badge step-3">3</span>
                 <div class="m-step-icon-box bg-green-light">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                 </div>
-                <span class="m-step-text">सीधा संपर्क करें</span>
+                <span class="m-step-text">सीधा संपर्क<br>करें</span>
             </div>
 
             <span class="m-step-arrow">&rarr;</span>
@@ -640,7 +802,7 @@
             <div class="m-step-item">
                 <span class="m-step-badge step-4">4</span>
                 <div class="m-step-icon-box bg-purple-light">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9333EA" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9333EA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                 </div>
                 <span class="m-step-text">काम शुरू करें</span>
             </div>
@@ -663,30 +825,30 @@
                 @if(isset($vendoruser) && count($vendoruser) > 0)
                     @foreach($vendoruser as $vendor)
                         <div class="m-agent-slide-card">
-                            <span class="m-verified-pill">&#10004; VERIFIED</span>
+                            <span class="m-verified-pill">VERIFIED</span>
                             <div class="m-agent-card-body">
                                 <div class="m-agent-avatar-wrap">
-                                    <img src="{{ !empty($vendor->profile_image) ? asset($vendor->profile_image) : asset('front/assets/images/agent_sharma.jpg') }}" alt="{{ $vendor->name }}" class="m-agent-avatar-img">
+                                    <img src="{{ $vendor->profile_photo_url }}" alt="{{ $vendor->business_name ?: $vendor->name }}" class="m-agent-avatar-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/agent_sharma.jpg') }}';">
                                 </div>
                                 <div class="m-agent-info-wrap">
-                                    <h3 class="m-agent-card-name">{{ $vendor->company_name ?? $vendor->name }}</h3>
-                                    <span class="m-agent-card-type">{{ $vendor->category->name ?? 'Real Estate Agent' }}</span>
+                                    <h3 class="m-agent-card-name">{{ $vendor->business_name ?: $vendor->name }}</h3>
+                                    <span class="m-agent-card-type">{{ $vendor->businessCategory->name ?? ($vendor->category->name ?? 'Real Estate Agent') }}</span>
                                     <span class="m-agent-card-loc">{{ $vendor->district->name ?? 'Jaipur' }}, Rajasthan</span>
                                     <div class="m-agent-card-stars">
-                                        <span class="stars-gold">★★★★★</span> <span class="m-star-score">4.8</span> <span class="m-star-count">(120)</span>
+                                        <span class="stars-gold">★★★★☆</span> <span class="m-star-score">4.8</span> <span class="m-star-count">(120)</span>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="m-agent-card-actions">
-                                <a href="{{ route('front.vendorlist') }}?search={{ urlencode($vendor->name ?? '') }}" class="m-btn-view-profile">View Profile</a>
-                                <a href="tel:{{ $vendor->phone ?? '+919876543210' }}" class="m-btn-call-now">Call Now</a>
+                                <a href="{{ route('front.vendor.details', ['vendor' => $vendor->id]) }}" class="m-btn-view-profile">View Profile</a>
+                                <a href="tel:{{ $vendor->mobile ?? ($vendor->phone ?? '+919876543210') }}" class="m-btn-call-now">Call Now</a>
                             </div>
                         </div>
                     @endforeach
                 @else
                     <div class="m-agent-slide-card">
-                        <span class="m-verified-pill">&#10004; VERIFIED</span>
+                        <span class="m-verified-pill">VERIFIED</span>
                         <div class="m-agent-card-body">
                             <div class="m-agent-avatar-wrap">
                                 <img src="{{ asset('front/assets/images/agent_sharma.jpg') }}" alt="Sharma Property Consultant" class="m-agent-avatar-img">
@@ -696,7 +858,7 @@
                                 <span class="m-agent-card-type">Real Estate Agent</span>
                                 <span class="m-agent-card-loc">Jaipur, Rajasthan</span>
                                 <div class="m-agent-card-stars">
-                                    <span class="stars-gold">★★★★★</span> <span class="m-star-score">4.8</span> <span class="m-star-count">(120)</span>
+                                    <span class="stars-gold">★★★★☆</span> <span class="m-star-score">4.8</span> <span class="m-star-count">(120)</span>
                                 </div>
                             </div>
                         </div>
@@ -708,7 +870,7 @@
                     </div>
 
                     <div class="m-agent-slide-card">
-                        <span class="m-verified-pill">&#10004; VERIFIED</span>
+                        <span class="m-verified-pill">VERIFIED</span>
                         <div class="m-agent-card-body">
                             <div class="m-agent-avatar-wrap">
                                 <img src="{{ asset('front/assets/images/agent_krishna.jpg') }}" alt="Krishna Motors" class="m-agent-avatar-img">
@@ -718,7 +880,7 @@
                                 <span class="m-agent-card-type">Automobile Agent</span>
                                 <span class="m-agent-card-loc">Jodhpur, Rajasthan</span>
                                 <div class="m-agent-card-stars">
-                                    <span class="stars-gold">★★★★★</span> <span class="m-star-score">4.7</span> <span class="m-star-count">(98)</span>
+                                    <span class="stars-gold">★★★★☆</span> <span class="m-star-score">4.7</span> <span class="m-star-count">(98)</span>
                                 </div>
                             </div>
                         </div>
@@ -730,7 +892,7 @@
                     </div>
 
                     <div class="m-agent-slide-card">
-                        <span class="m-verified-pill">&#10004; VERIFIED</span>
+                        <span class="m-verified-pill">VERIFIED</span>
                         <div class="m-agent-card-body">
                             <div class="m-agent-avatar-wrap">
                                 <img src="{{ asset('front/assets/images/agent_rto.jpg') }}" alt="RTO Solution Point" class="m-agent-avatar-img">
@@ -740,7 +902,7 @@
                                 <span class="m-agent-card-type">RTO Agent</span>
                                 <span class="m-agent-card-loc">Ajmer, Rajasthan</span>
                                 <div class="m-agent-card-stars">
-                                    <span class="stars-gold">★★★★★</span> <span class="m-star-score">4.9</span> <span class="m-star-count">(155)</span>
+                                    <span class="stars-gold">★★★★☆</span> <span class="m-star-score">4.9</span> <span class="m-star-count">(155)</span>
                                 </div>
                             </div>
                         </div>
@@ -767,21 +929,117 @@
         </div>
 
         <div class="m-district-grid">
-            <a href="{{ route('front.vendorlist') }}?search=Jaipur" class="m-district-card">
-                <img src="{{ asset('front/assets/images/jal-mahal-jaipur-9175.jpg') }}" alt="Jaipur" class="m-district-img">
-                <div class="m-district-info">
-                    <h3 class="m-district-name">Jaipur</h3>
-                    <span class="m-district-agents">12,500+ Agents</span>
-                </div>
-            </a>
+            @php
+                // Get dynamic districts from $districthome or $district
+                $dbDistricts = (isset($districthome) && $districthome->count() > 0) 
+                    ? $districthome 
+                    : (isset($district) && $district->count() > 0 ? $district : collect());
 
-            <a href="{{ route('front.vendorlist') }}?search=Jodhpur" class="m-district-card">
-                <img src="{{ asset('front/assets/images/jodhpur.jpg') }}" alt="Jodhpur" class="m-district-img">
-                <div class="m-district-info">
-                    <h3 class="m-district-name">Jodhpur</h3>
-                    <span class="m-district-agents">8,200+ Agents</span>
-                </div>
-            </a>
+                // If fewer than 6, pull extra from $district if available
+                if ($dbDistricts->count() < 6 && isset($district) && $district->count() > $dbDistricts->count()) {
+                    $existingIds = $dbDistricts->pluck('id')->toArray();
+                    $extraFromDistrict = $district->whereNotIn('id', $existingIds);
+                    $dbDistricts = $dbDistricts->concat($extraFromDistrict);
+                }
+
+                $curatedDefaults = [
+                    [
+                        'name' => 'Jaipur',
+                        'agents' => '12,500+ Agents',
+                        'image' => asset('front/assets/images/jal-mahal-jaipur-9175.jpg')
+                    ],
+                    [
+                        'name' => 'Jodhpur',
+                        'agents' => '8,200+ Agents',
+                        'image' => asset('front/assets/images/jodhpur.jpg')
+                    ],
+                    [
+                        'name' => 'Udaipur',
+                        'agents' => '6,800+ Agents',
+                        'image' => asset('front/assets/images/udaipur.png')
+                    ],
+                    [
+                        'name' => 'Kota',
+                        'agents' => '5,100+ Agents',
+                        'image' => asset('front/assets/images/jal-mahal-jaipur-9175.jpg')
+                    ],
+                    [
+                        'name' => 'Bikaner',
+                        'agents' => '4,300+ Agents',
+                        'image' => asset('front/assets/images/district_ajmer.jpg')
+                    ],
+                    [
+                        'name' => 'Ajmer',
+                        'agents' => '3,900+ Agents',
+                        'image' => asset('front/assets/images/district_ajmer.jpg')
+                    ],
+                ];
+
+                $agentCountPresets = ['12,500+ Agents', '8,200+ Agents', '6,800+ Agents', '5,100+ Agents', '4,300+ Agents', '3,900+ Agents', '3,200+ Agents', '2,800+ Agents'];
+                $renderedCount = 0;
+                $renderedNames = [];
+            @endphp
+
+            {{-- 1. Render all real dynamic DB items first --}}
+            @if($dbDistricts->count() > 0)
+                @foreach($dbDistricts->take(6) as $index => $dist)
+                    @php
+                        $renderedNames[] = strtolower($dist->name);
+                        $renderedCount++;
+                        
+                        // Smart Image selection & fallback
+                        $distImg = '';
+                        if (!empty($dist->image)) {
+                            $distImg = str_starts_with($dist->image, 'http') ? $dist->image : asset($dist->image);
+                        } else {
+                            $lowerName = strtolower($dist->name);
+                            if (str_contains($lowerName, 'jaipur')) {
+                                $distImg = asset('front/assets/images/jal-mahal-jaipur-9175.jpg');
+                            } elseif (str_contains($lowerName, 'jodhpur')) {
+                                $distImg = asset('front/assets/images/jodhpur.jpg');
+                            } elseif (str_contains($lowerName, 'udaipur')) {
+                                $distImg = asset('front/assets/images/udaipur.png');
+                            } elseif (str_contains($lowerName, 'ajmer')) {
+                                $distImg = asset('front/assets/images/district_ajmer.jpg');
+                            } elseif (str_contains($lowerName, 'bikaner')) {
+                                $distImg = asset('front/assets/images/district_ajmer.jpg');
+                            } else {
+                                $distImg = asset('front/assets/images/jal-mahal-jaipur-9175.jpg');
+                            }
+                        }
+
+                        // Dynamic or formatted agent count
+                        $agentLabel = isset($dist->users_count) && $dist->users_count > 0 
+                            ? number_format($dist->users_count) . '+ Agents' 
+                            : ($agentCountPresets[$index % count($agentCountPresets)] ?? '5,000+ Agents');
+                    @endphp
+                    <a href="{{ route('front.vendorlist') }}?district={{ $dist->id }}" class="m-district-card">
+                        <img src="{{ $distImg }}" alt="{{ $dist->name }}" class="m-district-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/jal-mahal-jaipur-9175.jpg') }}';">
+                        <div class="m-district-info">
+                            <h3 class="m-district-name">{{ $dist->name }}</h3>
+                            <span class="m-district-agents">{{ $agentLabel }}</span>
+                        </div>
+                    </a>
+                @endforeach
+            @endif
+
+            {{-- 2. If DB has fewer than 6 items (e.g. only 2 in DB), backfill the remaining slots from curated list so all 6 cards appear --}}
+            @if($renderedCount < 6)
+                @foreach($curatedDefaults as $preset)
+                    @if(!in_array(strtolower($preset['name']), $renderedNames) && $renderedCount < 6)
+                        @php
+                            $renderedCount++;
+                        @endphp
+                        <a href="{{ route('front.vendorlist') }}?search={{ urlencode($preset['name']) }}" class="m-district-card">
+                            <img src="{{ $preset['image'] }}" alt="{{ $preset['name'] }}" class="m-district-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/jal-mahal-jaipur-9175.jpg') }}';">
+                            <div class="m-district-info">
+                                <h3 class="m-district-name">{{ $preset['name'] }}</h3>
+                                <span class="m-district-agents">{{ $preset['agents'] }}</span>
+                            </div>
+                        </a>
+                    @endif
+                @endforeach
+            @endif
         </div>
 
         <div class="m-district-btn-wrap">
@@ -1151,117 +1409,151 @@
 
         <!-- Categories Grid -->
         <div class="categories-grid">
+            @if(isset($category) && $category->count() > 0)
+                @php
+                    $desktopCatIcons = ['icon-orange', 'icon-blue', 'icon-green', 'icon-purple', 'icon-rupee', 'icon-scale', 'icon-red'];
+                @endphp
+                @foreach($category->take(7) as $index => $cat)
+                    <a href="{{ route('front.vendorlist') }}?category={{ $cat->id }}" class="category-card">
+                        <div class="category-icon-box {{ $desktopCatIcons[$index % count($desktopCatIcons)] }}">
+                            @if(!empty($cat->image) && !str_contains($cat->image, 'images.png'))
+                                <img src="{{ $cat->image }}" alt="{{ $cat->name }}" style="width: 36px; height: 36px; object-fit: contain; border-radius: 6px;">
+                            @else
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                </svg>
+                            @endif
+                        </div>
+                        <h3 class="category-title">{{ $cat->name }}</h3>
+                        <p class="category-subtitle">{{ $cat->description ?: 'Explore Services' }}</p>
+                    </a>
+                @endforeach
+                <a href="{{ route('front.vendorlist') }}" class="category-card card-more">
+                    <div class="category-icon-box icon-dots">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="9"></circle>
+                            <circle cx="8" cy="12" r="1" fill="#2563EB"></circle>
+                            <circle cx="12" cy="12" r="1" fill="#2563EB"></circle>
+                            <circle cx="16" cy="12" r="1" fill="#2563EB"></circle>
+                        </svg>
+                    </div>
+                    <h3 class="category-title">और भी बहुत कुछ</h3>
+                    <p class="category-subtitle highlight-subtitle">{{ isset($category) ? $category->count().'+ Categories' : '18+ Categories' }}</p>
+                </a>
+            @else
+                <!-- Card 1: Real Estate -->
+                <a href="{{ route('front.vendorlist') }}?search=Real+Estate" class="category-card">
+                    <div class="category-icon-box icon-orange">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="category-title">Real Estate Agent</h3>
+                    <p class="category-subtitle">Buy / Sell / Rent</p>
+                </a>
 
-            <!-- Card 1: Real Estate -->
-            <a href="{{ route('front.vendorlist') }}?search=Real+Estate" class="category-card">
-                <div class="category-icon-box icon-orange">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                    </svg>
-                </div>
-                <h3 class="category-title">Real Estate Agent</h3>
-                <p class="category-subtitle">Buy / Sell / Rent</p>
-            </a>
+                <!-- Card 2: Automobile -->
+                <a href="{{ route('front.vendorlist') }}?search=Automobile" class="category-card">
+                    <div class="category-icon-box icon-blue">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path>
+                            <circle cx="7" cy="17" r="2"></circle>
+                            <circle cx="17" cy="17" r="2"></circle>
+                        </svg>
+                    </div>
+                    <h3 class="category-title">Automobile Agent</h3>
+                    <p class="category-subtitle">Car, Bike & More</p>
+                </a>
 
-            <!-- Card 2: Automobile -->
-            <a href="{{ route('front.vendorlist') }}?search=Automobile" class="category-card">
-                <div class="category-icon-box icon-blue">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path>
-                        <circle cx="7" cy="17" r="2"></circle>
-                        <circle cx="17" cy="17" r="2"></circle>
-                    </svg>
-                </div>
-                <h3 class="category-title">Automobile Agent</h3>
-                <p class="category-subtitle">Car, Bike & More</p>
-            </a>
+                <!-- Card 3: RTO Agent -->
+                <a href="{{ route('front.vendorlist') }}?search=RTO" class="category-card">
+                    <div class="category-icon-box icon-green">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>
+                    </div>
+                    <h3 class="category-title">RTO Agent</h3>
+                    <p class="category-subtitle">RTO Related Services</p>
+                </a>
 
-            <!-- Card 3: RTO Agent -->
-            <a href="{{ route('front.vendorlist') }}?search=RTO" class="category-card">
-                <div class="category-icon-box icon-green">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                    </svg>
-                </div>
-                <h3 class="category-title">RTO Agent</h3>
-                <p class="category-subtitle">RTO Related Services</p>
-            </a>
+                <!-- Card 4: Insurance Agent -->
+                <a href="{{ route('front.vendorlist') }}?search=Insurance" class="category-card">
+                    <div class="category-icon-box icon-purple">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#9333EA" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            <path d="M9 12l2 2 4-4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="category-title">Insurance Agent</h3>
+                    <p class="category-subtitle">Life, Health, General</p>
+                </a>
 
-            <!-- Card 4: Insurance Agent -->
-            <a href="{{ route('front.vendorlist') }}?search=Insurance" class="category-card">
-                <div class="category-icon-box icon-purple">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#9333EA" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                        <path d="M9 12l2 2 4-4"></path>
-                    </svg>
-                </div>
-                <h3 class="category-title">Insurance Agent</h3>
-                <p class="category-subtitle">Life, Health, General</p>
-            </a>
+                <!-- Card 5: Finance Agent -->
+                <a href="{{ route('front.vendorlist') }}?search=Finance" class="category-card">
+                    <div class="category-icon-box icon-rupee">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 6v12M8 9h8M8 15h6"></path>
+                        </svg>
+                    </div>
+                    <h3 class="category-title">Finance Agent</h3>
+                    <p class="category-subtitle">Loan & Finance</p>
+                </a>
 
-            <!-- Card 5: Finance Agent -->
-            <a href="{{ route('front.vendorlist') }}?search=Finance" class="category-card">
-                <div class="category-icon-box icon-rupee">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <path d="M12 6v12M8 9h8M8 15h6"></path>
-                    </svg>
-                </div>
-                <h3 class="category-title">Finance Agent</h3>
-                <p class="category-subtitle">Loan & Finance</p>
-            </a>
+                <!-- Card 6: Legal Agent -->
+                <a href="{{ route('front.vendorlist') }}?search=Legal" class="category-card">
+                    <div class="category-icon-box icon-scale">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3v18M3 7l9-4 9 4M5 7v4a4 4 0 0 0 4 4h0a4 4 0 0 0 4-4V7M15 7v4a4 4 0 0 0 4 4h0a4 4 0 0 0 4-4V7"></path>
+                        </svg>
+                    </div>
+                    <h3 class="category-title">Legal Agent</h3>
+                    <p class="category-subtitle">All Legal Services</p>
+                </a>
 
-            <!-- Card 6: Legal Agent -->
-            <a href="{{ route('front.vendorlist') }}?search=Legal" class="category-card">
-                <div class="category-icon-box icon-scale">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 3v18M3 7l9-4 9 4M5 7v4a4 4 0 0 0 4 4h0a4 4 0 0 0 4-4V7M15 7v4a4 4 0 0 0 4 4h0a4 4 0 0 0 4-4V7"></path>
-                    </svg>
-                </div>
-                <h3 class="category-title">Legal Agent</h3>
-                <p class="category-subtitle">All Legal Services</p>
-            </a>
+                <!-- Card 7: Transport Agent -->
+                <a href="{{ route('front.vendorlist') }}?search=Transport" class="category-card">
+                    <div class="category-icon-box icon-red">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="1" y="3" width="15" height="13"></rect>
+                            <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
+                            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                        </svg>
+                    </div>
+                    <h3 class="category-title">Transport Agent</h3>
+                    <p class="category-subtitle">Transport & Logistics</p>
+                </a>
 
-            <!-- Card 7: Transport Agent -->
-            <a href="{{ route('front.vendorlist') }}?search=Transport" class="category-card">
-                <div class="category-icon-box icon-red">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="1" y="3" width="15" height="13"></rect>
-                        <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
-                        <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                        <circle cx="18.5" cy="18.5" r="2.5"></circle>
-                    </svg>
-                </div>
-                <h3 class="category-title">Transport Agent</h3>
-                <p class="category-subtitle">Transport & Logistics</p>
-            </a>
-
-            <!-- Card 8: More Categories -->
-            <a href="{{ route('front.vendorlist') }}" class="category-card card-more">
-                <div class="category-icon-box icon-dots">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="9"></circle>
-                        <circle cx="8" cy="12" r="1" fill="#2563EB"></circle>
-                        <circle cx="12" cy="12" r="1" fill="#2563EB"></circle>
-                        <circle cx="16" cy="12" r="1" fill="#2563EB"></circle>
-                    </svg>
-                </div>
-                <h3 class="category-title">और भी बहुत कुछ</h3>
-                <p class="category-subtitle highlight-subtitle">18+ Categories</p>
-            </a>
-
+                <!-- Card 8: More Categories -->
+                <a href="{{ route('front.vendorlist') }}" class="category-card card-more">
+                    <div class="category-icon-box icon-dots">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="9"></circle>
+                            <circle cx="8" cy="12" r="1" fill="#2563EB"></circle>
+                            <circle cx="12" cy="12" r="1" fill="#2563EB"></circle>
+                            <circle cx="16" cy="12" r="1" fill="#2563EB"></circle>
+                        </svg>
+                    </div>
+                    <h3 class="category-title">और भी बहुत कुछ</h3>
+                    <p class="category-subtitle highlight-subtitle">18+ Categories</p>
+                </a>
+            @endif
         </div>
 
         <!-- View All Categories Button -->
@@ -1557,18 +1849,18 @@
                                     <span>VERIFIED</span>
                                 </div>
                                 <div class="agent-avatar-wrapper">
-                                    <img src="{{ !empty($vendor->profile_image) ? asset($vendor->profile_image) : asset('front/assets/images/agent_sharma.jpg') }}" alt="{{ $vendor->name }}" class="agent-avatar-img">
+                                    <img src="{{ $vendor->profile_photo_url }}" alt="{{ $vendor->business_name ?: $vendor->name }}" class="agent-avatar-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/agent_sharma.jpg') }}';">
                                 </div>
-                                <h3 class="agent-name">{{ $vendor->company_name ?? $vendor->name }}</h3>
-                                <p class="agent-category">{{ $vendor->category->name ?? 'Agent' }}</p>
+                                <h3 class="agent-name">{{ $vendor->business_name ?: $vendor->name }}</h3>
+                                <p class="agent-category">{{ $vendor->businessCategory->name ?? ($vendor->category->name ?? 'Verified Agent') }}</p>
                                 <p class="agent-location">{{ $vendor->district->name ?? 'Jaipur' }}, Rajasthan</p>
                                 <div class="agent-rating-row">
                                     <div class="rating-stars">★★★★★</div>
-                                    <span class="rating-score">4.8 <span class="rating-count">(120)</span></span>
+                                    <span class="rating-score">4.9 <span class="rating-count">(Verified)</span></span>
                                 </div>
                                 <div class="agent-card-actions">
-                                    <a href="{{ route('front.vendorlist') }}?search={{ urlencode($vendor->name ?? '') }}" class="btn-agent-outlined">View Profile</a>
-                                    <a href="tel:{{ $vendor->phone ?? '+919876543210' }}" class="btn-agent-filled">Call Now</a>
+                                    <a href="{{ route('front.vendor.details', ['vendor' => $vendor->id]) }}" class="btn-agent-outlined">View Profile</a>
+                                    <a href="tel:{{ $vendor->mobile ?? ($vendor->phone ?? '+919876543210') }}" class="btn-agent-filled">Call Now</a>
                                 </div>
                             </div>
                         @endforeach
@@ -1741,205 +2033,230 @@
 
             <!-- Scrollable Track -->
             <div class="district-slider-track" id="districtSliderTrack">
-
-                <!-- Card 1: Jaipur -->
-                <div class="district-card">
-                    <div class="district-image-wrapper">
-                        <img src="{{ asset('front/assets/images/jal-mahal-jaipur-9175.jpg') }}" alt="Jaipur Jal Mahal" class="district-img">
-                    </div>
-                    <div class="district-info-body">
-                        <div class="district-meta-row">
-                            <h3 class="district-name">Jaipur</h3>
-                            <span class="district-agents-count">12,500+ Agents</span>
+                @php
+                    $dDistricts = (isset($districthome) && $districthome->count() > 0) ? $districthome : (isset($district) && $district->count() > 0 ? $district : collect());
+                @endphp
+                @if($dDistricts->count() > 0)
+                    @foreach($dDistricts as $dist)
+                        <div class="district-card">
+                            <div class="district-image-wrapper">
+                                <img src="{{ !empty($dist->image) ? (str_starts_with($dist->image, 'http') ? $dist->image : asset($dist->image)) : asset('front/assets/images/jal-mahal-jaipur-9175.jpg') }}" alt="{{ $dist->name }}" class="district-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/jal-mahal-jaipur-9175.jpg') }}';">
+                            </div>
+                            <div class="district-info-body">
+                                <div class="district-meta-row">
+                                    <h3 class="district-name">{{ $dist->name }}</h3>
+                                    <span class="district-agents-count">Top Verified Agents</span>
+                                </div>
+                                <a href="{{ route('front.vendorlist') }}?district={{ $dist->id }}" class="btn-explore-district">
+                                    <span>Explore</span>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12 5 19 12 12 19"></polyline>
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
-                        <a href="{{ route('front.vendorlist') }}?search=Jaipur" class="btn-explore-district">
-                            <span>Explore</span>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Card 2: Jodhpur -->
-                <div class="district-card">
-                    <div class="district-image-wrapper">
-                        <img src="{{ asset('front/assets/images/jodhpur.jpg') }}" alt="Jodhpur Mehrangarh Fort" class="district-img">
-                    </div>
-                    <div class="district-info-body">
-                        <div class="district-meta-row">
-                            <h3 class="district-name">Jodhpur</h3>
-                            <span class="district-agents-count">8,200+ Agents</span>
+                    @endforeach
+                @else
+                    <!-- Card 1: Jaipur -->
+                    <div class="district-card">
+                        <div class="district-image-wrapper">
+                            <img src="{{ asset('front/assets/images/jal-mahal-jaipur-9175.jpg') }}" alt="Jaipur Jal Mahal" class="district-img">
                         </div>
-                        <a href="{{ route('front.vendorlist') }}?search=Jodhpur" class="btn-explore-district">
-                            <span>Explore</span>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Card 3: Udaipur -->
-                <div class="district-card">
-                    <div class="district-image-wrapper">
-                        <!-- Lake Palace Udaipur SVG -->
-                        <svg viewBox="0 0 300 160" fill="none" xmlns="http://www.w3.org/2000/svg" class="landmark-svg">
-                            <rect width="300" height="160" fill="url(#udaipur-sky)" />
-                            <rect y="105" width="300" height="55" fill="url(#lake-water)" />
-                            <path d="M40 105V50H80V35H130V50H170V30H210V50H260V105H40Z" fill="#F8FAFC" />
-                            <path d="M50 105V58H85V42H125V58H165V38H205V58H250V105H50Z" fill="#FFFFFF" />
-                            <path d="M95 35C95 20 102 12 107 12C112 12 120 20 120 35H95Z" fill="#F1F5F9" />
-                            <path d="M175 30C175 15 182 8 187 8C192 8 200 15 200 30H175Z" fill="#F1F5F9" />
-                            <path d="M70 70C70 60 78 55 85 55C92 55 100 60 100 70V105H70V70Z" fill="#0EA5E9" />
-                            <path d="M130 65C130 55 138 50 145 50C152 50 160 55 160 65V105H130V65Z" fill="#0EA5E9" />
-                            <path d="M190 70C190 60 198 55 205 55C212 55 220 60 220 70V105H190V70Z" fill="#0EA5E9" />
-                            <line x1="20" y1="125" x2="80" y2="125" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" opacity="0.6" />
-                            <line x1="120" y1="135" x2="200" y2="135" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" opacity="0.6" />
-                            <line x1="220" y1="120" x2="280" y2="120" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" opacity="0.6" />
-                            <defs>
-                                <linearGradient id="udaipur-sky" x1="0" y1="0" x2="0" y2="160" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#0284C7" />
-                                    <stop offset="0.65" stop-color="#E0F2FE" />
-                                </linearGradient>
-                                <linearGradient id="lake-water" x1="0" y1="105" x2="0" y2="160" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#0284C7" />
-                                    <stop offset="1" stop-color="#0369A1" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <div class="district-info-body">
-                        <div class="district-meta-row">
-                            <h3 class="district-name">Udaipur</h3>
-                            <span class="district-agents-count">6,800+ Agents</span>
+                        <div class="district-info-body">
+                            <div class="district-meta-row">
+                                <h3 class="district-name">Jaipur</h3>
+                                <span class="district-agents-count">12,500+ Agents</span>
+                            </div>
+                            <a href="{{ route('front.vendorlist') }}?search=Jaipur" class="btn-explore-district">
+                                <span>Explore</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </a>
                         </div>
-                        <a href="{{ route('front.vendorlist') }}?search=Udaipur" class="btn-explore-district">
-                            <span>Explore</span>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </a>
                     </div>
-                </div>
 
-                <!-- Card 4: Kota -->
-                <div class="district-card">
-                    <div class="district-image-wrapper">
-                        <!-- Kota Chambal Riverfront SVG -->
-                        <svg viewBox="0 0 300 160" fill="none" xmlns="http://www.w3.org/2000/svg" class="landmark-svg">
-                            <rect width="300" height="160" fill="url(#kota-sky)" />
-                            <rect y="110" width="300" height="50" fill="#0284C7" />
-                            <path d="M30 110V50H90V30H130V50H170V110H30Z" fill="#9A3412" />
-                            <path d="M40 110V58H85V38H125V58H160V110H40Z" fill="#C2410C" />
-                            <path d="M170 85H270V110H170V85Z" fill="#EA580C" />
-                            <circle cx="110" cy="30" r="14" fill="#FDBA74" />
-                            <path d="M180 110C180 98 188 92 195 92C202 92 210 98 210 110H180Z" fill="#0284C7" />
-                            <path d="M220 110C220 98 228 92 235 92C242 92 250 98 250 110H220Z" fill="#0284C7" />
-                            <defs>
-                                <linearGradient id="kota-sky" x1="0" y1="0" x2="0" y2="160" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#38BDF8" />
-                                    <stop offset="0.7" stop-color="#E0F2FE" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <div class="district-info-body">
-                        <div class="district-meta-row">
-                            <h3 class="district-name">Kota</h3>
-                            <span class="district-agents-count">5,100+ Agents</span>
+                    <!-- Card 2: Jodhpur -->
+                    <div class="district-card">
+                        <div class="district-image-wrapper">
+                            <img src="{{ asset('front/assets/images/jodhpur.jpg') }}" alt="Jodhpur Mehrangarh Fort" class="district-img">
                         </div>
-                        <a href="{{ route('front.vendorlist') }}?search=Kota" class="btn-explore-district">
-                            <span>Explore</span>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Card 5: Bikaner -->
-                <div class="district-card">
-                    <div class="district-image-wrapper">
-                        <!-- Bikaner Junagarh Fort SVG -->
-                        <svg viewBox="0 0 300 160" fill="none" xmlns="http://www.w3.org/2000/svg" class="landmark-svg">
-                            <rect width="300" height="160" fill="url(#bikaner-sky)" />
-                            <path d="M0 160L40 130L150 135L300 140V160H0Z" fill="#78350F" opacity="0.4" />
-                            <path d="M40 135V45H90V25H140V45H190V30H230V45H260V135H40Z" fill="#991B1B" />
-                            <path d="M50 135V52H85V32H135V52H185V38H225V52H250V135H50Z" fill="#B91C1C" />
-                            <path d="M105 25C105 12 114 6 120 6C126 6 135 12 135 25H105Z" fill="#EF4444" />
-                            <path d="M200 30C200 18 208 12 213 12C218 12 226 18 226 30H200Z" fill="#EF4444" />
-                            <path d="M125 135V95C125 82 138 72 150 72C162 72 175 82 175 95V135H125Z" fill="#FEF2F2" />
-                            <defs>
-                                <linearGradient id="bikaner-sky" x1="0" y1="0" x2="0" y2="160" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#F97316" />
-                                    <stop offset="0.6" stop-color="#FFEDD5" />
-                                    <stop offset="1" stop-color="#FEF08A" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <div class="district-info-body">
-                        <div class="district-meta-row">
-                            <h3 class="district-name">Bikaner</h3>
-                            <span class="district-agents-count">4,300+ Agents</span>
+                        <div class="district-info-body">
+                            <div class="district-meta-row">
+                                <h3 class="district-name">Jodhpur</h3>
+                                <span class="district-agents-count">8,200+ Agents</span>
+                            </div>
+                            <a href="{{ route('front.vendorlist') }}?search=Jodhpur" class="btn-explore-district">
+                                <span>Explore</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </a>
                         </div>
-                        <a href="{{ route('front.vendorlist') }}?search=Bikaner" class="btn-explore-district">
-                            <span>Explore</span>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </a>
                     </div>
-                </div>
 
-                <!-- Card 6: Ajmer -->
-                <div class="district-card">
-                    <div class="district-image-wrapper">
-                        <!-- Ajmer Dargah & Ana Sagar Lake SVG -->
-                        <svg viewBox="0 0 300 160" fill="none" xmlns="http://www.w3.org/2000/svg" class="landmark-svg">
-                            <rect width="300" height="160" fill="url(#ajmer-sky)" />
-                            <rect y="120" width="300" height="40" fill="#0284C7" />
-                            <path d="M50 120V70H250V120H50Z" fill="#F8FAFC" />
-                            <path d="M60 120V78H240V120H60Z" fill="#FFFFFF" />
-                            <path d="M105 70C105 35 125 15 150 15C175 15 195 35 195 70H105Z" fill="#FFFFFF" />
-                            <path d="M147 15V0H153V15H147Z" fill="#EAB308" />
-                            <circle cx="150" cy="0" r="4" fill="#EAB308" />
-                            <path d="M130 120V95C130 85 138 78 150 78C162 78 170 85 170 95V120H130Z" fill="#0284C7" />
-                            <defs>
-                                <linearGradient id="ajmer-sky" x1="0" y1="0" x2="0" y2="160" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#0284C7" />
-                                    <stop offset="0.75" stop-color="#BAE6FD" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <div class="district-info-body">
-                        <div class="district-meta-row">
-                            <h3 class="district-name">Ajmer</h3>
-                            <span class="district-agents-count">3,900+ Agents</span>
+                    <!-- Card 3: Udaipur -->
+                    <div class="district-card">
+                        <div class="district-image-wrapper">
+                            <!-- Lake Palace Udaipur SVG -->
+                            <svg viewBox="0 0 300 160" fill="none" xmlns="http://www.w3.org/2000/svg" class="landmark-svg">
+                                <rect width="300" height="160" fill="url(#udaipur-sky)" />
+                                <rect y="105" width="300" height="55" fill="url(#lake-water)" />
+                                <path d="M40 105V50H80V35H130V50H170V30H210V50H260V105H40Z" fill="#F8FAFC" />
+                                <path d="M50 105V58H85V42H125V58H165V38H205V58H250V105H50Z" fill="#FFFFFF" />
+                                <path d="M95 35C95 20 102 12 107 12C112 12 120 20 120 35H95Z" fill="#F1F5F9" />
+                                <path d="M175 30C175 15 182 8 187 8C192 8 200 15 200 30H175Z" fill="#F1F5F9" />
+                                <path d="M70 70C70 60 78 55 85 55C92 55 100 60 100 70V105H70V70Z" fill="#0EA5E9" />
+                                <path d="M130 65C130 55 138 50 145 50C152 50 160 55 160 65V105H130V65Z" fill="#0EA5E9" />
+                                <path d="M190 70C190 60 198 55 205 55C212 55 220 60 220 70V105H190V70Z" fill="#0EA5E9" />
+                                <line x1="20" y1="125" x2="80" y2="125" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" opacity="0.6" />
+                                <line x1="120" y1="135" x2="200" y2="135" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" opacity="0.6" />
+                                <line x1="220" y1="120" x2="280" y2="120" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" opacity="0.6" />
+                                <defs>
+                                    <linearGradient id="udaipur-sky" x1="0" y1="0" x2="0" y2="160" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#0284C7" />
+                                        <stop offset="0.65" stop-color="#E0F2FE" />
+                                    </linearGradient>
+                                    <linearGradient id="lake-water" x1="0" y1="105" x2="0" y2="160" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#0284C7" />
+                                        <stop offset="1" stop-color="#0369A1" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
                         </div>
-                        <a href="{{ route('front.vendorlist') }}?search=Ajmer" class="btn-explore-district">
-                            <span>Explore</span>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </a>
+                        <div class="district-info-body">
+                            <div class="district-meta-row">
+                                <h3 class="district-name">Udaipur</h3>
+                                <span class="district-agents-count">6,800+ Agents</span>
+                            </div>
+                            <a href="{{ route('front.vendorlist') }}?search=Udaipur" class="btn-explore-district">
+                                <span>Explore</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </a>
+                        </div>
                     </div>
-                </div>
 
+                    <!-- Card 4: Kota -->
+                    <div class="district-card">
+                        <div class="district-image-wrapper">
+                            <!-- Kota Chambal Riverfront SVG -->
+                            <svg viewBox="0 0 300 160" fill="none" xmlns="http://www.w3.org/2000/svg" class="landmark-svg">
+                                <rect width="300" height="160" fill="url(#kota-sky)" />
+                                <rect y="110" width="300" height="50" fill="#0284C7" />
+                                <path d="M30 110V50H90V30H130V50H170V110H30Z" fill="#9A3412" />
+                                <path d="M40 110V58H85V38H125V58H160V110H40Z" fill="#C2410C" />
+                                <path d="M170 85H270V110H170V85Z" fill="#EA580C" />
+                                <circle cx="110" cy="30" r="14" fill="#FDBA74" />
+                                <path d="M180 110C180 98 188 92 195 92C202 92 210 98 210 110H180Z" fill="#0284C7" />
+                                <path d="M220 110C220 98 228 92 235 92C242 92 250 98 250 110H220Z" fill="#0284C7" />
+                                <defs>
+                                    <linearGradient id="kota-sky" x1="0" y1="0" x2="0" y2="160" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#38BDF8" />
+                                        <stop offset="0.7" stop-color="#E0F2FE" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="district-info-body">
+                            <div class="district-meta-row">
+                                <h3 class="district-name">Kota</h3>
+                                <span class="district-agents-count">5,100+ Agents</span>
+                            </div>
+                            <a href="{{ route('front.vendorlist') }}?search=Kota" class="btn-explore-district">
+                                <span>Explore</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Card 5: Bikaner -->
+                    <div class="district-card">
+                        <div class="district-image-wrapper">
+                            <!-- Bikaner Junagarh Fort SVG -->
+                            <svg viewBox="0 0 300 160" fill="none" xmlns="http://www.w3.org/2000/svg" class="landmark-svg">
+                                <rect width="300" height="160" fill="url(#bikaner-sky)" />
+                                <path d="M0 160L40 130L150 135L300 140V160H0Z" fill="#78350F" opacity="0.4" />
+                                <path d="M40 135V45H90V25H140V45H190V30H230V45H260V135H40Z" fill="#991B1B" />
+                                <path d="M50 135V52H85V32H135V52H185V38H225V52H250V135H50Z" fill="#B91C1C" />
+                                <path d="M105 25C105 12 114 6 120 6C126 6 135 12 135 25H105Z" fill="#EF4444" />
+                                <path d="M200 30C200 18 208 12 213 12C218 12 226 18 226 30H200Z" fill="#EF4444" />
+                                <path d="M125 135V95C125 82 138 72 150 72C162 72 175 82 175 95V135H125Z" fill="#FEF2F2" />
+                                <defs>
+                                    <linearGradient id="bikaner-sky" x1="0" y1="0" x2="0" y2="160" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#F97316" />
+                                        <stop offset="0.6" stop-color="#FFEDD5" />
+                                        <stop offset="1" stop-color="#FEF08A" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="district-info-body">
+                            <div class="district-meta-row">
+                                <h3 class="district-name">Bikaner</h3>
+                                <span class="district-agents-count">4,300+ Agents</span>
+                            </div>
+                            <a href="{{ route('front.vendorlist') }}?search=Bikaner" class="btn-explore-district">
+                                <span>Explore</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Card 6: Ajmer -->
+                    <div class="district-card">
+                        <div class="district-image-wrapper">
+                            <!-- Ajmer Dargah & Ana Sagar Lake SVG -->
+                            <svg viewBox="0 0 300 160" fill="none" xmlns="http://www.w3.org/2000/svg" class="landmark-svg">
+                                <rect width="300" height="160" fill="url(#ajmer-sky)" />
+                                <rect y="120" width="300" height="40" fill="#0284C7" />
+                                <path d="M50 120V70H250V120H50Z" fill="#F8FAFC" />
+                                <path d="M60 120V78H240V120H60Z" fill="#FFFFFF" />
+                                <path d="M105 70C105 35 125 15 150 15C175 15 195 35 195 70H105Z" fill="#FFFFFF" />
+                                <path d="M147 15V0H153V15H147Z" fill="#EAB308" />
+                                <circle cx="150" cy="0" r="4" fill="#EAB308" />
+                                <path d="M130 120V95C130 85 138 78 150 78C162 78 170 85 170 95V120H130Z" fill="#0284C7" />
+                                <defs>
+                                    <linearGradient id="ajmer-sky" x1="0" y1="0" x2="0" y2="160" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#0284C7" />
+                                        <stop offset="0.75" stop-color="#BAE6FD" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="district-info-body">
+                            <div class="district-meta-row">
+                                <h3 class="district-name">Ajmer</h3>
+                                <span class="district-agents-count">3,900+ Agents</span>
+                            </div>
+                            <a href="{{ route('front.vendorlist') }}?search=Ajmer" class="btn-explore-district">
+                                <span>Explore</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                @endif
             </div>
 
             <!-- Right Control Button -->
