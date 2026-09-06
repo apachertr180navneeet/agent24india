@@ -4901,29 +4901,100 @@ body {
 
 @media (max-width: 768px) {
     .why-choose-section {
-        padding: 20px 0;
+        padding: 16px 0;
     }
     .custom-why-choose-banner {
-        padding: 20px 18px;
-        border-radius: 14px;
+        background: #0e2868;
+        background: linear-gradient(180deg, #0e2a6d 0%, #0a1f52 100%);
+        border-radius: 20px;
+        padding: 22px 18px;
+        box-shadow: 0 10px 30px rgba(10, 31, 82, 0.28);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .custom-why-header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        text-align: left;
+        padding-bottom: 16px;
+        margin-bottom: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .custom-why-line {
+        display: none;
+    }
+    .custom-why-title {
+        font-size: 20px;
+        font-weight: 800;
+        color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0;
+        line-height: 1.2;
+        text-align: left;
     }
     .custom-why-main-row {
-        flex-direction: column;
-        text-align: center;
+        display: block;
+        width: 100%;
     }
     .custom-why-features-grid {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
         gap: 16px;
+        margin: 0;
+        width: 100%;
     }
     .custom-why-col {
-        flex-direction: column;
+        display: flex;
+        flex-direction: row;
         align-items: center;
+        justify-content: flex-start;
+        gap: 14px;
+        background: transparent;
+        padding: 0;
+        border: none;
+        text-align: left;
+        width: 100%;
+    }
+    .custom-why-icon-wrap {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
     }
     .custom-why-text {
-        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        text-align: left;
+        flex: 1;
+        min-width: 0;
+    }
+    .custom-why-head {
+        font-size: 14.5px;
+        font-weight: 700;
+        color: #FFFFFF;
+        margin: 0 0 3px 0;
+        line-height: 1.25;
+        text-align: left;
+    }
+    .custom-why-sub {
+        font-size: 12px;
+        color: #94A3B8;
+        margin: 0;
+        line-height: 1.3;
+        font-weight: 400;
+        text-align: left;
     }
     .custom-why-photo-wrap {
-        margin: 16px 0 0 0;
+        display: none;
     }
 }
 

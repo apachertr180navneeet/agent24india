@@ -400,11 +400,10 @@
         <div class="section-container" style="max-width: 1240px; margin: 0 auto; padding: 0 16px;">
             
             <div class="custom-why-choose-banner">
-                <!-- Top Center Title Header -->
+                <!-- Top Header: Left aligned with 3-Layer Icon -->
                 <div class="custom-why-header">
-                    <span class="custom-why-line"></span>
                     <h2 class="custom-why-title">
-                        <svg class="why-title-badge-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.5">
+                        <svg class="why-title-badge-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
                             <polyline points="2 17 12 22 22 17"></polyline>
                             <polyline points="2 12 12 17 22 12"></polyline>
@@ -412,7 +411,6 @@
                         <span class="d-none-mobile">Why Choose Agent 24 India?</span>
                         <span class="d-block-mobile">Agent 24 India क्यों चुनें?</span>
                     </h2>
-                    <span class="custom-why-line"></span>
                 </div>
 
                 <!-- Main Content Row -->
@@ -424,9 +422,9 @@
                         <!-- Feature 1 -->
                         <div class="custom-why-col">
                             <div class="custom-why-icon-wrap">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                                    <path d="M9 12l2 2 4-4"></path>
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="#3B82F6"/>
+                                    <path d="M9 12l2 2 4-4" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                             </div>
                             <div class="custom-why-text">
@@ -441,10 +439,10 @@
                         <!-- Feature 2 -->
                         <div class="custom-why-col">
                             <div class="custom-why-icon-wrap">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
                                     <circle cx="9" cy="7" r="4"></circle>
-                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
                                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                 </svg>
                             </div>
@@ -460,7 +458,7 @@
                         <!-- Feature 3 -->
                         <div class="custom-why-col">
                             <div class="custom-why-icon-wrap">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                     <polyline points="14 2 14 8 20 8"></polyline>
                                     <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -479,7 +477,7 @@
                         <!-- Feature 4 -->
                         <div class="custom-why-col">
                             <div class="custom-why-icon-wrap">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                     <circle cx="12" cy="12" r="9.5"></circle>
                                     <path d="M8.5 7.5h7M8.5 10.5h4.5a2 2 0 0 1 0 4H8.5m0-4v6m0-6h2.5a2 2 0 0 1 2 2v0a2 2 0 0 1-2 2H8.5l4 4"></path>
                                 </svg>
@@ -496,13 +494,13 @@
                         <!-- Feature 5 -->
                         <div class="custom-why-col last-col">
                             <div class="custom-why-icon-wrap">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
                                     <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2H3z"></path>
                                 </svg>
                             </div>
                             <div class="custom-why-text">
-                                <h3 class="custom-why-head">24x7 Support Team</h3>
+                                <h3 class="custom-why-head">24×7 Support Team</h3>
                                 <p class="custom-why-sub">
                                     <span class="d-none-mobile">Dedicated support team always ready to help</span>
                                     <span class="d-block-mobile">हमेशा आपकी मदद के लिए तैयार</span>
@@ -713,15 +711,19 @@
                                         </svg>
                                         <span>VERIFIED</span>
                                     </div>
-                                    <div class="agent-avatar-wrapper">
-                                        <img src="{{ $avatar }}" alt="{{ $vendor->name }}" class="agent-avatar-img">
-                                    </div>
-                                    <h3 class="agent-name">{{ \Illuminate\Support\Str::limit($vendor->name, 18) }}</h3>
-                                    <p class="agent-category">{{ $vendor->business_category_name ?? 'Real Estate Agent' }}</p>
-                                    <p class="agent-location">{{ $vendor->district->name ?? 'Jaipur' }}, Rajasthan</p>
-                                    <div class="agent-rating-row">
-                                        <div class="rating-stars">★★★★★</div>
-                                        <span class="rating-score">4.8 <span class="rating-count">({{ rand(80, 200) }})</span></span>
+                                    <div class="agent-card-top-content">
+                                        <div class="agent-avatar-wrapper">
+                                            <img src="{{ $avatar }}" alt="{{ $vendor->name }}" class="agent-avatar-img">
+                                        </div>
+                                        <div class="agent-info-wrapper">
+                                            <h3 class="agent-name">{{ \Illuminate\Support\Str::limit($vendor->name, 18) }}</h3>
+                                            <p class="agent-category">{{ $vendor->business_category_name ?? 'Real Estate Agent' }}</p>
+                                            <p class="agent-location">{{ $vendor->district->name ?? 'Jaipur' }}, Rajasthan</p>
+                                            <div class="agent-rating-row">
+                                                <div class="rating-stars">★★★★★</div>
+                                                <span class="rating-score">4.8 <span class="rating-count">({{ rand(80, 200) }})</span></span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="agent-card-actions">
                                         <a href="{{ route('front.vendor.details', $vendor->id) }}" class="btn-agent-outlined">View Profile</a>
@@ -736,11 +738,15 @@
                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                     <span>VERIFIED</span>
                                 </div>
-                                <div class="agent-avatar-wrapper"><img src="{{ asset('front/assets/images/agent_sharma.jpg') }}" alt="Sharma Property Consultant" class="agent-avatar-img"></div>
-                                <h3 class="agent-name">Sharma Proper...</h3>
-                                <p class="agent-category">Real Estate Agent</p>
-                                <p class="agent-location">Jaipur, Rajasthan</p>
-                                <div class="agent-rating-row"><div class="rating-stars">★★★★★</div><span class="rating-score">4.8 <span class="rating-count">(120)</span></span></div>
+                                <div class="agent-card-top-content">
+                                    <div class="agent-avatar-wrapper"><img src="{{ asset('front/assets/images/agent_sharma.jpg') }}" alt="Sharma Property Consultant" class="agent-avatar-img"></div>
+                                    <div class="agent-info-wrapper">
+                                        <h3 class="agent-name">Sharma Proper...</h3>
+                                        <p class="agent-category">Real Estate Agent</p>
+                                        <p class="agent-location">Jaipur, Rajasthan</p>
+                                        <div class="agent-rating-row"><div class="rating-stars">★★★★★</div><span class="rating-score">4.8 <span class="rating-count">(120)</span></span></div>
+                                    </div>
+                                </div>
                                 <div class="agent-card-actions"><a href="{{ route('front.vendorlist') }}" class="btn-agent-outlined">View Profile</a><a href="tel:+919876543210" class="btn-agent-filled">Call Now</a></div>
                             </div>
                             <div class="agent-card">
@@ -748,11 +754,15 @@
                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                     <span>VERIFIED</span>
                                 </div>
-                                <div class="agent-avatar-wrapper"><img src="{{ asset('front/assets/images/agent_krishna.jpg') }}" alt="Krishna Motors" class="agent-avatar-img"></div>
-                                <h3 class="agent-name">Krishna Motors</h3>
-                                <p class="agent-category">Automobile Agent</p>
-                                <p class="agent-location">Jodhpur, Rajasthan</p>
-                                <div class="agent-rating-row"><div class="rating-stars">★★★★★</div><span class="rating-score">4.7 <span class="rating-count">(98)</span></span></div>
+                                <div class="agent-card-top-content">
+                                    <div class="agent-avatar-wrapper"><img src="{{ asset('front/assets/images/agent_krishna.jpg') }}" alt="Krishna Motors" class="agent-avatar-img"></div>
+                                    <div class="agent-info-wrapper">
+                                        <h3 class="agent-name">Krishna Motors</h3>
+                                        <p class="agent-category">Automobile Agent</p>
+                                        <p class="agent-location">Jodhpur, Rajasthan</p>
+                                        <div class="agent-rating-row"><div class="rating-stars">★★★★★</div><span class="rating-score">4.7 <span class="rating-count">(98)</span></span></div>
+                                    </div>
+                                </div>
                                 <div class="agent-card-actions"><a href="{{ route('front.vendorlist') }}" class="btn-agent-outlined">View Profile</a><a href="tel:+919876543211" class="btn-agent-filled">Call Now</a></div>
                             </div>
                             <div class="agent-card">
@@ -760,11 +770,15 @@
                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                     <span>VERIFIED</span>
                                 </div>
-                                <div class="agent-avatar-wrapper"><img src="{{ asset('front/assets/images/agent_rto.jpg') }}" alt="RTO Solution Point" class="agent-avatar-img"></div>
-                                <h3 class="agent-name">RTO Solution Point</h3>
-                                <p class="agent-category">RTO Agent</p>
-                                <p class="agent-location">Ajmer, Rajasthan</p>
-                                <div class="agent-rating-row"><div class="rating-stars">★★★★★</div><span class="rating-score">4.9 <span class="rating-count">(155)</span></span></div>
+                                <div class="agent-card-top-content">
+                                    <div class="agent-avatar-wrapper"><img src="{{ asset('front/assets/images/agent_rto.jpg') }}" alt="RTO Solution Point" class="agent-avatar-img"></div>
+                                    <div class="agent-info-wrapper">
+                                        <h3 class="agent-name">RTO Solution Point</h3>
+                                        <p class="agent-category">RTO Agent</p>
+                                        <p class="agent-location">Ajmer, Rajasthan</p>
+                                        <div class="agent-rating-row"><div class="rating-stars">★★★★★</div><span class="rating-score">4.9 <span class="rating-count">(155)</span></span></div>
+                                    </div>
+                                </div>
                                 <div class="agent-card-actions"><a href="{{ route('front.vendorlist') }}" class="btn-agent-outlined">View Profile</a><a href="tel:+919876543212" class="btn-agent-filled">Call Now</a></div>
                             </div>
                         @endif
