@@ -20,24 +20,26 @@
     }
     @media (max-width: 768px) {
         .index-hero-banner-section {
-            padding: 0 !important;
+            padding: 8px 12px 0 12px !important;
             width: 100% !important;
-            overflow: hidden !important;
+            box-sizing: border-box !important;
         }
         .index-hero-banner-container {
             padding: 0 !important;
             width: 100% !important;
+            border-radius: 12px !important;
             overflow: hidden !important;
         }
         .index-hero-banner-img {
-            width: 200% !important;
-            max-width: 200% !important;
-            min-height: 185px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            min-height: 130px !important;
+            max-height: 220px !important;
             height: auto !important;
             object-fit: cover !important;
             object-position: center !important;
-            margin-left: -50% !important;
-            border-radius: 0 !important;
+            margin: 0 auto !important;
+            border-radius: 12px !important;
             display: block !important;
         }
     }

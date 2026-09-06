@@ -94,14 +94,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const categoryCards = document.querySelectorAll('.category-card');
     categoryCards.forEach(card => {
         card.addEventListener('click', (e) => {
-            e.preventDefault();
-            const catTitle = card.querySelector('.category-title').textContent;
-            showToast(`Category Selected: "${catTitle}". Finding best Agents...`);
-            
-            // Smooth scroll to search form
-            const searchForm = document.getElementById('agentSearchForm');
-            if (searchForm) {
-                searchForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            const href = card.getAttribute('href');
+            if (!href || href === '#' || href.startsWith('javascript:')) {
+                e.preventDefault();
+                const catTitle = card.querySelector('.category-title')?.textContent || '';
+                showToast(`Category Selected: "${catTitle}". Finding best Agents...`);
+                
+                // Smooth scroll to search form
+                const searchForm = document.getElementById('agentSearchForm');
+                if (searchForm) {
+                    searchForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
             }
         });
     });
@@ -135,18 +138,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     viewProfileBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const card = btn.closest('.agent-card');
-            const name = card.querySelector('.agent-name').textContent;
-            showToast(`Opening profile for ${name}...`);
+            const href = btn.getAttribute('href');
+            if (!href || href === '#' || href.startsWith('javascript:')) {
+                e.preventDefault();
+                const card = btn.closest('.agent-card');
+                const name = card?.querySelector('.agent-name')?.textContent || 'Agent';
+                showToast(`Opening profile for ${name}...`);
+            }
         });
     });
 
     callNowBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
-            const card = btn.closest('.agent-card');
-            const name = card.querySelector('.agent-name').textContent;
-            showToast(`Initiating call with ${name}...`);
+            const href = btn.getAttribute('href');
+            if (!href || href === '#' || href.startsWith('javascript:')) {
+                const card = btn.closest('.agent-card');
+                const name = card?.querySelector('.agent-name')?.textContent || 'Agent';
+                showToast(`Initiating call with ${name}...`);
+            }
         });
     });
 
@@ -177,10 +186,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const exploreDistrictBtns = document.querySelectorAll('.btn-explore-district');
     exploreDistrictBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const card = btn.closest('.district-card');
-            const cityName = card.querySelector('.district-name').textContent;
-            showToast(`Exploring Verified Agents in ${cityName}...`);
+            const href = btn.getAttribute('href');
+            if (!href || href === '#' || href.startsWith('javascript:')) {
+                e.preventDefault();
+                const card = btn.closest('.district-card');
+                const cityName = card?.querySelector('.district-name')?.textContent || 'District';
+                showToast(`Exploring Verified Agents in ${cityName}...`);
+            }
         });
     });
 
