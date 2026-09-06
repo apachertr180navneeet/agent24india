@@ -899,10 +899,17 @@
         margin-bottom: 14px;
         padding-bottom: 10px;
         border-bottom: 1px solid #F1F5F9;
+        gap: 8px;
+    }
+
+    .vl-visiting-title-wrap {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
     }
 
     .vl-visiting-title {
-        font-size: 13.5px;
+        font-size: 14px;
         font-weight: 800;
         color: #0F172A;
         text-transform: uppercase;
@@ -916,10 +923,51 @@
         color: var(--slate-muted);
     }
 
+    .vl-vc-slider-controls {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .vl-vc-nav-btn {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #F1F5F9;
+        border: 1px solid #E2E8F0;
+        color: #0F172A;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        padding: 0;
+    }
+
+    .vl-vc-nav-btn:hover {
+        background: #004BEE;
+        border-color: #004BEE;
+        color: #FFFFFF;
+    }
+
+    .vl-vc-slider-wrapper {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+    }
+
     .vl-vc-list {
         display: flex;
         flex-direction: column;
         gap: 12px;
+        max-height: 480px;
+        overflow-y: auto;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .vl-vc-list::-webkit-scrollbar {
+        display: none;
     }
 
     .vl-vc-item {
@@ -1269,262 +1317,367 @@
             padding-bottom: 40px !important;
         }
 
-        /* Top Sticky Filter Bar */
+        /* Hide Top Sticky Filter Bar on mobile since we have in-page mobile filter bar */
         .vl-top-filter-bar {
-            top: 56px !important;
-            padding: 8px 0 !important;
-            background: #FFFFFF !important;
-            border-bottom: 1px solid #E2E8F0 !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
-        }
-        .vl-filter-bar-container {
-            padding: 0 12px !important;
-            gap: 8px !important;
-            flex-wrap: nowrap !important;
-            overflow-x: auto !important;
-            scrollbar-width: none !important;
-            -ms-overflow-style: none !important;
-        }
-        .vl-filter-bar-container::-webkit-scrollbar {
-            display: none !important;
-        }
-        .vl-filter-bar-left {
-            display: flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            flex-wrap: nowrap !important;
-            flex: 1 !important;
-        }
-        .vl-filter-toggle-btn {
-            padding: 6px 12px !important;
-            font-size: 12.5px !important;
-            height: 34px !important;
-            border-radius: 8px !important;
-            background: #004BEE !important;
-            color: #FFFFFF !important;
-            border: none !important;
-            flex-shrink: 0 !important;
-            gap: 6px !important;
-        }
-        .vl-filter-toggle-btn svg {
-            stroke: #FFFFFF !important;
-        }
-        .vl-dropdown-capsule {
-            padding: 4px 10px !important;
-            height: 34px !important;
-            font-size: 12px !important;
-            border-radius: 8px !important;
-            flex-shrink: 0 !important;
-        }
-        .vl-dropdown-capsule label {
-            font-size: 11px !important;
-        }
-        .vl-dropdown-capsule select {
-            font-size: 12px !important;
-        }
-        .vl-filter-bar-right {
-            display: flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            flex-shrink: 0 !important;
-        }
-        .vl-sort-group {
-            display: flex !important;
-            align-items: center !important;
-        }
-        .vl-sort-group label {
-            display: none !important;
-        }
-        .vl-sort-group select {
-            height: 34px !important;
-            font-size: 12px !important;
-            padding: 4px 10px !important;
-            border-radius: 8px !important;
-            border: 1px solid #E2E8F0 !important;
-            background: #FFFFFF !important;
-            color: #0F172A !important;
-            font-weight: 600 !important;
-        }
-        .vl-view-toggle {
             display: none !important;
         }
 
         /* Layout wrapper */
         .vl-layout-wrap {
-            padding: 0 12px !important;
-            margin-top: 10px !important;
+            padding: 0 14px !important;
+            margin-top: 14px !important;
         }
 
-        /* Premium Banner Ad */
+        /* =========================================================
+           1. Top Premium Banner Ad (Matches Screenshot)
+        ========================================================= */
         .vl-premium-banner {
+            display: flex !important;
             flex-direction: column !important;
-            padding: 18px 14px !important;
-            border-radius: 14px !important;
-            margin-bottom: 14px !important;
+            align-items: center !important;
+            text-align: center !important;
+            padding: 22px 16px 18px 16px !important;
+            border-radius: 18px !important;
+            margin-bottom: 18px !important;
             min-height: auto !important;
-            background: linear-gradient(135deg, #071536 0%, #0A1B44 60%, #0E2963 100%) !important;
+            background: #0B1736 !important;
+            box-shadow: 0 6px 20px rgba(11, 23, 54, 0.2) !important;
+            position: relative !important;
+            overflow: hidden !important;
         }
         .vl-pb-content {
             max-width: 100% !important;
+            width: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
         }
         .vl-pb-badge {
-            font-size: 9px !important;
-            padding: 2px 7px !important;
-            margin-bottom: 6px !important;
+            display: inline-block !important;
+            background: #F1B434 !important;
+            color: #0B1736 !important;
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            padding: 4px 12px !important;
+            border-radius: 6px !important;
+            margin-bottom: 10px !important;
+            letter-spacing: 0.4px !important;
+            text-transform: uppercase !important;
         }
         .vl-pb-title {
-            font-size: 17px !important;
+            font-size: 19px !important;
             font-weight: 800 !important;
+            color: #FFFFFF !important;
             line-height: 1.25 !important;
-            margin-bottom: 4px !important;
+            margin: 0 0 5px 0 !important;
+            text-align: center !important;
         }
         .vl-pb-subtitle {
-            font-size: 12px !important;
-            color: #94A3B8 !important;
-            margin-bottom: 12px !important;
-        }
-        .vl-pb-features {
-            display: grid !important;
-            grid-template-columns: 1fr 1fr !important;
-            gap: 6px !important;
-            margin-bottom: 14px !important;
-        }
-        .vl-pb-pill {
-            padding: 4px 8px !important;
-            font-size: 11px !important;
-            gap: 6px !important;
-            background: rgba(255, 255, 255, 0.08) !important;
-            border-radius: 6px !important;
-        }
-        .vl-pb-pill-icon {
-            width: 18px !important;
-            height: 18px !important;
-            font-size: 10px !important;
-        }
-        .vl-pb-btn {
-            width: 100% !important;
-            text-align: center !important;
-            justify-content: center !important;
-            height: 38px !important;
-            font-size: 13px !important;
+            font-size: 13.5px !important;
             font-weight: 700 !important;
-            border-radius: 8px !important;
+            color: #F1B434 !important;
+            margin: 0 0 16px 0 !important;
+            text-align: center !important;
         }
-        .vl-pb-visual {
-            display: none !important;
+        .vl-pb-features-row {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            width: 100% !important;
+            margin-bottom: 14px !important;
+            position: relative !important;
+            padding: 0 2px !important;
         }
-        .vl-pb-arrow {
-            display: none !important;
+        .vl-pb-nav-btn {
+            width: 28px !important;
+            height: 28px !important;
+            min-width: 28px !important;
+            border-radius: 50% !important;
+            background: #FFFFFF !important;
+            color: #0B1736 !important;
+            border: none !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 11px !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+            cursor: pointer !important;
+            z-index: 3 !important;
         }
+        .vl-pb-feature-item {
+            flex: 1 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+            padding: 0 2px !important;
+        }
+        .vl-pb-circle-icon {
+            width: 44px !important;
+            height: 44px !important;
+            border-radius: 50% !important;
+            background: #1B4BD8 !important;
+            color: #FFFFFF !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 16px !important;
+            margin-bottom: 6px !important;
+            box-shadow: 0 3px 8px rgba(27, 75, 216, 0.35) !important;
+        }
+        .vl-pb-feature-label {
+            font-size: 10px !important;
+            font-weight: 700 !important;
+            color: #FFFFFF !important;
+            line-height: 1.2 !important;
+            text-align: center !important;
+        }
+        .vl-pb-carousel-dots {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            margin-bottom: 16px !important;
+        }
+        .vl-pb-dot {
+            width: 7px !important;
+            height: 7px !important;
+            border-radius: 50% !important;
+            border: 1.5px solid rgba(255, 255, 255, 0.7) !important;
+            background: transparent !important;
+            display: inline-block !important;
+        }
+        .vl-pb-dot.active {
+            background: #FFFFFF !important;
+            border-color: #FFFFFF !important;
+        }
+        .vl-pb-cta-btn {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            background: #F1B434 !important;
+            color: #0B1736 !important;
+            font-size: 14.5px !important;
+            font-weight: 800 !important;
+            height: 44px !important;
+            border-radius: 10px !important;
+            width: 100% !important;
+            text-decoration: none !important;
+            border: none !important;
+            box-shadow: 0 3px 10px rgba(241, 180, 52, 0.3) !important;
+        }
+        .vl-pb-visual,
+        .vl-pb-arrow,
         .vl-pb-dots {
             display: none !important;
         }
 
-        /* Results Meta */
-        .vl-results-meta {
-            margin-bottom: 10px !important;
+        /* =========================================================
+           2. Listing Title & Hindi Subtitle
+        ========================================================= */
+        .vl-listing-header {
+            margin: 4px 0 12px 0 !important;
         }
-        .vl-results-count {
-            font-size: 12px !important;
-            font-weight: 600 !important;
+        .vl-listing-title {
+            font-size: 22px !important;
+            font-weight: 800 !important;
+            color: #0F172A !important;
+            margin: 0 0 4px 0 !important;
+            line-height: 1.25 !important;
+        }
+        .vl-title-city {
+            color: #004BEE !important;
+        }
+        .vl-listing-subtitle {
+            font-size: 13.5px !important;
+            color: #475569 !important;
+            font-weight: 500 !important;
+            margin: 0 !important;
+            line-height: 1.4 !important;
         }
 
-        /* Vendor Card (Modern Mobile Layout) */
+        /* =========================================================
+           3. In-page Mobile Filter & Sort Bar
+        ========================================================= */
+        .vl-mobile-filter-bar {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 10px !important;
+            margin-bottom: 14px !important;
+            margin-top: 10px !important;
+        }
+        .vl-mobile-filter-btn {
+            background: #FFFFFF !important;
+            border: 1.5px solid #E2E8F0 !important;
+            border-radius: 10px !important;
+            padding: 7px 14px !important;
+            font-size: 13.5px !important;
+            font-weight: 700 !important;
+            color: #0F172A !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            height: 38px !important;
+            cursor: pointer !important;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02) !important;
+        }
+        .vl-mobile-sort-wrap {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+        .vl-mobile-sort-wrap label {
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            color: #0F172A !important;
+            margin: 0 !important;
+        }
+        .vl-mobile-sort-select {
+            background: #FFFFFF !important;
+            border: 1.5px solid #E2E8F0 !important;
+            border-radius: 10px !important;
+            padding: 6px 12px !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            color: #0F172A !important;
+            height: 38px !important;
+            outline: none !important;
+            cursor: pointer !important;
+        }
+        .vl-results-meta {
+            display: none !important;
+        }
+
+        /* =========================================================
+           4. Vendor Card (Mobile Layout Matching Screenshot)
+        ========================================================= */
         .vl-agents-container {
-            gap: 12px !important;
+            gap: 14px !important;
         }
         .vl-card {
             display: flex !important;
             flex-direction: column !important;
             align-items: stretch !important;
-            padding: 14px 12px !important;
-            border-radius: 14px !important;
-            gap: 10px !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+            padding: 14px !important;
+            border-radius: 16px !important;
+            gap: 0 !important;
+            background: #FFFFFF !important;
+            border: 1.5px solid #E5E7EB !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03) !important;
             position: relative !important;
         }
         .vl-card-header-top {
             display: flex !important;
             align-items: flex-start !important;
-            gap: 12px !important;
+            gap: 14px !important;
             width: 100% !important;
+            position: relative !important;
         }
         .vl-card-photo-box {
-            width: 68px !important;
-            height: 68px !important;
-            min-width: 68px !important;
-            border-radius: 10px !important;
+            width: 90px !important;
+            height: 90px !important;
+            min-width: 90px !important;
+            border-radius: 12px !important;
+            background: #0A1128 !important;
             position: relative !important;
             overflow: hidden !important;
-            border: 1.5px solid #F1F5F9 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            border: 1px solid #E2E8F0 !important;
+        }
+        .vl-card-photo-box img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
         }
         .vl-card-badge-verified {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            background: #16A34A !important;
+            color: #FFFFFF !important;
             font-size: 8px !important;
-            padding: 2px 4px !important;
-            top: 3px !important;
-            left: 3px !important;
-            border-radius: 3px !important;
-            letter-spacing: 0.2px !important;
+            font-weight: 800 !important;
+            padding: 2px 6px !important;
+            border-top-left-radius: 10px !important;
+            border-bottom-right-radius: 6px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 2px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.3px !important;
+            z-index: 2 !important;
         }
         .vl-card-info {
             flex: 1 !important;
             min-width: 0 !important;
+            padding-right: 28px !important;
         }
         .vl-card-title-row {
-            display: flex !important;
-            align-items: center !important;
-            gap: 5px !important;
             margin-bottom: 2px !important;
-            padding-right: 28px !important; /* room for heart btn */
         }
         .vl-card-title {
-            font-size: 15px !important;
+            font-size: 16px !important;
             font-weight: 800 !important;
             line-height: 1.25 !important;
             color: #0F172A !important;
-            white-space: nowrap !important;
-            overflow: hidden !important;
-            text-overflow: ellipsis !important;
+            margin: 0 !important;
+        }
+        .vl-card-title a {
+            color: #0F172A !important;
+            text-decoration: none !important;
+        }
+        .vl-card-blue-tick-row {
+            display: flex !important;
+            align-items: center !important;
+            margin: 3px 0 !important;
         }
         .vl-blue-tick {
             width: 16px !important;
             height: 16px !important;
         }
         .vl-card-rating-row {
-            font-size: 11.5px !important;
+            display: flex !important;
+            align-items: center !important;
             gap: 4px !important;
-            margin-bottom: 2px !important;
+            font-size: 12px !important;
+            margin-bottom: 3px !important;
+            flex-wrap: wrap !important;
+        }
+        .vl-card-rating-num {
+            font-weight: 800 !important;
+            color: #0F172A !important;
         }
         .vl-card-stars {
+            color: #F59E0B !important;
             font-size: 11px !important;
+            display: inline-flex !important;
             gap: 1px !important;
         }
-        .vl-card-location {
-            font-size: 11.5px !important;
-            margin-bottom: 4px !important;
+        .vl-card-reviews {
             color: #64748B !important;
+            font-size: 11.5px !important;
+            font-weight: 500 !important;
         }
-        .vl-card-desc {
-            font-size: 12px !important;
-            color: #475569 !important;
-            line-height: 1.4 !important;
-            margin-bottom: 8px !important;
-            -webkit-line-clamp: 2 !important;
-            display: -webkit-box !important;
-        }
-        .vl-card-tags {
+        .vl-card-location {
             display: flex !important;
-            flex-wrap: wrap !important;
-            gap: 5px !important;
-            margin-bottom: 4px !important;
+            align-items: center !important;
+            gap: 4px !important;
+            color: #64748B !important;
+            font-size: 12px !important;
+            font-weight: 500 !important;
+            margin-bottom: 0 !important;
         }
-        .vl-card-tag {
-            font-size: 11px !important;
-            padding: 2px 7px !important;
-            border-radius: 4px !important;
+        .vl-card-location svg {
+            color: #64748B !important;
+            stroke: #64748B !important;
+            flex-shrink: 0 !important;
         }
 
-        /* Wishlist Heart Button at top right */
+        /* Wishlist Heart Button placed at top-right */
         .vl-card-heart-btn {
             position: absolute !important;
             top: 10px !important;
@@ -1532,95 +1685,153 @@
             width: 32px !important;
             height: 32px !important;
             border-radius: 50% !important;
-            background: #F8FAFC !important;
-            border: 1px solid #E2E8F0 !important;
+            background: transparent !important;
+            border: none !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             padding: 0 !important;
             z-index: 5 !important;
+            color: #0F172A !important;
         }
         .vl-card-heart-btn svg {
-            width: 17px !important;
-            height: 17px !important;
+            width: 20px !important;
+            height: 20px !important;
+            stroke: #0F172A !important;
+        }
+        .vl-card-heart-btn.is-saved svg {
+            fill: #EF4444 !important;
+            stroke: #EF4444 !important;
         }
 
-        /* Action Buttons on Mobile */
+        /* Body Content: Description & Tags */
+        .vl-card-body-content {
+            display: block !important;
+            margin-top: 10px !important;
+            width: 100% !important;
+        }
+        .vl-card-desc {
+            font-size: 12.5px !important;
+            color: #334155 !important;
+            line-height: 1.45 !important;
+            margin-bottom: 8px !important;
+            font-weight: 500 !important;
+            display: -webkit-box !important;
+            -webkit-line-clamp: 2 !important;
+            -webkit-box-orient: vertical !important;
+            overflow: hidden !important;
+        }
+        .vl-card-tags {
+            display: flex !important;
+            align-items: center !important;
+            flex-wrap: wrap !important;
+            gap: 6px !important;
+            margin-bottom: 0 !important;
+        }
+        .vl-card-tag {
+            background: #EEF4FF !important;
+            color: #004BEE !important;
+            border: 1px solid #D6E4FF !important;
+            border-radius: 6px !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            padding: 3px 10px !important;
+            text-decoration: none !important;
+            display: inline-block !important;
+        }
+
+        /* Action Buttons: 2 Equal Outline Buttons side-by-side */
         .vl-card-actions {
-            border-top: 1px solid #F1F5F9 !important;
-            padding-top: 10px !important;
-            margin-top: 4px !important;
             display: grid !important;
             grid-template-columns: 1fr 1fr !important;
-            gap: 8px !important;
+            gap: 10px !important;
+            margin-top: 12px !important;
+            padding-top: 12px !important;
+            border-top: 1px solid #F1F5F9 !important;
             width: 100% !important;
             align-items: center !important;
         }
-        .vl-card-phone {
+        .vl-card-phone,
+        .vl-card-view-details {
             display: none !important;
         }
         .vl-card-btn-call {
-            height: 38px !important;
-            font-size: 13px !important;
-            font-weight: 700 !important;
-            border-radius: 8px !important;
-            background: #004BEE !important;
-            color: #FFFFFF !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 6px !important;
-            text-decoration: none !important;
-            border: none !important;
-            box-shadow: 0 2px 6px rgba(0, 75, 238, 0.2) !important;
-        }
-        .vl-card-btn-wa {
-            height: 38px !important;
-            font-size: 13px !important;
-            font-weight: 700 !important;
-            border-radius: 8px !important;
-            background: #16A34A !important;
-            color: #FFFFFF !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 6px !important;
-            text-decoration: none !important;
-            border: none !important;
-            box-shadow: 0 2px 6px rgba(22, 163, 74, 0.2) !important;
-        }
-        .vl-card-view-details {
-            grid-column: 1 / -1 !important;
-            height: 34px !important;
-            font-size: 12.5px !important;
-            font-weight: 700 !important;
-            border-radius: 8px !important;
+            background: #FFFFFF !important;
             border: 1.5px solid #004BEE !important;
             color: #004BEE !important;
-            background: #FFFFFF !important;
+            height: 42px !important;
+            border-radius: 10px !important;
+            font-size: 13.5px !important;
+            font-weight: 700 !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            gap: 6px !important;
+            gap: 8px !important;
             text-decoration: none !important;
-            margin-top: 2px !important;
+            box-shadow: none !important;
+        }
+        .vl-card-btn-call svg {
+            stroke: #004BEE !important;
+        }
+        .vl-card-btn-wa {
+            background: #FFFFFF !important;
+            border: 1.5px solid #16A34A !important;
+            color: #16A34A !important;
+            height: 42px !important;
+            border-radius: 10px !important;
+            font-size: 13.5px !important;
+            font-weight: 700 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            text-decoration: none !important;
+            box-shadow: none !important;
         }
 
-        /* Right Column Cards on Mobile */
+        /* Right Column / Area Agent Visiting Card Slider on Mobile */
         .vl-right-col,
         .vl-visiting-sidebar {
             width: 100% !important;
             display: flex !important;
             flex-direction: column !important;
             gap: 12px !important;
-            margin-top: 14px !important;
+            margin-top: 18px !important;
         }
-        .vl-visiting-card,
-        .vl-side-ad-box,
-        .vl-side-app-box {
-            width: 100% !important;
-            border-radius: 14px !important;
+        .vl-visiting-card-container {
+            border-radius: 16px !important;
             padding: 16px 14px !important;
+            background: #FFFFFF !important;
+            border: 1.5px solid #E5E7EB !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03) !important;
+        }
+        .vl-vc-slider-wrapper {
+            overflow: visible !important;
+            width: 100% !important;
+        }
+        .vl-vc-list {
+            display: flex !important;
+            flex-direction: row !important;
+            gap: 12px !important;
+            max-height: none !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            scroll-snap-type: x mandatory !important;
+            scroll-behavior: smooth !important;
+            -webkit-overflow-scrolling: touch !important;
+            scrollbar-width: none !important;
+            padding: 4px 2px 8px 2px !important;
+        }
+        .vl-vc-list::-webkit-scrollbar {
+            display: none !important;
+        }
+        .vl-vc-item {
+            width: 265px !important;
+            min-width: 265px !important;
+            max-width: 265px !important;
+            scroll-snap-align: start !important;
+            flex-shrink: 0 !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
         }
 
         /* Pagination */
@@ -1902,56 +2113,80 @@
             <main class="vl-main-col">
 
                 <!-- Top Premium Banner Carousel -->
+                <!-- Top Premium Banner Carousel (Matches Screenshot) -->
                 <div class="vl-premium-banner">
-                    <div class="vl-pb-content">
-                        <span class="vl-pb-badge">PREMIUM BANNER AD</span>
-                        <h2 class="vl-pb-title">Grow Your {{ $selectedCategoryObj ? $selectedCategoryObj->name : 'Business' }}</h2>
-                        <div class="vl-pb-subtitle">Advertise with Premium Banner Ad</div>
+                    <span class="vl-pb-badge">PREMIUM BANNER AD</span>
+                    <h2 class="vl-pb-title">Grow Your {{ $selectedCategoryObj ? $selectedCategoryObj->name : 'Real Estate' }} Business</h2>
+                    <div class="vl-pb-subtitle">Advertise with Premium Banner Ad</div>
 
-                        <div class="vl-pb-features">
-                            <div class="vl-pb-pill">
-                                <div class="vl-pb-pill-icon"><i class="fa-solid fa-eye"></i></div>
-                                <span>High Visibility</span>
-                            </div>
-                            <div class="vl-pb-pill">
-                                <div class="vl-pb-pill-icon"><i class="fa-solid fa-bullseye"></i></div>
-                                <span>Targeted Audience</span>
-                            </div>
-                            <div class="vl-pb-pill">
-                                <div class="vl-pb-pill-icon"><i class="fa-solid fa-city"></i></div>
-                                <span>City Wide Reach</span>
-                            </div>
-                            <div class="vl-pb-pill">
-                                <div class="vl-pb-pill-icon"><i class="fa-solid fa-chart-line"></i></div>
-                                <span>Boost Your Business</span>
-                            </div>
+                    <div class="vl-pb-features-row">
+                        <button type="button" class="vl-pb-nav-btn prev" aria-label="Previous">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+
+                        <div class="vl-pb-feature-item">
+                            <div class="vl-pb-circle-icon"><i class="fa-solid fa-eye"></i></div>
+                            <span class="vl-pb-feature-label">High<br>Visibility</span>
+                        </div>
+                        <div class="vl-pb-feature-item">
+                            <div class="vl-pb-circle-icon"><i class="fa-solid fa-users"></i></div>
+                            <span class="vl-pb-feature-label">Targeted<br>Audience</span>
+                        </div>
+                        <div class="vl-pb-feature-item">
+                            <div class="vl-pb-circle-icon"><i class="fa-solid fa-briefcase"></i></div>
+                            <span class="vl-pb-feature-label">City<br>Wise Reach</span>
+                        </div>
+                        <div class="vl-pb-feature-item">
+                            <div class="vl-pb-circle-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                            <span class="vl-pb-feature-label">Boost<br>Your Business</span>
                         </div>
 
-                        <a href="{{ route('front.addbanner') }}" class="vl-pb-btn">
-                            <span>Book Banner Ad</span>
-                        </a>
+                        <button type="button" class="vl-pb-nav-btn next" aria-label="Next">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
                     </div>
 
-                    <!-- Night City Skyline Graphic -->
-                    <div class="vl-pb-visual">
-                        <img src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=900&q=80" alt="City Skyline Lights">
+                    <!-- 5 Dots -->
+                    <div class="vl-pb-carousel-dots">
+                        <span class="vl-pb-dot active"></span>
+                        <span class="vl-pb-dot"></span>
+                        <span class="vl-pb-dot"></span>
+                        <span class="vl-pb-dot"></span>
+                        <span class="vl-pb-dot"></span>
                     </div>
 
-                    <!-- Carousel Controls -->
-                    <button class="vl-pb-arrow left" aria-label="Previous">&#10094;</button>
-                    <button class="vl-pb-arrow right" aria-label="Next">&#10095;</button>
-                    <div class="vl-pb-dots">
-                        <div class="vl-pb-dot active"></div>
-                        <div class="vl-pb-dot"></div>
-                        <div class="vl-pb-dot"></div>
-                        <div class="vl-pb-dot"></div>
-                    </div>
+                    <a href="{{ route('front.addbanner') }}" class="vl-pb-cta-btn">
+                        Book Banner Ad
+                    </a>
                 </div>
 
-                <!-- Results Counter -->
-                <div class="vl-results-meta">
-                    <div class="vl-results-count">
-                        Showing {{ $vendoruser->firstItem() ?? 0 }} to {{ $vendoruser->lastItem() ?? 0 }} of {{ $vendoruser->total() }} agents
+                <!-- Listing Header Section (Matches Screenshot) -->
+                <div class="vl-listing-header">
+                    <h1 class="vl-listing-title">
+                        {{ $selectedCategoryObj ? $selectedCategoryObj->name : 'Real Estate' }} Agent in <span class="vl-title-city">{{ $selectedDistrict ? $selectedDistrict->name : 'Jaipur' }}</span>
+                    </h1>
+                    <p class="vl-listing-subtitle">
+                        {{ $selectedDistrict ? $selectedDistrict->name : 'Jaipur' }} में कुल {{ $vendoruser->total() }} Verified {{ $selectedCategoryObj ? $selectedCategoryObj->name : 'Real Estate' }} Agents उपलब्ध हैं।
+                    </p>
+                </div>
+
+                <!-- In-page Filter & Sort Controls for Mobile (Matches Screenshot) -->
+                <div class="vl-mobile-filter-bar">
+                    <button type="button" class="vl-mobile-filter-btn" id="vlMobileFilterTrigger">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="4" y1="6" x2="20" y2="6"></line>
+                            <line x1="4" y1="12" x2="14" y2="12"></line>
+                            <line x1="4" y1="18" x2="8" y2="18"></line>
+                        </svg>
+                        <span>फ़िल्टर करें</span>
+                    </button>
+                    <div class="vl-mobile-sort-wrap">
+                        <label>Sort By:</label>
+                        <select class="vl-mobile-sort-select" id="mobileSortSelect">
+                            <option value="recommended" {{ $sortBy == 'recommended' ? 'selected' : '' }}>Recommended</option>
+                            <option value="rating" {{ $sortBy == 'rating' ? 'selected' : '' }}>Highest Rated</option>
+                            <option value="newest" {{ $sortBy == 'newest' ? 'selected' : '' }}>Newest</option>
+                        </select>
                     </div>
                 </div>
 
@@ -1984,7 +2219,10 @@
                             <div class="vl-card-header-top">
                                 <!-- Left: Logo / Photo with Verified Badge -->
                                 <div class="vl-card-photo-box">
-                                    <span class="vl-card-badge-verified">VERIFIED</span>
+                                    <span class="vl-card-badge-verified">
+                                        <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                        VERIFIED
+                                    </span>
                                     <img src="{{ $vendorPhoto }}" alt="{{ $businessName }}" onerror="this.onerror=null; this.src='{{ asset('images/images.png') }}';">
                                 </div>
 
@@ -1996,9 +2234,13 @@
                                                 {{ $businessName }}
                                             </a>
                                         </h3>
-                                        <!-- Blue Verified Checkmark Icon -->
-                                        <svg class="vl-blue-tick" width="18" height="18" viewBox="0 0 24 24" fill="none">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="#004BEE"/>
+                                    </div>
+
+                                    <!-- Blue Verified Checkmark Icon -->
+                                    <div class="vl-card-blue-tick-row">
+                                        <svg class="vl-blue-tick" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                            <circle cx="12" cy="12" r="10" fill="#004BEE"/>
+                                            <path d="M8 12l2.5 2.5L16 9" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                                         </svg>
                                     </div>
 
@@ -2010,20 +2252,27 @@
                                             <i class="fa-solid fa-star"></i>
                                             <i class="fa-solid fa-star"></i>
                                             <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star-half-stroke"></i>
+                                            <i class="fa-solid fa-star"></i>
                                         </span>
-                                        <span class="vl-card-reviews">({{ $vendor->calc_reviews ?? '325' }} Reviews)</span>
+                                        <span class="vl-card-reviews">({{ $vendor->calc_reviews ?? '128' }} Reviews)</span>
                                     </div>
 
                                     <!-- Location -->
                                     <div class="vl-card-location">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                                             <circle cx="12" cy="10" r="3"></circle>
                                         </svg>
                                         <span>{{ $addressText }}</span>
                                     </div>
                                 </div>
+
+                                <!-- Wishlist Heart Button placed at top-right -->
+                                <button type="button" class="vl-card-heart-btn" title="Save to Favorites" data-id="{{ $vendor->id }}">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                </button>
                             </div>
 
                             <!-- Body Content: Description & Tags -->
@@ -2033,13 +2282,13 @@
                                     @if(!empty($vendor->description))
                                         {{ $vendor->description }}
                                     @else
-                                        Providing verified services and professional assistance in {{ implode(', ', array_slice($vendor->service_tags ?? ['Verified Services'], 0, 3)) }}.
+                                        हम Buy, Sell, Rent और Commercial Properties में बेहतर सुविधा और मार्गदर्शन प्रदान करते हैं।
                                     @endif
                                 </div>
 
                                 <!-- Service Chips -->
                                 <div class="vl-card-tags">
-                                    @foreach(($vendor->service_tags ?? ['Buy', 'Sell', 'Rent', 'Commercial']) as $tag)
+                                    @foreach(($vendor->service_tags ?? ['Buy', 'Sell', 'Rent']) as $tag)
                                         <a href="javascript:void(0)" class="vl-card-tag">{{ $tag }}</a>
                                     @endforeach
                                 </div>
@@ -2047,19 +2296,19 @@
 
                             <!-- Right / Bottom: Actions & Contact -->
                             <div class="vl-card-actions">
-                                <!-- Wishlist Heart Button -->
-                                <button type="button" class="vl-card-heart-btn" title="Save to Favorites" data-id="{{ $vendor->id }}">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                    </svg>
-                                </button>
-
                                 @if(!empty($cleanMobile))
                                     <div class="vl-card-phone">
                                         <span>+91 {{ substr($cleanMobile, -10, 5) }} {{ substr($cleanMobile, -5) }}</span>
                                     </div>
                                     <a href="tel:{{ $cleanMobile }}" class="vl-card-btn-call" onclick="if(!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){ event.preventDefault(); alert('Phone: +91 {{ $cleanMobile }}'); }">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                        </svg>
+                                        <span>Call Now</span>
+                                    </a>
+                                @else
+                                    <a href="tel:919876543210" class="vl-card-btn-call">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                                         </svg>
                                         <span>Call Now</span>
@@ -2068,7 +2317,12 @@
 
                                 @if(!empty($waNum))
                                     <a href="https://wa.me/{{ $waNum }}?text={{ urlencode('Hello, I saw your profile on Agent 24 India and would like to inquire about your services.') }}" target="_blank" class="vl-card-btn-wa">
-                                        <i class="fa-brands fa-whatsapp" style="font-size:15px;"></i>
+                                        <i class="fa-brands fa-whatsapp" style="font-size:16px;"></i>
+                                        <span>WhatsApp</span>
+                                    </a>
+                                @else
+                                    <a href="https://wa.me/919876543210" target="_blank" class="vl-card-btn-wa">
+                                        <i class="fa-brands fa-whatsapp" style="font-size:16px;"></i>
                                         <span>WhatsApp</span>
                                     </a>
                                 @endif
@@ -2133,60 +2387,77 @@
             </main>
 
             <!-- -------------------------------------------------------------
-                 Right Column: Visiting Card Ad Space
+                 Right Column: Visiting Card Ad Space (Slider)
             -------------------------------------------------------------- -->
             <aside class="vl-visiting-sidebar">
                 <div class="vl-visiting-card-container">
                     
                     <div class="vl-visiting-header">
-                        <h4 class="vl-visiting-title">Area Agent</h4>
-                        <span class="vl-visiting-slots">10 Slots Available</span>
+                        <div class="vl-visiting-title-wrap">
+                            <h4 class="vl-visiting-title">AREA AGENT</h4>
+                            <span class="vl-visiting-slots">10 Slots Available</span>
+                        </div>
+                        <div class="vl-vc-slider-controls">
+                            <button type="button" class="vl-vc-nav-btn prev" id="vcPrevBtn" aria-label="Previous Area Agent">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="15 18 9 12 15 6"></polyline>
+                                </svg>
+                            </button>
+                            <button type="button" class="vl-vc-nav-btn next" id="vcNextBtn" aria-label="Next Area Agent">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="vl-vc-list">
-                        @foreach($visitingCards as $vc)
-                            @php
-                                $vcName = $vc->business_name ?: $vc->name;
-                                $vcMobile = $vc->mobile ? '+91 ' . $vc->mobile : '+91 982765 43210';
-                                $vcAddress = $vc->business_address ?: ($selectedDistrict ? $selectedDistrict->name . ', Jaipur' : 'Vaishali Nagar, Jaipur');
-                                $vcInitials = strtoupper(substr($vcName, 0, 2));
-                                $vcRibbonColor = $vc->ribbon_color ?? '#F59E0B';
-                            @endphp
+                    <div class="vl-vc-slider-wrapper">
+                        <div class="vl-vc-list" id="vcSliderTrack">
+                            @foreach($visitingCards as $vc)
+                                @php
+                                    $vcName = $vc->business_name ?: $vc->name;
+                                    $cleanVcMobile = !empty($vc->mobile) ? preg_replace('/[^0-9]/', '', $vc->mobile) : '9827654321';
+                                    $vcMobile = '+91 ' . $cleanVcMobile;
+                                    $vcAddress = $vc->business_address ?: ($selectedDistrict ? $selectedDistrict->name . ', Jaipur' : 'Vaishali Nagar, Jaipur');
+                                    $vcInitials = strtoupper(substr($vcName, 0, 2));
+                                    $vcRibbonColor = $vc->ribbon_color ?? '#F59E0B';
+                                @endphp
 
-                            <a href="{{ route('front.vendor.details', ['vendor' => $vc->id]) }}" class="vl-vc-item" style="--ribbon-bg: {{ $vcRibbonColor }};">
-                                <!-- Corner Fold Ribbon -->
-                                <div class="vl-vc-ribbon"></div>
+                                <a href="{{ route('front.vendor.details', ['vendor' => $vc->id]) }}" class="vl-vc-item" style="--ribbon-bg: {{ $vcRibbonColor }};">
+                                    <!-- Corner Fold Ribbon -->
+                                    <div class="vl-vc-ribbon"></div>
 
-                                <!-- Square Logo Box -->
-                                <div class="vl-vc-logo">
-                                    @if(!empty($vc->profile_photo))
-                                        <img src="{{ $vc->profile_photo_url }}" alt="{{ $vcName }}" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='block';">
-                                        <span style="display:none;">{{ $vcInitials }}</span>
-                                    @else
-                                        <span>{{ $vcInitials }}</span>
-                                    @endif
-                                </div>
-
-                                <!-- Card Details -->
-                                <div class="vl-vc-info">
-                                    <div class="vl-vc-name" title="{{ $vcName }}">{{ $vcName }}</div>
-                                    <div class="vl-vc-role">{{ $vc->designation ?? 'Real Estate Consultant' }}</div>
-                                    <div class="vl-vc-meta">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                                        </svg>
-                                        <span>{{ $vcMobile }}</span>
+                                    <!-- Square Logo Box -->
+                                    <div class="vl-vc-logo">
+                                        @if(!empty($vc->profile_photo))
+                                            <img src="{{ $vc->profile_photo_url }}" alt="{{ $vcName }}" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                            <span style="display:none;">{{ $vcInitials }}</span>
+                                        @else
+                                            <span>{{ $vcInitials }}</span>
+                                        @endif
                                     </div>
-                                    <div class="vl-vc-location">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                            <circle cx="12" cy="10" r="3"></circle>
-                                        </svg>
-                                        <span>{{ Str::limit($vcAddress, 24) }}</span>
+
+                                    <!-- Card Details -->
+                                    <div class="vl-vc-info">
+                                        <div class="vl-vc-name" title="{{ $vcName }}">{{ $vcName }}</div>
+                                        <div class="vl-vc-role">{{ $vc->designation ?? 'Real Estate Consultant' }}</div>
+                                        <div class="vl-vc-meta">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                            </svg>
+                                            <span>{{ $vcMobile }}</span>
+                                        </div>
+                                        <div class="vl-vc-location">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                                <circle cx="12" cy="10" r="3"></circle>
+                                            </svg>
+                                            <span>{{ Str::limit($vcAddress, 24) }}</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        @endforeach
+                                </a>
+                            @endforeach
+                        </div>
                     </div>
 
                     <a href="{{ route('front.addbanner') }}" class="vl-vc-view-all">
@@ -2371,7 +2642,7 @@
         });
 
         // 8. Sort Filter
-        $('#topBarSortSelect').on('change', function () {
+        $('#topBarSortSelect, #mobileSortSelect').on('change', function () {
             applyCurrentFilters({ sort: $(this).val() });
         });
 
@@ -2433,7 +2704,7 @@
         });
 
         // 12. Mobile Filter Sidebar Drawer (Offcanvas)
-        $('#vlSidebarToggle').on('click', function () {
+        $('#vlSidebarToggle, #vlMobileFilterTrigger').on('click', function () {
             $('#vlFilterSidebar').addClass('is-open');
             $('#vlFilterBackdrop').addClass('is-active');
             $('body').addClass('overflow-hidden');
@@ -2448,6 +2719,61 @@
         $('#btnDrawerReset').on('click', function () {
             $('#btnResetFilters').trigger('click');
         });
+
+        // 13. Area Agent Visiting Card Slider Control & Auto-slide
+        var vcTrack = document.getElementById('vcSliderTrack');
+        if (vcTrack) {
+            $('#vcNextBtn').on('click', function () {
+                var isMobile = window.innerWidth <= 768;
+                if (isMobile) {
+                    var scrollAmount = 277; // card width + gap
+                    var maxScroll = vcTrack.scrollWidth - vcTrack.clientWidth;
+                    if (vcTrack.scrollLeft + scrollAmount >= maxScroll - 10) {
+                        vcTrack.scrollTo({ left: 0, behavior: 'smooth' });
+                    } else {
+                        vcTrack.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                    }
+                } else {
+                    var scrollAmount = 140;
+                    var maxScroll = vcTrack.scrollHeight - vcTrack.clientHeight;
+                    if (vcTrack.scrollTop + scrollAmount >= maxScroll - 10) {
+                        vcTrack.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                        vcTrack.scrollBy({ top: scrollAmount, behavior: 'smooth' });
+                    }
+                }
+            });
+
+            $('#vcPrevBtn').on('click', function () {
+                var isMobile = window.innerWidth <= 768;
+                if (isMobile) {
+                    var scrollAmount = 277;
+                    if (vcTrack.scrollLeft <= 10) {
+                        vcTrack.scrollTo({ left: vcTrack.scrollWidth, behavior: 'smooth' });
+                    } else {
+                        vcTrack.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                    }
+                } else {
+                    var scrollAmount = 140;
+                    if (vcTrack.scrollTop <= 10) {
+                        vcTrack.scrollTo({ top: vcTrack.scrollHeight, behavior: 'smooth' });
+                    } else {
+                        vcTrack.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
+                    }
+                }
+            });
+
+            // Auto-advance visiting cards slider periodically
+            var vcAutoSlide = setInterval(function () {
+                if (!$(vcTrack).is(':hover')) {
+                    $('#vcNextBtn').trigger('click');
+                }
+            }, 3500);
+
+            $(vcTrack).on('mouseenter touchstart', function () {
+                clearInterval(vcAutoSlide);
+            });
+        }
     });
 </script>
 @endpush

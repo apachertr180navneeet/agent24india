@@ -529,15 +529,15 @@ class HomeController extends Controller
         $visitingCards = $visitingCardsQuery
             ->orderByRaw("CASE WHEN vendor_type = 'paid' THEN 0 ELSE 1 END")
             ->inRandomOrder()
-            ->limit(6)
+            ->limit(10)
             ->get();
 
-        if ($visitingCards->count() < 4) {
+        if ($visitingCards->count() < 6) {
             $extraCards = User::where('role_id', config('constants.roles.VENDOR.value'))
                 ->where('status', 1)
                 ->whereNotIn('id', $visitingCards->pluck('id'))
                 ->inRandomOrder()
-                ->limit(4 - $visitingCards->count())
+                ->limit(10 - $visitingCards->count())
                 ->get();
             $visitingCards = $visitingCards->concat($extraCards);
         }
