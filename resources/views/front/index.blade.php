@@ -36,6 +36,248 @@
         margin-top: 5px;
         line-height: 1.2;
     }
+
+    /* Mobile How It Works Styles matching Screenshot */
+    .m-steps-flow {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 2px;
+        background-color: #FFFFFF;
+        border: 1.5px solid #E2E8F0;
+        border-radius: 16px;
+        padding: 16px 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    }
+    .m-step-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        flex: 1;
+    }
+    .m-step-badge {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        color: #FFFFFF;
+        font-size: 11px;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 6px;
+    }
+    .m-step-badge.step-1 { background-color: #004BEE; }
+    .m-step-badge.step-2 { background-color: #F97316; }
+    .m-step-badge.step-3 { background-color: #16A34A; }
+    .m-step-badge.step-4 { background-color: #9333EA; }
+
+    .m-step-icon-box {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 8px;
+    }
+    .bg-blue-light   { background-color: #EFF6FF; }
+    .bg-orange-light { background-color: #FFF7ED; }
+    .bg-green-light  { background-color: #F0FDF4; }
+    .bg-purple-light { background-color: #FAF5FF; }
+
+    .m-step-text {
+        font-size: 10.5px;
+        font-weight: 700;
+        color: #0F172A;
+        line-height: 1.25;
+        text-align: center;
+    }
+    .m-step-arrow {
+        color: #94A3B8;
+        font-size: 13px;
+        margin-top: 32px;
+        font-weight: 700;
+    }
+
+    /* Mobile Top Verified Agents Slider Styles */
+    .m-top-agents-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 14px;
+    }
+    .m-top-agents-title {
+        font-size: 18px;
+        font-weight: 800;
+        color: #0F172A;
+        margin: 0;
+    }
+    .m-top-agents-link {
+        font-size: 13.5px;
+        font-weight: 700;
+        color: #004BEE;
+        text-decoration: none;
+    }
+    .m-agent-carousel-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        position: relative;
+        width: 100%;
+    }
+    .m-carousel-arrow {
+        background-color: #FFFFFF;
+        border: 1.5px solid #CBD5E1;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        color: #475569;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        transition: all 0.2s ease;
+        padding: 0;
+        z-index: 5;
+    }
+    .m-carousel-arrow:active {
+        transform: scale(0.92);
+        background-color: #F1F5F9;
+    }
+    .m-agent-slider-track {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        gap: 12px;
+        flex: 1;
+        min-width: 0;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        padding: 4px 2px;
+    }
+    .m-agent-slider-track::-webkit-scrollbar {
+        display: none;
+    }
+    .m-agent-slide-card {
+        flex: 0 0 100%;
+        min-width: 100%;
+        scroll-snap-align: center;
+        background-color: #FFFFFF;
+        border: 1.5px solid #E2E8F0;
+        border-radius: 16px;
+        padding: 16px 14px 14px 14px;
+        position: relative;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        box-sizing: border-box;
+    }
+    .m-verified-pill {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #16A34A;
+        color: #FFFFFF;
+        font-size: 8.5px;
+        font-weight: 800;
+        padding: 3px 8px;
+        border-top-left-radius: 14px;
+        border-bottom-right-radius: 8px;
+        line-height: 1.2;
+        letter-spacing: 0.3px;
+        z-index: 2;
+    }
+    .m-agent-card-body {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-top: 4px;
+    }
+    .m-agent-avatar-wrap {
+        width: 62px;
+        height: 62px;
+        border-radius: 50%;
+        overflow: hidden;
+        flex-shrink: 0;
+        border: 2px solid #E2E8F0;
+    }
+    .m-agent-avatar-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    .m-agent-info-wrap {
+        flex: 1;
+        min-width: 0;
+    }
+    .m-agent-card-name {
+        font-size: 15px;
+        font-weight: 800;
+        color: #0F172A;
+        margin: 0 0 2px 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .m-agent-card-type {
+        display: block;
+        font-size: 11.5px;
+        color: #475569;
+        margin-bottom: 2px;
+    }
+    .m-agent-card-loc {
+        display: block;
+        font-size: 11.5px;
+        color: #64748B;
+        margin-bottom: 4px;
+    }
+    .m-agent-card-stars {
+        font-size: 11.5px;
+        color: #F59E0B;
+    }
+    .m-star-score {
+        font-weight: 800;
+        color: #0F172A;
+        margin-left: 2px;
+    }
+    .m-star-count {
+        color: #64748B;
+    }
+    .m-agent-card-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 14px;
+        padding-top: 12px;
+        border-top: 1px solid #F1F5F9;
+    }
+    .m-btn-view-profile {
+        border: 1.5px solid #CBD5E1;
+        background-color: #FFFFFF;
+        color: #0F172A;
+        font-size: 13px;
+        font-weight: 700;
+        border-radius: 8px;
+        padding: 8px 0;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+    }
+    .m-btn-call-now {
+        background-color: #004BEE;
+        color: #FFFFFF;
+        font-size: 13px;
+        font-weight: 700;
+        border-radius: 8px;
+        padding: 8px 0;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+    }
 </style>
 @endpush
 
@@ -364,49 +606,43 @@
             <span class="m-line"></span>
         </div>
 
-        <div class="m-steps-card">
-            <div class="m-steps-flow">
-                <!-- Step 1 -->
-                <div class="m-step-item">
-                    <div class="m-step-num-badge badge-b">1</div>
-                    <div class="m-step-circle-icon circle-b">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    </div>
-                    <span class="m-step-lbl">अपनी जरूरत बताएं</span>
+        <div class="m-steps-flow">
+            <div class="m-step-item">
+                <span class="m-step-badge step-1">1</span>
+                <div class="m-step-icon-box bg-blue-light">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                 </div>
+                <span class="m-step-text">अपनी जरूरत बताएं</span>
+            </div>
 
-                <div class="m-step-sep">&rarr;</div>
+            <span class="m-step-arrow">&rarr;</span>
 
-                <!-- Step 2 -->
-                <div class="m-step-item">
-                    <div class="m-step-num-badge badge-o">2</div>
-                    <div class="m-step-circle-icon circle-o">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="2.5"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="9" cy="10" r="2.5"></circle><path d="M15 8h2M15 12h2M7 16h10"></path></svg>
-                    </div>
-                    <span class="m-step-lbl">Best Agents देखें</span>
+            <div class="m-step-item">
+                <span class="m-step-badge step-2">2</span>
+                <div class="m-step-icon-box bg-orange-light">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2.5"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="9" cy="10" r="2.5"></circle><path d="M15 8h2M15 12h2M7 16h10"></path></svg>
                 </div>
+                <span class="m-step-text">Best Agents देखें</span>
+            </div>
 
-                <div class="m-step-sep">&rarr;</div>
+            <span class="m-step-arrow">&rarr;</span>
 
-                <!-- Step 3 -->
-                <div class="m-step-item">
-                    <div class="m-step-num-badge badge-g">3</div>
-                    <div class="m-step-circle-icon circle-g">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                    </div>
-                    <span class="m-step-lbl">सीधा संपर्क करें</span>
+            <div class="m-step-item">
+                <span class="m-step-badge step-3">3</span>
+                <div class="m-step-icon-box bg-green-light">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                 </div>
+                <span class="m-step-text">सीधा संपर्क करें</span>
+            </div>
 
-                <div class="m-step-sep">&rarr;</div>
+            <span class="m-step-arrow">&rarr;</span>
 
-                <!-- Step 4 -->
-                <div class="m-step-item">
-                    <div class="m-step-num-badge badge-p">4</div>
-                    <div class="m-step-circle-icon circle-p">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9333EA" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                    </div>
-                    <span class="m-step-lbl">काम शुरू करें</span>
+            <div class="m-step-item">
+                <span class="m-step-badge step-4">4</span>
+                <div class="m-step-icon-box bg-purple-light">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9333EA" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                 </div>
+                <span class="m-step-text">काम शुरू करें</span>
             </div>
         </div>
     </section>
@@ -419,40 +655,40 @@
         </div>
 
         <div class="m-agent-carousel-wrapper">
-            <button class="m-carousel-arrow m-left-arrow" id="mAgentPrev" aria-label="Previous Agent">&#10094;</button>
+            <button type="button" class="m-carousel-arrow left" id="mAgentPrevBtn" aria-label="Previous Agent">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
             
-            <div class="m-agent-card-container">
+            <div class="m-agent-slider-track" id="mAgentSliderTrack">
                 @if(isset($vendoruser) && count($vendoruser) > 0)
-                    @php $firstVendor = $vendoruser->first(); @endphp
-                    <div class="m-verified-agent-card">
-                        <div class="m-agent-verified-badge">
-                            <span>&#10004; VERIFIED</span>
-                        </div>
-                        <div class="m-agent-top-row">
-                            <div class="m-agent-avatar-box">
-                                <img src="{{ !empty($firstVendor->profile_image) ? asset($firstVendor->profile_image) : asset('front/assets/images/agent_sharma.jpg') }}" alt="{{ $firstVendor->name ?? 'Agent' }}" class="m-agent-avatar-img">
-                            </div>
-                            <div class="m-agent-info-wrap">
-                                <h3 class="m-agent-card-name">{{ $firstVendor->company_name ?? $firstVendor->name ?? 'Sharma Property Consultant' }}</h3>
-                                <span class="m-agent-card-type">{{ $firstVendor->category->name ?? 'Real Estate Agent' }}</span>
-                                <span class="m-agent-card-loc">{{ $firstVendor->district->name ?? 'Jaipur' }}, Rajasthan</span>
-                                <div class="m-agent-card-stars">
-                                    ★★★★★ <span class="m-star-score">4.8</span> <span class="m-star-count">(120)</span>
+                    @foreach($vendoruser as $vendor)
+                        <div class="m-agent-slide-card">
+                            <span class="m-verified-pill">&#10004; VERIFIED</span>
+                            <div class="m-agent-card-body">
+                                <div class="m-agent-avatar-wrap">
+                                    <img src="{{ !empty($vendor->profile_image) ? asset($vendor->profile_image) : asset('front/assets/images/agent_sharma.jpg') }}" alt="{{ $vendor->name }}" class="m-agent-avatar-img">
+                                </div>
+                                <div class="m-agent-info-wrap">
+                                    <h3 class="m-agent-card-name">{{ $vendor->company_name ?? $vendor->name }}</h3>
+                                    <span class="m-agent-card-type">{{ $vendor->category->name ?? 'Real Estate Agent' }}</span>
+                                    <span class="m-agent-card-loc">{{ $vendor->district->name ?? 'Jaipur' }}, Rajasthan</span>
+                                    <div class="m-agent-card-stars">
+                                        <span class="stars-gold">★★★★★</span> <span class="m-star-score">4.8</span> <span class="m-star-count">(120)</span>
+                                    </div>
                                 </div>
                             </div>
+
+                            <div class="m-agent-card-actions">
+                                <a href="{{ route('front.vendorlist') }}?search={{ urlencode($vendor->name ?? '') }}" class="m-btn-view-profile">View Profile</a>
+                                <a href="tel:{{ $vendor->phone ?? '+919876543210' }}" class="m-btn-call-now">Call Now</a>
+                            </div>
                         </div>
-                        <div class="m-agent-card-actions">
-                            <a href="{{ route('front.vendorlist') }}?search={{ urlencode($firstVendor->name ?? '') }}" class="m-btn-view-profile">View Profile</a>
-                            <a href="tel:{{ $firstVendor->phone ?? '+919876543210' }}" class="m-btn-call-now">Call Now</a>
-                        </div>
-                    </div>
+                    @endforeach
                 @else
-                    <div class="m-verified-agent-card">
-                        <div class="m-agent-verified-badge">
-                            <span>&#10004; VERIFIED</span>
-                        </div>
-                        <div class="m-agent-top-row">
-                            <div class="m-agent-avatar-box">
+                    <div class="m-agent-slide-card">
+                        <span class="m-verified-pill">&#10004; VERIFIED</span>
+                        <div class="m-agent-card-body">
+                            <div class="m-agent-avatar-wrap">
                                 <img src="{{ asset('front/assets/images/agent_sharma.jpg') }}" alt="Sharma Property Consultant" class="m-agent-avatar-img">
                             </div>
                             <div class="m-agent-info-wrap">
@@ -460,19 +696,66 @@
                                 <span class="m-agent-card-type">Real Estate Agent</span>
                                 <span class="m-agent-card-loc">Jaipur, Rajasthan</span>
                                 <div class="m-agent-card-stars">
-                                    ★★★★★ <span class="m-star-score">4.8</span> <span class="m-star-count">(120)</span>
+                                    <span class="stars-gold">★★★★★</span> <span class="m-star-score">4.8</span> <span class="m-star-count">(120)</span>
                                 </div>
                             </div>
                         </div>
+
                         <div class="m-agent-card-actions">
                             <a href="{{ route('front.vendorlist') }}" class="m-btn-view-profile">View Profile</a>
                             <a href="tel:+919876543210" class="m-btn-call-now">Call Now</a>
                         </div>
                     </div>
+
+                    <div class="m-agent-slide-card">
+                        <span class="m-verified-pill">&#10004; VERIFIED</span>
+                        <div class="m-agent-card-body">
+                            <div class="m-agent-avatar-wrap">
+                                <img src="{{ asset('front/assets/images/agent_krishna.jpg') }}" alt="Krishna Motors" class="m-agent-avatar-img">
+                            </div>
+                            <div class="m-agent-info-wrap">
+                                <h3 class="m-agent-card-name">Krishna Motors</h3>
+                                <span class="m-agent-card-type">Automobile Agent</span>
+                                <span class="m-agent-card-loc">Jodhpur, Rajasthan</span>
+                                <div class="m-agent-card-stars">
+                                    <span class="stars-gold">★★★★★</span> <span class="m-star-score">4.7</span> <span class="m-star-count">(98)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="m-agent-card-actions">
+                            <a href="{{ route('front.vendorlist') }}" class="m-btn-view-profile">View Profile</a>
+                            <a href="tel:+919876543211" class="m-btn-call-now">Call Now</a>
+                        </div>
+                    </div>
+
+                    <div class="m-agent-slide-card">
+                        <span class="m-verified-pill">&#10004; VERIFIED</span>
+                        <div class="m-agent-card-body">
+                            <div class="m-agent-avatar-wrap">
+                                <img src="{{ asset('front/assets/images/agent_rto.jpg') }}" alt="RTO Solution Point" class="m-agent-avatar-img">
+                            </div>
+                            <div class="m-agent-info-wrap">
+                                <h3 class="m-agent-card-name">RTO Solution Point</h3>
+                                <span class="m-agent-card-type">RTO Agent</span>
+                                <span class="m-agent-card-loc">Ajmer, Rajasthan</span>
+                                <div class="m-agent-card-stars">
+                                    <span class="stars-gold">★★★★★</span> <span class="m-star-score">4.9</span> <span class="m-star-count">(155)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="m-agent-card-actions">
+                            <a href="{{ route('front.vendorlist') }}" class="m-btn-view-profile">View Profile</a>
+                            <a href="tel:+919876543212" class="m-btn-call-now">Call Now</a>
+                        </div>
+                    </div>
                 @endif
             </div>
 
-            <button class="m-carousel-arrow m-right-arrow" id="mAgentNext" aria-label="Next Agent">&#10095;</button>
+            <button type="button" class="m-carousel-arrow right" id="mAgentNextBtn" aria-label="Next Agent">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
         </div>
     </section>
 
@@ -2033,6 +2316,24 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+    // Carousel logic for Mobile Top Verified Agents
+    const mAgentTrack = document.getElementById('mAgentSliderTrack');
+    const mAgentPrev = document.getElementById('mAgentPrevBtn');
+    const mAgentNext = document.getElementById('mAgentNextBtn');
+
+    if (mAgentTrack && mAgentPrev && mAgentNext) {
+        mAgentPrev.addEventListener('click', () => {
+            const card = mAgentTrack.querySelector('.m-agent-slide-card');
+            const step = card ? card.offsetWidth + 12 : 280;
+            mAgentTrack.scrollBy({ left: -step, behavior: 'smooth' });
+        });
+        mAgentNext.addEventListener('click', () => {
+            const card = mAgentTrack.querySelector('.m-agent-slide-card');
+            const step = card ? card.offsetWidth + 12 : 280;
+            mAgentTrack.scrollBy({ left: step, behavior: 'smooth' });
+        });
+    }
+
     // Carousel logic for Top Verified Agents (Desktop)
     const agentTrack = document.getElementById('agentsSliderTrack');
     const agentPrev = document.getElementById('agentPrevBtn');
