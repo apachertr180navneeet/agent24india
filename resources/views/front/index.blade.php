@@ -43,6 +43,303 @@
             display: block !important;
         }
     }
+
+    @media (min-width: 992px) {
+        /* Desktop Hero */
+        .desktop-hero-layout {
+            background: linear-gradient(180deg, #F0F6FF 0%, #FFFFFF 100%);
+            padding: 36px 0 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .desktop-hero-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 32px;
+            align-items: center;
+        }
+        .desktop-hero-left {
+            padding-right: 16px;
+        }
+        .desktop-hero-pretitle {
+            display: block;
+            font-size: 24px;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 8px;
+        }
+        .desktop-hero-maintitle {
+            font-size: 52px;
+            font-weight: 900;
+            line-height: 1.15;
+            color: #004BEE;
+            margin: 0 0 16px 0;
+            letter-spacing: -0.5px;
+        }
+        .desktop-hero-maintitle .navy-bold {
+            color: #0B2872;
+        }
+        .desktop-hero-maintitle .blue-bold {
+            color: #004BEE;
+        }
+        .verified-check-hero {
+            display: inline-flex;
+            vertical-align: middle;
+            margin-left: 6px;
+        }
+        .desktop-hero-sub1 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1E293B;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+        .desktop-hero-sub2 {
+            font-size: 14px;
+            color: #475569;
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+        .desktop-hero-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+        .hero-pill-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #F0FDF4;
+            border: 1px solid #BBF7D0;
+            color: #15803D;
+            font-size: 13.5px;
+            font-weight: 700;
+            padding: 7px 16px;
+            border-radius: 30px;
+        }
+        .desktop-hero-right {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-floating-bubble {
+            position: absolute;
+            top: -12px;
+            left: -20px;
+            z-index: 10;
+            background: #FFFFFF;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 75, 238, 0.12);
+            border: 1px solid #E2E8F0;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .bubble-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #FEF3C7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #D97706;
+        }
+        .bubble-text {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #0F172A;
+            line-height: 1.2;
+        }
+        .bubble-stars {
+            color: #F59E0B;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+        .hero-couple-frame {
+            width: 100%;
+            max-width: 440px;
+            height: 290px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 16px 40px rgba(15, 23, 42, 0.1);
+            border: 4px solid #FFFFFF;
+        }
+        .hero-couple-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .hero-phone-mockup {
+            position: absolute;
+            right: -15px;
+            bottom: -20px;
+            z-index: 9;
+            width: 140px;
+            height: 215px;
+            background: #0F172A;
+            border-radius: 22px;
+            padding: 6px;
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.25);
+            border: 2px solid #334155;
+        }
+        .phone-screen-header {
+            background: #FFFFFF;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding: 6px 4px;
+            text-align: center;
+            font-size: 9px;
+            font-weight: 800;
+            color: #0F172A;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .phone-map-view {
+            position: relative;
+            height: calc(100% - 25px);
+            background: #F1F5F9;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+            overflow: hidden;
+        }
+        .phone-map-bg {
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(45deg, #E2E8F0, #E2E8F0 10px, #F8FAFC 10px, #F8FAFC 20px);
+        }
+        .phone-map-route {
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            width: 60%;
+            height: 60%;
+            border-left: 3px dashed #004BEE;
+            border-bottom: 3px dashed #004BEE;
+            border-radius: 0 0 0 20px;
+        }
+        .phone-map-pin {
+            position: absolute;
+            top: 45%;
+            right: 25%;
+            transform: translate(50%, -50%);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        .phone-map-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 1.5px solid #FFFFFF;
+        }
+        .pdot-green { top: 20%; left: 20%; background: #16A34A; }
+        .pdot-orange { bottom: 25%; left: 35%; background: #F97316; }
+        .pdot-purple { top: 30%; right: 20%; background: #9333EA; }
+
+        /* Desktop Search Card Header */
+        .search-card-container {
+            border-radius: 16px !important;
+            border: 2px solid #004BEE !important;
+            overflow: hidden !important;
+        }
+        .search-card-header {
+            background: #004BEE !important;
+            color: #FFFFFF !important;
+            padding: 12px 24px !important;
+            justify-content: center !important;
+            font-size: 16.5px !important;
+            font-weight: 700 !important;
+        }
+        .search-card-header svg {
+            stroke: #FFFFFF !important;
+        }
+        .form-grid {
+            grid-template-columns: 1fr 1fr 1fr 170px !important;
+            align-items: flex-end !important;
+            gap: 16px !important;
+        }
+        .btn-search-agent {
+            background: linear-gradient(135deg, #FFB800 0%, #F59E0B 100%) !important;
+            color: #0F172A !important;
+            border-radius: 10px !important;
+            font-weight: 800 !important;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35) !important;
+            height: 46px !important;
+        }
+
+        /* Desktop Categories: 8 Columns */
+        .categories-grid {
+            grid-template-columns: repeat(8, 1fr) !important;
+            gap: 12px !important;
+        }
+
+        /* Desktop Districts: 6 Columns */
+        .districts-mobile-grid {
+            grid-template-columns: repeat(6, 1fr) !important;
+            gap: 14px !important;
+        }
+
+        /* Desktop Why Choose Banner */
+        .custom-why-choose-banner {
+            background: linear-gradient(135deg, #0A2472 0%, #004BEE 100%) !important;
+            border-radius: 18px !important;
+            padding: 28px 32px !important;
+        }
+        .custom-why-header {
+            text-align: center !important;
+            justify-content: center !important;
+            margin-bottom: 24px !important;
+        }
+        .custom-why-title {
+            font-size: 22px !important;
+            color: #FFFFFF !important;
+        }
+        .custom-why-main-row {
+            display: grid !important;
+            grid-template-columns: 1fr 280px !important;
+            gap: 24px !important;
+            align-items: center !important;
+        }
+        .custom-why-features-grid {
+            display: grid !important;
+            grid-template-columns: repeat(5, 1fr) !important;
+            gap: 12px !important;
+        }
+        .custom-why-col {
+            background: rgba(255, 255, 255, 0.08) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-radius: 12px !important;
+            padding: 14px 10px !important;
+            text-align: center !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+        }
+        .custom-why-icon-wrap {
+            background: rgba(255, 255, 255, 0.15) !important;
+            width: 40px !important;
+            height: 40px !important;
+            border-radius: 10px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin-bottom: 8px !important;
+        }
+        .custom-why-head {
+            font-size: 12.5px !important;
+            color: #FFFFFF !important;
+        }
+        .custom-why-sub {
+            font-size: 10.5px !important;
+            color: #E2E8F0 !important;
+        }
+    }
 </style>
 @endpush
 
@@ -50,9 +347,86 @@
 
     <!-- Main Hero Banner Section Start -->
     <section class="index-hero-banner-section">
-        <!-- Desktop Hero Banner -->
+        <!-- Desktop Hero Banner (Visible on Desktop >= 769px) -->
         <div class="index-hero-banner-container d-none-mobile">
-            <img src="{{ asset('front/assets/images/index_hero_banner.png') }}" alt="Agent Sahi Yahi Milega! - Agent 24 India" class="index-hero-banner-img">
+            <div class="desktop-hero-layout">
+                <div class="desktop-hero-container">
+                    
+                    <!-- Left Hero Text & Trust Pills -->
+                    <div class="desktop-hero-left">
+                        <span class="desktop-hero-pretitle">काम कोई भी हो...</span>
+                        <h1 class="desktop-hero-maintitle">
+                            <span class="navy-bold">Agent Sahi</span><br>
+                            <span class="blue-bold">Yahi Milega!</span>
+                            <span class="verified-check-hero">
+                                <svg width="34" height="34" viewBox="0 0 24 24" fill="#004BEE">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                            </span>
+                        </h1>
+                        <p class="desktop-hero-sub1">
+                            आपकी जरूरत, आपके शहर का सही Agent — अब कुछ ही क्लिक में!
+                        </p>
+                        <p class="desktop-hero-sub2">
+                            <strong>Verified</strong>, <strong>Trusted</strong> और आपके पास में मौजूद Agents से सीधा संपर्क करें
+                        </p>
+                        
+                        <div class="desktop-hero-pills">
+                            <span class="hero-pill-badge">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="#16A34A"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                                Verified Agents
+                            </span>
+                            <span class="hero-pill-badge">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="#16A34A"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                                सीधा संपर्क
+                            </span>
+                            <span class="hero-pill-badge">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="#16A34A"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                                Secure & Safe
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Right Hero Visual with Couple + Speech Bubble + Smartphone Mockup -->
+                    <div class="desktop-hero-right">
+                        <!-- Floating Review Speech Bubble -->
+                        <div class="hero-floating-bubble">
+                            <div class="bubble-avatar">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#D97706"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                            </div>
+                            <div>
+                                <div class="bubble-text">Right Agent मिला... काम आसान हो गया!</div>
+                                <div class="bubble-stars">★★★★★</div>
+                            </div>
+                        </div>
+
+                        <!-- Couple Photo Frame -->
+                        <div class="hero-couple-frame">
+                            <img src="{{ asset('front/assets/images/hero_couple_laptop.jpg') }}" alt="Agent 24 India Happy Couple" class="hero-couple-img">
+                        </div>
+
+                        <!-- Phone Map Mockup (Right edge) -->
+                        <div class="hero-phone-mockup">
+                            <div class="phone-screen-header">
+                                <span>Find Best Agent Near You</span>
+                            </div>
+                            <div class="phone-map-view">
+                                <div class="phone-map-bg"></div>
+                                <div class="phone-map-route"></div>
+                                <div class="phone-map-pin">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#004BEE">
+                                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                    </svg>
+                                </div>
+                                <span class="phone-map-dot pdot-green"></span>
+                                <span class="phone-map-dot pdot-orange"></span>
+                                <span class="phone-map-dot pdot-purple"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
 
         <!-- Mobile Hero Vector & Headline (Visible on Mobile < 768px) -->
