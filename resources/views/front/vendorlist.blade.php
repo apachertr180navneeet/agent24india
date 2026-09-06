@@ -1305,7 +1305,7 @@
                         <div class="vl-checkbox-list" id="servicesCheckboxList">
                             @forelse($categoryServices as $idx => $srv)
                                 <label class="vl-checkbox-label">
-                                    <input type="checkbox" name="services" value="{{ $srv->id }}" {{ (isset($selectedService) && $selectedService == $srv->id) ? 'checked' : '' }}>
+                                    <input type="checkbox" name="services" value="{{ $srv->id }}" {{ (isset($selectedServices) && in_array($srv->id, $selectedServices)) ? 'checked' : '' }}>
                                     <span>{{ $srv->name }}</span>
                                 </label>
                             @empty
@@ -1329,7 +1329,12 @@
                         <div class="vl-checkbox-list" id="areaCheckboxList">
                             @foreach($popularAreas as $idx => $pa)
                                 @php
-                                    $isPaChecked = ($selectedArea == $pa['name']) || ($selectedCityId == ($pa['id'] ?? ''));
+                                    $isPaChecked = false;
+                                    if ($pa['type'] === 'city') {
+                                        $isPaChecked = in_array((string)($pa['id'] ?? ''), array_map('strval', $selectedCityIds ?? [])) || in_array($pa['name'], $selectedAreas ?? []);
+                                    } else {
+                                        $isPaChecked = in_array($pa['name'], $selectedAreas ?? []);
+                                    }
                                 @endphp
                                 <label class="vl-checkbox-label area-item {{ $idx >= 5 ? 'area-extra' : '' }}" style="{{ $idx >= 5 ? 'display:none;' : '' }}" data-name="{{ strtolower($pa['name']) }}">
                                     <input type="checkbox" name="areas" value="{{ $pa['name'] }}" data-type="{{ $pa['type'] }}" data-id="{{ $pa['id'] ?? '' }}" {{ $isPaChecked ? 'checked' : '' }}>
@@ -1627,7 +1632,7 @@
                 <div class="vl-visiting-card-container">
                     
                     <div class="vl-visiting-header">
-                        <h4 class="vl-visiting-title">VISITING CARD AD SPACE</h4>
+                        <h4 class="vl-visiting-title">Area Agent</h4>
                         <span class="vl-visiting-slots">10 Slots Available</span>
                     </div>
 
@@ -1767,23 +1772,16 @@
             }
         });
 
-        // 4. Services Checkbox Selection in Sidebar
+        // 4. Services Checkbox Selection in Sidebar (Multi-Select)
         $('#servicesCheckboxList input[type="checkbox"]').on('change', function () {
-            if ($(this).is(':checked')) {
-                $('#servicesCheckboxList input[type="checkbox"]').not(this).prop('checked', false);
-                var subcatId = $(this).val();
-                var dist = currentDistrictId || '150';
-                window.location.href = listSubcategoryUrlTemplate.replace('LOC_ID', dist).replace('SUBCAT_ID', subcatId);
-            } else {
-                if (currentCategoryId) {
-                    window.location.href = listCategoryUrlTemplate.replace('LOC_ID', currentDistrictId).replace('CAT_ID', currentCategoryId);
-                } else {
-                    window.location.href = listDistrictUrlTemplate.replace('LOC_ID', currentDistrictId);
-                }
-            }
+            var checkedServices = [];
+            $('#servicesCheckboxList input[type="checkbox"]:checked').each(function () {
+                checkedServices.push($(this).val());
+            });
+            applyCurrentFilters({ service: checkedServices.length ? checkedServices.join(',') : null });
         });
 
-        // 5. Area Filter (Top Bar & Sidebar Checkboxes)
+        // 5. Area Filter (Top Bar & Sidebar Checkboxes - Multi-Select)
         $('#topBarAreaSelect').on('change', function () {
             var selectedOpt = $(this).find('option:selected');
             var val = $(this).val();
@@ -1799,20 +1797,24 @@
         });
 
         $('#areaCheckboxList input[type="checkbox"]').on('change', function () {
-            if ($(this).is(':checked')) {
-                $('#areaCheckboxList input[type="checkbox"]').not(this).prop('checked', false);
-                var val = $(this).val();
+            var checkedCities = [];
+            var checkedAreas = [];
+            $('#areaCheckboxList input[type="checkbox"]:checked').each(function () {
                 var type = $(this).data('type');
                 var cityId = $(this).data('id');
+                var val = $(this).val();
 
                 if (type === 'city' && cityId) {
-                    applyCurrentFilters({ city: cityId, area: null });
-                } else {
-                    applyCurrentFilters({ area: val, city: null });
+                    checkedCities.push(cityId);
+                } else if (val) {
+                    checkedAreas.push(val);
                 }
-            } else {
-                applyCurrentFilters({ area: null, city: null });
-            }
+            });
+
+            applyCurrentFilters({
+                city: checkedCities.length ? checkedCities.join(',') : null,
+                area: checkedAreas.length ? checkedAreas.join(',') : null
+            });
         });
 
         // 6. Live Area Search in Sidebar

@@ -617,7 +617,7 @@
 
                     <div class="pws-divider"></div>
 
-                    <!-- Stat 2: 500+ Cities Covered -->
+                    <!-- Stat 2: 2500+ Cities Covered -->
                     <div class="pws-col">
                         <div class="pws-icon">
                             <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -626,7 +626,7 @@
                             </svg>
                         </div>
                         <div class="pws-text">
-                            <span class="pws-number">500+</span>
+                            <span class="pws-number">2500+</span>
                             <span class="pws-label">Cities Covered</span>
                         </div>
                     </div>

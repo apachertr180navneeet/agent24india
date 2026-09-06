@@ -76,7 +76,7 @@
                         <li><a href="{{route('front.aboutus')}}">About Us</a></li>
                     @endif
                     <li><a href="#verifiedAgents">Top Agents</a></li>
-                    <li><a href="#rajasthanDistricts">Capital Districts</a></li>
+                    <li><a href="#rajasthanDistricts">Important Cities</a></li>
                     <li><a href="#testimonials">Testimonials</a></li>
                     @if($trem && $trem->status == 1)
                         <li><a href="{{route('front.price')}}">Price Plans</a></li>

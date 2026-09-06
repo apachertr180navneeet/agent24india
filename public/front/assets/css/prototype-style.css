@@ -6575,13 +6575,25 @@ img, svg, video, canvas, audio, iframe, embed, object {
 /* 3. Hero & Search Section on Mobile */
 @media (max-width: 768px) {
     .index-hero-banner-section {
-        padding: 10px 0 0 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        overflow: hidden !important;
     }
     .index-hero-banner-container {
-        padding: 0 12px !important;
+        padding: 0 !important;
+        width: 100% !important;
+        overflow: hidden !important;
     }
     .index-hero-banner-img {
-        border-radius: 12px !important;
+        width: 200% !important;
+        max-width: 200% !important;
+        min-height: 185px !important;
+        height: auto !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        margin-left: -50% !important;
+        border-radius: 0 !important;
+        display: block !important;
     }
     .index-search-section {
         padding: 10px 0 0 0 !important;

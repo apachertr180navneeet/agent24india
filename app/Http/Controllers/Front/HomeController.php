@@ -405,6 +405,39 @@ class HomeController extends Controller
         $sortBy = $request->query('sort', 'recommended');
         $searchKeyword = $request->query('q') ?: $request->query('search');
 
+        // Parse Multiple Services / Subcategories
+        $selectedServices = [];
+        if (!empty($selectedService)) {
+            if (is_array($selectedService)) {
+                $selectedServices = $selectedService;
+            } else {
+                $selectedServices = explode(',', (string)$selectedService);
+            }
+        }
+        $selectedServices = array_values(array_filter(array_map('trim', $selectedServices)));
+
+        // Parse Multiple Areas
+        $selectedAreas = [];
+        if (!empty($selectedArea) && strtolower($selectedArea) !== 'all') {
+            if (is_array($selectedArea)) {
+                $selectedAreas = $selectedArea;
+            } else {
+                $selectedAreas = explode(',', (string)$selectedArea);
+            }
+        }
+        $selectedAreas = array_values(array_filter(array_map('trim', $selectedAreas)));
+
+        // Parse Multiple Cities
+        $selectedCityIds = [];
+        if (!empty($selectedCityId) && strtolower($selectedCityId) !== 'all') {
+            if (is_array($selectedCityId)) {
+                $selectedCityIds = $selectedCityId;
+            } else {
+                $selectedCityIds = explode(',', (string)$selectedCityId);
+            }
+        }
+        $selectedCityIds = array_values(array_filter(array_map('trim', $selectedCityIds)));
+
         // 7. Vendor Query
         $vendorQuery = User::where('role_id', config('constants.roles.VENDOR.value'))
             ->where('status', 1)
@@ -418,23 +451,27 @@ class HomeController extends Controller
             $vendorQuery->where('business_category_id', $category);
         }
 
-        // Filter by Subcategory / Service
-        if (!empty($selectedService)) {
-            $hasDirectMatch = (clone $vendorQuery)
-                ->whereRaw('FIND_IN_SET(?, business_sub_category_id) > 0', [$selectedService])
-                ->exists();
-            if ($hasDirectMatch) {
-                $vendorQuery->whereRaw('FIND_IN_SET(?, business_sub_category_id) > 0', [$selectedService]);
-            }
+        // Filter by Subcategory / Services (Multi-select)
+        if (!empty($selectedServices)) {
+            $vendorQuery->where(function($q) use ($selectedServices) {
+                foreach ($selectedServices as $sId) {
+                    $q->orWhereRaw('FIND_IN_SET(?, business_sub_category_id) > 0', [$sId]);
+                }
+            });
         }
 
-        // Filter by Area or City
-        if (!empty($selectedCityId) && strtolower($selectedCityId) !== 'all') {
-            $vendorQuery->where('city_id', $selectedCityId);
-        } elseif (!empty($selectedArea) && strtolower($selectedArea) !== 'all') {
-            $vendorQuery->where(function($q) use ($selectedArea) {
-                $q->where('business_address', 'LIKE', '%' . $selectedArea . '%')
-                  ->orWhere('name', 'LIKE', '%' . $selectedArea . '%');
+        // Filter by Area or City (Multi-select)
+        if (!empty($selectedCityIds) || !empty($selectedAreas)) {
+            $vendorQuery->where(function($q) use ($selectedCityIds, $selectedAreas) {
+                if (!empty($selectedCityIds)) {
+                    $q->whereIn('city_id', $selectedCityIds);
+                }
+                if (!empty($selectedAreas)) {
+                    foreach ($selectedAreas as $area) {
+                        $q->orWhere('business_address', 'LIKE', '%' . $area . '%')
+                          ->orWhere('name', 'LIKE', '%' . $area . '%');
+                    }
+                }
             });
         }
 
@@ -553,8 +590,13 @@ class HomeController extends Controller
             'location'               => $location,
             'selectedCityId'         => $selectedCityId,
             'selectedArea'           => $selectedArea,
-            'popularAreas'           => $popularAreas,
             'selectedService'        => $selectedService,
+            'selectedServices'       => $selectedServices,
+            'selectedArea'           => $selectedArea,
+            'selectedAreas'          => $selectedAreas,
+            'selectedCityId'         => $selectedCityId,
+            'selectedCityIds'        => $selectedCityIds,
+            'popularAreas'           => $popularAreas,
             'selectedRating'         => $selectedRating,
             'sortBy'                 => $sortBy,
             'searchKeyword'          => $searchKeyword,

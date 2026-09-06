@@ -18,6 +18,29 @@
         margin-top: 5px;
         line-height: 1.2;
     }
+    @media (max-width: 768px) {
+        .index-hero-banner-section {
+            padding: 0 !important;
+            width: 100% !important;
+            overflow: hidden !important;
+        }
+        .index-hero-banner-container {
+            padding: 0 !important;
+            width: 100% !important;
+            overflow: hidden !important;
+        }
+        .index-hero-banner-img {
+            width: 200% !important;
+            max-width: 200% !important;
+            min-height: 185px !important;
+            height: auto !important;
+            object-fit: cover !important;
+            object-position: center !important;
+            margin-left: -50% !important;
+            border-radius: 0 !important;
+            display: block !important;
+        }
+    }
 </style>
 @endpush
 
@@ -48,32 +71,27 @@
                 <form class="search-card-form" id="agentSearchForm" novalidate>
                     <div class="form-grid">
 
-                        <!-- Input 1: Aap kya khoj rahe hain (Subcategory / Speciality) -->
-                        <div class="form-field" id="agentTypeField">
-                            <label class="field-label">What are you looking for? <span style="color: #EF4444;">*</span></label>
+                        <!-- Input 1: Category Selection -->
+                        <div class="form-field" id="categoryField">
+                            <label class="field-label">Select Category <span style="color: #EF4444;">*</span></label>
                             <div class="input-with-icon">
                                 <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
                                     stroke="#004BEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                    <rect x="3" y="3" width="7" height="7"></rect>
+                                    <rect x="14" y="3" width="7" height="7"></rect>
+                                    <rect x="14" y="14" width="7" height="7"></rect>
+                                    <rect x="3" y="14" width="7" height="7"></rect>
                                 </svg>
-                                <select class="select2 custom-select" id="agentTypeSelect" name="agent_type">
-                                    <option value="" selected>Select Agent Service</option>
-                                    @if(isset($subCategories) && count($subCategories) > 0)
-                                        @foreach($subCategories->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $subCat)
-                                            <option value="{{ $subCat->id }}">{{ $subCat->name }}</option>
+                                <select class="select2 custom-select" id="categorySelect" name="category">
+                                    <option value="" selected>Select Category</option>
+                                    @if(isset($category) && count($category) > 0)
+                                        @foreach($category->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $cat)
+                                            <option value="{{ $cat->id }}">{{ $cat->name }}</option>
                                         @endforeach
-                                    @else
-                                        <option value="education">Education Consultant</option>
-                                        <option value="financial">Financial Advisor</option>
-                                        <option value="insurance">Insurance Agent</option>
-                                        <option value="legal">Legal Consultant</option>
-                                        <option value="real_estate">Real Estate Agent</option>
-                                        <option value="travel">Travel & Tour Agent</option>
                                     @endif
                                 </select>
                             </div>
-                            <span class="search-field-error" id="agentTypeError" style="display: none;">Please select what you are looking for</span>
+                            <span class="search-field-error" id="categoryError" style="display: none;">Please select a category</span>
                         </div>
 
                         <!-- Input 2: Select District -->
@@ -166,7 +184,7 @@
                         </svg>
                     </div>
                     <div class="stat-text-group">
-                        <span class="stat-number">500+</span>
+                        <span class="stat-number">2500+</span>
                         <span class="stat-label">Cities Covered</span>
                     </div>
                 </div>
@@ -759,7 +777,7 @@
                     <span class="line-start"></span>
                     <span class="line-dot"></span>
                 </div>
-                <h2 class="district-section-title">Rajasthan Ke Capital District</h2>
+                <h2 class="district-section-title">Important Cities</h2>
                 <div class="header-accent-line">
                     <span class="line-dot"></span>
                     <span class="line-end"></span>
@@ -1319,7 +1337,7 @@
                         </svg>
                     </div>
                     <div class="dark-stat-text">
-                        <span class="dark-stat-number">500+</span>
+                        <span class="dark-stat-number">2500+</span>
                         <span class="dark-stat-label">Cities Covered</span>
                     </div>
                 </div>
@@ -1392,8 +1410,8 @@
 <script>
     $(document).ready(function () {
         if ($.fn.select2) {
-            $('#agentTypeSelect').select2({
-                placeholder: "Select Agent Service",
+            $('#categorySelect').select2({
+                placeholder: "Select Category",
                 allowClear: true,
                 width: '100%'
             });
@@ -1412,10 +1430,10 @@
         }
 
         // Live validation clearing
-        $('#agentTypeSelect').on('change', function () {
+        $('#categorySelect').on('change', function () {
             if ($(this).val()) {
-                $('#agentTypeField').removeClass('has-error');
-                $('#agentTypeError').hide();
+                $('#categoryField').removeClass('has-error');
+                $('#categoryError').hide();
             }
         });
 
@@ -1458,21 +1476,21 @@
         $('#agentSearchForm').on('submit', function (e) {
             e.preventDefault();
 
-            var subcategory = $('#agentTypeSelect').val();
+            var category = $('#categorySelect').val();
             var district = $('#districtSelect').val();
             var city = $('#citySelect').val();
 
             var isValid = true;
             var firstInvalidField = null;
 
-            if (!subcategory) {
-                $('#agentTypeField').addClass('has-error');
-                $('#agentTypeError').show();
+            if (!category) {
+                $('#categoryField').addClass('has-error');
+                $('#categoryError').show();
                 isValid = false;
-                if (!firstInvalidField) firstInvalidField = '#agentTypeSelect';
+                if (!firstInvalidField) firstInvalidField = '#categorySelect';
             } else {
-                $('#agentTypeField').removeClass('has-error');
-                $('#agentTypeError').hide();
+                $('#categoryField').removeClass('has-error');
+                $('#categoryError').hide();
             }
 
             if (!district) {
@@ -1521,8 +1539,8 @@
             `);
 
             setTimeout(function () {
-                var template = "{{ route('front.vendorlist.location.subcategory', ['location' => 'LOC_ID', 'subcategory' => 'SUBCAT_ID']) }}";
-                var redirectUrl = template.replace('LOC_ID', encodeURIComponent(district)).replace('SUBCAT_ID', encodeURIComponent(subcategory));
+                var template = "{{ route('front.vendorlist.location.category', ['location' => 'LOC_ID', 'category' => 'CAT_ID']) }}";
+                var redirectUrl = template.replace('LOC_ID', encodeURIComponent(district)).replace('CAT_ID', encodeURIComponent(category));
 
                 if (city) {
                     redirectUrl += (redirectUrl.indexOf('?') !== -1 ? '&' : '?') + 'city=' + encodeURIComponent(city);

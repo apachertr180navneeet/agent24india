@@ -74,7 +74,7 @@
                             </svg>
                         </div>
                         <div class="dark-stat-text">
-                            <span class="dark-stat-number">500+</span>
+                            <span class="dark-stat-number">2500+</span>
                             <span class="dark-stat-label">Cities Covered</span>
                         </div>
                     </div>

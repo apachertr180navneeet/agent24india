@@ -792,7 +792,7 @@
                     </svg>
                 </div>
                 <div class="contact-dark-info">
-                    <span class="contact-dark-number">500+</span>
+                    <span class="contact-dark-number">2500+</span>
                     <span class="contact-dark-label">Cities Covered</span>
                 </div>
             </div>

@@ -703,7 +703,7 @@
                                 </div>
                                 <div class="why-feature-text">
                                     <h4 class="why-feature-heading">All India Visibility</h4>
-                                    <p class="why-feature-desc">Get visibility in 500+ Cities across India.</p>
+                                    <p class="why-feature-desc">Get visibility in 2500+ Cities across India.</p>
                                 </div>
                             </div>
 
@@ -858,7 +858,7 @@
 
                 <div class="ws-divider"></div>
 
-                <!-- 500+ Cities Covered -->
+                <!-- 2500+ Cities Covered -->
                 <div class="ws-col">
                     <div class="ws-icon">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -867,7 +867,7 @@
                         </svg>
                     </div>
                     <div class="ws-text">
-                        <div class="ws-number">500+</div>
+                        <div class="ws-number">2500+</div>
                         <div class="ws-label">Cities Covered</div>
                     </div>
                 </div>
