@@ -1787,7 +1787,31 @@
                 <!-- Card 3: Udaipur -->
                 <div class="district-card">
                     <div class="district-image-wrapper">
-                        <img src="{{ asset('front/assets/images/district_udaipur.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/udaipur.png') }}';" alt="Udaipur Lake Palace" class="district-img">
+                        <!-- Lake Palace Udaipur SVG -->
+                        <svg viewBox="0 0 300 160" fill="none" xmlns="http://www.w3.org/2000/svg" class="landmark-svg">
+                            <rect width="300" height="160" fill="url(#udaipur-sky)" />
+                            <rect y="105" width="300" height="55" fill="url(#lake-water)" />
+                            <path d="M40 105V50H80V35H130V50H170V30H210V50H260V105H40Z" fill="#F8FAFC" />
+                            <path d="M50 105V58H85V42H125V58H165V38H205V58H250V105H50Z" fill="#FFFFFF" />
+                            <path d="M95 35C95 20 102 12 107 12C112 12 120 20 120 35H95Z" fill="#F1F5F9" />
+                            <path d="M175 30C175 15 182 8 187 8C192 8 200 15 200 30H175Z" fill="#F1F5F9" />
+                            <path d="M70 70C70 60 78 55 85 55C92 55 100 60 100 70V105H70V70Z" fill="#0EA5E9" />
+                            <path d="M130 65C130 55 138 50 145 50C152 50 160 55 160 65V105H130V65Z" fill="#0EA5E9" />
+                            <path d="M190 70C190 60 198 55 205 55C212 55 220 60 220 70V105H190V70Z" fill="#0EA5E9" />
+                            <line x1="20" y1="125" x2="80" y2="125" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" opacity="0.6" />
+                            <line x1="120" y1="135" x2="200" y2="135" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" opacity="0.6" />
+                            <line x1="220" y1="120" x2="280" y2="120" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" opacity="0.6" />
+                            <defs>
+                                <linearGradient id="udaipur-sky" x1="0" y1="0" x2="0" y2="160" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#0284C7" />
+                                    <stop offset="0.65" stop-color="#E0F2FE" />
+                                </linearGradient>
+                                <linearGradient id="lake-water" x1="0" y1="105" x2="0" y2="160" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#0284C7" />
+                                    <stop offset="1" stop-color="#0369A1" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
                     </div>
                     <div class="district-info-body">
                         <div class="district-meta-row">
@@ -1808,7 +1832,23 @@
                 <!-- Card 4: Kota -->
                 <div class="district-card">
                     <div class="district-image-wrapper">
-                        <img src="{{ asset('front/assets/images/district_jaipur.jpg') }}" alt="Kota" class="district-img">
+                        <!-- Kota Chambal Riverfront SVG -->
+                        <svg viewBox="0 0 300 160" fill="none" xmlns="http://www.w3.org/2000/svg" class="landmark-svg">
+                            <rect width="300" height="160" fill="url(#kota-sky)" />
+                            <rect y="110" width="300" height="50" fill="#0284C7" />
+                            <path d="M30 110V50H90V30H130V50H170V110H30Z" fill="#9A3412" />
+                            <path d="M40 110V58H85V38H125V58H160V110H40Z" fill="#C2410C" />
+                            <path d="M170 85H270V110H170V85Z" fill="#EA580C" />
+                            <circle cx="110" cy="30" r="14" fill="#FDBA74" />
+                            <path d="M180 110C180 98 188 92 195 92C202 92 210 98 210 110H180Z" fill="#0284C7" />
+                            <path d="M220 110C220 98 228 92 235 92C242 92 250 98 250 110H220Z" fill="#0284C7" />
+                            <defs>
+                                <linearGradient id="kota-sky" x1="0" y1="0" x2="0" y2="160" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#38BDF8" />
+                                    <stop offset="0.7" stop-color="#E0F2FE" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
                     </div>
                     <div class="district-info-body">
                         <div class="district-meta-row">
@@ -1829,7 +1869,23 @@
                 <!-- Card 5: Bikaner -->
                 <div class="district-card">
                     <div class="district-image-wrapper">
-                        <img src="{{ asset('front/assets/images/district_jodhpur.jpg') }}" alt="Bikaner" class="district-img">
+                        <!-- Bikaner Junagarh Fort SVG -->
+                        <svg viewBox="0 0 300 160" fill="none" xmlns="http://www.w3.org/2000/svg" class="landmark-svg">
+                            <rect width="300" height="160" fill="url(#bikaner-sky)" />
+                            <path d="M0 160L40 130L150 135L300 140V160H0Z" fill="#78350F" opacity="0.4" />
+                            <path d="M40 135V45H90V25H140V45H190V30H230V45H260V135H40Z" fill="#991B1B" />
+                            <path d="M50 135V52H85V32H135V52H185V38H225V52H250V135H50Z" fill="#B91C1C" />
+                            <path d="M105 25C105 12 114 6 120 6C126 6 135 12 135 25H105Z" fill="#EF4444" />
+                            <path d="M200 30C200 18 208 12 213 12C218 12 226 18 226 30H200Z" fill="#EF4444" />
+                            <path d="M125 135V95C125 82 138 72 150 72C162 72 175 82 175 95V135H125Z" fill="#FEF2F2" />
+                            <defs>
+                                <linearGradient id="bikaner-sky" x1="0" y1="0" x2="0" y2="160" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#F97316" />
+                                    <stop offset="0.6" stop-color="#FFEDD5" />
+                                    <stop offset="1" stop-color="#FEF08A" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
                     </div>
                     <div class="district-info-body">
                         <div class="district-meta-row">
@@ -1850,7 +1906,23 @@
                 <!-- Card 6: Ajmer -->
                 <div class="district-card">
                     <div class="district-image-wrapper">
-                        <img src="{{ asset('front/assets/images/district_ajmer.jpg') }}" alt="Ajmer" class="district-img">
+                        <!-- Ajmer Dargah & Ana Sagar Lake SVG -->
+                        <svg viewBox="0 0 300 160" fill="none" xmlns="http://www.w3.org/2000/svg" class="landmark-svg">
+                            <rect width="300" height="160" fill="url(#ajmer-sky)" />
+                            <rect y="120" width="300" height="40" fill="#0284C7" />
+                            <path d="M50 120V70H250V120H50Z" fill="#F8FAFC" />
+                            <path d="M60 120V78H240V120H60Z" fill="#FFFFFF" />
+                            <path d="M105 70C105 35 125 15 150 15C175 15 195 35 195 70H105Z" fill="#FFFFFF" />
+                            <path d="M147 15V0H153V15H147Z" fill="#EAB308" />
+                            <circle cx="150" cy="0" r="4" fill="#EAB308" />
+                            <path d="M130 120V95C130 85 138 78 150 78C162 78 170 85 170 95V120H130Z" fill="#0284C7" />
+                            <defs>
+                                <linearGradient id="ajmer-sky" x1="0" y1="0" x2="0" y2="160" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#0284C7" />
+                                    <stop offset="0.75" stop-color="#BAE6FD" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
                     </div>
                     <div class="district-info-body">
                         <div class="district-meta-row">
@@ -1879,21 +1951,21 @@
             </button>
         </div>
 
+        <!-- Centered View All Districts Button Wrapper inside Section Container -->
+        <div class="view-all-districts-wrapper" style="display: flex; justify-content: center; margin-top: 24px;">
+            <a href="{{ route('front.vendorlist') }}" class="btn-all-districts">
+                <span>सभी जिलों को देखें</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+
     </div>
 </section>
 <!-- Rajasthan Districts Section End -->
-
-<!-- View All Districts Button Wrapper -->
-<div class="view-all-districts-wrapper desktop-only">
-    <a href="{{ route('front.vendorlist') }}" class="btn-all-districts">
-        <span>सभी जिलों को देखें</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-            stroke-linecap="round" stroke-linejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-        </svg>
-    </a>
-</div>
 
 <!-- Happy Customers Testimonials Section Start -->
 <section class="testimonials-section desktop-only" id="testimonials">
