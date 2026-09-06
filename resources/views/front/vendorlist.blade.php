@@ -1118,34 +1118,526 @@
         margin: 0 auto 16px auto;
     }
 
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        .vl-top-filter-bar {
-            top: 60px;
-        }
+    /* =============================================================
+       COMPREHENSIVE MOBILE RESPONSIVE SUITE FOR VENDORLIST PAGE
+    ============================================================== */
+    
+    /* Backdrop Overlay for Filter Drawer on Mobile */
+    .vl-filter-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+        z-index: 9998;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .vl-filter-backdrop.is-active {
+        display: block;
+        opacity: 1;
+    }
+
+    .vl-filter-close-btn {
+        display: none;
+        background: #F1F5F9;
+        border: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        color: #475569;
+        font-size: 20px;
+        line-height: 1;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+    }
+    .vl-filter-close-btn:hover {
+        background: #E2E8F0;
+        color: #0F172A;
+    }
+
+    .vl-filter-drawer-footer {
+        display: none;
+        position: sticky;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #FFFFFF;
+        padding: 12px 16px;
+        border-top: 1px solid #E2E8F0;
+        box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.05);
+        gap: 10px;
+        z-index: 10;
+    }
+
+    @media (min-width: 769px) {
         .vl-card {
-            flex-direction: column;
-            align-items: stretch;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
         }
-        .vl-card-photo-box {
-            width: 100%;
-            height: 130px;
+        .vl-card-header-top {
+            display: contents;
         }
-        .vl-card-actions {
-            align-items: stretch;
-            width: 100%;
-            border-top: 1px solid #F1F5F9;
-            padding-top: 12px;
+        .vl-card-body-content {
+            display: contents;
         }
+    }
+
+    @media (max-width: 991px) {
+        .vl-3col-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 16px !important;
+        }
+
+        /* Filter Offcanvas Drawer */
+        .vl-filter-sidebar {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            bottom: 0 !important;
+            width: 88% !important;
+            max-width: 340px !important;
+            height: 100vh !important;
+            background: #FFFFFF !important;
+            z-index: 9999 !important;
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.25) !important;
+            transform: translateX(-100%) !important;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            overflow-y: auto !important;
+            display: block !important;
+            padding: 0 !important;
+        }
+        .vl-filter-sidebar.is-open {
+            transform: translateX(0) !important;
+        }
+        .vl-filter-card {
+            border: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            padding: 18px 16px 80px 16px !important;
+            background: #FFFFFF !important;
+        }
+        .vl-filter-close-btn {
+            display: flex !important;
+        }
+        .vl-filter-drawer-footer {
+            display: flex !important;
+        }
+        .vl-drawer-apply-btn {
+            flex: 1;
+            height: 40px;
+            background: #004BEE;
+            color: #FFFFFF;
+            font-size: 13.5px;
+            font-weight: 700;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+        }
+        .vl-drawer-reset-btn {
+            padding: 0 14px;
+            height: 40px;
+            background: #F1F5F9;
+            color: #475569;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 8px;
+            border: 1px solid #E2E8F0;
+            cursor: pointer;
+        }
+
+        /* Right column on tablet / mobile */
+        .vl-visiting-sidebar {
+            order: 3 !important;
+            width: 100% !important;
+            margin-top: 10px !important;
+        }
+        .vl-visiting-card {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .vendorlist-page {
+            padding-bottom: 40px !important;
+        }
+
+        /* Top Sticky Filter Bar */
+        .vl-top-filter-bar {
+            top: 56px !important;
+            padding: 8px 0 !important;
+            background: #FFFFFF !important;
+            border-bottom: 1px solid #E2E8F0 !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+        }
+        .vl-filter-bar-container {
+            padding: 0 12px !important;
+            gap: 8px !important;
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+        .vl-filter-bar-container::-webkit-scrollbar {
+            display: none !important;
+        }
+        .vl-filter-bar-left {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            flex-wrap: nowrap !important;
+            flex: 1 !important;
+        }
+        .vl-filter-toggle-btn {
+            padding: 6px 12px !important;
+            font-size: 12.5px !important;
+            height: 34px !important;
+            border-radius: 8px !important;
+            background: #004BEE !important;
+            color: #FFFFFF !important;
+            border: none !important;
+            flex-shrink: 0 !important;
+            gap: 6px !important;
+        }
+        .vl-filter-toggle-btn svg {
+            stroke: #FFFFFF !important;
+        }
+        .vl-dropdown-capsule {
+            padding: 4px 10px !important;
+            height: 34px !important;
+            font-size: 12px !important;
+            border-radius: 8px !important;
+            flex-shrink: 0 !important;
+        }
+        .vl-dropdown-capsule label {
+            font-size: 11px !important;
+        }
+        .vl-dropdown-capsule select {
+            font-size: 12px !important;
+        }
+        .vl-filter-bar-right {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            flex-shrink: 0 !important;
+        }
+        .vl-sort-group {
+            display: flex !important;
+            align-items: center !important;
+        }
+        .vl-sort-group label {
+            display: none !important;
+        }
+        .vl-sort-group select {
+            height: 34px !important;
+            font-size: 12px !important;
+            padding: 4px 10px !important;
+            border-radius: 8px !important;
+            border: 1px solid #E2E8F0 !important;
+            background: #FFFFFF !important;
+            color: #0F172A !important;
+            font-weight: 600 !important;
+        }
+        .vl-view-toggle {
+            display: none !important;
+        }
+
+        /* Layout wrapper */
+        .vl-layout-wrap {
+            padding: 0 12px !important;
+            margin-top: 10px !important;
+        }
+
+        /* Premium Banner Ad */
         .vl-premium-banner {
-            flex-direction: column;
-            padding: 20px 16px;
+            flex-direction: column !important;
+            padding: 18px 14px !important;
+            border-radius: 14px !important;
+            margin-bottom: 14px !important;
+            min-height: auto !important;
+            background: linear-gradient(135deg, #071536 0%, #0A1B44 60%, #0E2963 100%) !important;
         }
         .vl-pb-content {
-            max-width: 100%;
+            max-width: 100% !important;
+        }
+        .vl-pb-badge {
+            font-size: 9px !important;
+            padding: 2px 7px !important;
+            margin-bottom: 6px !important;
+        }
+        .vl-pb-title {
+            font-size: 17px !important;
+            font-weight: 800 !important;
+            line-height: 1.25 !important;
+            margin-bottom: 4px !important;
+        }
+        .vl-pb-subtitle {
+            font-size: 12px !important;
+            color: #94A3B8 !important;
+            margin-bottom: 12px !important;
+        }
+        .vl-pb-features {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 6px !important;
+            margin-bottom: 14px !important;
+        }
+        .vl-pb-pill {
+            padding: 4px 8px !important;
+            font-size: 11px !important;
+            gap: 6px !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            border-radius: 6px !important;
+        }
+        .vl-pb-pill-icon {
+            width: 18px !important;
+            height: 18px !important;
+            font-size: 10px !important;
+        }
+        .vl-pb-btn {
+            width: 100% !important;
+            text-align: center !important;
+            justify-content: center !important;
+            height: 38px !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            border-radius: 8px !important;
         }
         .vl-pb-visual {
-            display: none;
+            display: none !important;
+        }
+        .vl-pb-arrow {
+            display: none !important;
+        }
+        .vl-pb-dots {
+            display: none !important;
+        }
+
+        /* Results Meta */
+        .vl-results-meta {
+            margin-bottom: 10px !important;
+        }
+        .vl-results-count {
+            font-size: 12px !important;
+            font-weight: 600 !important;
+        }
+
+        /* Vendor Card (Modern Mobile Layout) */
+        .vl-agents-container {
+            gap: 12px !important;
+        }
+        .vl-card {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            padding: 14px 12px !important;
+            border-radius: 14px !important;
+            gap: 10px !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+            position: relative !important;
+        }
+        .vl-card-header-top {
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            width: 100% !important;
+        }
+        .vl-card-photo-box {
+            width: 68px !important;
+            height: 68px !important;
+            min-width: 68px !important;
+            border-radius: 10px !important;
+            position: relative !important;
+            overflow: hidden !important;
+            border: 1.5px solid #F1F5F9 !important;
+        }
+        .vl-card-badge-verified {
+            font-size: 8px !important;
+            padding: 2px 4px !important;
+            top: 3px !important;
+            left: 3px !important;
+            border-radius: 3px !important;
+            letter-spacing: 0.2px !important;
+        }
+        .vl-card-info {
+            flex: 1 !important;
+            min-width: 0 !important;
+        }
+        .vl-card-title-row {
+            display: flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            margin-bottom: 2px !important;
+            padding-right: 28px !important; /* room for heart btn */
+        }
+        .vl-card-title {
+            font-size: 15px !important;
+            font-weight: 800 !important;
+            line-height: 1.25 !important;
+            color: #0F172A !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+        }
+        .vl-blue-tick {
+            width: 16px !important;
+            height: 16px !important;
+        }
+        .vl-card-rating-row {
+            font-size: 11.5px !important;
+            gap: 4px !important;
+            margin-bottom: 2px !important;
+        }
+        .vl-card-stars {
+            font-size: 11px !important;
+            gap: 1px !important;
+        }
+        .vl-card-location {
+            font-size: 11.5px !important;
+            margin-bottom: 4px !important;
+            color: #64748B !important;
+        }
+        .vl-card-desc {
+            font-size: 12px !important;
+            color: #475569 !important;
+            line-height: 1.4 !important;
+            margin-bottom: 8px !important;
+            -webkit-line-clamp: 2 !important;
+            display: -webkit-box !important;
+        }
+        .vl-card-tags {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 5px !important;
+            margin-bottom: 4px !important;
+        }
+        .vl-card-tag {
+            font-size: 11px !important;
+            padding: 2px 7px !important;
+            border-radius: 4px !important;
+        }
+
+        /* Wishlist Heart Button at top right */
+        .vl-card-heart-btn {
+            position: absolute !important;
+            top: 10px !important;
+            right: 10px !important;
+            width: 32px !important;
+            height: 32px !important;
+            border-radius: 50% !important;
+            background: #F8FAFC !important;
+            border: 1px solid #E2E8F0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 !important;
+            z-index: 5 !important;
+        }
+        .vl-card-heart-btn svg {
+            width: 17px !important;
+            height: 17px !important;
+        }
+
+        /* Action Buttons on Mobile */
+        .vl-card-actions {
+            border-top: 1px solid #F1F5F9 !important;
+            padding-top: 10px !important;
+            margin-top: 4px !important;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+            align-items: center !important;
+        }
+        .vl-card-phone {
+            display: none !important;
+        }
+        .vl-card-btn-call {
+            height: 38px !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            border-radius: 8px !important;
+            background: #004BEE !important;
+            color: #FFFFFF !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            text-decoration: none !important;
+            border: none !important;
+            box-shadow: 0 2px 6px rgba(0, 75, 238, 0.2) !important;
+        }
+        .vl-card-btn-wa {
+            height: 38px !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            border-radius: 8px !important;
+            background: #16A34A !important;
+            color: #FFFFFF !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            text-decoration: none !important;
+            border: none !important;
+            box-shadow: 0 2px 6px rgba(22, 163, 74, 0.2) !important;
+        }
+        .vl-card-view-details {
+            grid-column: 1 / -1 !important;
+            height: 34px !important;
+            font-size: 12.5px !important;
+            font-weight: 700 !important;
+            border-radius: 8px !important;
+            border: 1.5px solid #004BEE !important;
+            color: #004BEE !important;
+            background: #FFFFFF !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            text-decoration: none !important;
+            margin-top: 2px !important;
+        }
+
+        /* Right Column Cards on Mobile */
+        .vl-right-col,
+        .vl-visiting-sidebar {
+            width: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            margin-top: 14px !important;
+        }
+        .vl-visiting-card,
+        .vl-side-ad-box,
+        .vl-side-app-box {
+            width: 100% !important;
+            border-radius: 14px !important;
+            padding: 16px 14px !important;
+        }
+
+        /* Pagination */
+        .vl-pagination-wrap {
+            margin-top: 18px !important;
+            gap: 4px !important;
+            flex-wrap: wrap !important;
+        }
+        .vl-page-link {
+            min-width: 32px !important;
+            height: 32px !important;
+            font-size: 12px !important;
+            padding: 0 6px !important;
+            border-radius: 6px !important;
+        }
+        body.overflow-hidden {
+            overflow: hidden !important;
         }
     }
 </style>
@@ -1256,6 +1748,9 @@
         </div>
     </div>
 
+    <!-- Filter Backdrop Overlay for Mobile -->
+    <div class="vl-filter-backdrop" id="vlFilterBackdrop"></div>
+
     <!-- Main 3-Column Content Layout -->
     <div class="vl-layout-wrap">
         <div class="vl-3col-grid">
@@ -1281,9 +1776,9 @@
                             </svg>
                             <span>Filters</span>
                         </h3>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#94A3B8;">
-                            <polyline points="18 15 12 9 6 15"></polyline>
-                        </svg>
+                        <button type="button" class="vl-filter-close-btn" id="vlFilterCloseBtn" aria-label="Close Filters">
+                            &times;
+                        </button>
                     </div>
 
                     <!-- Category Filter -->
@@ -1393,6 +1888,12 @@
                     </button>
 
                 </div>
+
+                <!-- Sticky Mobile Drawer Footer -->
+                <div class="vl-filter-drawer-footer">
+                    <button type="button" class="vl-drawer-reset-btn" id="btnDrawerReset">Reset</button>
+                    <button type="button" class="vl-drawer-apply-btn" id="btnDrawerApply">Apply Filters</button>
+                </div>
             </aside>
 
             <!-- -------------------------------------------------------------
@@ -1479,54 +1980,60 @@
 
                         <div class="vl-card" data-id="{{ $vendor->id }}">
                             
-                            <!-- Left: Logo / Photo with Verified Badge -->
-                            <div class="vl-card-photo-box">
-                                <span class="vl-card-badge-verified">VERIFIED</span>
-                                <img src="{{ $vendorPhoto }}" alt="{{ $businessName }}" onerror="this.onerror=null; this.src='{{ asset('images/images.png') }}';">
+                            <!-- Header Top: Photo + Info Details -->
+                            <div class="vl-card-header-top">
+                                <!-- Left: Logo / Photo with Verified Badge -->
+                                <div class="vl-card-photo-box">
+                                    <span class="vl-card-badge-verified">VERIFIED</span>
+                                    <img src="{{ $vendorPhoto }}" alt="{{ $businessName }}" onerror="this.onerror=null; this.src='{{ asset('images/images.png') }}';">
+                                </div>
+
+                                <!-- Info Details -->
+                                <div class="vl-card-info">
+                                    <div class="vl-card-title-row">
+                                        <h3 class="vl-card-title">
+                                            <a href="{{ route('front.vendor.details', ['vendor' => $vendor->id]) }}">
+                                                {{ $businessName }}
+                                            </a>
+                                        </h3>
+                                        <!-- Blue Verified Checkmark Icon -->
+                                        <svg class="vl-blue-tick" width="18" height="18" viewBox="0 0 24 24" fill="none">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="#004BEE"/>
+                                        </svg>
+                                    </div>
+
+                                    <!-- Star Rating -->
+                                    <div class="vl-card-rating-row">
+                                        <span class="vl-card-rating-num">{{ $vendor->calc_rating ?? '4.8' }}</span>
+                                        <span class="vl-card-stars">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star-half-stroke"></i>
+                                        </span>
+                                        <span class="vl-card-reviews">({{ $vendor->calc_reviews ?? '325' }} Reviews)</span>
+                                    </div>
+
+                                    <!-- Location -->
+                                    <div class="vl-card-location">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                            <circle cx="12" cy="10" r="3"></circle>
+                                        </svg>
+                                        <span>{{ $addressText }}</span>
+                                    </div>
+                                </div>
                             </div>
 
-                            <!-- Middle: Info Details -->
-                            <div class="vl-card-info">
-                                <div class="vl-card-title-row">
-                                    <h3 class="vl-card-title">
-                                        <a href="{{ route('front.vendor.details', ['vendor' => $vendor->id]) }}">
-                                            {{ $businessName }}
-                                        </a>
-                                    </h3>
-                                    <!-- Blue Verified Checkmark Icon -->
-                                    <svg class="vl-blue-tick" width="18" height="18" viewBox="0 0 24 24" fill="none">
-                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="#004BEE"/>
-                                    </svg>
-                                </div>
-
-                                <!-- Star Rating -->
-                                <div class="vl-card-rating-row">
-                                    <span class="vl-card-rating-num">{{ $vendor->calc_rating ?? '4.8' }}</span>
-                                    <span class="vl-card-stars">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star-half-stroke"></i>
-                                    </span>
-                                    <span class="vl-card-reviews">({{ $vendor->calc_reviews ?? '325' }} Reviews)</span>
-                                </div>
-
-                                <!-- Location -->
-                                <div class="vl-card-location">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                        <circle cx="12" cy="10" r="3"></circle>
-                                    </svg>
-                                    <span>{{ $addressText }}</span>
-                                </div>
-
+                            <!-- Body Content: Description & Tags -->
+                            <div class="vl-card-body-content">
                                 <!-- Description / Tagline -->
                                 <div class="vl-card-desc">
                                     @if(!empty($vendor->description))
                                         {{ $vendor->description }}
                                     @else
-                                        Providing verified services and professional assistance in {{ implode(', ', array_slice($vendor->service_tags, 0, 3)) }}.
+                                        Providing verified services and professional assistance in {{ implode(', ', array_slice($vendor->service_tags ?? ['Verified Services'], 0, 3)) }}.
                                     @endif
                                 </div>
 
@@ -1538,7 +2045,7 @@
                                 </div>
                             </div>
 
-                            <!-- Right: Actions & Contact -->
+                            <!-- Right / Bottom: Actions & Contact -->
                             <div class="vl-card-actions">
                                 <!-- Wishlist Heart Button -->
                                 <button type="button" class="vl-card-heart-btn" title="Save to Favorites" data-id="{{ $vendor->id }}">
@@ -1925,14 +2432,21 @@
             syncWishlistUI();
         });
 
-        // 12. Mobile Filter Sidebar Toggle
+        // 12. Mobile Filter Sidebar Drawer (Offcanvas)
         $('#vlSidebarToggle').on('click', function () {
-            $('#vlFilterSidebar').toggleClass('is-open');
-            if ($('#vlFilterSidebar').hasClass('is-open')) {
-                $('html, body').animate({
-                    scrollTop: $('#vlFilterSidebar').offset().top - 120
-                }, 300);
-            }
+            $('#vlFilterSidebar').addClass('is-open');
+            $('#vlFilterBackdrop').addClass('is-active');
+            $('body').addClass('overflow-hidden');
+        });
+
+        $('#vlFilterCloseBtn, #vlFilterBackdrop, #btnDrawerApply').on('click', function () {
+            $('#vlFilterSidebar').removeClass('is-open');
+            $('#vlFilterBackdrop').removeClass('is-active');
+            $('body').removeClass('overflow-hidden');
+        });
+
+        $('#btnDrawerReset').on('click', function () {
+            $('#btnResetFilters').trigger('click');
         });
     });
 </script>
