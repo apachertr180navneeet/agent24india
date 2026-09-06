@@ -747,7 +747,7 @@
                                     </svg>
                                 </div>
                                 <div class="why-feature-text">
-                                    <h4 class="why-feature-heading">24x7 Support</h4>
+                                    <h4 class="why-feature-heading">Full Support</h4>
                                     <p class="why-feature-desc">Our support team is always here to help you.</p>
                                 </div>
                             </div>
@@ -910,7 +910,7 @@
 
                 <div class="ws-divider"></div>
 
-                <!-- 24x7 Support Available -->
+                <!-- Full Support Available -->
                 <div class="ws-col">
                     <div class="ws-icon">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -919,7 +919,7 @@
                         </svg>
                     </div>
                     <div class="ws-text">
-                        <div class="ws-number">24x7</div>
+                        <div class="ws-number">Full</div>
                         <div class="ws-label">Support Available</div>
                     </div>
                 </div>

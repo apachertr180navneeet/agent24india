@@ -167,7 +167,7 @@
                             </svg>
                         </div>
                         <div class="blue-banner-info">
-                            <h3 class="blue-banner-head">24x7 Support</h3>
+                            <h3 class="blue-banner-head">Full Support</h3>
                             <p class="blue-banner-sub">Dedicated support team always available</p>
                         </div>
                     </div>
@@ -388,7 +388,7 @@
 
                 <div class="dark-stat-divider"></div>
 
-                <!-- Stat 5: 24x7 Support Available -->
+                <!-- Stat 5: Full Support Available -->
                 <div class="dark-stat-col">
                     <div class="dark-stat-icon">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -397,7 +397,7 @@
                         </svg>
                     </div>
                     <div class="dark-stat-text">
-                        <span class="dark-stat-number">24x7</span>
+                        <span class="dark-stat-number">Full</span>
                         <span class="dark-stat-label">Support Available</span>
                     </div>
                 </div>

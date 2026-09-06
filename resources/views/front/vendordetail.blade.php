@@ -1570,7 +1570,7 @@
                                         </svg>
                                     </div>
                                     <div class="vd-metric-texts">
-                                        <span class="vd-metric-val">24/7</span>
+                                        <span class="vd-metric-val">Full</span>
                                         <span class="vd-metric-lbl">Support Available</span>
                                     </div>
                                 </div>

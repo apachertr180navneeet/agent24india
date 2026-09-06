@@ -844,7 +844,7 @@
                     </svg>
                 </div>
                 <div class="contact-dark-info">
-                    <span class="contact-dark-number">24x7</span>
+                    <span class="contact-dark-number">Full</span>
                     <span class="contact-dark-label">Support Available</span>
                 </div>
             </div>

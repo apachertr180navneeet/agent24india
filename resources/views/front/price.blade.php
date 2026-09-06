@@ -418,7 +418,7 @@
                             </div>
                         </div>
 
-                        <!-- Col 5: 24x7 Support -->
+                        <!-- Col 5: Full Support -->
                         <div class="pf-feature-col pf-last-col">
                             <div class="pf-icon-wrap">
                                 <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -427,7 +427,7 @@
                                 </svg>
                             </div>
                             <div class="pf-text-wrap">
-                                <h3 class="pf-title">24x7 Support</h3>
+                                <h3 class="pf-title">Full Support</h3>
                                 <p class="pf-subtitle">Always Here to Support You</p>
                             </div>
                         </div>
@@ -669,16 +669,16 @@
 
                     <div class="pws-divider"></div>
 
-                    <!-- Stat 5: 24x7 Support Available -->
+                    <!-- Stat 5: Full Support Available -->
                     <div class="pws-col">
                         <div class="pws-icon">
                             <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
-                                <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2H3z"></path>
+                                <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
                             </svg>
                         </div>
                         <div class="pws-text">
-                            <span class="pws-number">24x7</span>
+                            <span class="pws-number">Full</span>
                             <span class="pws-label">Support Available</span>
                         </div>
                     </div>
