@@ -2766,55 +2766,127 @@
             -------------------------------------------------------------- -->
             <main class="vl-main-col">
 
-                <!-- Top Premium Banner Carousel (Matches Screenshot) -->
-                <div class="vl-premium-banner">
-                    <div class="vl-pb-visual">
-                        <img src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=900&q=80" alt="City Skyline">
+                <!-- Top Premium Banner Carousel (Dynamic with $topadvertisments + Category Promo) -->
+                <div class="vl-pb-slider-container" id="vlPbSliderContainer">
+                    <div class="vl-pb-slides-wrapper" id="vlPbSlidesWrapper">
+                        
+                        <!-- Slide 1: Dynamic Stylized Category Promo Banner -->
+                        <div class="vl-pb-slide active" data-slide-index="0">
+                            <div class="vl-premium-banner">
+                                <div class="vl-pb-visual">
+                                    <img src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=900&q=80" alt="City Skyline">
+                                </div>
+
+                                <span class="vl-pb-badge">PREMIUM BANNER AD</span>
+                                <h2 class="vl-pb-title">Grow Your {{ $selectedCategoryObj ? $selectedCategoryObj->name : 'Real Estate' }} Business</h2>
+                                <div class="vl-pb-subtitle">Advertise with Premium Banner Ad in {{ $selectedDistrict ? $selectedDistrict->name : 'Jaipur' }}</div>
+
+                                <div class="vl-pb-features-row">
+                                    <button type="button" class="vl-pb-nav-btn pb-prev" aria-label="Previous">
+                                        <i class="fa-solid fa-chevron-left"></i>
+                                    </button>
+
+                                    <div class="vl-pb-feature-item">
+                                        <div class="vl-pb-circle-icon"><i class="fa-solid fa-eye"></i></div>
+                                        <span class="vl-pb-feature-label">High<br>Visibility</span>
+                                    </div>
+                                    <div class="vl-pb-feature-item">
+                                        <div class="vl-pb-circle-icon"><i class="fa-solid fa-users"></i></div>
+                                        <span class="vl-pb-feature-label">Targeted<br>Audience</span>
+                                    </div>
+                                    <div class="vl-pb-feature-item">
+                                        <div class="vl-pb-circle-icon"><i class="fa-solid fa-briefcase"></i></div>
+                                        <span class="vl-pb-feature-label">City<br>Wise Reach</span>
+                                    </div>
+                                    <div class="vl-pb-feature-item">
+                                        <div class="vl-pb-circle-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                                        <span class="vl-pb-feature-label">Boost<br>Your Business</span>
+                                    </div>
+
+                                    <button type="button" class="vl-pb-nav-btn pb-next" aria-label="Next">
+                                        <i class="fa-solid fa-chevron-right"></i>
+                                    </button>
+                                </div>
+
+                                <!-- 5 Dots -->
+                                <div class="vl-pb-carousel-dots">
+                                    <span class="vl-pb-dot active" data-dot-index="0"></span>
+                                    <span class="vl-pb-dot" data-dot-index="1"></span>
+                                    <span class="vl-pb-dot" data-dot-index="2"></span>
+                                    <span class="vl-pb-dot" data-dot-index="3"></span>
+                                    <span class="vl-pb-dot" data-dot-index="4"></span>
+                                </div>
+
+                                <a href="{{ route('front.addbanner') }}" class="vl-pb-cta-btn">
+                                    Book Banner Ad
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Advertisements from Database ($topadvertisments) -->
+                        @if(isset($topadvertisments) && count($topadvertisments) > 0)
+                            @foreach($topadvertisments as $idx => $topAd)
+                                @php
+                                    $adImg = !empty($topAd->image) ? (Str::startsWith($topAd->image, 'http') ? $topAd->image : asset($topAd->image)) : 'https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=900&q=80';
+                                    $adLink = !empty($topAd->link) ? $topAd->link : route('front.addbanner');
+                                    $adTitle = !empty($topAd->title) ? $topAd->title : ($selectedCategoryObj ? $selectedCategoryObj->name . ' Services' : 'Verified Services in ' . ($selectedDistrict ? $selectedDistrict->name : 'Jaipur'));
+                                    $adSubtitle = !empty($topAd->subtitle) ? $topAd->subtitle : 'Connect with top verified professionals';
+                                @endphp
+                                <div class="vl-pb-slide" data-slide-index="{{ $idx + 1 }}" style="display: none;">
+                                    <div class="vl-premium-banner">
+                                        <div class="vl-pb-visual">
+                                            <img src="{{ $adImg }}" alt="{{ $topAd->image_alt ?? 'Top Ad' }}">
+                                        </div>
+
+                                        <span class="vl-pb-badge">FEATURED PARTNER</span>
+                                        <h2 class="vl-pb-title">{{ $adTitle }}</h2>
+                                        <div class="vl-pb-subtitle">{{ $adSubtitle }}</div>
+
+                                        <div class="vl-pb-features-row">
+                                            <button type="button" class="vl-pb-nav-btn pb-prev" aria-label="Previous">
+                                                <i class="fa-solid fa-chevron-left"></i>
+                                            </button>
+
+                                            <div class="vl-pb-feature-item">
+                                                <div class="vl-pb-circle-icon"><i class="fa-solid fa-star"></i></div>
+                                                <span class="vl-pb-feature-label">Top<br>Rated</span>
+                                            </div>
+                                            <div class="vl-pb-feature-item">
+                                                <div class="vl-pb-circle-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                                                <span class="vl-pb-feature-label">100%<br>Verified</span>
+                                            </div>
+                                            <div class="vl-pb-feature-item">
+                                                <div class="vl-pb-circle-icon"><i class="fa-solid fa-bolt"></i></div>
+                                                <span class="vl-pb-feature-label">Quick<br>Response</span>
+                                            </div>
+                                            <div class="vl-pb-feature-item">
+                                                <div class="vl-pb-circle-icon"><i class="fa-solid fa-award"></i></div>
+                                                <span class="vl-pb-feature-label">Best<br>Deals</span>
+                                            </div>
+
+                                            <button type="button" class="vl-pb-nav-btn pb-next" aria-label="Next">
+                                                <i class="fa-solid fa-chevron-right"></i>
+                                            </button>
+                                        </div>
+
+                                        <!-- 5 Dots -->
+                                        <div class="vl-pb-carousel-dots">
+                                            <span class="vl-pb-dot" data-dot-index="0"></span>
+                                            <span class="vl-pb-dot {{ $idx == 0 ? 'active' : '' }}" data-dot-index="1"></span>
+                                            <span class="vl-pb-dot {{ $idx == 1 ? 'active' : '' }}" data-dot-index="2"></span>
+                                            <span class="vl-pb-dot {{ $idx == 2 ? 'active' : '' }}" data-dot-index="3"></span>
+                                            <span class="vl-pb-dot {{ $idx >= 3 ? 'active' : '' }}" data-dot-index="4"></span>
+                                        </div>
+
+                                        <a href="{{ $adLink }}" class="vl-pb-cta-btn">
+                                            Inquire Now
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+
                     </div>
-
-                    <span class="vl-pb-badge">PREMIUM BANNER AD</span>
-                    <h2 class="vl-pb-title">Grow Your {{ $selectedCategoryObj ? $selectedCategoryObj->name : 'Real Estate' }} Business</h2>
-                    <div class="vl-pb-subtitle">Advertise with Premium Banner Ad</div>
-
-                    <div class="vl-pb-features-row">
-                        <button type="button" class="vl-pb-nav-btn prev" aria-label="Previous">
-                            <i class="fa-solid fa-chevron-left"></i>
-                        </button>
-
-                        <div class="vl-pb-feature-item">
-                            <div class="vl-pb-circle-icon"><i class="fa-solid fa-eye"></i></div>
-                            <span class="vl-pb-feature-label">High<br>Visibility</span>
-                        </div>
-                        <div class="vl-pb-feature-item">
-                            <div class="vl-pb-circle-icon"><i class="fa-solid fa-users"></i></div>
-                            <span class="vl-pb-feature-label">Targeted<br>Audience</span>
-                        </div>
-                        <div class="vl-pb-feature-item">
-                            <div class="vl-pb-circle-icon"><i class="fa-solid fa-briefcase"></i></div>
-                            <span class="vl-pb-feature-label">City<br>Wise Reach</span>
-                        </div>
-                        <div class="vl-pb-feature-item">
-                            <div class="vl-pb-circle-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
-                            <span class="vl-pb-feature-label">Boost<br>Your Business</span>
-                        </div>
-
-                        <button type="button" class="vl-pb-nav-btn next" aria-label="Next">
-                            <i class="fa-solid fa-chevron-right"></i>
-                        </button>
-                    </div>
-
-                    <!-- 5 Dots -->
-                    <div class="vl-pb-carousel-dots">
-                        <span class="vl-pb-dot active"></span>
-                        <span class="vl-pb-dot"></span>
-                        <span class="vl-pb-dot"></span>
-                        <span class="vl-pb-dot"></span>
-                        <span class="vl-pb-dot"></span>
-                    </div>
-
-                    <a href="{{ route('front.addbanner') }}" class="vl-pb-cta-btn">
-                        Book Banner Ad
-                    </a>
                 </div>
 
                 <!-- Results Meta Count for Desktop (Matches Screenshot) -->
@@ -3444,8 +3516,53 @@
                 }
             }, 3500);
 
-            $(vcTrack).on('mouseenter touchstart', function () {
-                clearInterval(vcAutoSlide);
+        }
+
+        // 14. Top Banner Carousel Slider Controller
+        var $bannerSlides = $('.vl-pb-slide');
+        var totalBannerSlides = $bannerSlides.length;
+        var currentBannerIndex = 0;
+
+        function showBannerSlide(index) {
+            if (totalBannerSlides <= 1) return;
+            if (index >= totalBannerSlides) index = 0;
+            if (index < 0) index = totalBannerSlides - 1;
+            currentBannerIndex = index;
+
+            $bannerSlides.hide().removeClass('active');
+            $bannerSlides.eq(currentBannerIndex).fadeIn(200).addClass('active');
+
+            // Update dots
+            $('.vl-pb-dot').removeClass('active');
+            $('.vl-pb-dot[data-dot-index="' + (currentBannerIndex % 5) + '"]').addClass('active');
+        }
+
+        $(document).on('click', '.pb-next', function (e) {
+            e.preventDefault();
+            showBannerSlide(currentBannerIndex + 1);
+        });
+
+        $(document).on('click', '.pb-prev', function (e) {
+            e.preventDefault();
+            showBannerSlide(currentBannerIndex - 1);
+        });
+
+        $(document).on('click', '.vl-pb-dot', function (e) {
+            e.preventDefault();
+            var dotIdx = parseInt($(this).data('dot-index') || 0);
+            showBannerSlide(dotIdx);
+        });
+
+        // Auto-rotate banner slides every 4.5 seconds if multiple slides exist
+        if (totalBannerSlides > 1) {
+            var bannerAutoTimer = setInterval(function () {
+                if (!$('#vlPbSliderContainer').is(':hover')) {
+                    showBannerSlide(currentBannerIndex + 1);
+                }
+            }, 4500);
+
+            $('#vlPbSliderContainer').on('mouseenter touchstart', function () {
+                clearInterval(bannerAutoTimer);
             });
         }
     });
