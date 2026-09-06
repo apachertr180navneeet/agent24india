@@ -1,18 +1,19 @@
-// JavaScript for AGENT 24 INDIA Header Interactions
+// JavaScript for AGENT 24 INDIA Header & UI Interactions
 
 document.addEventListener('DOMContentLoaded', () => {
     const siteHeader = document.getElementById('siteHeader');
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const mainNav = document.getElementById('mainNav');
-    const navItems = document.querySelectorAll('.nav-item');
     const dropdownItems = document.querySelectorAll('.dropdown-item');
 
     // Sticky header shadow on scroll
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 20) {
-            siteHeader.classList.add('scrolled');
-        } else {
-            siteHeader.classList.remove('scrolled');
+        if (siteHeader) {
+            if (window.scrollY > 20) {
+                siteHeader.classList.add('scrolled');
+            } else {
+                siteHeader.classList.remove('scrolled');
+            }
         }
     });
 
@@ -33,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const headerMenuBtn = document.getElementById('headerMenuBtn');
+    const mobileHeaderMenuBtn = document.getElementById('mobileHeaderMenuBtn');
 
     if (hamburgerBtn) {
         hamburgerBtn.addEventListener('click', (e) => {
@@ -40,8 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
             openRightDrawer();
         });
     }
-
-    const mobileHeaderMenuBtn = document.getElementById('mobileHeaderMenuBtn');
 
     if (headerMenuBtn) {
         headerMenuBtn.addEventListener('click', (e) => {
@@ -65,84 +65,16 @@ document.addEventListener('DOMContentLoaded', () => {
         rightDrawerOverlay.addEventListener('click', closeRightDrawer);
     }
 
-    // Active state switching on click
-    navItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-            // Only switch active tab if not clicking inside a dropdown on desktop
-            if (!item.classList.contains('dropdown-item') || window.innerWidth <= 900) {
-                navItems.forEach(nav => nav.classList.remove('active'));
-                
-                // Remove existing active bar
-                const existingBar = document.querySelector('.active-bar');
-                if (existingBar) existingBar.remove();
-
-                item.classList.add('active');
-                
-                // Append active bar
-                const bar = document.createElement('span');
-                bar.className = 'active-bar';
-                item.appendChild(bar);
-            }
-        });
-    });
-
     // Mobile dropdown toggle on click
     dropdownItems.forEach(item => {
         const link = item.querySelector('.nav-link');
-        link.addEventListener('click', (e) => {
-            if (window.innerWidth <= 900) {
-                e.preventDefault();
-                item.classList.toggle('open');
-            }
-        });
-    });
-
-    // Search Form Interactive Action
-    const agentSearchForm = document.getElementById('agentSearchForm');
-    const searchAgentBtn = document.getElementById('searchAgentBtn');
-
-    if (agentSearchForm) {
-        agentSearchForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const type = document.getElementById('agentTypeSelect') ? document.getElementById('agentTypeSelect').value : '';
-            const city = document.getElementById('cityInput') ? document.getElementById('cityInput').value : '';
-            const category = document.getElementById('categorySelect') ? document.getElementById('categorySelect').value : '';
-
-            // Visual feedback on button click
-            if (searchAgentBtn) {
-                const originalText = searchAgentBtn.innerHTML;
-                searchAgentBtn.innerHTML = `
-                    <svg class="spin-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="2" x2="12" y2="6"></line>
-                        <line x1="12" y1="18" x2="12" y2="22"></line>
-                        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
-                        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
-                        <line x1="2" y1="12" x2="6" y2="12"></line>
-                        <line x1="18" y1="12" x2="22" y2="12"></line>
-                        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
-                        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
-                    </svg>
-                    <span>Khoj Rahe Hain...</span>
-                `;
-                searchAgentBtn.style.opacity = '0.9';
-
-                setTimeout(() => {
-                    window.location.href = `search.html?type=${encodeURIComponent(type)}&city=${encodeURIComponent(city)}&category=${encodeURIComponent(category)}`;
-                }, 500);
-            } else {
-                window.location.href = `search.html?type=${encodeURIComponent(type)}&city=${encodeURIComponent(city)}&category=${encodeURIComponent(category)}`;
-            }
-        });
-    }
-
-    // Category Card Click Interaction
-    const categoryCards = document.querySelectorAll('.category-card');
-    categoryCards.forEach(card => {
-        card.addEventListener('click', (e) => {
-            e.preventDefault();
-            const catTitle = card.querySelector('.category-title') ? card.querySelector('.category-title').textContent : '';
-            window.location.href = `search.html?category=${encodeURIComponent(catTitle)}`;
-        });
+        if (link) {
+            link.addEventListener('click', (e) => {
+                if (window.innerWidth <= 900) {
+                    item.classList.toggle('open');
+                }
+            });
+        }
     });
 
     // Top Verified Agents Carousel Controls
@@ -168,26 +100,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // View Profile & Call Now click notifications
-    const viewProfileBtns = document.querySelectorAll('.btn-agent-outlined');
-    const callNowBtns = document.querySelectorAll('.btn-agent-filled');
+    // Mobile Verified Agent Slider Track Controls
+    const mAgentSliderTrack = document.getElementById('mAgentSliderTrack');
+    const mAgentPrevBtn = document.getElementById('mAgentPrevBtn');
+    const mAgentNextBtn = document.getElementById('mAgentNextBtn');
 
-    viewProfileBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const card = btn.closest('.agent-card');
-            const name = card.querySelector('.agent-name').textContent;
-            showToast(`Opening profile for ${name}...`);
+    if (mAgentSliderTrack && mAgentPrevBtn && mAgentNextBtn) {
+        mAgentPrevBtn.addEventListener('click', () => {
+            const cardWidth = mAgentSliderTrack.querySelector('.m-agent-slide-card')?.offsetWidth || 300;
+            mAgentSliderTrack.scrollBy({
+                left: -cardWidth,
+                behavior: 'smooth'
+            });
         });
-    });
 
-    callNowBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const card = btn.closest('.agent-card');
-            const name = card.querySelector('.agent-name').textContent;
-            showToast(`Initiating call with ${name}...`);
+        mAgentNextBtn.addEventListener('click', () => {
+            const cardWidth = mAgentSliderTrack.querySelector('.m-agent-slide-card')?.offsetWidth || 300;
+            mAgentSliderTrack.scrollBy({
+                left: cardWidth,
+                behavior: 'smooth'
+            });
         });
-    });
+    }
 
     // Rajasthan Districts Carousel Controls
     const districtSliderTrack = document.getElementById('districtSliderTrack');
@@ -212,17 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // District Explore button clicks
-    const exploreDistrictBtns = document.querySelectorAll('.btn-explore-district');
-    exploreDistrictBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const card = btn.closest('.district-card');
-            const cityName = card.querySelector('.district-name').textContent;
-            showToast(`Exploring Verified Agents in ${cityName}...`);
-        });
-    });
-
     // Testimonials Carousel Slider Controls
     const testimonialSliderTrack = document.getElementById('testimonialSliderTrack');
     const testimonialPrevBtn = document.getElementById('testimonialPrevBtn');
@@ -246,28 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // View All Districts button click
-    const btnAllDistricts = document.querySelector('.btn-all-districts');
-    if (btnAllDistricts) {
-        btnAllDistricts.addEventListener('click', (e) => {
-            e.preventDefault();
-            showToast('Loading full directory of Rajasthan Districts & Cities...');
-        });
-    }
-
-    // Yellow Register Button click
-    const btnRegisterYellow = document.querySelector('.btn-register-yellow');
-    if (btnRegisterYellow) {
-        btnRegisterYellow.addEventListener('click', (e) => {
-            window.location.href = 'register.html';
-        });
-    }
-
-    // ==========================================
-    // SEARCH RESULTS PAGE INTERACTIONS (search.html)
-    // ==========================================
-
-    // 1. Grid/List View Toggle
+    // 1. Grid/List View Toggle on Listing page
     const viewListBtn = document.getElementById('viewListBtn');
     const viewGridBtn = document.getElementById('viewGridBtn');
     const agentsResultsContainer = document.getElementById('agentsResultsContainer');
@@ -295,60 +197,33 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (isSaved) {
                 btn.setAttribute('data-saved', 'false');
-                svg.setAttribute('fill', 'none');
-                svg.setAttribute('stroke', '#94A3B8');
-                showToast('Agent removed from Saved List.');
+                if (svg) {
+                    svg.setAttribute('fill', 'none');
+                    svg.setAttribute('stroke', '#94A3B8');
+                }
             } else {
                 btn.setAttribute('data-saved', 'true');
-                svg.setAttribute('fill', '#E11D48');
-                svg.setAttribute('stroke', '#E11D48');
-                showToast('Agent saved to your Wishlist!');
+                if (svg) {
+                    svg.setAttribute('fill', '#E11D48');
+                    svg.setAttribute('stroke', '#E11D48');
+                }
             }
         });
     });
 
-    // 3. Header Search Action on search.html
-    const btnHeaderSearch = document.getElementById('btnHeaderSearch');
-    if (btnHeaderSearch) {
-        btnHeaderSearch.addEventListener('click', () => {
-            const cat = document.getElementById('headerCategorySelect') ? document.getElementById('headerCategorySelect').value : '';
-            const loc = document.getElementById('headerLocationInput') ? document.getElementById('headerLocationInput').value : '';
-            showToast(`Filtering verified agents for ${loc} in ${cat}...`);
+    // 3. Header Search Action Capsule on Listing page
+    const hscSearchBtn = document.getElementById('hscSearchBtn');
+    if (hscSearchBtn) {
+        hscSearchBtn.addEventListener('click', () => {
+            const cat = document.getElementById('hscCategorySelect') ? document.getElementById('hscCategorySelect').value : '';
+            const loc = document.getElementById('hscDistrictSelect') ? document.getElementById('hscDistrictSelect').value : '';
+            
+            let url = window.location.pathname;
+            let params = new URLSearchParams(window.location.search);
+            if (cat) params.set('category', cat); else params.delete('category');
+            if (loc) params.set('location', loc); else params.delete('location');
+            params.delete('page');
+            window.location.href = url + '?' + params.toString();
         });
-    }
-
-    // 4. Sidebar Filter Accordion Toggle
-    const toggleFilterHeader = document.getElementById('toggleFilterHeader');
-    const sidebarFilters = id => document.getElementById('sidebarFilters');
-    if (toggleFilterHeader) {
-        toggleFilterHeader.addEventListener('click', () => {
-            const body = document.querySelector('.filter-card-body');
-            if (body) {
-                if (body.style.display === 'none') {
-                    body.style.display = 'block';
-                } else {
-                    body.style.display = 'none';
-                }
-            }
-        });
-    }
-
-    // Helper function for quick toast notification
-    function showToast(message) {
-        let toast = document.querySelector('.search-toast');
-        if (!toast) {
-            toast = document.createElement('div');
-            toast.className = 'search-toast';
-            document.body.appendChild(toast);
-        }
-        toast.textContent = message;
-        toast.classList.add('show');
-
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 3500);
     }
 });
-
-
-

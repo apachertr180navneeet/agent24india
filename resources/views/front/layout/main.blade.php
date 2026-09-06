@@ -463,7 +463,7 @@
 
     <!-- Start Footer Area -->
     @include('front.layout.footer')
-    <script src="{{ asset('public/front/assets/js/prototype-script.js') }}"></script>
+    <script src="{{ asset('public/front/assets/js/prototype-script.js') }}?v=1.3"></script>
     <script>
         $(document).on('click', '.toggle-password', function() {
 
