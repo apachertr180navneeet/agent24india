@@ -281,6 +281,15 @@
 
         <!-- Right Action Items -->
         <div class="header-actions">
+            <!-- Mobile Search Icon Button (visible only on mobile) -->
+            <a href="javascript:void(0)" class="action-btn mobile-header-search-btn" id="mobileHeaderSearchBtn" title="Search Agents" aria-label="Search Agents">
+                <svg class="action-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </a>
+
             <!-- Saved Item -->
             <a href="javascript:void(0)" class="action-btn saved-btn" id="headerSavedBtn" title="Saved Items">
                 <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -316,7 +325,7 @@
                 <a href="{{ route('front.register') }}" class="btn-register" style="background:#004BEE; color:#fff !important; font-weight:700;">Become an Agent</a>
             @endif
 
-            <!-- Right Side Menu Toggle Button -->
+            <!-- Right Side Menu Toggle Button (Desktop & Tablet) -->
             <button class="header-menu-drawer-btn" id="headerMenuBtn" title="Menu" aria-label="Menu">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -325,7 +334,7 @@
                 </svg>
             </button>
 
-            <!-- Mobile Hamburger Toggle -->
+            <!-- Mobile Hamburger Toggle (Mobile < 768px) -->
             <button class="hamburger-menu" id="hamburgerBtn" aria-label="Toggle navigation">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
