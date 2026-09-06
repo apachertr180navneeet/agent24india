@@ -1,6 +1,26 @@
 @extends('front.layout.main')
 @section('title', $pageTitle ?? 'Sahi Agent, Sahi Connection')
 
+@push('styles')
+<style>
+    .form-field.has-error .input-with-icon,
+    .form-field.has-error .select2-container--default .select2-selection--single {
+        border-color: #EF4444 !important;
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.18) !important;
+    }
+    .search-field-error {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: #EF4444;
+        font-size: 11.5px;
+        font-weight: 600;
+        margin-top: 5px;
+        line-height: 1.2;
+    }
+</style>
+@endpush
+
 @section('content')
 
     <!-- Main Hero Banner Section Start -->
@@ -25,20 +45,20 @@
                     <span>What kind of Agent are you looking for?</span>
                 </div>
 
-                <form class="search-card-form" id="agentSearchForm">
+                <form class="search-card-form" id="agentSearchForm" novalidate>
                     <div class="form-grid">
 
                         <!-- Input 1: Aap kya khoj rahe hain (Subcategory / Speciality) -->
-                        <div class="form-field">
-                            <label class="field-label">What are you looking for?</label>
+                        <div class="form-field" id="agentTypeField">
+                            <label class="field-label">What are you looking for? <span style="color: #EF4444;">*</span></label>
                             <div class="input-with-icon">
                                 <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
                                     stroke="#004BEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                     <polyline points="9 22 9 12 15 12 15 22"></polyline>
                                 </svg>
-                                <select class="select2 custom-select" id="agentTypeSelect">
-                                    <option value="" selected>All Agent Services</option>
+                                <select class="select2 custom-select" id="agentTypeSelect" name="agent_type">
+                                    <option value="" selected>Select Agent Service</option>
                                     @if(isset($subCategories) && count($subCategories) > 0)
                                         @foreach($subCategories->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $subCat)
                                             <option value="{{ $subCat->id }}">{{ $subCat->name }}</option>
@@ -53,42 +73,44 @@
                                     @endif
                                 </select>
                             </div>
+                            <span class="search-field-error" id="agentTypeError" style="display: none;">Please select what you are looking for</span>
                         </div>
 
                         <!-- Input 2: Select District -->
-                        <div class="form-field">
-                            <label class="field-label">Select District</label>
+                        <div class="form-field" id="districtField">
+                            <label class="field-label">Select District <span style="color: #EF4444;">*</span></label>
                             <div class="input-with-icon">
                                 <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
                                     stroke="#004BEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                                     <circle cx="12" cy="10" r="3"></circle>
                                 </svg>
-                                <select class="select2 custom-select" id="districtSelect">
-                                    <option value="">Select District</option>
+                                <select class="select2 custom-select" id="districtSelect" name="district">
+                                    <option value="" selected>Select District</option>
                                     @if(isset($district) && count($district) > 0)
                                         @foreach($district->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $d)
-                                            <option value="{{ $d->id }}" {{ $d->name == 'Jaipur' ? 'selected' : '' }}>{{ $d->name }}</option>
+                                            <option value="{{ $d->id }}">{{ $d->name }}</option>
                                         @endforeach
                                     @else
-                                        <option value="150" selected>Jaipur</option>
+                                        <option value="150">Jaipur</option>
                                         <option value="155">Jodhpur</option>
                                     @endif
                                 </select>
                             </div>
+                            <span class="search-field-error" id="districtError" style="display: none;">Please select a district</span>
                         </div>
 
                         <!-- Input 3: Select City (Replaced Category) -->
-                        <div class="form-field">
-                            <label class="field-label">Select City</label>
+                        <div class="form-field" id="cityField">
+                            <label class="field-label">Select City <span style="color: #EF4444;">*</span></label>
                             <div class="input-with-icon">
                                 <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
                                     stroke="#004BEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                     <polyline points="9 22 9 12 15 12 15 22"></polyline>
                                 </svg>
-                                <select class="select2 custom-select" id="citySelect">
-                                    <option value="">All Cities / Areas</option>
+                                <select class="select2 custom-select" id="citySelect" name="city">
+                                    <option value="" selected>Select City</option>
                                     @if(isset($initialCities) && count($initialCities) > 0)
                                         @foreach($initialCities->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $c)
                                             <option value="{{ $c->id }}">{{ $c->name }}</option>
@@ -96,6 +118,7 @@
                                     @endif
                                 </select>
                             </div>
+                            <span class="search-field-error" id="cityError" style="display: none;">Please select a city</span>
                         </div>
 
                         <!-- Search Button -->
@@ -1370,7 +1393,7 @@
     $(document).ready(function () {
         if ($.fn.select2) {
             $('#agentTypeSelect').select2({
-                placeholder: "All Agent Services",
+                placeholder: "Select Agent Service",
                 allowClear: true,
                 width: '100%'
             });
@@ -1382,17 +1405,32 @@
             });
 
             $('#citySelect').select2({
-                placeholder: "All Cities / Areas",
+                placeholder: "Select City",
                 allowClear: true,
                 width: '100%'
             });
         }
 
+        // Live validation clearing
+        $('#agentTypeSelect').on('change', function () {
+            if ($(this).val()) {
+                $('#agentTypeField').removeClass('has-error');
+                $('#agentTypeError').hide();
+            }
+        });
+
         // Fetch Cities when District Changes
         $('#districtSelect').on('change', function () {
             var districtId = $(this).val();
+            if (districtId) {
+                $('#districtField').removeClass('has-error');
+                $('#districtError').hide();
+            }
+
             var $citySelect = $('#citySelect');
-            $citySelect.empty().append('<option value="">All Cities / Areas</option>');
+            $citySelect.empty().append('<option value="">Select City</option>');
+            $('#cityField').removeClass('has-error');
+            $('#cityError').hide();
 
             if (districtId) {
                 var url = "{{ route('get.cities', ':id') }}".replace(':id', districtId);
@@ -1409,13 +1447,61 @@
             }
         });
 
-        // Search Form Submission Redirection
+        $('#citySelect').on('change', function () {
+            if ($(this).val()) {
+                $('#cityField').removeClass('has-error');
+                $('#cityError').hide();
+            }
+        });
+
+        // Search Form Submission Redirection with strict validation on all 3 fields
         $('#agentSearchForm').on('submit', function (e) {
             e.preventDefault();
 
             var subcategory = $('#agentTypeSelect').val();
             var district = $('#districtSelect').val();
             var city = $('#citySelect').val();
+
+            var isValid = true;
+            var firstInvalidField = null;
+
+            if (!subcategory) {
+                $('#agentTypeField').addClass('has-error');
+                $('#agentTypeError').show();
+                isValid = false;
+                if (!firstInvalidField) firstInvalidField = '#agentTypeSelect';
+            } else {
+                $('#agentTypeField').removeClass('has-error');
+                $('#agentTypeError').hide();
+            }
+
+            if (!district) {
+                $('#districtField').addClass('has-error');
+                $('#districtError').show();
+                isValid = false;
+                if (!firstInvalidField) firstInvalidField = '#districtSelect';
+            } else {
+                $('#districtField').removeClass('has-error');
+                $('#districtError').hide();
+            }
+
+            if (!city) {
+                $('#cityField').addClass('has-error');
+                $('#cityError').show();
+                isValid = false;
+                if (!firstInvalidField) firstInvalidField = '#citySelect';
+            } else {
+                $('#cityField').removeClass('has-error');
+                $('#cityError').hide();
+            }
+
+            // Bina teeno search box fill kiye submit nhi kar paaye
+            if (!isValid) {
+                if (firstInvalidField && $.fn.select2) {
+                    $(firstInvalidField).select2('open');
+                }
+                return false;
+            }
 
             var searchBtn = $('#searchAgentBtn');
             var originalBtnHtml = searchBtn.html();
@@ -1435,24 +1521,15 @@
             `);
 
             setTimeout(function () {
-                var redirectUrl = "{{ route('front.vendorlist') }}";
-
-                if (district && subcategory) {
-                    var template = "{{ route('front.vendorlist.location.subcategory', ['location' => 'LOC_ID', 'subcategory' => 'SUBCAT_ID']) }}";
-                    redirectUrl = template.replace('LOC_ID', encodeURIComponent(district)).replace('SUBCAT_ID', encodeURIComponent(subcategory));
-                } else if (district) {
-                    var template = "{{ route('front.vendorlist.location', ['location' => 'LOC_ID']) }}";
-                    redirectUrl = template.replace('LOC_ID', encodeURIComponent(district));
-                } else if (subcategory) {
-                    redirectUrl = "{{ route('front.vendorlist') }}?service=" + encodeURIComponent(subcategory);
-                }
+                var template = "{{ route('front.vendorlist.location.subcategory', ['location' => 'LOC_ID', 'subcategory' => 'SUBCAT_ID']) }}";
+                var redirectUrl = template.replace('LOC_ID', encodeURIComponent(district)).replace('SUBCAT_ID', encodeURIComponent(subcategory));
 
                 if (city) {
                     redirectUrl += (redirectUrl.indexOf('?') !== -1 ? '&' : '?') + 'city=' + encodeURIComponent(city);
                 }
 
                 window.location.href = redirectUrl;
-            }, 400);
+            }, 300);
         });
 
         // Toggle All Categories in Popular Categories Section
