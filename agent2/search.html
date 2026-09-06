@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Khojen - Verified Agents Near You - Agent 24 India</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="search-page-body">
+
+    <!-- Search Page Top Header -->
+    <header class="search-page-header">
+        <div class="search-header-container">
+            <!-- Brand Logo -->
+            <a href="index.html" class="brand-logo">
+                <div class="logo-icon-wrapper">
+                    <svg width="38" height="38" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 40L24 10L36 40H28L24 29L20 40H12Z" fill="url(#blue-grad-search)" />
+                        <path d="M18.5 33H29.5L24 19L18.5 33Z" fill="#004BEE" />
+                        <path d="M6 38C14 34 26 38 42 30C34 38 20 44 6 38Z" fill="#0F172A" />
+                        <circle cx="28" cy="11" r="4.5" fill="#FFB800" />
+                        <defs>
+                            <linearGradient id="blue-grad-search" x1="12" y1="10" x2="36" y2="40" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#004BEE" />
+                                <stop offset="1" stop-color="#002DAA" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="logo-text-group">
+                    <span class="brand-name"><span class="navy-text">AGENT</span><span class="blue-text">24</span></span>
+                    <span class="brand-tagline">INDIA</span>
+                </div>
+            </a>
+
+            <!-- Header Middle Search Bar -->
+            <div class="search-header-bar desktop-only">
+                <div class="header-search-input-group">
+                    <div class="header-search-select-wrapper">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        <select class="header-search-select" id="headerCategorySelect">
+                            <option value="all" selected>All Categories</option>
+                            <option value="real_estate">Real Estate & Property</option>
+                            <option value="financial">Financial Advisory</option>
+                            <option value="insurance">Insurance Consultant</option>
+                            <option value="legal">Legal & Documentation</option>
+                            <option value="rto">RTO & Vehicle Services</option>
+                            <option value="travel">Tours & Travel</option>
+                        </select>
+                        <svg class="select-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+
+                    <div class="search-bar-divider"></div>
+
+                    <div class="header-search-input-wrapper">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <input type="text" class="header-search-input" id="headerLocationInput" value="Jaipur, Rajasthan" placeholder="Location or City">
+                        <svg class="select-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+
+                    <button type="button" class="btn-header-search-action" id="btnHeaderSearch">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <span>Search</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Header Right Action Buttons (Desktop) -->
+            <div class="search-header-right-actions desktop-only">
+                <button type="button" class="header-action-icon-btn" title="Saved Agents" id="savedAgentsBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    <span>Saved</span>
+                </button>
+
+                <a href="login.html" class="header-action-icon-btn" title="Login">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>Login</span>
+                </a>
+
+                <a href="register.html" class="btn-become-agent">Become an Agent</a>
+
+                <button class="header-menu-drawer-btn" id="headerMenuBtn" title="Menu" aria-label="Menu">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Header Right Controls (Mobile) -->
+            <div class="mobile-header-controls mobile-only">
+                <div class="mobile-header-location-pill">
+                    <div class="mobile-loc-pin-icon">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                    </div>
+                    <select class="mobile-loc-select">
+                        <option value="jaipur" selected>Jaipur</option>
+                        <option value="sodala">Sodala</option>
+                        <option value="vaishali">Vaishali Nagar</option>
+                        <option value="mansarovar">Mansarovar</option>
+                    </select>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1E293B" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+
+                <a href="register.html" class="mobile-btn-become-agent">Agent बनें</a>
+
+                <button class="header-menu-drawer-btn" id="mobileHeaderMenuBtn" title="Menu" aria-label="Menu">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sub-Header Secondary Filter Toolbar (Desktop) -->
+    <div class="search-filter-subtoolbar desktop-only">
+        <div class="subtoolbar-container">
+            <div class="subtoolbar-left">
+                <button type="button" class="btn-subtoolbar-filter-toggle" id="toggleFilterSidebarBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="4" y1="21" x2="4" y2="14"></line>
+                        <line x1="4" y1="10" x2="4" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12" y2="3"></line>
+                        <line x1="20" y1="21" x2="20" y2="16"></line>
+                        <line x1="20" y1="12" x2="20" y2="3"></line>
+                        <line x1="1" y1="14" x2="7" y2="14"></line>
+                        <line x1="9" y1="8" x2="15" y2="8"></line>
+                        <line x1="17" y1="16" x2="23" y2="16"></line>
+                    </svg>
+                    <span>Filters</span>
+                </button>
+
+                <div class="subfilter-pill-select">
+                    <span class="subfilter-label">Category:</span>
+                    <select class="subfilter-select" id="filterCategorySub">
+                        <option value="all" selected>All Categories</option>
+                        <option value="real_estate">Real Estate & Property</option>
+                        <option value="financial">Financial Consultant</option>
+                        <option value="insurance">Insurance Agent</option>
+                        <option value="legal">Legal & Documentation</option>
+                    </select>
+                </div>
+
+                <div class="subfilter-pill-select">
+                    <span class="subfilter-label">Services:</span>
+                    <select class="subfilter-select" id="filterServicesSub">
+                        <option value="all" selected>All Services</option>
+                        <option value="address_change">Address Change RC</option>
+                        <option value="adhar">Adhar Card Update</option>
+                        <option value="affidavit">Affidavit Services</option>
+                        <option value="agreement">Agreement Drafting</option>
+                    </select>
+                </div>
+
+                <div class="subfilter-pill-select">
+                    <span class="subfilter-label">Area:</span>
+                    <select class="subfilter-select" id="filterAreaSub">
+                        <option value="sodala" selected>Sodala</option>
+                        <option value="vaishali">Vaishali Nagar</option>
+                        <option value="malviya">Malviya Nagar</option>
+                        <option value="mansarovar">Mansarovar</option>
+                        <option value="raja_park">Raja Park</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="subtoolbar-right">
+                <div class="sort-by-group">
+                    <span class="sort-label">Sort By:</span>
+                    <select class="sort-select" id="sortBySelect">
+                        <option value="recommended" selected>Recommended</option>
+                        <option value="rating">Highest Rated</option>
+                        <option value="reviews">Most Reviewed</option>
+                        <option value="newest">Newest First</option>
+                    </select>
+                </div>
+
+                <div class="view-mode-toggle">
+                    <button type="button" class="view-btn active" id="viewListBtn" title="List View">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                    </button>
+                    <button type="button" class="view-btn" id="viewGridBtn" title="Grid View">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content 3-Column Layout -->
+    <main class="search-main-wrapper">
+        <div class="search-layout-container">
+
+            <!-- LEFT COLUMN: Filters Sidebar (Desktop) -->
+            <aside class="search-sidebar-filter desktop-only" id="sidebarFilters">
+                <div class="filter-card">
+                    <div class="filter-card-header" id="toggleFilterHeader">
+                        <div class="filter-title-group">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="4" y1="21" x2="4" y2="14"></line>
+                                <line x1="4" y1="10" x2="4" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12" y2="3"></line>
+                                <line x1="20" y1="21" x2="20" y2="16"></line>
+                                <line x1="20" y1="12" x2="20" y2="3"></line>
+                                <line x1="1" y1="14" x2="7" y2="14"></line>
+                                <line x1="9" y1="8" x2="15" y2="8"></line>
+                                <line x1="17" y1="16" x2="23" y2="16"></line>
+                            </svg>
+                            <span>Filters</span>
+                        </div>
+                        <svg class="filter-collapse-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                    </div>
+
+                    <div class="filter-card-body">
+                        <!-- Category Select -->
+                        <div class="filter-group">
+                            <label class="filter-label">Category</label>
+                            <div class="custom-select-box">
+                                <select class="sidebar-select" id="sidebarCategorySelect">
+                                    <option value="" selected>Select Category</option>
+                                    <option value="real_estate">Real Estate & Property</option>
+                                    <option value="financial">Financial Advisory</option>
+                                    <option value="insurance">Insurance Consultant</option>
+                                    <option value="legal">Legal & Documentation</option>
+                                    <option value="rto">RTO & Vehicle Services</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Services Checkbox List -->
+                        <div class="filter-group">
+                            <label class="filter-label">Services</label>
+                            <div class="services-checkbox-list scrollable-checkbox-container">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="service" value="address_change">
+                                    <span class="checkbox-text">Address Change Rc</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="service" value="adhar_update">
+                                    <span class="checkbox-text">Adhar Card Update</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="service" value="affidavit">
+                                    <span class="checkbox-text">Affidavit Services</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="service" value="agreement">
+                                    <span class="checkbox-text">Agreement Drafting</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="service" value="agriculture">
+                                    <span class="checkbox-text">Agriculture Machinery</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="service" value="alarm_system">
+                                    <span class="checkbox-text">Alarm System</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="service" value="construction">
+                                    <span class="checkbox-text">All Construction Work</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="service" value="armed_guard">
+                                    <span class="checkbox-text">Armed Guard</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="service" value="auto_finance">
+                                    <span class="checkbox-text">Auto Rickshaw Finance</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="service" value="bachat_gat">
+                                    <span class="checkbox-text">Bachat Gat Services</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="service" value="bank_loan">
+                                    <span class="checkbox-text">Bank Loan Services</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="service" value="billing_sw">
+                                    <span class="checkbox-text">Billing & Software</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="service" value="birth_cert">
+                                    <span class="checkbox-text">Birth Certificate</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="service" value="bond_paper">
+                                    <span class="checkbox-text">Bond Paper Drafting</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+
+            <!-- MIDDLE COLUMN: Main Results & Featured Banner -->
+            <section class="search-main-results">
+
+                <!-- Featured Premium Banner Ad -->
+                <div class="featured-banner-ad-card">
+                    <div class="banner-ad-content">
+                        <div class="banner-ad-badge">PREMIUM BANNER AD</div>
+                        <h2 class="banner-ad-title">Grow Your Real Estate Business</h2>
+                        <p class="banner-ad-subtitle">Advertise with Premium Banner Ad</p>
+
+                        <!-- 4 Circular Icon Features -->
+                        <div class="banner-features-circles">
+                            <!-- Feature 1 -->
+                            <div class="feature-circle-item">
+                                <div class="feature-circle-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <circle cx="12" cy="12" r="6"></circle>
+                                        <circle cx="12" cy="12" r="2"></circle>
+                                    </svg>
+                                </div>
+                                <div class="feature-circle-label">
+                                    <span>High</span>
+                                    <span>Visibility</span>
+                                </div>
+                            </div>
+
+                            <!-- Feature 2 -->
+                            <div class="feature-circle-item">
+                                <div class="feature-circle-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                    </svg>
+                                </div>
+                                <div class="feature-circle-label">
+                                    <span>Targeted</span>
+                                    <span>Audience</span>
+                                </div>
+                            </div>
+
+                            <!-- Feature 3 -->
+                            <div class="feature-circle-item">
+                                <div class="feature-circle-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                                    </svg>
+                                </div>
+                                <div class="feature-circle-label">
+                                    <span>City</span>
+                                    <span>Wise Reach</span>
+                                </div>
+                            </div>
+
+                            <!-- Feature 4 -->
+                            <div class="feature-circle-item">
+                                <div class="feature-circle-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                        <path d="M16 8l4-4"></path>
+                                        <path d="M8 8L4 4"></path>
+                                    </svg>
+                                </div>
+                                <div class="feature-circle-label">
+                                    <span>Boost</span>
+                                    <span>Your Business</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Centered Pagination Dots -->
+                        <div class="banner-dots">
+                            <span class="dot active"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </div>
+
+                        <!-- Centered Book Banner Ad Button -->
+                        <div class="banner-btn-wrap">
+                            <a href="banner-ad.html" class="btn-book-banner-ad">Book Banner Ad</a>
+                        </div>
+                    </div>
+
+                    <!-- Banner Carousel Controls -->
+                    <button class="banner-nav-btn prev" aria-label="Previous Slide">&lsaquo;</button>
+                    <button class="banner-nav-btn next" aria-label="Next Slide">&rsaquo;</button>
+                </div>
+
+                <!-- Mobile Page Header Title & Subtitle -->
+                <div class="mobile-search-title-block mobile-only">
+                    <h1 class="mobile-search-heading">Real Estate Agent in <span class="blue-text">Jaipur</span></h1>
+                    <p class="mobile-search-subheading">Jaipur में कुल 128 Verified Real Estate Agents उपलब्ध हैं।</p>
+                </div>
+
+                <!-- Mobile Filter & Toolbar Row -->
+                <div class="mobile-filter-toolbar-row mobile-only">
+                    <button type="button" class="btn-mobile-filter-pill" id="mobileFilterToggleBtn">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round">
+                            <line x1="4" y1="6" x2="20" y2="6"></line>
+                            <line x1="7" y1="12" x2="17" y2="12"></line>
+                            <line x1="10" y1="18" x2="14" y2="18"></line>
+                        </svg>
+                        <span>फ़िल्टर करें</span>
+                    </button>
+
+                    <div class="mobile-sort-group">
+                        <span class="mobile-sort-label">Sort By:</span>
+                        <div class="mobile-sort-select-box">
+                            <select class="mobile-sort-dropdown">
+                                <option value="recommended" selected>Recommended</option>
+                                <option value="rating">Highest Rated</option>
+                                <option value="reviews">Most Reviewed</option>
+                            </select>
+                            <svg class="sort-caret" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1E293B" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                    </div>
+
+                    <div class="mobile-view-icons">
+                        <button type="button" class="btn-mobile-view active" title="List View">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round">
+                                <line x1="8" y1="6" x2="21" y2="6"></line>
+                                <line x1="8" y1="12" x2="21" y2="12"></line>
+                                <line x1="8" y1="18" x2="21" y2="18"></line>
+                                <circle cx="3" cy="6" r="1.2" fill="#FFFFFF"></circle>
+                                <circle cx="3" cy="12" r="1.2" fill="#FFFFFF"></circle>
+                                <circle cx="3" cy="18" r="1.2" fill="#FFFFFF"></circle>
+                            </svg>
+                        </button>
+                        <button type="button" class="btn-mobile-view" title="Grid View">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round">
+                                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                                <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results Counter Bar (Desktop) -->
+                <div class="results-count-bar desktop-only">
+                    <span>Showing 1 to 10 of 10560 agents</span>
+                </div>
+
+                <!-- AGENT CARDS CONTAINER (List View) -->
+                <div class="agents-results-list" id="agentsResultsContainer">
+
+                    <!-- DESKTOP AGENT CARDS WRAPPER -->
+                    <div class="desktop-agent-cards-wrapper desktop-only">
+
+                        <!-- Agent Card 1: test -->
+                        <div class="agent-result-card">
+                            <div class="agent-card-left-img">
+                                <div class="verified-badge-pill">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    VERIFIED
+                                </div>
+                                <div class="agent-avatar-placeholder">
+                                    <svg width="60" height="60" viewBox="0 0 24 24" fill="#CBD5E1">
+                                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div class="agent-card-info-content">
+                                <div class="agent-card-top-row">
+                                    <div class="agent-name-group">
+                                        <h3 class="agent-name">test</h3>
+                                        <span class="verified-check-icon" title="Verified Agent">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#004BEE"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4" stroke="#FFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                        </span>
+                                    </div>
+                                    <button type="button" class="btn-favorite-heart" title="Save Agent">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                    </button>
+                                </div>
+
+                                <div class="agent-rating-row">
+                                    <span class="rating-score">4.3</span>
+                                    <div class="stars-group">★★★★★</div>
+                                    <span class="reviews-count">(272 Reviews)</span>
+                                </div>
+
+                                <div class="agent-location-row">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                    <span>test, Sodala, Jaipur</span>
+                                </div>
+
+                                <p class="agent-description-text">
+                                    Providing verified services and professional assistance in Address Change RC, Aadhaar Card Update, Affidavit Services & Documentation.
+                                </p>
+                            </div>
+
+                            <div class="agent-card-action-column">
+                                <span class="agent-phone-number">+91 12365 47899</span>
+                                <a href="tel:+911236547899" class="btn-call-agent">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                    Call Now
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Agent Card 2: Pooja -->
+                        <div class="agent-result-card">
+                            <div class="agent-card-left-img">
+                                <div class="verified-badge-pill">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    VERIFIED
+                                </div>
+                                <img src="images/happy_customer_woman.jpg" alt="Pooja - Real Estate Consultant" class="agent-photo-img">
+                            </div>
+
+                            <div class="agent-card-info-content">
+                                <div class="agent-card-top-row">
+                                    <div class="agent-name-group">
+                                        <h3 class="agent-name">Pooja</h3>
+                                        <span class="verified-check-icon" title="Verified Agent">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#004BEE"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4" stroke="#FFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                        </span>
+                                    </div>
+                                    <button type="button" class="btn-favorite-heart" title="Save Agent">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                    </button>
+                                </div>
+
+                                <div class="agent-rating-row">
+                                    <span class="rating-score">4.9</span>
+                                    <div class="stars-group">★★★★★</div>
+                                    <span class="reviews-count">(518 Reviews)</span>
+                                </div>
+
+                                <div class="agent-category-tag">Real Estate & Property Consultant</div>
+
+                                <div class="agent-location-row">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                    <span>Shop no -H/20, Jashlaxmi Nagar, Sodala, Jaipur</span>
+                                </div>
+
+                                <p class="agent-description-text">
+                                    Expert property buying, selling, rent agreements, home loan assistance and commercial real estate consulting in Sodala and Jaipur.
+                                </p>
+                            </div>
+
+                            <div class="agent-card-action-column">
+                                <span class="agent-phone-number">+91 97142 29432</span>
+                                <a href="tel:+919714229432" class="btn-call-agent">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                    Call Now
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Agent Card 3: Kashyap & Associates -->
+                        <div class="agent-result-card">
+                            <div class="agent-card-left-img">
+                                <div class="verified-badge-pill">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    VERIFIED
+                                </div>
+                                <img src="images/agent_legal.jpg" alt="Kashyap & Associates" class="agent-photo-img">
+                            </div>
+
+                            <div class="agent-card-info-content">
+                                <div class="agent-card-top-row">
+                                    <div class="agent-name-group">
+                                        <h3 class="agent-name">Kashyap & Associates</h3>
+                                        <span class="verified-check-icon" title="Verified Agent">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#004BEE"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4" stroke="#FFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                        </span>
+                                    </div>
+                                    <button type="button" class="btn-favorite-heart" title="Save Agent">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                    </button>
+                                </div>
+
+                                <div class="agent-rating-row">
+                                    <span class="rating-score">4.8</span>
+                                    <div class="stars-group">★★★★★</div>
+                                    <span class="reviews-count">(340 Reviews)</span>
+                                </div>
+
+                                <div class="agent-category-tag">Legal Advice & Documentation Consultant</div>
+
+                                <div class="agent-location-row">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                    <span>M-14, near Tempo Stand, Sodala, Jaipur</span>
+                                </div>
+
+                                <p class="agent-description-text">
+                                    Professional legal advisory, agreement drafting, affidavit services, property documentation, stamp paper registration & advocate services.
+                                </p>
+                            </div>
+
+                            <div class="agent-card-action-column">
+                                <span class="agent-phone-number">+91 99346 88000</span>
+                                <a href="tel:+919934688000" class="btn-call-agent">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                    Call Now
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Agent Card 4: New Nitin Road lines -->
+                        <div class="agent-result-card">
+                            <div class="agent-card-left-img">
+                                <div class="verified-badge-pill">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    VERIFIED
+                                </div>
+                                <img src="images/agent_rto.jpg" alt="New Nitin Road lines" class="agent-photo-img">
+                            </div>
+
+                            <div class="agent-card-info-content">
+                                <div class="agent-card-top-row">
+                                    <div class="agent-name-group">
+                                        <h3 class="agent-name">New Nitin Road lines</h3>
+                                        <span class="verified-check-icon" title="Verified Agent">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#004BEE"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4" stroke="#FFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                        </span>
+                                    </div>
+                                    <button type="button" class="btn-favorite-heart" title="Save Agent">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                    </button>
+                                </div>
+
+                                <div class="agent-rating-row">
+                                    <span class="rating-score">4.7</span>
+                                    <div class="stars-group">★★★★★</div>
+                                    <span class="reviews-count">(189 Reviews)</span>
+                                </div>
+
+                                <div class="agent-category-tag">RTO & Transport Advisor</div>
+
+                                <div class="agent-location-row">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                    <span>Main Ajmer Road, Sodala, Jaipur</span>
+                                </div>
+
+                                <p class="agent-description-text">
+                                    Complete RTO services, vehicle RC address change, ownership transfer, commercial permit registration and driving license solutions.
+                                </p>
+                            </div>
+
+                            <div class="agent-card-action-column">
+                                <span class="agent-phone-number">+91 98290 11223</span>
+                                <a href="tel:+919829011223" class="btn-call-agent">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                    Call Now
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Agent Card 5: Sharma Financial Advisory -->
+                        <div class="agent-result-card">
+                            <div class="agent-card-left-img">
+                                <div class="verified-badge-pill">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    VERIFIED
+                                </div>
+                                <img src="images/agent_insurance.jpg" alt="Sharma Insurance Advisor" class="agent-photo-img">
+                            </div>
+
+                            <div class="agent-card-info-content">
+                                <div class="agent-card-top-row">
+                                    <div class="agent-name-group">
+                                        <h3 class="agent-name">Sharma Financial & Insurance</h3>
+                                        <span class="verified-check-icon" title="Verified Agent">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#004BEE"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4" stroke="#FFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                        </span>
+                                    </div>
+                                    <button type="button" class="btn-favorite-heart" title="Save Agent">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                    </button>
+                                </div>
+
+                                <div class="agent-rating-row">
+                                    <span class="rating-score">4.9</span>
+                                    <div class="stars-group">★★★★★</div>
+                                    <span class="reviews-count">(412 Reviews)</span>
+                                </div>
+
+                                <div class="agent-category-tag">Insurance & Investment Consultant</div>
+
+                                <div class="agent-location-row">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                    <span>Near Metro Pillar 84, Sodala, Jaipur</span>
+                                </div>
+
+                                <p class="agent-description-text">
+                                    Health insurance, term life policies, vehicle insurance, mutual funds and customized financial plan advisors.
+                                </p>
+                            </div>
+
+                            <div class="agent-card-action-column">
+                                <span class="agent-phone-number">+91 94140 55667</span>
+                                <a href="tel:+919414055667" class="btn-call-agent">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                    Call Now
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- END DESKTOP AGENT CARDS WRAPPER -->
+
+
+                    <!-- MOBILE AGENT CARDS WRAPPER -->
+                    <div class="mobile-agent-cards-wrapper mobile-only">
+
+                        <!-- Mobile Agent Card 1: Shree Balaji Properties -->
+                        <div class="mobile-agent-card">
+                            <div class="mobile-card-header-row">
+                                <div class="mobile-card-logo-box">
+                                    <span class="mobile-verified-badge">
+                                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                        VERIFIED
+                                    </span>
+                                    <div class="mobile-logo-content">
+                                        <svg width="40" height="36" viewBox="0 0 50 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 24V40H20V24H12Z" stroke="#FFB800" stroke-width="2.5" stroke-linejoin="round"/>
+                                            <path d="M21 14V40H30V14H21Z" stroke="#FFB800" stroke-width="2.5" stroke-linejoin="round"/>
+                                            <path d="M31 20V40H38V20H31Z" stroke="#FFB800" stroke-width="2.5" stroke-linejoin="round"/>
+                                            <path d="M6 42C16 39 34 39 44 42" stroke="#FFB800" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                        <span class="mobile-logo-title">SHREE BALAJI</span>
+                                        <span class="mobile-logo-sub">— PROPERTIES —</span>
+                                    </div>
+                                </div>
+
+                                <div class="mobile-card-details">
+                                    <div class="mobile-card-title-line">
+                                        <div class="mobile-name-with-badge">
+                                            <h3 class="mobile-agent-name">Shree Balaji Properties</h3>
+                                            <span class="verified-blue-check" title="Verified Agent">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="#004BEE"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4" stroke="#FFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                            </span>
+                                        </div>
+                                        <button type="button" class="btn-card-heart-icon" aria-label="Save Agent">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                        </button>
+                                    </div>
+
+                                    <div class="mobile-rating-row">
+                                        <span class="rating-val">4.8</span>
+                                        <div class="stars-gold">★★★★★</div>
+                                        <span class="reviews-num">(128 Reviews)</span>
+                                    </div>
+
+                                    <div class="mobile-location-line">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                        <span>Vaishali Nagar, Jaipur</span>
+                                    </div>
+
+                                    <p class="mobile-hindi-desc">
+                                        हम Buy, Sell, Rent और Commercial Properties में बेहतर सुविधा और मार्गदर्शन प्रदान करते हैं।
+                                    </p>
+
+                                    <div class="mobile-tag-pills-row">
+                                        <span class="tag-pill">Buy</span>
+                                        <span class="tag-pill">Sell</span>
+                                        <span class="tag-pill">Rent</span>
+                                        <span class="tag-pill">Commercial</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mobile-card-actions-row">
+                                <a href="tel:+919876543210" class="btn-mobile-call">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                    Call Now
+                                </a>
+                                <a href="https://wa.me/919876543210" target="_blank" class="btn-mobile-whatsapp">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="#16A34A"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.572-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.436 5.176L2 22l4.956-1.39C8.398 21.492 10.147 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.634 0-3.15-.443-4.455-1.214l-.319-.189-2.94.825.836-2.87-.207-.333C4.108 14.908 3.6 13.513 3.6 12c0-4.632 3.768-8.4 8.4-8.4s8.4 3.768 8.4 8.4-3.768 8.4-8.4 8.4z"/></svg>
+                                    WhatsApp
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Agent Card 2: Gokul Realty -->
+                        <div class="mobile-agent-card">
+                            <div class="mobile-card-header-row">
+                                <div class="mobile-card-logo-box">
+                                    <span class="mobile-verified-badge">
+                                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                        VERIFIED
+                                    </span>
+                                    <div class="mobile-logo-content">
+                                        <svg width="40" height="36" viewBox="0 0 50 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M8 22L25 8L42 22M14 20V38H36V20" stroke="#FFB800" stroke-width="2.5" stroke-linejoin="round"/>
+                                            <path d="M6 42C16 39 34 39 44 42" stroke="#FFB800" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                        <span class="mobile-logo-title">GOKUL</span>
+                                        <span class="mobile-logo-sub">REALTY</span>
+                                    </div>
+                                </div>
+
+                                <div class="mobile-card-details">
+                                    <div class="mobile-card-title-line">
+                                        <div class="mobile-name-with-badge">
+                                            <h3 class="mobile-agent-name">Gokul Realty</h3>
+                                            <span class="verified-blue-check" title="Verified Agent">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="#004BEE"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4" stroke="#FFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                            </span>
+                                        </div>
+                                        <button type="button" class="btn-card-heart-icon" aria-label="Save Agent">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                        </button>
+                                    </div>
+
+                                    <div class="mobile-rating-row">
+                                        <span class="rating-val">4.6</span>
+                                        <div class="stars-gold">★★★★★</div>
+                                        <span class="reviews-num">(95 Reviews)</span>
+                                    </div>
+
+                                    <div class="mobile-location-line">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                        <span>Mansarovar, Jaipur</span>
+                                    </div>
+
+                                    <p class="mobile-hindi-desc">
+                                        Residential, Commercial और Rental Properties के लिए हम आपकी सभी जरूरतों का समाधान करते हैं।
+                                    </p>
+
+                                    <div class="mobile-tag-pills-row">
+                                        <span class="tag-pill">Buy</span>
+                                        <span class="tag-pill">Sell</span>
+                                        <span class="tag-pill">Rent</span>
+                                        <span class="tag-pill">PG/Hostel</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mobile-card-actions-row">
+                                <a href="tel:+919714229432" class="btn-mobile-call">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                    Call Now
+                                </a>
+                                <a href="https://wa.me/919714229432" target="_blank" class="btn-mobile-whatsapp">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="#16A34A"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.572-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.436 5.176L2 22l4.956-1.39C8.398 21.492 10.147 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.634 0-3.15-.443-4.455-1.214l-.319-.189-2.94.825.836-2.87-.207-.333C4.108 14.908 3.6 13.513 3.6 12c0-4.632 3.768-8.4 8.4-8.4s8.4 3.768 8.4 8.4-3.768 8.4-8.4 8.4z"/></svg>
+                                    WhatsApp
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Agent Card 3: Shiv Shakti Real Estate -->
+                        <div class="mobile-agent-card">
+                            <div class="mobile-card-header-row">
+                                <div class="mobile-card-logo-box">
+                                    <span class="mobile-verified-badge">
+                                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                                        VERIFIED
+                                    </span>
+                                    <div class="mobile-logo-content">
+                                        <svg width="40" height="36" viewBox="0 0 50 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 24V40H20V24H12Z" stroke="#FFB800" stroke-width="2.5" stroke-linejoin="round"/>
+                                            <path d="M21 14V40H30V14H21Z" stroke="#FFB800" stroke-width="2.5" stroke-linejoin="round"/>
+                                            <path d="M31 20V40H38V20H31Z" stroke="#FFB800" stroke-width="2.5" stroke-linejoin="round"/>
+                                            <path d="M6 42C16 39 34 39 44 42" stroke="#FFB800" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                        <span class="mobile-logo-title">SHIV SHAKTI</span>
+                                        <span class="mobile-logo-sub">REAL ESTATE</span>
+                                    </div>
+                                </div>
+
+                                <div class="mobile-card-details">
+                                    <div class="mobile-card-title-line">
+                                        <div class="mobile-name-with-badge">
+                                            <h3 class="mobile-agent-name">Shiv Shakti Real Estate</h3>
+                                            <span class="verified-blue-check" title="Verified Agent">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="#004BEE"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4" stroke="#FFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                            </span>
+                                        </div>
+                                        <button type="button" class="btn-card-heart-icon" aria-label="Save Agent">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                        </button>
+                                    </div>
+
+                                    <div class="mobile-rating-row">
+                                        <span class="rating-val">4.3</span>
+                                        <div class="stars-gold">★★★★★</div>
+                                        <span class="reviews-num">(68 Reviews)</span>
+                                    </div>
+
+                                    <div class="mobile-location-line">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                        <span>Jagatpura, Jaipur</span>
+                                    </div>
+
+                                    <p class="mobile-hindi-desc">
+                                        Plots, Flats, Villas और Commercial Properties के लिए संपर्क करें।
+                                    </p>
+
+                                    <div class="mobile-tag-pills-row">
+                                        <span class="tag-pill">Buy</span>
+                                        <span class="tag-pill">Sell</span>
+                                        <span class="tag-pill">Rent</span>
+                                        <span class="tag-pill">Plots</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mobile-card-actions-row">
+                                <a href="tel:+919934688000" class="btn-mobile-call">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                    Call Now
+                                </a>
+                                <a href="https://wa.me/919934688000" target="_blank" class="btn-mobile-whatsapp">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="#16A34A"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.572-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.436 5.176L2 22l4.956-1.39C8.398 21.492 10.147 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.634 0-3.15-.443-4.455-1.214l-.319-.189-2.94.825.836-2.87-.207-.333C4.108 14.908 3.6 13.513 3.6 12c0-4.632 3.768-8.4 8.4-8.4s8.4 3.768 8.4 8.4-3.768 8.4-8.4 8.4z"/></svg>
+                                    WhatsApp
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- END MOBILE AGENT CARDS WRAPPER -->
+
+                </div>
+
+                <!-- Desktop Pagination Component -->
+                <div class="search-pagination-bar desktop-only">
+                    <button class="page-nav-btn disabled">&lsaquo; Prev</button>
+                    <button class="page-num-btn active">1</button>
+                    <button class="page-num-btn">2</button>
+                    <button class="page-num-btn">3</button>
+                    <button class="page-num-btn">4</button>
+                    <span class="page-dots">...</span>
+                    <button class="page-num-btn">1056</button>
+                    <button class="page-nav-btn">Next &rsaquo;</button>
+                </div>
+
+                <!-- Mobile Visiting Card Ad Space Section -->
+                <div class="mobile-visiting-cards-container mobile-only">
+                    <div class="mobile-visiting-header">
+                        <h4 class="mobile-visiting-title">VISITING CARD AD SPACE</h4>
+                        <span class="mobile-visiting-slots">10 Slots Available</span>
+                    </div>
+
+                    <div class="mobile-visiting-grid">
+                        <!-- Card 1: RAJ BUILDWELL -->
+                        <div class="mobile-visiting-item">
+                            <div class="corner-ribbon ribbon-yellow"></div>
+                            <div class="mobile-vcard-body">
+                                <div class="vcard-logo-square dark-square">
+                                    <span class="vcard-initials">RB</span>
+                                    <span class="vcard-subtext">RAJ BUILDWELL</span>
+                                </div>
+                                <div class="vcard-info">
+                                    <h5 class="vcard-name">RAJ BUILDWELL</h5>
+                                    <p class="vcard-role">Real Estate Consultant</p>
+                                    <a href="tel:+919876543210" class="vcard-phone">📞 +91 98765 43210</a>
+                                    <p class="vcard-loc">📍 Vaishali Nagar, Jaipur</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: SHUBH HOME -->
+                        <div class="mobile-visiting-item">
+                            <div class="corner-ribbon ribbon-blue"></div>
+                            <div class="mobile-vcard-body">
+                                <div class="vcard-logo-square light-square">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6B00" stroke-width="2.2"><path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h12a1 1 0 001-1V10"/></svg>
+                                    <span class="vcard-subtext-orange">SHUBH HOME</span>
+                                </div>
+                                <div class="vcard-info">
+                                    <h5 class="vcard-name">SHUBH HOME</h5>
+                                    <p class="vcard-role">Property Consultant</p>
+                                    <a href="tel:+918765432109" class="vcard-phone">📞 +91 87654 32109</a>
+                                    <p class="vcard-loc">📍 Mansarovar, Jaipur</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-visiting-footer">
+                        <a href="visiting-cards.html" class="mobile-see-all-link">और देखें सभी &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Mobile Subcount & Pagination -->
+                <div class="mobile-pagination-footer-wrapper mobile-only">
+                    <div class="mobile-results-subcount">
+                        <span>Showing 1 to 10 of 128 agents</span>
+                    </div>
+
+                    <div class="mobile-pagination-bar">
+                        <button class="m-page-btn arrow-btn disabled">&lsaquo;</button>
+                        <button class="m-page-btn num-btn active">1</button>
+                        <button class="m-page-btn num-btn">2</button>
+                        <button class="m-page-btn num-btn">3</button>
+                        <span class="m-dots">..</span>
+                        <button class="m-page-btn num-btn">13</button>
+                        <button class="m-page-btn arrow-btn">&rsaquo;</button>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- RIGHT COLUMN: Visiting Card Ad Space (Desktop) -->
+            <aside class="search-sidebar-visiting-cards desktop-only">
+
+                <div class="visiting-cards-header-box">
+                    <h3 class="visiting-cards-title">VISITING CARD AD SPACE</h3>
+                    <span class="slots-available-tag">10 Slots Available</span>
+                </div>
+
+                <div class="visiting-cards-list">
+
+                    <!-- Visiting Card 1: test (Matching Screenshot) -->
+                    <div class="visiting-card-item">
+                        <div class="card-ribbon yellow-ribbon"></div>
+                        <div class="visiting-card-left">
+                            <div class="visiting-avatar-initials dark-badge">TE</div>
+                        </div>
+                        <div class="visiting-card-right">
+                            <h4 class="visiting-agent-name">test</h4>
+                            <p class="visiting-agent-role">E Mitar Consultant</p>
+                            <a href="tel:+911236547899" class="visiting-agent-phone">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                +911236547899
+                            </a>
+                            <p class="visiting-agent-location">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                test
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Visiting Card 2: Pooja (Matching Screenshot) -->
+                    <div class="visiting-card-item">
+                        <div class="card-ribbon blue-ribbon"></div>
+                        <div class="visiting-card-left">
+                            <img src="images/happy_customer_woman.jpg" alt="Pooja" class="visiting-avatar-img">
+                        </div>
+                        <div class="visiting-card-right">
+                            <h4 class="visiting-agent-name">Pooja</h4>
+                            <p class="visiting-agent-role">Real Estate Consultant</p>
+                            <a href="tel:+919714229432" class="visiting-agent-phone">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                +919714229432
+                            </a>
+                            <p class="visiting-agent-location">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                Shop no -H/20, jashlaxm...
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Visiting Card 3: Kashyap & Associates (Matching Screenshot) -->
+                    <div class="visiting-card-item">
+                        <div class="card-ribbon navy-ribbon"></div>
+                        <div class="visiting-card-left">
+                            <img src="images/agent_legal.jpg" alt="Kashyap & Associates" class="visiting-avatar-img">
+                        </div>
+                        <div class="visiting-card-right">
+                            <h4 class="visiting-agent-name">Kashyap & Associat...</h4>
+                            <p class="visiting-agent-role">Legal Advice Consultant</p>
+                            <a href="tel:+919934688000" class="visiting-agent-phone">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                +919934688000
+                            </a>
+                            <p class="visiting-agent-location">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                M-14, near Tempo Stand...
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Visiting Card 4: New Nitin Road lines -->
+                    <div class="visiting-card-item">
+                        <div class="card-ribbon green-ribbon"></div>
+                        <div class="visiting-card-left">
+                            <img src="images/agent_rto.jpg" alt="New Nitin Road lines" class="visiting-avatar-img">
+                        </div>
+                        <div class="visiting-card-right">
+                            <h4 class="visiting-agent-name">New Nitin Road lines...</h4>
+                            <p class="visiting-agent-role">RTO & Vehicle Advisor</p>
+                            <a href="tel:+919829011223" class="visiting-agent-phone">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                +919829011223
+                            </a>
+                            <p class="visiting-agent-location">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                Ajmer Road, Jaipur
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Visiting Card 5: Krishna Tour Consult -->
+                    <div class="visiting-card-item">
+                        <div class="card-ribbon orange-ribbon"></div>
+                        <div class="visiting-card-left">
+                            <img src="images/agent_travel.jpg" alt="Krishna Tour" class="visiting-avatar-img">
+                        </div>
+                        <div class="visiting-card-right">
+                            <h4 class="visiting-agent-name">Krishna Tour Consult...</h4>
+                            <p class="visiting-agent-role">Travel & Visa Consultant</p>
+                            <a href="tel:+919828833445" class="visiting-agent-phone">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                +919828833445
+                            </a>
+                            <p class="visiting-agent-location">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                Sanganer Road, Jaipur
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <!-- Footer Start -->
+    <footer class="site-footer">
+        <div class="section-container">
+            <div class="footer-grid">
+
+                <!-- Brand Info Column -->
+                <div class="footer-col brand-col">
+                    <div class="brand-logo">
+                        <div class="logo-icon-wrapper">
+                            <svg width="38" height="38" viewBox="0 0 50 50" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 40L24 10L36 40H28L24 29L20 40H12Z" fill="#0066FF" />
+                                <path d="M18.5 33H29.5L24 19L18.5 33Z" fill="#FFFFFF" />
+                                <circle cx="28" cy="11" r="4.5" fill="#FFB800" />
+                            </svg>
+                        </div>
+                        <div class="logo-text-group">
+                            <div class="brand-name">
+                                <span class="white-text">AGENT 24</span>
+                                <span class="blue-text">INDIA</span>
+                            </div>
+                            <span class="brand-tagline light-tagline">Sahi Agent, Sahi Connection</span>
+                        </div>
+                    </div>
+                    <p class="footer-desc">Bharat ka sabse trusted aur verified Agent Directory platform. Aapki zarurat,
+                        aapke city ka sahi agent!</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="search.html">Agent Khojen</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="price.html">Pricing Plans</a></li>
+                        <li><a href="contact.html">Contact Support</a></li>
+                    </ul>
+                </div>
+
+                <!-- Categories -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Popular Categories</h4>
+                    <ul class="footer-links">
+                        <li><a href="search.html?category=real_estate">Real Estate Agents</a></li>
+                        <li><a href="search.html?category=rto">Automobile & RTO Agents</a></li>
+                        <li><a href="search.html?category=financial">Financial Advisors</a></li>
+                        <li><a href="search.html?category=insurance">Insurance Advisors</a></li>
+                        <li><a href="search.html?category=legal">Legal Consultants</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Contact Support</h4>
+                    <ul class="footer-contact-list">
+                        <li>📍 Jaipur, Rajasthan, India</li>
+                        <li>📞 +91 98765 43210</li>
+                        <li>✉️ support@agent24india.com</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 AGENT 24 INDIA. All rights reserved. Sahi Agent, Sahi Connection.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer End -->
+
+    <!-- Right Side Offcanvas Drawer Menu Overlay -->
+    <div class="right-drawer-overlay" id="rightDrawerOverlay"></div>
+
+    <!-- Right Side Offcanvas Drawer Menu -->
+    <aside class="right-drawer-menu" id="rightDrawerMenu">
+        <div class="drawer-header">
+            <button class="drawer-close-btn" id="drawerCloseBtn" aria-label="Close menu">&times;</button>
+        </div>
+        <ul class="drawer-nav-list">
+            <li class="drawer-nav-item">
+                <a href="index.html" class="drawer-nav-link">Home</a>
+            </li>
+            <li class="drawer-nav-item active">
+                <a href="search.html" class="drawer-nav-link">Agent Khojen</a>
+            </li>
+            <li class="drawer-nav-item">
+                <a href="about.html" class="drawer-nav-link">About Us</a>
+            </li>
+            <li class="drawer-nav-item">
+                <a href="price.html" class="drawer-nav-link">Price</a>
+            </li>
+            <li class="drawer-nav-item">
+                <a href="contact.html" class="drawer-nav-link">Contact Us</a>
+            </li>
+            <li class="drawer-nav-item">
+                <a href="terms.html" class="drawer-nav-link">Terms & Conditions</a>
+            </li>
+            <li class="drawer-nav-item">
+                <a href="contact.html" class="drawer-nav-link">Support & Help</a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

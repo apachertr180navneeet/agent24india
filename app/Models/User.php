@@ -115,24 +115,18 @@ class User extends Authenticatable implements OAuthenticatable
         $photo = $this->profile_photo;
 
         if (str_starts_with($photo, 'http://') || str_starts_with($photo, 'https://')) {
-            $parsed = parse_url($photo, PHP_URL_PATH);
-            $filename = basename($parsed ?? $photo);
-            if ($filename && file_exists(public_path('upload/user_profile/' . $filename))) {
-                return asset('public/upload/user_profile/' . $filename);
-            }
             return $photo;
         }
 
-        $filename = basename($photo);
-        if (file_exists(public_path('upload/user_profile/' . $filename))) {
-            return asset('public/upload/user_profile/' . $filename);
+        $cleanPath = ltrim($photo, '/');
+        if (str_starts_with($cleanPath, 'upload/user_profile/')) {
+            return asset('public/' . $cleanPath);
+        }
+        if (str_starts_with($cleanPath, 'public/')) {
+            return asset($cleanPath);
         }
 
-        if (file_exists(public_path($photo))) {
-            return asset('public/' . ltrim($photo, '/'));
-        }
-
-        return asset('public/images/images.png');
+        return asset('public/upload/user_profile/' . basename($cleanPath));
     }
 
     /**

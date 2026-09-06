@@ -1,37 +1,9 @@
 @php
-    $cmsModel = new \App\Models\Cms();
-    $settingModel = new \App\Models\Setting();
-    $privacy = $cmsModel->where('id', 3)->first();
-    $trem = $cmsModel->where('id', 2)->first();
-    $about = $cmsModel->where('id', 1)->first();
-    $setting = $settingModel->orderBy('id', 'asc')->first();
-
-    $dynamicLogo = null;
-    if ($setting && !empty($setting->logo_image)) {
-        $val = $setting->logo_image;
-        $fn = basename(parse_url($val, PHP_URL_PATH) ?? $val);
-        if ($fn && file_exists(public_path('upload/setting/' . $fn))) {
-            $dynamicLogo = asset('public/upload/setting/' . $fn);
-        } elseif (filter_var($val, FILTER_VALIDATE_URL)) {
-            $dynamicLogo = $val;
-        } else {
-            $cleanPath = ltrim($val, '/');
-            if (file_exists(public_path($cleanPath))) {
-                $dynamicLogo = asset('public/' . $cleanPath);
-            } else {
-                $dynamicLogo = asset($cleanPath);
-            }
-        }
-    }
-    if (empty($dynamicLogo)) {
-        $latestSettingLogo = glob(public_path('upload/setting/*.*'));
-        if (!empty($latestSettingLogo)) {
-            usort($latestSettingLogo, function($a, $b) {
-                return filemtime($b) - filemtime($a);
-            });
-            $dynamicLogo = asset('public/upload/setting/' . basename($latestSettingLogo[0]));
-        }
-    }
+    $privacy = $sitePrivacy ?? null;
+    $trem = $siteTerms ?? null;
+    $about = $siteAbout ?? null;
+    $setting = $siteSetting ?? null;
+    $dynamicLogo = $siteLogo ?? null;
 @endphp
 
 <!-- Footer Start -->

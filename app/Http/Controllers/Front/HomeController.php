@@ -33,34 +33,41 @@ class HomeController extends Controller
 
     public function index(){
 
-        Advertisment::whereDate('expiry_date', '<=', Carbon::today())->forceDelete();
         // Send view data
         $this->viewData['pageTitle'] = 'Home';
 
-        $vendoruser = User::where('role_id', config('constants.roles.VENDOR.value'))->where('status', 1)->where('is_approved', 1)->get();
+        $vendoruser = User::select('id', 'name', 'business_name', 'business_category_id', 'district_id', 'profile_photo', 'mobile', 'whats_app', 'vendor_type')
+            ->where('role_id', config('constants.roles.VENDOR.value'))
+            ->where('status', 1)
+            ->where('is_approved', 1)
+            ->with(['businessCategory:id,name', 'district:id,name'])
+            ->orderByRaw("CASE WHEN vendor_type = 'paid' THEN 0 ELSE 1 END, id DESC")
+            ->limit(12)
+            ->get();
 
         $banner = Banner::where('status', 1)->get();
 
-        $category = Category::where('status', 1)
+        $category = Category::select('id', 'name', 'parent_id', 'image', 'description')
+            ->where('status', 1)
             ->whereNull('parent_id')
-            ->orderBy('name', 'asc') // change 'name' to your column
+            ->orderBy('name', 'asc')
             ->get();
 
-        $subCategories = Category::where('status', 1)
-        ->whereNotNull('parent_id')
-        ->orderBy('name', 'asc')
-        ->get();
+        $subCategories = Category::select('id', 'name', 'parent_id')
+            ->where('status', 1)
+            ->whereNotNull('parent_id')
+            ->orderBy('name', 'asc')
+            ->get();
 
         $districthome = District::where('status', 1)->where('is_home', 1)->orderBy('district_order', 'asc')->get();
 
-        $district = District::where('status', 1)->orderBy('name', 'asc')->get();
+        $district = District::select('id', 'name', 'image', 'is_home')->where('status', 1)->orderBy('name', 'asc')->get();
 
         $defaultDistrict = $district->where('name', 'Jaipur')->first() ?? $district->first();
-        $initialCities = $defaultDistrict ? City::where('district_id', $defaultDistrict->id)->orderBy('name', 'asc')->get() : collect();
+        $initialCities = $defaultDistrict ? City::select('id', 'name', 'district_id')->where('district_id', $defaultDistrict->id)->where('status', 1)->orderBy('name', 'asc')->get() : collect();
         $this->viewData['initialCities'] = $initialCities;
 
-
-        $paidlisting = Advertisment::where('status', 1)->whereDate('expiry_date', '>=', Carbon::today())->get();
+        $paidlisting = Advertisment::where('status', 1)->whereDate('expiry_date', '>=', Carbon::today())->limit(10)->get();
 
         $this->viewData['banner'] = $banner;
         $this->viewData['vendoruser'] = $vendoruser;
@@ -350,11 +357,12 @@ class HomeController extends Controller
         // 5. Popular Areas for the district (Combines localities and cities)
         $popularAreas = [];
         if (!empty($location)) {
-            $cities = City::where('district_id', $location)->orderBy('name')->get();
+            $cities = City::select('id', 'name', 'district_id')->where('district_id', $location)->where('status', 1)->orderBy('name')->get();
             
             $sampleAddresses = User::where('district_id', $location)
                 ->whereNotNull('business_address')
                 ->where('business_address', '!=', '')
+                ->limit(25)
                 ->pluck('business_address');
 
             $knownAreasJaipur = [
@@ -441,7 +449,8 @@ class HomeController extends Controller
         // 7. Vendor Query
         $vendorQuery = User::where('role_id', config('constants.roles.VENDOR.value'))
             ->where('status', 1)
-            ->where('is_approved', 1);
+            ->where('is_approved', 1)
+            ->with(['businessCategory:id,name', 'district:id,name', 'city:id,name']);
 
         if (!empty($location)) {
             $vendorQuery->where('district_id', $location);
@@ -522,22 +531,23 @@ class HomeController extends Controller
 
         // 8. Dynamic Visiting Cards for Right Sidebar
         $visitingCardsQuery = User::where('role_id', config('constants.roles.VENDOR.value'))
-            ->where('status', 1);
+            ->where('status', 1)
+            ->with(['businessCategory:id,name', 'district:id,name']);
         if (!empty($location)) {
             $visitingCardsQuery->where('district_id', $location);
         }
         $visitingCards = $visitingCardsQuery
-            ->orderByRaw("CASE WHEN vendor_type = 'paid' THEN 0 ELSE 1 END")
-            ->inRandomOrder()
-            ->limit(10)
+            ->orderByRaw("CASE WHEN vendor_type = 'paid' THEN 0 ELSE 1 END, id DESC")
+            ->limit(8)
             ->get();
 
         if ($visitingCards->count() < 6) {
             $extraCards = User::where('role_id', config('constants.roles.VENDOR.value'))
                 ->where('status', 1)
                 ->whereNotIn('id', $visitingCards->pluck('id'))
-                ->inRandomOrder()
-                ->limit(10 - $visitingCards->count())
+                ->with(['businessCategory:id,name', 'district:id,name'])
+                ->orderBy('id', 'desc')
+                ->limit(8 - $visitingCards->count())
                 ->get();
             $visitingCards = $visitingCards->concat($extraCards);
         }

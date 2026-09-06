@@ -28,8 +28,7 @@
     $description = $vendoruser->description ?: ($bizName . ' ' . $city . ' mein ek bharosemand Real Estate Consultant hai. Hum Residential, Commercial, Rental aur Investment Properties mein visheshagyata rakhte hai. Humara uddeshya pardarshita, imandari aur grahak santushti hai.');
 @endphp
 
-<link rel="stylesheet" href="{{ asset('public/front/assets/css/prototype-style.css') }}?v={{ time() }}" />
-<link rel="stylesheet" href="{{ asset('front/assets/css/prototype-style.css') }}?v={{ time() }}" />
+<link rel="stylesheet" href="{{ asset('front/assets/css/prototype-style.css') }}?v=1.2" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 <style id="vd-styles">
 .vd-page-wrapper {
