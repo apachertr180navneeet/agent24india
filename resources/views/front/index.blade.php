@@ -416,6 +416,91 @@
     .m-btn-see-all-districts:active {
         background-color: #EFF6FF;
     }
+
+    /* Mobile Hero Banner Carousel Styles */
+    .m-hero-banner-section {
+        padding: 14px 16px 8px 16px;
+        position: relative;
+    }
+    .m-hero-carousel-container {
+        position: relative;
+        width: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+        background: #0B1736;
+        user-select: none;
+    }
+    .m-hero-slider-track {
+        display: flex;
+        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        width: 100%;
+    }
+    .m-hero-slide-item {
+        min-width: 100%;
+        width: 100%;
+        flex-shrink: 0;
+        position: relative;
+        display: block;
+        text-decoration: none;
+    }
+    .m-hero-banner-img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 8.2;
+        object-fit: cover;
+        display: block;
+    }
+    .m-hero-slider-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.9);
+        color: #0F172A;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 4;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        transition: all 0.2s ease;
+        padding: 0;
+    }
+    .m-hero-slider-arrow.left { left: 8px; }
+    .m-hero-slider-arrow.right { right: 8px; }
+    .m-hero-slider-arrow:active {
+        transform: translateY(-50%) scale(0.92);
+        background: #FFFFFF;
+    }
+    .m-hero-dots-wrap {
+        position: absolute;
+        bottom: 8px;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        z-index: 4;
+    }
+    .m-hero-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .m-hero-dot.active {
+        width: 18px;
+        border-radius: 4px;
+        background: #FFFFFF;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
 </style>
 @endpush
 
@@ -426,72 +511,49 @@
      ========================================================================= -->
 <div class="mobile-home-wrapper mobile-only">
     
-    <!-- Mobile Hero Header Section -->
-    <section class="m-hero-section">
-        <div class="m-hero-badge">India's Most Trusted Platform</div>
-        
-        <h1 class="m-hero-headline">
-            काम कोई भी हो...<br>
-            <span class="m-hero-blue-text">सही AGENT</span><br>
-            यहीं मिलेगा!
-        </h1>
-        
-        <p class="m-hero-subtext">
-            अपने शहर / जिले में अपनी जरूरत के अनुसार<br>
-            <strong>Agent</strong> खोजें और सीधे संपर्क करें
-        </p>
+    <!-- Mobile Dynamic Hero Banner Slider -->
+    <section class="m-hero-banner-section">
+        <div class="m-hero-carousel-container" id="mHeroCarousel">
+            <div class="m-hero-slider-track" id="mHeroSliderTrack">
+                @php
+                    $mobileBanners = (isset($banner) && count($banner) > 0) ? $banner : collect();
+                @endphp
 
-        <!-- Mobile Hero Phone Illustration -->
-        <div class="m-hero-illustration-box">
-            <svg width="100%" height="200" viewBox="0 0 340 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Background Soft Glow -->
-                <circle cx="240" cy="100" r="90" fill="#E0EDFF" opacity="0.6"/>
-                
-                <!-- City Skyline Backdrop -->
-                <path d="M10 175H330V195H10V175Z" fill="#CBD5E1"/>
-                <path d="M20 175V125H45V175H20Z" fill="#94A3B8" opacity="0.5"/>
-                <path d="M50 175V105H80V175H50Z" fill="#94A3B8" opacity="0.4"/>
-                <path d="M85 175V135H110V175H85Z" fill="#94A3B8" opacity="0.6"/>
-                <path d="M115 175V95H150V175H115Z" fill="#94A3B8" opacity="0.3"/>
-                <path d="M155 175V115H185V175H155Z" fill="#94A3B8" opacity="0.5"/>
-                <path d="M190 175V85H230V175H190Z" fill="#94A3B8" opacity="0.4"/>
-                <path d="M235 175V130H265V175H235Z" fill="#94A3B8" opacity="0.6"/>
-                <path d="M270 175V110H300V175H270Z" fill="#94A3B8" opacity="0.5"/>
+                @if($mobileBanners->count() > 0)
+                    @foreach($mobileBanners as $bIdx => $bItem)
+                        @php
+                            $bImg = !empty($bItem->image) ? (Str::startsWith($bItem->image, 'http') ? $bItem->image : asset($bItem->image)) : asset('front/assets/images/index_hero_banner.png');
+                            $bLink = !empty($bItem->link) ? $bItem->link : (!empty($bItem->url) ? $bItem->url : 'javascript:;');
+                        @endphp
+                        <a href="{{ $bLink }}" class="m-hero-slide-item" data-slide-index="{{ $bIdx }}">
+                            <img src="{{ $bImg }}" alt="{{ $bItem->title ?? 'Agent 24 India' }}" class="m-hero-banner-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/index_hero_banner.png') }}';">
+                        </a>
+                    @endforeach
+                @else
+                    <div class="m-hero-slide-item" data-slide-index="0">
+                        <img src="{{ asset('front/assets/images/index_hero_banner.png') }}" alt="Agent 24 India" class="m-hero-banner-img">
+                    </div>
+                @endif
+            </div>
 
-                <!-- Angled Smartphone Container -->
-                <g transform="translate(130, 20) rotate(-12) scale(0.82)">
-                    <rect x="0" y="0" width="140" height="225" rx="22" fill="#0F172A"/>
-                    <rect x="4" y="4" width="132" height="217" rx="18" fill="#1E293B"/>
-                    <rect x="8" y="14" width="124" height="197" rx="14" fill="#FFFFFF"/>
-                    <path d="M8 50H132M8 90H132M8 130H132M8 170H132" stroke="#F1F5F9" stroke-width="2"/>
-                    <path d="M40 14V211M80 14V211M110 14V211" stroke="#F1F5F9" stroke-width="2"/>
-                    <path d="M8 80C50 80 60 120 132 120" stroke="#DBEAFE" stroke-width="8" stroke-linecap="round"/>
-                    <path d="M45 14V211" stroke="#E2E8F0" stroke-width="6"/>
-                    <circle cx="35" cy="65" r="5" fill="#22C55E"/>
-                    <circle cx="105" cy="150" r="5" fill="#F97316"/>
-                    <circle cx="85" cy="180" r="5" fill="#A855F7"/>
-                </g>
+            @if($mobileBanners->count() > 1)
+                <button type="button" class="m-hero-slider-arrow left" id="mHeroPrevBtn" aria-label="Previous Slide">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <button type="button" class="m-hero-slider-arrow right" id="mHeroNextBtn" aria-label="Next Slide">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
 
-                <!-- Prominent 3D Blue Pin Floating -->
-                <g transform="translate(180, 10)">
-                    <ellipse cx="32" cy="92" rx="20" ry="6" fill="#000000" opacity="0.15"/>
-                    <path d="M32 10C16 10 4 22 4 38C4 62 32 90 32 90C32 90 60 62 60 38C60 22 48 10 32 10Z" fill="url(#pin_blue_grad)" stroke="#FFFFFF" stroke-width="2"/>
-                    <circle cx="32" cy="38" r="16" fill="#FFFFFF"/>
-                    <path d="M32 30A5 5 0 1 0 32 40A5 5 0 1 0 32 30Z" fill="#004BEE"/>
-                    <path d="M24 48C24 43.5 27.5 41 32 41C36.5 41 40 43.5 40 48" fill="#004BEE"/>
-                </g>
-
-                <defs>
-                    <linearGradient id="pin_blue_grad" x1="4" y1="10" x2="60" y2="90" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#0066FF"/>
-                        <stop offset="1" stop-color="#0038A8"/>
-                    </linearGradient>
-                </defs>
-            </svg>
+                <div class="m-hero-dots-wrap" id="mHeroDotsWrap">
+                    @foreach($mobileBanners as $bIdx => $bItem)
+                        <span class="m-hero-dot {{ $bIdx == 0 ? 'active' : '' }}" data-dot-index="{{ $bIdx }}"></span>
+                    @endforeach
+                </div>
+            @endif
         </div>
 
         <!-- Trust Badges Row -->
-        <div class="m-trust-row">
+        <div class="m-trust-row" style="margin-top: 12px;">
             <div class="m-trust-item">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="#004BEE"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4" stroke="#FFF" stroke-width="2.5" stroke-linecap="round"/></svg>
                 <span>Verified Agents</span>
@@ -2705,6 +2767,88 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+    // Carousel logic for Mobile Dynamic Hero Banner Slider
+    const mHeroCarousel = document.getElementById('mHeroCarousel');
+    const mHeroTrack = document.getElementById('mHeroSliderTrack');
+    const mHeroSlides = mHeroTrack ? mHeroTrack.querySelectorAll('.m-hero-slide-item') : [];
+    const mHeroPrev = document.getElementById('mHeroPrevBtn');
+    const mHeroNext = document.getElementById('mHeroNextBtn');
+    const mHeroDots = document.querySelectorAll('#mHeroDotsWrap .m-hero-dot');
+
+    if (mHeroTrack && mHeroSlides.length > 1) {
+        let currentHeroIndex = 0;
+        let heroInterval = null;
+
+        function showHeroSlide(index) {
+            if (index < 0) index = mHeroSlides.length - 1;
+            if (index >= mHeroSlides.length) index = 0;
+            currentHeroIndex = index;
+            mHeroTrack.style.transform = `translateX(-${currentHeroIndex * 100}%)`;
+            mHeroDots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === currentHeroIndex);
+            });
+        }
+
+        function nextHeroSlide() {
+            showHeroSlide(currentHeroIndex + 1);
+        }
+
+        function startHeroAuto() {
+            stopHeroAuto();
+            heroInterval = setInterval(nextHeroSlide, 4000);
+        }
+
+        function stopHeroAuto() {
+            if (heroInterval) clearInterval(heroInterval);
+        }
+
+        if (mHeroNext) {
+            mHeroNext.addEventListener('click', (e) => {
+                e.preventDefault();
+                nextHeroSlide();
+                startHeroAuto();
+            });
+        }
+        if (mHeroPrev) {
+            mHeroPrev.addEventListener('click', (e) => {
+                e.preventDefault();
+                showHeroSlide(currentHeroIndex - 1);
+                startHeroAuto();
+            });
+        }
+
+        mHeroDots.forEach((dot, idx) => {
+            dot.addEventListener('click', (e) => {
+                e.preventDefault();
+                showHeroSlide(idx);
+                startHeroAuto();
+            });
+        });
+
+        // Touch Swipe Handling
+        let touchStartX = 0;
+        let touchEndX = 0;
+        mHeroCarousel.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            stopHeroAuto();
+        }, { passive: true });
+
+        mHeroCarousel.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].clientX;
+            const diffX = touchStartX - touchEndX;
+            if (Math.abs(diffX) > 40) {
+                if (diffX > 0) {
+                    nextHeroSlide();
+                } else {
+                    showHeroSlide(currentHeroIndex - 1);
+                }
+            }
+            startHeroAuto();
+        }, { passive: true });
+
+        startHeroAuto();
+    }
+
     // Carousel logic for Mobile Top Verified Agents
     const mAgentTrack = document.getElementById('mAgentSliderTrack');
     const mAgentPrev = document.getElementById('mAgentPrevBtn');

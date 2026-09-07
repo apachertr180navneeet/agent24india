@@ -1994,7 +1994,24 @@
             border: none !important;
             box-shadow: 0 2px 8px rgba(241, 180, 52, 0.25) !important;
         }
-        .vl-pb-visual,
+        .vl-pb-visual {
+            display: block !important;
+            position: absolute !important;
+            right: 0 !important;
+            top: 0 !important;
+            bottom: 0 !important;
+            width: 100% !important;
+            z-index: 1 !important;
+            opacity: 0.22 !important;
+            pointer-events: none !important;
+        }
+        .vl-pb-visual img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            mask-image: none !important;
+            -webkit-mask-image: none !important;
+        }
         .vl-pb-arrow,
         .vl-pb-dots {
             display: none !important;
