@@ -588,7 +588,7 @@
                 <div class="m-stat-icon-wrap">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                 </div>
-                <span class="m-stat-val">500+</span>
+                <span class="m-stat-val">2500+</span>
                 <span class="m-stat-lbl">Cities<br>Covered</span>
             </div>
             <div class="m-stat-box">
@@ -752,7 +752,7 @@
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2H3z"></path></svg>
                     </div>
                     <div class="m-why-content">
-                        <h4 class="m-why-item-title">24x7 Support Team</h4>
+                        <h4 class="m-why-item-title">Full Support Available</h4>
                         <p class="m-why-item-desc">हमेशा आपकी मदद के लिए तैयार</p>
                     </div>
                 </div>
@@ -1155,7 +1155,7 @@
             </div>
             <div class="m-metric-col">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                <span class="m-mval">500+</span>
+                <span class="m-mval">2500+</span>
                 <span class="m-mlbl">Cities Covered</span>
             </div>
             <div class="m-metric-col">
@@ -1165,7 +1165,7 @@
             </div>
             <div class="m-metric-col">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2H3z"></path></svg>
-                <span class="m-mval">24x7</span>
+                <span class="m-mval">FULL</span>
                 <span class="m-mlbl">Support</span>
             </div>
         </div>
@@ -1334,7 +1334,7 @@
                     </svg>
                 </div>
                 <div class="stat-text-group">
-                    <span class="stat-number">500+</span>
+                    <span class="stat-number">2500+</span>
                     <span class="stat-label">Cities Covered</span>
                 </div>
             </div>
@@ -1386,7 +1386,7 @@
                     </svg>
                 </div>
                 <div class="stat-text-group">
-                    <span class="stat-number">24x7</span>
+                    <span class="stat-number">FULL</span>
                     <span class="stat-label">Support</span>
                 </div>
             </div>
@@ -1663,7 +1663,7 @@
                             </svg>
                         </div>
                         <div class="custom-why-text">
-                            <h3 class="custom-why-head">24x7 Support Team</h3>
+                            <h3 class="custom-why-head">Full Support</h3>
                             <p class="custom-why-sub">हमेशा आपकी मदद के लिए तैयार</p>
                         </div>
                     </div>
@@ -2014,7 +2014,7 @@
                 <span class="line-start"></span>
                 <span class="line-dot"></span>
             </div>
-            <h2 class="district-section-title">Rajasthan Ke Capital District</h2>
+            <h2 class="district-section-title">Important Cities</h2>
             <div class="header-accent-line">
                 <span class="line-dot"></span>
                 <span class="line-end"></span>
@@ -2625,7 +2625,7 @@
 
             <div class="dark-stat-divider"></div>
 
-            <!-- Stat 2: 500+ Cities Covered -->
+            <!-- Stat 2: 2500+ Cities Covered -->
             <div class="dark-stat-col">
                 <div class="dark-stat-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"
@@ -2635,7 +2635,7 @@
                     </svg>
                 </div>
                 <div class="dark-stat-text">
-                    <span class="dark-stat-number">500+</span>
+                    <span class="dark-stat-number">2500+</span>
                     <span class="dark-stat-label">Cities Covered</span>
                 </div>
             </div>
@@ -2690,7 +2690,7 @@
                     </svg>
                 </div>
                 <div class="dark-stat-text">
-                    <span class="dark-stat-number">24x7</span>
+                    <span class="dark-stat-number">Full</span>
                     <span class="dark-stat-label">Support Available</span>
                 </div>
             </div>

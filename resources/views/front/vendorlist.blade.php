@@ -3153,7 +3153,7 @@
                     
                     <div class="vl-visiting-header">
                         <div class="vl-visiting-title-wrap">
-                            <h4 class="vl-visiting-title">VISITING CARD AD SPACE</h4>
+                            <h4 class="vl-visiting-title">AREA AGENT</h4>
                             <span class="vl-visiting-slots">10 Slots Available</span>
                         </div>
                     </div>
