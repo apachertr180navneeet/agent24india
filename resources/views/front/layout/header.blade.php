@@ -90,10 +90,160 @@
     .hsc-search-btn:hover {
         background: #0036B8;
     }
-    @media (max-width: 991px) {
+        @media (max-width: 991px) {
         .header-search-capsule {
             display: none;
         }
+    }
+
+    /* Side Drawer Menu Redesign */
+    .right-drawer-menu {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 320px;
+        max-width: 88vw;
+        height: 100vh;
+        background-color: #FFFFFF;
+        box-shadow: -10px 0 35px rgba(0, 0, 0, 0.12);
+        z-index: 2100;
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        display: flex;
+        flex-direction: column;
+        padding: 16px 18px 20px;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+    .right-drawer-menu.active {
+        transform: translateX(0);
+    }
+    .drawer-top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom: 4px;
+    }
+    .drawer-close-btn {
+        background: none;
+        border: none;
+        font-size: 26px;
+        line-height: 1;
+        color: #1E293B;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+    .drawer-close-btn:hover {
+        background-color: #F1F5F9;
+        color: #004BEE;
+    }
+    .drawer-brand-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .drawer-tagline-wrap {
+        margin-top: 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .drawer-tagline-text {
+        font-size: 13.5px;
+        font-weight: 700;
+        font-style: italic;
+        color: #0F172A;
+        letter-spacing: -0.2px;
+    }
+    .drawer-swoosh-svg {
+        width: 140px;
+        height: 8px;
+        margin-top: 2px;
+    }
+    .drawer-cards-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+    }
+    .drawer-menu-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #FFFFFF;
+        border: 1.5px solid #E5EAF2;
+        border-radius: 12px;
+        padding: 10px 14px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+    }
+    .drawer-menu-card:hover {
+        border-color: #004BEE;
+        background: #F8FAFF;
+        transform: translateX(-2px);
+        box-shadow: 0 4px 12px rgba(0, 75, 238, 0.08);
+    }
+    .drawer-menu-card.active-card {
+        border-color: #004BEE;
+        background: #EFF6FF;
+    }
+    .drawer-card-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+    }
+    .drawer-card-icon {
+        width: 22px;
+        height: 22px;
+        color: #193CB8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .drawer-card-text {
+        font-size: 14.5px;
+        font-weight: 600;
+        color: #0F172A;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .drawer-card-arrow {
+        color: #64748B;
+        flex-shrink: 0;
+        transition: transform 0.2s ease, color 0.2s ease;
+    }
+    .drawer-menu-card:hover .drawer-card-arrow {
+        color: #004BEE;
+        transform: translateX(2px);
+    }
+    .drawer-footer-promo {
+        margin-top: 24px;
+        padding: 16px 12px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        background: linear-gradient(180deg, rgba(239, 246, 255, 0) 0%, #EFF6FF 100%);
+        border-radius: 16px;
+        position: relative;
+    }
+    .drawer-promo-text {
+        font-size: 18px;
+        font-weight: 800;
+        font-style: italic;
+        color: #004BEE;
+        line-height: 1.25;
+        letter-spacing: -0.3px;
     }
 </style>
 
@@ -303,49 +453,260 @@
 
 <!-- Right Side Offcanvas Drawer Menu -->
 <aside class="right-drawer-menu" id="rightDrawerMenu">
-    <div class="drawer-header">
-        @if(\Auth::check())
-            <div style="font-weight: 700; color: #0B1948; font-size: 15px;">{{ auth()->user()->name }}</div>
-        @else
-            @if(!empty($dynamicLogo))
-                <img src="{{ $dynamicLogo }}" alt="{{ $setting->logo_title ?? 'AGENT 24 INDIA' }}" style="height: 32px; max-width: 140px; object-fit: contain;">
-            @else
-                <div style="font-weight: 700; color: #0B1948; font-size: 15px;">{{ $setting->logo_title ?? 'AGENT 24 INDIA' }}</div>
-            @endif
-        @endif
+    <!-- Top Close Button -->
+    <div class="drawer-top-bar">
         <button class="drawer-close-btn" id="drawerCloseBtn" aria-label="Close menu">&times;</button>
     </div>
-    <ul class="drawer-nav-list">
-        <li class="drawer-nav-item {{ request()->routeIs('front.index') ? 'active' : '' }}">
-            <a href="{{route('front.index')}}" class="drawer-nav-link">Home</a>
-        </li>
-        <li class="drawer-nav-item"><a href="{{route('front.vendorlist')}}" class="drawer-nav-link">Direct Agent</a></li>
-        <li class="drawer-nav-item"><a href="{{route('front.vendorlist')}}" class="drawer-nav-link">Area Agent</a></li>
-        <li class="drawer-nav-item"><a href="{{route('front.vendorlist')}}" class="drawer-nav-link">Special offers</a></li>
-        @if(\Auth::check())
-            <li class="drawer-nav-item"><a href="{{route('front.profile')}}" class="drawer-nav-link">My Profile</a></li>
-            <li class="drawer-nav-item"><a href="{{route('front.addListing')}}" class="drawer-nav-link">My Listing</a></li>
-            <li class="drawer-nav-item"><a href="{{route('front.addbanner')}}" class="drawer-nav-link">Banner Ad</a></li>
-            <li class="drawer-nav-item"><a href="{{route('payment.histroy')}}" class="drawer-nav-link">Payment History</a></li>
+
+    <!-- Center Brand Logo & Tagline -->
+    <div class="drawer-brand-center">
+        @if(!empty($dynamicLogo))
+            <img src="{{ $dynamicLogo }}" alt="{{ $setting->logo_title ?? 'AGENT 24 INDIA' }}" style="height: 42px; max-width: 170px; object-fit: contain;">
         @else
-            <li class="drawer-nav-item"><a href="{{route('login')}}" class="drawer-nav-link">Sign In / Register</a></li>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <svg width="36" height="36" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 40L24 10L36 40H28L24 29L20 40H12Z" fill="#004BEE" />
+                    <path d="M18.5 33H29.5L24 19L18.5 33Z" fill="#004BEE" />
+                    <path d="M6 38C14 34 26 38 42 30C34 38 20 44 6 38Z" fill="#0F172A" />
+                    <circle cx="28" cy="11" r="4.5" fill="#FFB800" />
+                </svg>
+                <span style="font-weight: 800; color: #0B1948; font-size: 17px; letter-spacing: -0.3px;">AGENT 24 INDIA</span>
+            </div>
         @endif
-        @if($about && $about->status == 1)
-            <li class="drawer-nav-item"><a href="{{route('front.aboutus')}}" class="drawer-nav-link">About Us</a></li>
-        @endif
-        <li class="drawer-nav-item"><a href="{{route('front.contactus')}}" class="drawer-nav-link">Contact Us</a></li>
-        @if($trem && $trem->status == 1)
-            <li class="drawer-nav-item"><a href="{{route('front.price')}}" class="drawer-nav-link">Price</a></li>
-        @endif
-        <li class="drawer-nav-item"><a href="{{route('front.support')}}" class="drawer-nav-link">Support & Help</a></li>
-        @if($trem && $trem->status == 1)
-            <li class="drawer-nav-item"><a href="{{route('front.termsAndConditions')}}" class="drawer-nav-link">Terms & Conditions</a></li>
-        @endif
-        @if($privacy && $privacy->status == 1)
-            <li class="drawer-nav-item"><a href="{{route('front.privacyPolicy')}}" class="drawer-nav-link">Privacy Policy</a></li>
-        @endif
-        @if(\Auth::check())
-            <li class="drawer-nav-item"><a href="{{route('front.logout')}}" class="drawer-nav-link" style="color:#DC2626;" onclick="return confirm('Are you sure you want to logout?')">Logout</a></li>
+        <div class="drawer-tagline-wrap">
+            <span class="drawer-tagline-text">Apke Sapno ka Sahi Saathi !</span>
+            <svg class="drawer-swoosh-svg" viewBox="0 0 160 10" fill="none">
+                <path d="M2 6C45 1 120 1 158 7C110 9.5 50 9.5 2 6Z" fill="#22C55E" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- Menu Cards List -->
+    <ul class="drawer-cards-list">
+        <!-- 1. My Profile (Agent) -->
+        <li>
+            <a href="{{ \Auth::check() ? route('front.profile') : route('login') }}" class="drawer-menu-card {{ request()->routeIs('front.profile') ? 'active-card' : '' }}">
+                <div class="drawer-card-left">
+                    <div class="drawer-card-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    </div>
+                    <span class="drawer-card-text">My Profile (Agent)</span>
+                </div>
+                <svg class="drawer-card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </a>
+        </li>
+
+        <!-- 2. Price & Plan -->
+        <li>
+            <a href="{{ route('front.price') }}" class="drawer-menu-card {{ request()->routeIs('front.price') ? 'active-card' : '' }}">
+                <div class="drawer-card-left">
+                    <div class="drawer-card-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/>
+                        </svg>
+                    </div>
+                    <span class="drawer-card-text">Price & Plan</span>
+                </div>
+                <svg class="drawer-card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </a>
+        </li>
+
+        <!-- 3. DBM Form -->
+        <li>
+            <a href="{{ \Auth::check() ? route('front.addListing') : route('login') }}" class="drawer-menu-card {{ request()->routeIs('front.addListing') ? 'active-card' : '' }}">
+                <div class="drawer-card-left">
+                    <div class="drawer-card-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                        </svg>
+                    </div>
+                    <span class="drawer-card-text">DBM Form</span>
+                </div>
+                <svg class="drawer-card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </a>
+        </li>
+
+        <!-- 4. Terms & Condition -->
+        <li>
+            <a href="{{ route('front.termsAndConditions') }}" class="drawer-menu-card {{ request()->routeIs('front.termsAndConditions') ? 'active-card' : '' }}">
+                <div class="drawer-card-left">
+                    <div class="drawer-card-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                        </svg>
+                    </div>
+                    <span class="drawer-card-text">Terms & Condition</span>
+                </div>
+                <svg class="drawer-card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </a>
+        </li>
+
+        <!-- 5. Support & Help -->
+        <li>
+            <a href="{{ route('front.support') }}" class="drawer-menu-card {{ request()->routeIs('front.support') ? 'active-card' : '' }}">
+                <div class="drawer-card-left">
+                    <div class="drawer-card-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 1a9 9 0 0 0-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7a9 9 0 0 0-9-9z"/>
+                        </svg>
+                    </div>
+                    <span class="drawer-card-text">Support & Help</span>
+                </div>
+                <svg class="drawer-card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </a>
+        </li>
+
+        <!-- 6. About Us -->
+        <li>
+            <a href="{{ route('front.aboutus') }}" class="drawer-menu-card {{ request()->routeIs('front.aboutus') ? 'active-card' : '' }}">
+                <div class="drawer-card-left">
+                    <div class="drawer-card-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                        </svg>
+                    </div>
+                    <span class="drawer-card-text">About Us</span>
+                </div>
+                <svg class="drawer-card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </a>
+        </li>
+
+        <!-- 7. Contact Us -->
+        <li>
+            <a href="{{ route('front.contactus') }}" class="drawer-menu-card {{ request()->routeIs('front.contactus') ? 'active-card' : '' }}">
+                <div class="drawer-card-left">
+                    <div class="drawer-card-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-2.2 2.2a15.053 15.053 0 0 1-6.59-6.59l2.2-2.21a.96.96 0 0 0 .25-1A11.36 11.36 0 0 1 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-.99-1.12z"/>
+                        </svg>
+                    </div>
+                    <span class="drawer-card-text">Contact Us</span>
+                </div>
+                <svg class="drawer-card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </a>
+        </li>
+
+        <!-- 8. Login / Logout -->
+        <li>
+            @if(\Auth::check())
+                <a href="{{ route('front.logout') }}" onclick="return confirm('Are you sure you want to logout?')" class="drawer-menu-card" style="border-color: #FEE2E2;">
+                    <div class="drawer-card-left">
+                        <div class="drawer-card-icon" style="color: #DC2626;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                        </div>
+                        <span class="drawer-card-text" style="color: #DC2626;">Logout</span>
+                    </div>
+                    <svg class="drawer-card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </a>
+            @else
+                <a href="{{ route('login') }}" class="drawer-menu-card {{ request()->routeIs('login') ? 'active-card' : '' }}">
+                    <div class="drawer-card-left">
+                        <div class="drawer-card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M10 17v-3H3v-4h7V7l5 5-5 5zm10-14H4c-1.1 0-2 .9-2 2v4h2V5h16v14H4v-4H2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+                            </svg>
+                        </div>
+                        <span class="drawer-card-text">Login</span>
+                    </div>
+                    <svg class="drawer-card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </a>
+            @endif
+        </li>
+
+        <!-- 9. Register -->
+        @if(!\Auth::check())
+            <li>
+                <a href="{{ route('front.register') }}" class="drawer-menu-card {{ request()->routeIs('front.register') ? 'active-card' : '' }}">
+                    <div class="drawer-card-left">
+                        <div class="drawer-card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                            </svg>
+                        </div>
+                        <span class="drawer-card-text">Register</span>
+                    </div>
+                    <svg class="drawer-card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </a>
+            </li>
         @endif
     </ul>
+
+    <!-- Bottom Slogan Promo -->
+    <div class="drawer-footer-promo">
+        <div class="drawer-promo-text">
+            Saath Hai<br>Toh Sambhav Hai !
+        </div>
+        <svg class="drawer-swoosh-svg" viewBox="0 0 160 10" fill="none">
+            <path d="M2 6C45 1 120 1 158 7C110 9.5 50 9.5 2 6Z" fill="#22C55E" />
+        </svg>
+    </div>
 </aside>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var drawer = document.getElementById('rightDrawerMenu');
+        var overlay = document.getElementById('rightDrawerOverlay');
+        var openBtns = [document.getElementById('headerMenuBtn'), document.getElementById('hamburgerBtn')];
+        var closeBtn = document.getElementById('drawerCloseBtn');
+
+        function openDrawer() {
+            if (drawer) drawer.classList.add('active');
+            if (overlay) overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDrawer() {
+            if (drawer) drawer.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        openBtns.forEach(function(btn) {
+            if (btn) {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openDrawer();
+                });
+            }
+        });
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                closeDrawer();
+            });
+        }
+
+        if (overlay) {
+            overlay.addEventListener('click', function() {
+                closeDrawer();
+            });
+        }
+    });
+</script>
