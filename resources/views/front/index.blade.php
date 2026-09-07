@@ -924,19 +924,13 @@
                     </div>
                 </div>
 
-                <!-- Field 3: Sub Category -->
+                <!-- Field 3: Category -->
                 <div class="m-field-group" id="mSearchCategoryField">
-                    <label class="m-field-label">Sub Category / सर्विस</label>
+                    <label class="m-field-label">Category / कैटेगरी</label>
                     <div class="m-input-wrap">
-                        <select name="subcategory" id="mCategorySelect" class="m-select-box">
-                            <option value="">Select Sub Category</option>
-                            @if(isset($subCategories) && count($subCategories) > 0)
-                                @foreach(collect($subCategories ?? [])->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $sub)
-                                    <option value="{{ $sub->id }}" {{ request('subcategory') == $sub->id ? 'selected' : '' }}>
-                                        {{ $sub->name }}
-                                    </option>
-                                @endforeach
-                            @elseif(isset($category))
+                        <select name="category" id="mCategorySelect" class="m-select-box">
+                            <option value="">Select Category</option>
+                            @if(isset($category) && count($category) > 0)
                                 @foreach(collect($category ?? [])->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $cat)
                                     <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
                                         {{ $cat->name }}
@@ -1723,9 +1717,9 @@
                         </div>
                     </div>
 
-                    <!-- Field 3: Sub Category / Category -->
+                    <!-- Field 3: Category -->
                     <div class="form-field" id="searchCategoryField">
-                        <label class="field-label">Sub Category / सर्विस</label>
+                        <label class="field-label">Category / कैटेगरी</label>
                         <div class="input-with-icon">
                             <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 stroke="#004BEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1734,15 +1728,9 @@
                                 <rect x="14" y="14" width="7" height="7"></rect>
                                 <rect x="3" y="14" width="7" height="7"></rect>
                             </svg>
-                            <select class="custom-select select2-category" name="subcategory" id="categorySelect">
-                                <option value="">Select Sub Category</option>
-                                @if(isset($subCategories) && count($subCategories) > 0)
-                                    @foreach(collect($subCategories ?? [])->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $sub)
-                                        <option value="{{ $sub->id }}" {{ request('subcategory') == $sub->id ? 'selected' : '' }}>
-                                            {{ $sub->name }}
-                                        </option>
-                                    @endforeach
-                                @elseif(isset($category))
+                            <select class="custom-select select2-category" name="category" id="categorySelect">
+                                <option value="">Select Category</option>
+                                @if(isset($category) && count($category) > 0)
                                     @foreach(collect($category ?? [])->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $cat)
                                         <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
                                             {{ $cat->name }}
@@ -3432,7 +3420,7 @@ document.addEventListener('DOMContentLoaded', () => {
             width: '100%'
         });
         $('.select2-category').select2({
-            placeholder: 'Select Sub Category',
+            placeholder: 'Select Category',
             allowClear: false,
             width: '100%'
         });
@@ -3494,10 +3482,10 @@ document.addEventListener('DOMContentLoaded', () => {
         desktopSearchForm.addEventListener('submit', (e) => {
             const district = districtSelect ? districtSelect.value.trim() : '';
             const city = citySelect ? citySelect.value.trim() : '';
-            const subcategory = categorySelect ? categorySelect.value.trim() : '';
+            const category = categorySelect ? categorySelect.value.trim() : '';
 
             // Require at least one field to be selected
-            if (!district && !city && !subcategory) {
+            if (!district && !city && !category) {
                 e.preventDefault();
                 if (searchValMsg) searchValMsg.classList.add('active');
                 desktopFields.forEach(f => {
@@ -3539,10 +3527,10 @@ document.addEventListener('DOMContentLoaded', () => {
         mSearchForm.addEventListener('submit', (e) => {
             const district = mDistrictSelect ? mDistrictSelect.value.trim() : '';
             const city = mCitySelect ? mCitySelect.value.trim() : '';
-            const subcategory = mCategorySelect ? mCategorySelect.value.trim() : '';
+            const category = mCategorySelect ? mCategorySelect.value.trim() : '';
 
             // Require at least one field to be selected
-            if (!district && !city && !subcategory) {
+            if (!district && !city && !category) {
                 e.preventDefault();
                 if (mSearchValMsg) mSearchValMsg.classList.add('active');
                 mFields.forEach(f => {
