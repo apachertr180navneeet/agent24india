@@ -203,54 +203,19 @@
             <!-- Navigation Links -->
             <nav class="main-nav" id="mainNav">
                 <ul class="nav-list">
-                    <li class="nav-item {{ request()->routeIs('front.index') ? 'active' : '' }}">
-                        <a href="{{route('front.index')}}" class="nav-link">Home</a>
-                        @if(request()->routeIs('front.index'))
+                    <li class="nav-item {{ request()->routeIs('front.vendorlist*') ? 'active' : '' }}">
+                        <a href="{{ route('front.vendorlist') }}" class="nav-link">Direct Agent</a>
+                        @if(request()->routeIs('front.vendorlist*'))
                             <span class="active-bar"></span>
                         @endif
                     </li>
 
-                    <li class="nav-item dropdown-item">
-                        <a href="{{ route('front.vendorlist') }}" class="nav-link">
-                            Categories
-                            <svg class="chevron-icon" width="12" height="12" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M6 9l6 6 6-6" />
-                            </svg>
-                        </a>
-                        <div class="dropdown-menu">
-                            @php
-                                 $navCategories = ($siteCategories ?? collect())->take(8);
-                            @endphp
-                            @foreach($navCategories as $nc)
-                                <a href="{{ route('front.vendorlist.category', $nc->id) }}" class="dropdown-link">{{ $nc->name }}</a>
-                            @endforeach
-                            <a href="{{ route('front.vendorlist') }}" class="dropdown-link font-weight-bold" style="color: #004BEE; border-top: 1px solid #EEF2F6;">View All Categories →</a>
-                        </div>
+                    <li class="nav-item">
+                        <a href="{{ route('front.vendorlist') }}" class="nav-link">Area Agent</a>
                     </li>
 
-                    <li class="nav-item dropdown-item">
-                        <a href="{{ route('front.vendorlist') }}" class="nav-link">
-                            Cities
-                            <svg class="chevron-icon" width="12" height="12" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M6 9l6 6 6-6" />
-                            </svg>
-                        </a>
-                        <div class="dropdown-menu">
-                            @foreach(($districtList ?? \App\Models\District::where('status', 1)->orderBy('name')->get())->take(8) as $nd)
-                                <a href="{{ route('front.vendorlist.location', $nd->id) }}" class="dropdown-link">{{ $nd->name }}</a>
-                            @endforeach
-                            <a href="{{ route('front.vendorlist') }}" class="dropdown-link font-weight-bold" style="color: #004BEE; border-top: 1px solid #EEF2F6;">View All Cities →</a>
-                        </div>
-                    </li>
-
-                    <li class="nav-item {{ request()->routeIs('front.vendorlist*') ? 'active' : '' }}">
-                        <a href="{{ route('front.vendorlist') }}" class="nav-link">Agents</a>
-                    </li>
-
-                    <li class="nav-item {{ request()->routeIs('front.aboutus') ? 'active' : '' }}">
-                        <a href="{{ route('front.aboutus') }}" class="nav-link">Blog</a>
+                    <li class="nav-item">
+                        <a href="{{ route('front.vendorlist') }}" class="nav-link">Special offers</a>
                     </li>
 
                     <li class="nav-item {{ request()->routeIs('front.contactus') ? 'active' : '' }}">
@@ -354,6 +319,9 @@
         <li class="drawer-nav-item {{ request()->routeIs('front.index') ? 'active' : '' }}">
             <a href="{{route('front.index')}}" class="drawer-nav-link">Home</a>
         </li>
+        <li class="drawer-nav-item"><a href="{{route('front.vendorlist')}}" class="drawer-nav-link">Direct Agent</a></li>
+        <li class="drawer-nav-item"><a href="{{route('front.vendorlist')}}" class="drawer-nav-link">Area Agent</a></li>
+        <li class="drawer-nav-item"><a href="{{route('front.vendorlist')}}" class="drawer-nav-link">Special offers</a></li>
         @if(\Auth::check())
             <li class="drawer-nav-item"><a href="{{route('front.profile')}}" class="drawer-nav-link">My Profile</a></li>
             <li class="drawer-nav-item"><a href="{{route('front.addListing')}}" class="drawer-nav-link">My Listing</a></li>
