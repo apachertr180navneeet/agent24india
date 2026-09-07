@@ -354,18 +354,18 @@
             <nav class="main-nav" id="mainNav">
                 <ul class="nav-list">
                     <li class="nav-item {{ request()->routeIs('front.vendorlist*') ? 'active' : '' }}">
-                        <a href="{{ route('front.vendorlist') }}" class="nav-link">Direct Agent</a>
+                        <a href="#" class="nav-link">Direct Agent</a>
                         @if(request()->routeIs('front.vendorlist*'))
                             <span class="active-bar"></span>
                         @endif
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ route('front.vendorlist') }}" class="nav-link">Area Agent</a>
+                        <a href="#" class="nav-link">Area Agent</a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ route('front.vendorlist') }}" class="nav-link">Special offers</a>
+                        <a href="#" class="nav-link">Special offers</a>
                     </li>
 
                     <li class="nav-item {{ request()->routeIs('front.contactus') ? 'active' : '' }}">

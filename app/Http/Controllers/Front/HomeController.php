@@ -320,9 +320,9 @@ class HomeController extends Controller
             $category = $request->query('category');
         }
 
-        // Check if location passed via query param or route
-        if (empty($location) && $request->filled('location')) {
-            $location = $request->query('location');
+        // Check if location or district passed via query param or route
+        if (empty($location)) {
+            $location = $request->query('location') ?: $request->query('district');
         }
 
         // 2. Fetch categories (main parent categories)
@@ -408,7 +408,7 @@ class HomeController extends Controller
         // 6. Filter Query parameters
         $selectedCityId = $request->query('city');
         $selectedArea = $request->query('area');
-        $selectedService = $request->query('service') ?: $subcategory;
+        $selectedService = $request->query('service') ?: ($request->query('subcategory') ?: $subcategory);
         $selectedRating = $request->query('rating');
         $sortBy = $request->query('sort', 'recommended');
         $searchKeyword = $request->query('q') ?: $request->query('search');

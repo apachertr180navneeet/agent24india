@@ -59,6 +59,149 @@
         to { opacity: 1; transform: translateY(0); }
     }
 
+    /* Desktop Search Card & Select2 Tuning */
+    .search-card-container {
+        border-radius: 16px !important;
+        overflow: hidden !important;
+        box-shadow: 0 10px 32px rgba(15, 23, 42, 0.08) !important;
+        background: #FFFFFF !important;
+        border: 1px solid #E2E8F0 !important;
+    }
+    .search-card-header {
+        background: #004BEE !important;
+        color: #FFFFFF !important;
+        padding: 14px 22px !important;
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }
+    .search-card-form {
+        padding: 20px 22px 22px !important;
+        background: #FFFFFF !important;
+    }
+    .form-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr 1.15fr auto !important;
+        gap: 14px !important;
+        align-items: flex-end !important;
+    }
+    .form-field {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 6px !important;
+        min-width: 0 !important;
+    }
+    .form-field.btn-field {
+        justify-content: flex-end !important;
+    }
+    .field-label {
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        color: #1E293B !important;
+        margin-bottom: 0 !important;
+    }
+    .input-with-icon {
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+    }
+    .input-with-icon .field-icon {
+        position: absolute !important;
+        left: 14px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        pointer-events: none !important;
+        z-index: 5 !important;
+    }
+    .input-with-icon .select2-container {
+        width: 100% !important;
+    }
+    .input-with-icon .select2-container--default .select2-selection--single {
+        height: 48px !important;
+        border: 1.5px solid #CBD5E1 !important;
+        border-radius: 10px !important;
+        background-color: #FFFFFF !important;
+        padding-left: 40px !important;
+        padding-right: 30px !important;
+        display: flex !important;
+        align-items: center !important;
+        transition: border-color 0.2s, box-shadow 0.2s !important;
+    }
+    .input-with-icon .select2-container--default.select2-container--open .select2-selection--single,
+    .input-with-icon .select2-container--default.select2-container--focus .select2-selection--single {
+        border-color: #004BEE !important;
+        box-shadow: 0 0 0 3.5px rgba(0, 75, 238, 0.12) !important;
+        outline: none !important;
+    }
+    .input-with-icon .select2-container--default .select2-selection--single .select2-selection__rendered {
+        padding: 0 !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        color: #0F172A !important;
+        line-height: normal !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+    .input-with-icon .select2-container--default .select2-selection--single .select2-selection__placeholder {
+        color: #94A3B8 !important;
+        font-weight: 500 !important;
+    }
+    .input-with-icon .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 100% !important;
+        position: absolute !important;
+        top: 0 !important;
+        right: 10px !important;
+        width: 20px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    .input-with-icon .select2-container--default .select2-selection--single .select2-selection__arrow b {
+        border-color: #64748B transparent transparent transparent !important;
+        border-width: 5px 4.5px 0 4.5px !important;
+    }
+    .input-with-icon .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+        border-color: transparent transparent #004BEE transparent !important;
+        border-width: 0 4.5px 5px 4.5px !important;
+    }
+    .input-with-icon .select2-container--default .select2-selection--single .select2-selection__clear {
+        display: none !important;
+    }
+    .btn-search-agent {
+        height: 48px !important;
+        min-height: 48px !important;
+        padding: 0 24px !important;
+        background: linear-gradient(180deg, #FBBF24 0%, #F59E0B 100%) !important;
+        border: none !important;
+        border-radius: 10px !important;
+        color: #0F172A !important;
+        font-size: 15px !important;
+        font-weight: 800 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        cursor: pointer !important;
+        box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35) !important;
+        transition: all 0.2s ease !important;
+        white-space: nowrap !important;
+    }
+    .btn-search-agent:hover {
+        background: linear-gradient(180deg, #FCD34D 0%, #D97706 100%) !important;
+        transform: translateY(-1.5px) !important;
+        box-shadow: 0 6px 18px rgba(245, 158, 11, 0.45) !important;
+    }
+    .btn-search-agent:active {
+        transform: translateY(0) !important;
+    }
+
     /* Mobile How It Works Styles matching Screenshot */
     .m-how-it-works-section {
         padding: 24px 16px 14px 16px;
@@ -731,52 +874,55 @@
                     <span>कृपया Search, District या Category में से कम से कम एक चुनें।</span>
                 </div>
 
-                <!-- Field 1 -->
-                <div class="m-field-group" id="mSearchKeywordField">
-                    <label class="m-field-label">आप क्या खोज रहे हैं?</label>
-                    <div class="m-input-wrap">
-                        <input type="text" name="search" id="mSearchInput" class="m-input-text" placeholder="जैसे: Real Estate Agent" value="{{ request('search') }}">
-                        <svg class="m-field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    </div>
-                </div>
-
-                <!-- Field 2 -->
+                <!-- Field 1: District -->
                 <div class="m-field-group" id="mSearchDistrictField">
-                    <label class="m-field-label">शहर / जिला चुनें</label>
+                    <label class="m-field-label">District / जिला</label>
                     <div class="m-input-wrap">
                         <select name="district" id="mDistrictSelect" class="m-select-box">
-                            <option value="">अपना शहर / जिला चुनें</option>
-                            @if(isset($district))
-                                @foreach($district as $d)
-                                    <option value="{{ $d->id }}" {{ request('district') == $d->id ? 'selected' : '' }}>{{ $d->name }}</option>
-                                @endforeach
-                            @else
-                                <option value="Jaipur">Jaipur</option>
-                                <option value="Jodhpur">Jodhpur</option>
-                                <option value="Udaipur">Udaipur</option>
-                                <option value="Kota">Kota</option>
-                            @endif
+                            <option value="">Search district</option>
+                            @foreach(collect($district ?? [])->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $d)
+                                <option value="{{ $d->id }}" {{ (request('district') == $d->id || (empty(request('district')) && $d->name == 'Jaipur')) ? 'selected' : '' }}>{{ $d->name }}</option>
+                            @endforeach
                         </select>
                         <svg class="m-field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                     </div>
                 </div>
 
-                <!-- Field 3 -->
-                <div class="m-field-group" id="mSearchCategoryField">
-                    <label class="m-field-label">कैटेगरी चुनें</label>
+                <!-- Field 2: City -->
+                <div class="m-field-group" id="mSearchCityField">
+                    <label class="m-field-label">City / शहर</label>
                     <div class="m-input-wrap">
-                        <select name="category" id="mCategorySelect" class="m-select-box">
-                            <option value="">सभी कैटेगरी</option>
-                            @if(isset($category))
-                                @foreach($category as $cat)
-                                    <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
+                        <select name="city" id="mCitySelect" class="m-select-box">
+                            <option value="">Select city</option>
+                            <option value="all">All City</option>
+                            @if(isset($initialCities) && count($initialCities) > 0)
+                                @foreach($initialCities as $c)
+                                    <option value="{{ $c->id }}" {{ request('city') == $c->id ? 'selected' : '' }}>{{ $c->name }}</option>
                                 @endforeach
-                            @else
-                                <option value="real_estate">Real Estate Agent</option>
-                                <option value="automobile">Automobile Agent</option>
-                                <option value="rto">RTO Agent</option>
-                                <option value="insurance">Insurance Agent</option>
-                                <option value="finance">Financial Advisor</option>
+                            @endif
+                        </select>
+                        <svg class="m-field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    </div>
+                </div>
+
+                <!-- Field 3: Sub Category -->
+                <div class="m-field-group" id="mSearchCategoryField">
+                    <label class="m-field-label">Sub Category / सर्विस</label>
+                    <div class="m-input-wrap">
+                        <select name="subcategory" id="mCategorySelect" class="m-select-box">
+                            <option value="">Select Sub Category</option>
+                            @if(isset($subCategories) && count($subCategories) > 0)
+                                @foreach(collect($subCategories ?? [])->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $sub)
+                                    <option value="{{ $sub->id }}" {{ request('subcategory') == $sub->id ? 'selected' : '' }}>
+                                        {{ $sub->name }}
+                                    </option>
+                                @endforeach
+                            @elseif(isset($category))
+                                @foreach(collect($category ?? [])->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $cat)
+                                    <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
+                                        {{ $cat->name }}
+                                    </option>
+                                @endforeach
                             @endif
                         </select>
                         <svg class="m-field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
@@ -1519,46 +1665,48 @@
 
                 <div class="form-grid">
 
-                    <!-- Input 1: Aap kya khoj rahe hain -->
-                    <div class="form-field" id="searchKeywordField">
-                        <label class="field-label">आप क्या खोज रहे हैं?</label>
-                        <div class="input-with-icon">
-                            <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                stroke="#004BEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                            </svg>
-                            <input type="text" name="search" id="searchInput" class="custom-input" placeholder="Search by name, service or keyword" value="{{ request('search') }}">
-                        </div>
-                    </div>
-
-                    <!-- Input 2: Aapka shahar / jila chunen -->
+                    <!-- Field 1: District -->
                     <div class="form-field" id="searchDistrictField">
-                        <label class="field-label">आपका शहर / जिला चुनें</label>
+                        <label class="field-label">District / जिला</label>
                         <div class="input-with-icon">
                             <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 stroke="#004BEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                                 <circle cx="12" cy="10" r="3"></circle>
                             </svg>
-                            <select class="custom-select" name="district" id="cityInput">
-                                <option value="">Select City / District</option>
-                                @if(isset($district))
-                                    @foreach($district as $d)
-                                        <option value="{{ $d->id }}" {{ request('district') == $d->id ? 'selected' : '' }}>{{ $d->name }}</option>
+                            <select class="custom-select select2-district" name="district" id="districtSelect">
+                                <option value="">Search district</option>
+                                @foreach(collect($district ?? [])->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $d)
+                                    <option value="{{ $d->id }}" {{ (request('district') == $d->id || (empty(request('district')) && $d->name == 'Jaipur')) ? 'selected' : '' }}>{{ $d->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Field 2: City -->
+                    <div class="form-field" id="searchCityField">
+                        <label class="field-label">City / शहर</label>
+                        <div class="input-with-icon">
+                            <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="#004BEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            <select class="custom-select select2-city" name="city" id="citySelect">
+                                <option value="">Select city</option>
+                                <option value="all">All City</option>
+                                @if(isset($initialCities) && count($initialCities) > 0)
+                                    @foreach($initialCities as $c)
+                                        <option value="{{ $c->id }}" {{ request('city') == $c->id ? 'selected' : '' }}>{{ $c->name }}</option>
                                     @endforeach
-                                @else
-                                    <option value="Jaipur">Jaipur, Rajasthan</option>
-                                    <option value="Jodhpur">Jodhpur, Rajasthan</option>
-                                    <option value="Udaipur">Udaipur, Rajasthan</option>
                                 @endif
                             </select>
                         </div>
                     </div>
 
-                    <!-- Input 3: Category chunen -->
+                    <!-- Field 3: Sub Category / Category -->
                     <div class="form-field" id="searchCategoryField">
-                        <label class="field-label">Category चुनें</label>
+                        <label class="field-label">Sub Category / सर्विस</label>
                         <div class="input-with-icon">
                             <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 stroke="#004BEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1567,18 +1715,20 @@
                                 <rect x="14" y="14" width="7" height="7"></rect>
                                 <rect x="3" y="14" width="7" height="7"></rect>
                             </svg>
-                            <select class="custom-select" name="category" id="categorySelect">
-                                <option value="">All Categories</option>
-                                @if(isset($category))
-                                    @foreach($category as $cat)
-                                        <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
+                            <select class="custom-select select2-category" name="subcategory" id="categorySelect">
+                                <option value="">Select Sub Category</option>
+                                @if(isset($subCategories) && count($subCategories) > 0)
+                                    @foreach(collect($subCategories ?? [])->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $sub)
+                                        <option value="{{ $sub->id }}" {{ request('subcategory') == $sub->id ? 'selected' : '' }}>
+                                            {{ $sub->name }}
+                                        </option>
                                     @endforeach
-                                @else
-                                    <option value="property">Property & Housing</option>
-                                    <option value="loans">Loans & Finance</option>
-                                    <option value="life_insurance">Life & Health Insurance</option>
-                                    <option value="tour">Tours & Visas</option>
-                                    <option value="law">Law & Registration</option>
+                                @elseif(isset($category))
+                                    @foreach(collect($category ?? [])->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $cat)
+                                        <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
+                                            {{ $cat->name }}
+                                        </option>
+                                    @endforeach
                                 @endif
                             </select>
                         </div>
@@ -3247,18 +3397,70 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // =========================================================================
-    // SEARCH FORM VALIDATION (Desktop & Mobile)
+    // SEARCH FORM: SELECT2 & DYNAMIC DISTRICT -> CITY AJAX
     // =========================================================================
+    const cityApiBaseUrl = "{{ url('/get-cities') }}";
+
+    if ($.fn.select2) {
+        $('.select2-district').select2({
+            placeholder: 'Search district',
+            allowClear: false,
+            width: '100%'
+        });
+        $('.select2-city').select2({
+            placeholder: 'Select city',
+            allowClear: false,
+            width: '100%'
+        });
+        $('.select2-category').select2({
+            placeholder: 'Select Sub Category',
+            allowClear: false,
+            width: '100%'
+        });
+    }
+
+    function setupDistrictCityBinding(districtSelectId, citySelectId, isSelect2) {
+        const $dist = $('#' + districtSelectId);
+        const $city = $('#' + citySelectId);
+
+        $dist.on('change', function() {
+            const districtId = $(this).val();
+            if (!districtId) {
+                const defaultOpts = '<option value="">Select city</option><option value="all">All City</option>';
+                $city.html(defaultOpts);
+                if (isSelect2 && $.fn.select2) {
+                    $city.trigger('change.select2');
+                }
+                return;
+            }
+
+            $.get(cityApiBaseUrl + '/' + districtId, function(cities) {
+                let options = '<option value="">Select city</option><option value="all">All City</option>';
+                if (Array.isArray(cities) && cities.length) {
+                    cities.forEach(function(c) {
+                        options += '<option value="' + c.id + '">' + c.name + '</option>';
+                    });
+                }
+                $city.html(options);
+                if (isSelect2 && $.fn.select2) {
+                    $city.trigger('change.select2');
+                }
+            });
+        });
+    }
+
+    setupDistrictCityBinding('districtSelect', 'citySelect', true);
+    setupDistrictCityBinding('mDistrictSelect', 'mCitySelect', false);
 
     // Desktop Search Form Validation
     const desktopSearchForm = document.getElementById('agentSearchForm');
-    const searchInput = document.getElementById('searchInput');
-    const cityInput = document.getElementById('cityInput');
+    const districtSelect = document.getElementById('districtSelect');
+    const citySelect = document.getElementById('citySelect');
     const categorySelect = document.getElementById('categorySelect');
     const searchValMsg = document.getElementById('searchValidationMsg');
     const desktopFields = [
-        document.getElementById('searchKeywordField'),
         document.getElementById('searchDistrictField'),
+        document.getElementById('searchCityField'),
         document.getElementById('searchCategoryField')
     ];
 
@@ -3271,12 +3473,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (desktopSearchForm) {
         desktopSearchForm.addEventListener('submit', (e) => {
-            const keyword = searchInput ? searchInput.value.trim() : '';
-            const district = cityInput ? cityInput.value.trim() : '';
-            const category = categorySelect ? categorySelect.value.trim() : '';
+            const district = districtSelect ? districtSelect.value.trim() : '';
+            const city = citySelect ? citySelect.value.trim() : '';
+            const subcategory = categorySelect ? categorySelect.value.trim() : '';
 
-            // Require at least one field to be filled or selected
-            if (!keyword && !district && !category) {
+            // Require at least one field to be selected
+            if (!district && !city && !subcategory) {
                 e.preventDefault();
                 if (searchValMsg) searchValMsg.classList.add('active');
                 desktopFields.forEach(f => {
@@ -3286,25 +3488,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         f.classList.add('has-error');
                     }
                 });
-                if (searchInput) searchInput.focus();
                 return false;
             }
         });
 
-        if (searchInput) searchInput.addEventListener('input', clearDesktopErrors);
-        if (cityInput) cityInput.addEventListener('change', clearDesktopErrors);
-        if (categorySelect) categorySelect.addEventListener('change', clearDesktopErrors);
+        if (districtSelect) $(districtSelect).on('change', clearDesktopErrors);
+        if (citySelect) $(citySelect).on('change', clearDesktopErrors);
+        if (categorySelect) $(categorySelect).on('change', clearDesktopErrors);
     }
 
     // Mobile Search Form Validation
     const mSearchForm = document.getElementById('mAgentSearchForm');
-    const mSearchInput = document.getElementById('mSearchInput');
     const mDistrictSelect = document.getElementById('mDistrictSelect');
+    const mCitySelect = document.getElementById('mCitySelect');
     const mCategorySelect = document.getElementById('mCategorySelect');
     const mSearchValMsg = document.getElementById('mSearchValidationMsg');
     const mFields = [
-        document.getElementById('mSearchKeywordField'),
         document.getElementById('mSearchDistrictField'),
+        document.getElementById('mSearchCityField'),
         document.getElementById('mSearchCategoryField')
     ];
 
@@ -3317,12 +3518,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (mSearchForm) {
         mSearchForm.addEventListener('submit', (e) => {
-            const keyword = mSearchInput ? mSearchInput.value.trim() : '';
             const district = mDistrictSelect ? mDistrictSelect.value.trim() : '';
-            const category = mCategorySelect ? mCategorySelect.value.trim() : '';
+            const city = mCitySelect ? mCitySelect.value.trim() : '';
+            const subcategory = mCategorySelect ? mCategorySelect.value.trim() : '';
 
-            // Require at least one field to be filled or selected
-            if (!keyword && !district && !category) {
+            // Require at least one field to be selected
+            if (!district && !city && !subcategory) {
                 e.preventDefault();
                 if (mSearchValMsg) mSearchValMsg.classList.add('active');
                 mFields.forEach(f => {
@@ -3332,13 +3533,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         f.classList.add('has-error');
                     }
                 });
-                if (mSearchInput) mSearchInput.focus();
                 return false;
             }
         });
 
-        if (mSearchInput) mSearchInput.addEventListener('input', clearMobileErrors);
         if (mDistrictSelect) mDistrictSelect.addEventListener('change', clearMobileErrors);
+        if (mCitySelect) mCitySelect.addEventListener('change', clearMobileErrors);
         if (mCategorySelect) mCategorySelect.addEventListener('change', clearMobileErrors);
     }
 
