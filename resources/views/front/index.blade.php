@@ -523,6 +523,90 @@
         background: #FFFFFF;
         box-shadow: 0 1px 4px rgba(0,0,0,0.4);
     }
+
+    /* Desktop Dynamic Hero Carousel Styles */
+    .index-hero-banner-section.desktop-only {
+        position: relative;
+        overflow: hidden;
+        background: #0B1736;
+        user-select: none;
+    }
+    .index-hero-banner-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+    }
+    .d-hero-slider-track {
+        display: flex;
+        transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        width: 100%;
+    }
+    .d-hero-slide-item {
+        min-width: 100%;
+        width: 100%;
+        flex-shrink: 0;
+        position: relative;
+    }
+    .d-hero-banner-link {
+        display: block;
+        width: 100%;
+        text-decoration: none;
+    }
+    .d-hero-nav-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.9);
+        color: #0F172A;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 6;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+        transition: all 0.25s ease;
+        opacity: 0.8;
+    }
+    .index-hero-banner-section:hover .d-hero-nav-arrow {
+        opacity: 1;
+    }
+    .d-hero-nav-arrow.prev { left: 24px; }
+    .d-hero-nav-arrow.next { right: 24px; }
+    .d-hero-nav-arrow:hover {
+        background: #FFFFFF;
+        transform: translateY(-50%) scale(1.08);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+    }
+    .d-hero-dots-wrap {
+        position: absolute;
+        bottom: 24px;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        z-index: 6;
+    }
+    .d-hero-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+    .d-hero-dot.active {
+        width: 28px;
+        border-radius: 6px;
+        background: #FFFFFF;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
 </style>
 @endpush
 
@@ -1294,8 +1378,47 @@
 
 <!-- Main Hero Banner Section Start (DESKTOP ONLY) -->
 <section class="index-hero-banner-section desktop-only">
-    <div class="index-hero-banner-container">
-        <img src="{{ asset('front/assets/images/index_hero_banner.png') }}" alt="काम कोई भी हो... Agent Sahi Yahi Milega! - Agent 24 India" class="index-hero-banner-img">
+    <div class="index-hero-banner-container" id="dHeroCarousel">
+        <div class="d-hero-slider-track" id="dHeroSliderTrack">
+            @php
+                $desktopBanners = (isset($banner) && count($banner) > 0) ? $banner : collect();
+            @endphp
+
+            @if($desktopBanners->count() > 0)
+                @foreach($desktopBanners as $dIdx => $dItem)
+                    @php
+                        $dImg = !empty($dItem->image) ? (Str::startsWith($dItem->image, 'http') ? $dItem->image : asset($dItem->image)) : asset('front/assets/images/index_hero_banner.png');
+                        $dLink = !empty($dItem->link) ? $dItem->link : (!empty($dItem->url) ? $dItem->url : 'javascript:;');
+                    @endphp
+                    <div class="d-hero-slide-item" data-slide-index="{{ $dIdx }}">
+                        <a href="{{ $dLink }}" class="d-hero-banner-link">
+                            <img src="{{ $dImg }}" alt="{{ $dItem->title ?? 'काम कोई भी हो... Agent Sahi Yahi Milega! - Agent 24 India' }}" class="index-hero-banner-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/index_hero_banner.png') }}';">
+                        </a>
+                    </div>
+                @endforeach
+            @else
+                <div class="d-hero-slide-item" data-slide-index="0">
+                    <img src="{{ asset('front/assets/images/index_hero_banner.png') }}" alt="काम कोई भी हो... Agent Sahi Yahi Milega! - Agent 24 India" class="index-hero-banner-img">
+                </div>
+            @endif
+        </div>
+
+        @if($desktopBanners->count() > 1)
+            <!-- Desktop Navigation Arrows -->
+            <button type="button" class="d-hero-nav-arrow prev" id="dHeroPrevBtn" aria-label="Previous Slide">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="d-hero-nav-arrow next" id="dHeroNextBtn" aria-label="Next Slide">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+
+            <!-- Desktop Pagination Dots -->
+            <div class="d-hero-dots-wrap" id="dHeroDotsWrap">
+                @foreach($desktopBanners as $dIdx => $dItem)
+                    <span class="d-hero-dot {{ $dIdx == 0 ? 'active' : '' }}" data-dot-index="{{ $dIdx }}"></span>
+                @endforeach
+            </div>
+        @endif
     </div>
 </section>
 <!-- Main Hero Banner Section End -->
@@ -2887,6 +3010,73 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: true });
 
         startHeroAuto();
+    }
+
+    // Carousel logic for Desktop Dynamic Hero Banner Slider
+    const dHeroCarousel = document.getElementById('dHeroCarousel');
+    const dHeroTrack = document.getElementById('dHeroSliderTrack');
+    const dHeroSlides = dHeroTrack ? dHeroTrack.querySelectorAll('.d-hero-slide-item') : [];
+    const dHeroPrev = document.getElementById('dHeroPrevBtn');
+    const dHeroNext = document.getElementById('dHeroNextBtn');
+    const dHeroDots = document.querySelectorAll('#dHeroDotsWrap .d-hero-dot');
+
+    if (dHeroTrack && dHeroSlides.length > 1) {
+        let currentDHeroIndex = 0;
+        let dHeroInterval = null;
+
+        function showDHeroSlide(index) {
+            if (index < 0) index = dHeroSlides.length - 1;
+            if (index >= dHeroSlides.length) index = 0;
+            currentDHeroIndex = index;
+            dHeroTrack.style.transform = `translateX(-${currentDHeroIndex * 100}%)`;
+            dHeroDots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === currentDHeroIndex);
+            });
+        }
+
+        function nextDHeroSlide() {
+            showDHeroSlide(currentDHeroIndex + 1);
+        }
+
+        function startDHeroAuto() {
+            stopDHeroAuto();
+            dHeroInterval = setInterval(nextDHeroSlide, 4500);
+        }
+
+        function stopDHeroAuto() {
+            if (dHeroInterval) clearInterval(dHeroInterval);
+        }
+
+        if (dHeroNext) {
+            dHeroNext.addEventListener('click', (e) => {
+                e.preventDefault();
+                nextDHeroSlide();
+                startDHeroAuto();
+            });
+        }
+        if (dHeroPrev) {
+            dHeroPrev.addEventListener('click', (e) => {
+                e.preventDefault();
+                showDHeroSlide(currentDHeroIndex - 1);
+                startDHeroAuto();
+            });
+        }
+
+        dHeroDots.forEach((dot, idx) => {
+            dot.addEventListener('click', (e) => {
+                e.preventDefault();
+                showDHeroSlide(idx);
+                startDHeroAuto();
+            });
+        });
+
+        // Pause auto-sliding on hover
+        if (dHeroCarousel) {
+            dHeroCarousel.addEventListener('mouseenter', stopDHeroAuto);
+            dHeroCarousel.addEventListener('mouseleave', startDHeroAuto);
+        }
+
+        startDHeroAuto();
     }
 
     // Carousel logic for Mobile Top Verified Agents
