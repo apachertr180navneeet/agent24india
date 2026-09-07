@@ -22,19 +22,41 @@
     }
 
     .form-field.has-error .input-with-icon,
-    .form-field.has-error .select2-container--default .select2-selection--single {
+    .form-field.has-error .select2-container--default .select2-selection--single,
+    .m-field-group.has-error .m-input-wrap {
         border-color: #EF4444 !important;
-        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.18) !important;
+        box-shadow: 0 0 0 3.5px rgba(239, 68, 68, 0.22) !important;
+        animation: searchFieldShake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
     }
-    .search-field-error {
-        display: flex;
+    @keyframes searchFieldShake {
+        0%, 100% { transform: translateX(0); }
+        20%, 60% { transform: translateX(-4px); }
+        40%, 80% { transform: translateX(4px); }
+    }
+    .search-validation-msg {
+        display: none;
         align-items: center;
-        gap: 4px;
-        color: #EF4444;
-        font-size: 11.5px;
-        font-weight: 600;
-        margin-top: 5px;
-        line-height: 1.2;
+        gap: 8px;
+        background: #FEF2F2;
+        border: 1.5px solid #F87171;
+        color: #B91C1C;
+        padding: 9px 14px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 14px;
+        animation: searchFadeInDown 0.25s ease;
+        box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1);
+    }
+    .search-validation-msg.active {
+        display: flex;
+    }
+    .search-validation-msg svg {
+        flex-shrink: 0;
+    }
+    @keyframes searchFadeInDown {
+        from { opacity: 0; transform: translateY(-6px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
     /* Mobile How It Works Styles matching Screenshot */
@@ -574,21 +596,30 @@
         <div class="m-search-card">
             <h2 class="m-search-card-title">अपनी जरूरत का Agent खोजें</h2>
 
-            <form action="{{ route('front.vendorlist') }}" method="GET">
+            <form action="{{ route('front.vendorlist') }}" method="GET" id="mAgentSearchForm">
+                <div class="search-validation-msg" id="mSearchValidationMsg">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <span>कृपया Search, District या Category में से कम से कम एक चुनें।</span>
+                </div>
+
                 <!-- Field 1 -->
-                <div class="m-field-group">
+                <div class="m-field-group" id="mSearchKeywordField">
                     <label class="m-field-label">आप क्या खोज रहे हैं?</label>
                     <div class="m-input-wrap">
-                        <input type="text" name="search" class="m-input-text" placeholder="जैसे: Real Estate Agent" value="{{ request('search') }}">
+                        <input type="text" name="search" id="mSearchInput" class="m-input-text" placeholder="जैसे: Real Estate Agent" value="{{ request('search') }}">
                         <svg class="m-field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                     </div>
                 </div>
 
                 <!-- Field 2 -->
-                <div class="m-field-group">
+                <div class="m-field-group" id="mSearchDistrictField">
                     <label class="m-field-label">शहर / जिला चुनें</label>
                     <div class="m-input-wrap">
-                        <select name="district" class="m-select-box">
+                        <select name="district" id="mDistrictSelect" class="m-select-box">
                             <option value="">अपना शहर / जिला चुनें</option>
                             @if(isset($district))
                                 @foreach($district as $d)
@@ -606,10 +637,10 @@
                 </div>
 
                 <!-- Field 3 -->
-                <div class="m-field-group">
+                <div class="m-field-group" id="mSearchCategoryField">
                     <label class="m-field-label">कैटेगरी चुनें</label>
                     <div class="m-input-wrap">
-                        <select name="category" class="m-select-box">
+                        <select name="category" id="mCategorySelect" class="m-select-box">
                             <option value="">सभी कैटेगरी</option>
                             @if(isset($category))
                                 @foreach($category as $cat)
@@ -1284,10 +1315,19 @@
             </div>
 
             <form class="search-card-form" id="agentSearchForm" action="{{ route('front.vendorlist') }}" method="GET">
+                <div class="search-validation-msg" id="searchValidationMsg">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <span>कृपया खोजने के लिए कम से कम एक विकल्प चुनें या भरें (Search keyword, City/District या Category)।</span>
+                </div>
+
                 <div class="form-grid">
 
                     <!-- Input 1: Aap kya khoj rahe hain -->
-                    <div class="form-field">
+                    <div class="form-field" id="searchKeywordField">
                         <label class="field-label">आप क्या खोज रहे हैं?</label>
                         <div class="input-with-icon">
                             <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -1295,12 +1335,12 @@
                                 <circle cx="11" cy="11" r="8"></circle>
                                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                             </svg>
-                            <input type="text" name="search" class="custom-input" placeholder="Search by name, service or keyword" value="{{ request('search') }}">
+                            <input type="text" name="search" id="searchInput" class="custom-input" placeholder="Search by name, service or keyword" value="{{ request('search') }}">
                         </div>
                     </div>
 
                     <!-- Input 2: Aapka shahar / jila chunen -->
-                    <div class="form-field">
+                    <div class="form-field" id="searchDistrictField">
                         <label class="field-label">आपका शहर / जिला चुनें</label>
                         <div class="input-with-icon">
                             <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -1324,7 +1364,7 @@
                     </div>
 
                     <!-- Input 3: Category chunen -->
-                    <div class="form-field">
+                    <div class="form-field" id="searchCategoryField">
                         <label class="field-label">Category चुनें</label>
                         <div class="input-with-icon">
                             <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -2907,6 +2947,102 @@ document.addEventListener('DOMContentLoaded', () => {
         testNext.addEventListener('click', () => {
             testTrack.scrollBy({ left: 340, behavior: 'smooth' });
         });
+    }
+
+    // =========================================================================
+    // SEARCH FORM VALIDATION (Desktop & Mobile)
+    // =========================================================================
+
+    // Desktop Search Form Validation
+    const desktopSearchForm = document.getElementById('agentSearchForm');
+    const searchInput = document.getElementById('searchInput');
+    const cityInput = document.getElementById('cityInput');
+    const categorySelect = document.getElementById('categorySelect');
+    const searchValMsg = document.getElementById('searchValidationMsg');
+    const desktopFields = [
+        document.getElementById('searchKeywordField'),
+        document.getElementById('searchDistrictField'),
+        document.getElementById('searchCategoryField')
+    ];
+
+    function clearDesktopErrors() {
+        if (searchValMsg) searchValMsg.classList.remove('active');
+        desktopFields.forEach(f => {
+            if (f) f.classList.remove('has-error');
+        });
+    }
+
+    if (desktopSearchForm) {
+        desktopSearchForm.addEventListener('submit', (e) => {
+            const keyword = searchInput ? searchInput.value.trim() : '';
+            const district = cityInput ? cityInput.value.trim() : '';
+            const category = categorySelect ? categorySelect.value.trim() : '';
+
+            // Require at least one field to be filled or selected
+            if (!keyword && !district && !category) {
+                e.preventDefault();
+                if (searchValMsg) searchValMsg.classList.add('active');
+                desktopFields.forEach(f => {
+                    if (f) {
+                        f.classList.remove('has-error');
+                        void f.offsetWidth; // Trigger reflow for shake animation
+                        f.classList.add('has-error');
+                    }
+                });
+                if (searchInput) searchInput.focus();
+                return false;
+            }
+        });
+
+        if (searchInput) searchInput.addEventListener('input', clearDesktopErrors);
+        if (cityInput) cityInput.addEventListener('change', clearDesktopErrors);
+        if (categorySelect) categorySelect.addEventListener('change', clearDesktopErrors);
+    }
+
+    // Mobile Search Form Validation
+    const mSearchForm = document.getElementById('mAgentSearchForm');
+    const mSearchInput = document.getElementById('mSearchInput');
+    const mDistrictSelect = document.getElementById('mDistrictSelect');
+    const mCategorySelect = document.getElementById('mCategorySelect');
+    const mSearchValMsg = document.getElementById('mSearchValidationMsg');
+    const mFields = [
+        document.getElementById('mSearchKeywordField'),
+        document.getElementById('mSearchDistrictField'),
+        document.getElementById('mSearchCategoryField')
+    ];
+
+    function clearMobileErrors() {
+        if (mSearchValMsg) mSearchValMsg.classList.remove('active');
+        mFields.forEach(f => {
+            if (f) f.classList.remove('has-error');
+        });
+    }
+
+    if (mSearchForm) {
+        mSearchForm.addEventListener('submit', (e) => {
+            const keyword = mSearchInput ? mSearchInput.value.trim() : '';
+            const district = mDistrictSelect ? mDistrictSelect.value.trim() : '';
+            const category = mCategorySelect ? mCategorySelect.value.trim() : '';
+
+            // Require at least one field to be filled or selected
+            if (!keyword && !district && !category) {
+                e.preventDefault();
+                if (mSearchValMsg) mSearchValMsg.classList.add('active');
+                mFields.forEach(f => {
+                    if (f) {
+                        f.classList.remove('has-error');
+                        void f.offsetWidth; // Trigger reflow for shake animation
+                        f.classList.add('has-error');
+                    }
+                });
+                if (mSearchInput) mSearchInput.focus();
+                return false;
+            }
+        });
+
+        if (mSearchInput) mSearchInput.addEventListener('input', clearMobileErrors);
+        if (mDistrictSelect) mDistrictSelect.addEventListener('change', clearMobileErrors);
+        if (mCategorySelect) mCategorySelect.addEventListener('change', clearMobileErrors);
     }
 });
 </script>
