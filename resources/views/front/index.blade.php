@@ -607,6 +607,47 @@
         background: #FFFFFF;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
     }
+
+    /* Category Show-All In-Page Toggle Styles */
+    .extra-category-card,
+    .m-extra-cat-card {
+        display: none !important;
+    }
+    .categories-grid.show-all .extra-category-card {
+        display: flex !important;
+        animation: catCardPop 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .categories-grid.show-all .card-more-trigger {
+        display: none !important;
+    }
+    .m-pop-cat-grid.show-all .m-extra-cat-card {
+        display: flex !important;
+        animation: catCardPop 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .m-pop-cat-grid.show-all .m-card-more-trigger {
+        display: none !important;
+    }
+    @keyframes catCardPop {
+        from {
+            opacity: 0;
+            transform: translateY(14px) scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+    .btn-view-all {
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.25s ease;
+    }
+    .btn-view-all:hover {
+        transform: translateY(-2px);
+    }
 </style>
 @endpush
 
@@ -789,9 +830,13 @@
     <section class="m-popular-cat-section">
         <div class="m-pop-cat-header">
             <h2 class="m-pop-cat-title">लोकप्रिय कैटेगरी</h2>
-            <a href="{{ route('front.vendorlist') }}" class="m-pop-cat-link">सभी देखें &rarr;</a>
+            @if(isset($category) && $category->count() > 7)
+                <a href="javascript:void(0);" class="m-pop-cat-link" id="mToggleCategoriesLink">सभी देखें &rarr;</a>
+            @else
+                <a href="{{ route('front.vendorlist') }}" class="m-pop-cat-link">सभी देखें &rarr;</a>
+            @endif
         </div>
-        <div class="m-pop-cat-grid">
+        <div class="m-pop-cat-grid" id="mPopCatGrid">
             @if(isset($category) && $category->count() > 0)
                 @php
                     $mCatColors = ['bg-orange', 'bg-blue', 'bg-green', 'bg-purple', 'bg-rupee', 'bg-scale', 'bg-truck'];
@@ -808,12 +853,37 @@
                         <span class="m-cat-label">{{ $cat->name }}</span>
                     </a>
                 @endforeach
-                <a href="{{ route('front.vendorlist') }}" class="m-cat-card">
-                    <div class="m-cat-icon-container bg-dots">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="5" cy="12" r="2"></circle></svg>
-                    </div>
-                    <span class="m-cat-label">और भी<br>बहुत कुछ</span>
-                </a>
+
+                @if($category->count() > 7)
+                    {{-- 8th Card: Trigger for all remaining categories --}}
+                    <a href="javascript:void(0);" class="m-cat-card m-card-more-trigger" id="mCardMoreTrigger">
+                        <div class="m-cat-icon-container bg-dots">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="5" cy="12" r="2"></circle></svg>
+                        </div>
+                        <span class="m-cat-label">और भी<br>बहुत कुछ</span>
+                    </a>
+
+                    {{-- All remaining extra categories --}}
+                    @foreach($category->slice(7) as $index => $cat)
+                        <a href="{{ route('front.vendorlist') }}?category={{ $cat->id }}" class="m-cat-card m-extra-cat-card">
+                            <div class="m-cat-icon-container {{ $mCatColors[($index + 7) % count($mCatColors)] }}">
+                                @if(!empty($cat->image) && !str_contains($cat->image, 'images.png'))
+                                    <img src="{{ $cat->image }}" alt="{{ $cat->name }}" style="width: 26px; height: 26px; object-fit: contain; border-radius: 4px;">
+                                @else
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                @endif
+                            </div>
+                            <span class="m-cat-label">{{ $cat->name }}</span>
+                        </a>
+                    @endforeach
+                @else
+                    <a href="{{ route('front.vendorlist') }}" class="m-cat-card">
+                        <div class="m-cat-icon-container bg-dots">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="5" cy="12" r="2"></circle></svg>
+                        </div>
+                        <span class="m-cat-label">और भी<br>बहुत कुछ</span>
+                    </a>
+                @endif
             @else
                 <!-- Card 1 -->
                 <a href="{{ route('front.vendorlist') }}?search=Real+Estate" class="m-cat-card">
@@ -1633,7 +1703,7 @@
         </div>
 
         <!-- Categories Grid -->
-        <div class="categories-grid">
+        <div class="categories-grid" id="desktopCategoriesGrid">
             @if(isset($category) && $category->count() > 0)
                 @php
                     $desktopCatIcons = ['icon-orange', 'icon-blue', 'icon-green', 'icon-purple', 'icon-rupee', 'icon-scale', 'icon-red'];
@@ -1655,19 +1725,56 @@
                         <p class="category-subtitle">{{ $cat->description ?: 'Explore Services' }}</p>
                     </a>
                 @endforeach
-                <a href="{{ route('front.vendorlist') }}" class="category-card card-more">
-                    <div class="category-icon-box icon-dots">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="9"></circle>
-                            <circle cx="8" cy="12" r="1" fill="#2563EB"></circle>
-                            <circle cx="12" cy="12" r="1" fill="#2563EB"></circle>
-                            <circle cx="16" cy="12" r="1" fill="#2563EB"></circle>
-                        </svg>
-                    </div>
-                    <h3 class="category-title">और भी बहुत कुछ</h3>
-                    <p class="category-subtitle highlight-subtitle">{{ isset($category) ? $category->count().'+ Categories' : '18+ Categories' }}</p>
-                </a>
+
+                @if($category->count() > 7)
+                    {{-- 8th Card: Trigger to expand all remaining categories --}}
+                    <a href="javascript:void(0);" class="category-card card-more card-more-trigger" id="desktopCardMoreTrigger">
+                        <div class="category-icon-box icon-dots">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <circle cx="8" cy="12" r="1" fill="#2563EB"></circle>
+                                <circle cx="12" cy="12" r="1" fill="#2563EB"></circle>
+                                <circle cx="16" cy="12" r="1" fill="#2563EB"></circle>
+                            </svg>
+                        </div>
+                        <h3 class="category-title">और भी बहुत कुछ</h3>
+                        <p class="category-subtitle highlight-subtitle">{{ $category->count().'+ Categories' }}</p>
+                    </a>
+
+                    {{-- All remaining extra categories --}}
+                    @foreach($category->slice(7) as $index => $cat)
+                        <a href="{{ route('front.vendorlist') }}?category={{ $cat->id }}" class="category-card extra-category-card">
+                            <div class="category-icon-box {{ $desktopCatIcons[($index + 7) % count($desktopCatIcons)] }}">
+                                @if(!empty($cat->image) && !str_contains($cat->image, 'images.png'))
+                                    <img src="{{ $cat->image }}" alt="{{ $cat->name }}" style="width: 36px; height: 36px; object-fit: contain; border-radius: 6px;">
+                                @else
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                    </svg>
+                                @endif
+                            </div>
+                            <h3 class="category-title">{{ $cat->name }}</h3>
+                            <p class="category-subtitle">{{ $cat->description ?: 'Explore Services' }}</p>
+                        </a>
+                    @endforeach
+                @else
+                    <a href="{{ route('front.vendorlist') }}" class="category-card card-more">
+                        <div class="category-icon-box icon-dots">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <circle cx="8" cy="12" r="1" fill="#2563EB"></circle>
+                                <circle cx="12" cy="12" r="1" fill="#2563EB"></circle>
+                                <circle cx="16" cy="12" r="1" fill="#2563EB"></circle>
+                            </svg>
+                        </div>
+                        <h3 class="category-title">और भी बहुत कुछ</h3>
+                        <p class="category-subtitle highlight-subtitle">{{ isset($category) ? $category->count().'+ Categories' : '18+ Categories' }}</p>
+                    </a>
+                @endif
             @else
                 <!-- Card 1: Real Estate -->
                 <a href="{{ route('front.vendorlist') }}?search=Real+Estate" class="category-card">
@@ -1783,14 +1890,14 @@
 
         <!-- View All Categories Button -->
         <div class="view-all-wrapper">
-            <a href="{{ route('front.vendorlist') }}" class="btn-view-all">
-                <span>सभी Categories देखें</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            <button type="button" class="btn-view-all" id="btnToggleAllCategories" aria-expanded="false">
+                <span class="btn-text">सभी Categories देखें</span>
+                <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                     stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
-            </a>
+            </button>
         </div>
 
     </div>
@@ -3233,6 +3340,71 @@ document.addEventListener('DOMContentLoaded', () => {
         if (mSearchInput) mSearchInput.addEventListener('input', clearMobileErrors);
         if (mDistrictSelect) mDistrictSelect.addEventListener('change', clearMobileErrors);
         if (mCategorySelect) mCategorySelect.addEventListener('change', clearMobileErrors);
+    }
+
+    // =========================================================================
+    // IN-PAGE CATEGORY SHOW-ALL EXPANSION (No Redirection)
+    // =========================================================================
+
+    // Desktop Category Show-All Toggle
+    const desktopCatGrid = document.getElementById('desktopCategoriesGrid');
+    const btnToggleCat = document.getElementById('btnToggleAllCategories');
+    const desktopCardMore = document.getElementById('desktopCardMoreTrigger');
+
+    function toggleDesktopCategories() {
+        if (!desktopCatGrid) return;
+        const isExpanded = desktopCatGrid.classList.toggle('show-all');
+        if (btnToggleCat) {
+            btnToggleCat.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+            const btnText = btnToggleCat.querySelector('.btn-text');
+            const btnIcon = btnToggleCat.querySelector('.btn-icon');
+            if (isExpanded) {
+                if (btnText) btnText.textContent = 'कम Categories देखें';
+                if (btnIcon) btnIcon.innerHTML = '<line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline>';
+            } else {
+                if (btnText) btnText.textContent = 'सभी Categories देखें';
+                if (btnIcon) btnIcon.innerHTML = '<line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>';
+            }
+        }
+    }
+
+    if (btnToggleCat) {
+        btnToggleCat.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleDesktopCategories();
+        });
+    }
+    if (desktopCardMore) {
+        desktopCardMore.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleDesktopCategories();
+        });
+    }
+
+    // Mobile Category Show-All Toggle
+    const mPopCatGrid = document.getElementById('mPopCatGrid');
+    const mToggleCatLink = document.getElementById('mToggleCategoriesLink');
+    const mCardMore = document.getElementById('mCardMoreTrigger');
+
+    function toggleMobileCategories() {
+        if (!mPopCatGrid) return;
+        const isExpanded = mPopCatGrid.classList.toggle('show-all');
+        if (mToggleCatLink) {
+            mToggleCatLink.innerHTML = isExpanded ? 'कम देखें &uarr;' : 'सभी देखें &rarr;';
+        }
+    }
+
+    if (mToggleCatLink) {
+        mToggleCatLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleMobileCategories();
+        });
+    }
+    if (mCardMore) {
+        mCardMore.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleMobileCategories();
+        });
     }
 });
 </script>
