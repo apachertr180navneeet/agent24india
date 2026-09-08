@@ -825,10 +825,179 @@
     .btn-view-all:hover {
         transform: translateY(-2px);
     }
+
+    /* Desktop & Mobile District Cards Modern Styling */
+    .district-card {
+        background-color: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 16px;
+        overflow: hidden;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        display: flex;
+        flex-direction: column;
+    }
+    .district-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(0, 75, 238, 0.12);
+        border-color: #BFDBFE;
+    }
+    .district-image-wrapper {
+        width: 100%;
+        height: 125px;
+        overflow: hidden;
+        position: relative;
+        background-color: #F1F5F9;
+    }
+    .district-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s ease;
+    }
+    .district-card:hover .district-img {
+        transform: scale(1.06);
+    }
+    .district-info-body {
+        padding: 12px 14px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background-color: #FFFFFF;
+        flex: 1;
+        justify-content: space-between;
+    }
+    .district-meta-row {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+        width: 100%;
+    }
+    .district-name {
+        font-size: 15.5px;
+        font-weight: 800;
+        color: #0F172A;
+        letter-spacing: -0.2px;
+        margin: 0;
+        line-height: 1.25;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+    }
+    .district-agents-count {
+        font-size: 12px;
+        font-weight: 600;
+        color: #2563EB;
+        line-height: 1.2;
+    }
+    .btn-explore-district {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
+        padding: 7px 0;
+        background: linear-gradient(180deg, #EFF6FF 0%, #DBEAFE 100%);
+        border: 1px solid #BFDBFE;
+        border-radius: 20px;
+        color: #004BEE;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.22s ease;
+    }
+    .btn-explore-district:hover {
+        background: #004BEE;
+        border-color: #004BEE;
+        color: #FFFFFF;
+        box-shadow: 0 4px 12px rgba(0, 75, 238, 0.25);
+    }
 </style>
 @endpush
 
 @section('content')
+
+@php
+    $getDistrictImg = function($dist, $index = 0) {
+        if (!empty($dist->image)) {
+            $img = $dist->image;
+            if (str_starts_with($img, 'http')) {
+                return $img;
+            }
+            if (file_exists(public_path($img))) {
+                return asset($img);
+            }
+            if (file_exists(public_path('upload/district/' . basename($img)))) {
+                return asset('upload/district/' . basename($img));
+            }
+        }
+        
+        $name = strtolower(trim($dist->name ?? ''));
+        $slug = \Illuminate\Support\Str::slug($name, '_');
+        
+        // Exact slug check in districts folder
+        $possibleFiles = [
+            "front/assets/images/districts/{$slug}.jpg",
+            "front/assets/images/districts/{$slug}.png",
+            "front/assets/images/districts/{$slug}.webp",
+            "front/assets/images/districts/{$slug}.jpeg",
+        ];
+        foreach ($possibleFiles as $file) {
+            if (file_exists(public_path($file))) {
+                return asset($file);
+            }
+        }
+
+        // Substring / alias matching for major cities
+        if (str_contains($name, 'delhi')) return asset('front/assets/images/districts/new_delhi.jpg');
+        if (str_contains($name, 'mumbai') || str_contains($name, 'bombay')) return asset('front/assets/images/districts/mumbai.jpg');
+        if (str_contains($name, 'bangalore') || str_contains($name, 'bengaluru')) return asset('front/assets/images/districts/bangalore.jpg');
+        if (str_contains($name, 'pune')) return asset('front/assets/images/districts/pune.jpg');
+        if (str_contains($name, 'hyderabad')) return asset('front/assets/images/districts/hyderabad.jpg');
+        if (str_contains($name, 'ahmedabad')) return asset('front/assets/images/districts/ahmedabad.jpg');
+        if (str_contains($name, 'chennai') || str_contains($name, 'madras')) return asset('front/assets/images/districts/chennai.jpg');
+        if (str_contains($name, 'surat')) return asset('front/assets/images/districts/surat.jpg');
+        if (str_contains($name, 'lucknow')) return asset('front/assets/images/districts/lucknow.jpg');
+        if (str_contains($name, 'jaipur')) return asset('front/assets/images/districts/jaipur.jpg');
+        if (str_contains($name, 'jodhpur')) return asset('front/assets/images/districts/jodhpur.jpg');
+        if (str_contains($name, 'udaipur')) return asset('front/assets/images/districts/udaipur.png');
+        if (str_contains($name, 'ajmer')) return asset('front/assets/images/districts/ajmer.jpg');
+        if (str_contains($name, 'bikaner')) return asset('front/assets/images/districts/bikaner.jpg');
+        if (str_contains($name, 'jaisalmer')) return asset('front/assets/images/districts/jaisalmer.jpg');
+        if (str_contains($name, 'shimla')) return asset('front/assets/images/districts/shimla.jpg');
+        if (str_contains($name, 'amritsar')) return asset('front/assets/images/districts/amritsar.jpg');
+        if (str_contains($name, 'haridwar')) return asset('front/assets/images/districts/haridwar.jpg');
+        if (str_contains($name, 'noida')) return asset('front/assets/images/districts/noida.jpg');
+        if (str_contains($name, 'patna')) return asset('front/assets/images/districts/patna.jpg');
+        if (str_contains($name, 'ranchi')) return asset('front/assets/images/districts/ranchi.jpg');
+        if (str_contains($name, 'raipur')) return asset('front/assets/images/districts/raipur.jpg');
+        if (str_contains($name, 'indore')) return asset('front/assets/images/districts/indore.jpg');
+        if (str_contains($name, 'visakhapatnam') || str_contains($name, 'vizag')) return asset('front/assets/images/districts/visakhapatnam.jpg');
+
+        // Dynamic pool fallback so different districts never look identical
+        $dynamicPool = [
+            'front/assets/images/districts/jaipur.jpg',
+            'front/assets/images/districts/jodhpur.jpg',
+            'front/assets/images/districts/udaipur.png',
+            'front/assets/images/districts/shimla.jpg',
+            'front/assets/images/districts/amritsar.jpg',
+            'front/assets/images/districts/haridwar.jpg',
+            'front/assets/images/districts/new_delhi.jpg',
+            'front/assets/images/districts/mumbai.jpg',
+            'front/assets/images/districts/bangalore.jpg',
+            'front/assets/images/districts/lucknow.jpg',
+            'front/assets/images/districts/hyderabad.jpg',
+            'front/assets/images/districts/ajmer.jpg',
+            'front/assets/images/districts/bikaner.jpg',
+            'front/assets/images/districts/jaisalmer.jpg',
+        ];
+        $idNum = is_numeric($dist->id ?? null) ? (int)$dist->id : (int)$index;
+        return asset($dynamicPool[$idNum % count($dynamicPool)]);
+    };
+@endphp
 
 <!-- =========================================================================
      MOBILE ONLY HOME PAGE SECTION (Matches agent2 mobile screenshot design)
@@ -1367,32 +1536,32 @@
                     [
                         'name' => 'Jaipur',
                         'agents' => '12,500+ Agents',
-                        'image' => asset('front/assets/images/jal-mahal-jaipur-9175.jpg')
+                        'image' => asset('front/assets/images/districts/jaipur.jpg')
                     ],
                     [
                         'name' => 'Jodhpur',
                         'agents' => '8,200+ Agents',
-                        'image' => asset('front/assets/images/jodhpur.jpg')
+                        'image' => asset('front/assets/images/districts/jodhpur.jpg')
                     ],
                     [
                         'name' => 'Udaipur',
                         'agents' => '6,800+ Agents',
-                        'image' => asset('front/assets/images/udaipur.png')
+                        'image' => asset('front/assets/images/districts/udaipur.png')
                     ],
                     [
                         'name' => 'Kota',
                         'agents' => '5,100+ Agents',
-                        'image' => asset('front/assets/images/jal-mahal-jaipur-9175.jpg')
+                        'image' => asset('front/assets/images/districts/lucknow.jpg')
                     ],
                     [
                         'name' => 'Bikaner',
                         'agents' => '4,300+ Agents',
-                        'image' => asset('front/assets/images/district_ajmer.jpg')
+                        'image' => asset('front/assets/images/districts/bikaner.jpg')
                     ],
                     [
                         'name' => 'Ajmer',
                         'agents' => '3,900+ Agents',
-                        'image' => asset('front/assets/images/district_ajmer.jpg')
+                        'image' => asset('front/assets/images/districts/ajmer.jpg')
                     ],
                 ];
 
@@ -1407,27 +1576,7 @@
                     @php
                         $renderedNames[] = strtolower($dist->name);
                         $renderedCount++;
-                        
-                        // Smart Image selection & fallback
-                        $distImg = '';
-                        if (!empty($dist->image)) {
-                            $distImg = str_starts_with($dist->image, 'http') ? $dist->image : asset($dist->image);
-                        } else {
-                            $lowerName = strtolower($dist->name);
-                            if (str_contains($lowerName, 'jaipur')) {
-                                $distImg = asset('front/assets/images/jal-mahal-jaipur-9175.jpg');
-                            } elseif (str_contains($lowerName, 'jodhpur')) {
-                                $distImg = asset('front/assets/images/jodhpur.jpg');
-                            } elseif (str_contains($lowerName, 'udaipur')) {
-                                $distImg = asset('front/assets/images/udaipur.png');
-                            } elseif (str_contains($lowerName, 'ajmer')) {
-                                $distImg = asset('front/assets/images/district_ajmer.jpg');
-                            } elseif (str_contains($lowerName, 'bikaner')) {
-                                $distImg = asset('front/assets/images/district_ajmer.jpg');
-                            } else {
-                                $distImg = asset('front/assets/images/jal-mahal-jaipur-9175.jpg');
-                            }
-                        }
+                        $distImg = $getDistrictImg($dist, $index);
 
                         // Dynamic or formatted agent count
                         $agentLabel = isset($dist->users_count) && $dist->users_count > 0 
@@ -1435,7 +1584,7 @@
                             : ($agentCountPresets[$index % count($agentCountPresets)] ?? '5,000+ Agents');
                     @endphp
                     <a href="{{ route('front.vendorlist') }}?district={{ $dist->id }}" class="m-district-card">
-                        <img src="{{ $distImg }}" alt="{{ $dist->name }}" class="m-district-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/jal-mahal-jaipur-9175.jpg') }}';">
+                        <img src="{{ $distImg }}" alt="{{ $dist->name }}" class="m-district-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/districts/jaipur.jpg') }}';">
                         <div class="m-district-info">
                             <h3 class="m-district-name">{{ $dist->name }}</h3>
                             <span class="m-district-agents">{{ $agentLabel }}</span>
@@ -1452,7 +1601,7 @@
                             $renderedCount++;
                         @endphp
                         <a href="{{ route('front.vendorlist') }}?search={{ urlencode($preset['name']) }}" class="m-district-card">
-                            <img src="{{ $preset['image'] }}" alt="{{ $preset['name'] }}" class="m-district-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/jal-mahal-jaipur-9175.jpg') }}';">
+                            <img src="{{ $preset['image'] }}" alt="{{ $preset['name'] }}" class="m-district-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/districts/jaipur.jpg') }}';">
                             <div class="m-district-info">
                                 <h3 class="m-district-name">{{ $preset['name'] }}</h3>
                                 <span class="m-district-agents">{{ $preset['agents'] }}</span>
@@ -2531,7 +2680,7 @@
                     @foreach($dDistricts as $dist)
                         <div class="district-card">
                             <div class="district-image-wrapper">
-                                <img src="{{ !empty($dist->image) ? (str_starts_with($dist->image, 'http') ? $dist->image : asset($dist->image)) : asset('front/assets/images/jal-mahal-jaipur-9175.jpg') }}" alt="{{ $dist->name }}" class="district-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/jal-mahal-jaipur-9175.jpg') }}';">
+                                <img src="{{ $getDistrictImg($dist, $loop->index) }}" alt="{{ $dist->name }}" class="district-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/districts/jaipur.jpg') }}';">
                             </div>
                             <div class="district-info-body">
                                 <div class="district-meta-row">
