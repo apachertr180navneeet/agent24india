@@ -8,8 +8,8 @@
             <!-- Left Content -->
             <div class="price-hero-left">
                 <h1 class="price-hero-title">Pricing Plans</h1>
-                <p class="price-hero-subtitle">Give Your Business the Right Visibility and More Customers</p>
-                <p class="price-hero-desc">Get more Visibility and Trusted Customers with our Affordable Plans!</p>
+                <p class="price-hero-subtitle">अपने बिज़नेस को दें सही Visibility और अधिक Customers</p>
+                <p class="price-hero-desc">Affordable Plans के साथ पाएँ ज्यादा Visibility और भरोसेमंद Customers।</p>
                 
                 <!-- Monthly / 3 Months Toggle -->
                 <div class="price-toggle-wrap">
@@ -21,21 +21,71 @@
             <!-- Right Illustration -->
             <div class="price-hero-right">
                 <div class="price-hero-illustration">
-                    <!-- Shield with checkmark -->
-                    <div class="price-shield-wrap">
-                        <svg width="120" height="140" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M60 10L15 30V65C15 95 37.5 122.5 60 130C82.5 122.5 105 95 105 65V30L60 10Z" fill="#004BEE" stroke="#0036A8" stroke-width="3"/>
-                            <path d="M42 70L55 83L80 55" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <!-- Floating badge -->
-                        <div class="price-hero-badge">
-                            <span class="badge-logo-text">AGENT 24 INDIA</span>
-                        </div>
-                    </div>
-                    <!-- Decorative elements -->
-                    <div class="price-hero-deco deco-1"></div>
-                    <div class="price-hero-deco deco-2"></div>
-                    <div class="price-hero-deco deco-3"></div>
+                    <!-- Browser / Tablet Card Mockup with Shield, Coins & Plant -->
+                    <svg width="260" height="170" viewBox="0 0 260 170" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 15px 30px rgba(0,75,238,0.15));">
+                        <!-- City Background Silhouette -->
+                        <path d="M10 140V100H25V80H35V140H50V60H65V140H80V90H95V140H110V50H125V140H140V75H155V140H170V110H185V140H200V85H215V140H230V65H245V140" fill="#E2E8F0" opacity="0.6"/>
+                        <path d="M25 140V90H40V140H75V70H90V140H130V60H145V140H180V95H195V140H220V75H235V140" fill="#CBD5E1" opacity="0.5"/>
+
+                        <!-- Tablet / Browser Window -->
+                        <rect x="20" y="15" width="200" height="135" rx="10" fill="#FFFFFF" stroke="#2563EB" stroke-width="2.5"/>
+                        <!-- Top Bar -->
+                        <line x1="20" y1="36" x2="220" y2="36" stroke="#E2E8F0" stroke-width="1.5"/>
+                        <!-- Logo & Dots -->
+                        <circle cx="30" cy="25" r="4" fill="#004BEE"/>
+                        <text x="38" y="28" fill="#004BEE" font-size="7" font-weight="900" font-family="sans-serif">AGENT 24 INDIA</text>
+                        <circle cx="195" cy="25" r="2" fill="#94A3B8"/>
+                        <circle cx="203" cy="25" r="2" fill="#94A3B8"/>
+                        <circle cx="211" cy="25" r="2" fill="#94A3B8"/>
+                        <!-- Inner Mockup Elements -->
+                        <rect x="32" y="44" width="70" height="10" rx="3" fill="#DBEAFE"/>
+                        <rect x="32" y="60" width="80" height="35" rx="5" fill="#F8FAFC" stroke="#E2E8F0"/>
+                        <rect x="40" y="68" width="16" height="16" rx="8" fill="#E2E8F0"/>
+                        <rect x="62" y="70" width="40" height="4" rx="2" fill="#CBD5E1"/>
+                        <rect x="62" y="78" width="30" height="4" rx="2" fill="#E2E8F0"/>
+
+                        <rect x="32" y="102" width="80" height="35" rx="5" fill="#F8FAFC" stroke="#E2E8F0"/>
+                        <rect x="40" y="110" width="16" height="16" rx="8" fill="#E2E8F0"/>
+                        <rect x="62" y="112" width="40" height="4" rx="2" fill="#CBD5E1"/>
+                        <rect x="62" y="120" width="30" height="4" rx="2" fill="#E2E8F0"/>
+
+                        <!-- Shield Badge with Checkmark -->
+                        <g filter="drop-shadow(0 8px 16px rgba(0,75,238,0.3))">
+                            <path d="M175 42L145 54V80C145 98 158 114 175 119C192 114 205 98 205 80V54L175 42Z" fill="#1D4ED8"/>
+                            <path d="M175 46L149 57V80C149 95 160 109 175 114C190 109 201 95 201 80V57L175 46Z" fill="#2563EB"/>
+                            <path d="M164 80L171 87L186 71" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+
+                        <!-- Gold Coins Stack -->
+                        <g>
+                            <ellipse cx="140" cy="138" rx="16" ry="6" fill="#D97706"/>
+                            <rect x="124" y="132" width="32" height="6" fill="#F59E0B"/>
+                            <ellipse cx="140" cy="132" rx="16" ry="6" fill="#FCD34D"/>
+
+                            <ellipse cx="140" cy="128" rx="16" ry="6" fill="#D97706"/>
+                            <rect x="124" y="122" width="32" height="6" fill="#F59E0B"/>
+                            <ellipse cx="140" cy="122" rx="16" ry="6" fill="#FDE68A"/>
+
+                            <ellipse cx="140" cy="118" rx="16" ry="6" fill="#D97706"/>
+                            <rect x="124" y="112" width="32" height="6" fill="#F59E0B"/>
+                            <ellipse cx="140" cy="112" rx="16" ry="6" fill="#FEF08A"/>
+
+                            <!-- Coin on the side -->
+                            <ellipse cx="160" cy="136" rx="12" ry="5" fill="#D97706"/>
+                            <rect x="148" y="131" width="24" height="5" fill="#F59E0B"/>
+                            <ellipse cx="160" cy="131" rx="12" ry="5" fill="#FDE68A"/>
+                        </g>
+
+                        <!-- Potted Plant on Right -->
+                        <g>
+                            <!-- Pot -->
+                            <path d="M225 125L228 145H242L245 125H225Z" fill="#E2E8F0" stroke="#94A3B8" stroke-width="1.5"/>
+                            <!-- Leaves -->
+                            <path d="M235 125C235 110 248 100 248 100C248 100 248 115 235 125Z" fill="#16A34A"/>
+                            <path d="M235 125C235 112 222 105 222 105C222 105 224 118 235 125Z" fill="#22C55E"/>
+                            <path d="M235 125C235 105 238 90 238 90C238 90 244 105 235 125Z" fill="#15803D"/>
+                        </g>
+                    </svg>
                 </div>
             </div>
         </div>
@@ -74,7 +124,7 @@
                             <div class="pricing-price-wrap">
                                 <div class="price-amount text-green">₹0</div>
                                 <div class="price-duration">/ 3 Months</div>
-                                <div class="price-subtag-green">(Completely Free)</div>
+                                <div class="price-subtag-green">(बिल्कुल फ्री)</div>
                             </div>
 
                             <!-- Divider line -->
@@ -98,13 +148,13 @@
                                     <span class="check-icon check-green">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                     </span>
-                                    <span>Limited on District Page</span>
+                                    <span>District Page पर Limited</span>
                                 </li>
                                 <li>
                                     <span class="check-icon check-green">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                     </span>
-                                    <span>Listed on City Page</span>
+                                    <span>City Page पर List</span>
                                 </li>
                                 <li>
                                     <span class="check-icon check-green">
@@ -169,7 +219,7 @@
                                     <span class="check-icon check-blue">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                     </span>
-                                    <span>Listed on City Page</span>
+                                    <span>City Page पर Show</span>
                                 </li>
                                 <li>
                                     <span class="check-icon check-blue">
@@ -239,7 +289,7 @@
                                     <span class="check-icon check-orange">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                     </span>
-                                    <span>Highlighted on City Page</span>
+                                    <span>City Page पर Highlight</span>
                                 </li>
                                 <li>
                                     <span class="check-icon check-orange">
@@ -427,7 +477,7 @@
                                 </svg>
                             </div>
                             <div class="pf-text-wrap">
-                                <h3 class="pf-title">Full Support</h3>
+                                <h3 class="pf-title">Call Support Available</h3>
                                 <p class="pf-subtitle">Always Here to Support You</p>
                             </div>
                         </div>

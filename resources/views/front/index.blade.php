@@ -915,7 +915,7 @@
                         <select name="district" id="mDistrictSelect" class="m-select-box">
                             <option value="">Search district</option>
                             @foreach(collect($district ?? [])->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $d)
-                                <option value="{{ $d->id }}" {{ (request('district') == $d->id || (empty(request('district')) && $d->name == 'Jaipur')) ? 'selected' : '' }}>{{ $d->name }}</option>
+                                <option value="{{ $d->id }}" {{ request('district') == $d->id ? 'selected' : '' }}>{{ $d->name }}</option>
                             @endforeach
                         </select>
                         <svg class="m-field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
@@ -1173,7 +1173,7 @@
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2H3z"></path></svg>
                     </div>
                     <div class="m-why-content">
-                        <h4 class="m-why-item-title">Full Support Available</h4>
+                        <h4 class="m-why-item-title">Call Support Available</h4>
                         <p class="m-why-item-desc">हमेशा आपकी मदद के लिए तैयार</p>
                     </div>
                 </div>
@@ -1345,7 +1345,7 @@
     <!-- Mobile District Cards Grid Section -->
     <section class="m-district-section">
         <div class="m-district-header">
-            <h2 class="m-district-title">Rajasthan के Capital District</h2>
+            <h2 class="m-district-title">Important Cities</h2>
             <a href="{{ route('front.vendorlist') }}" class="m-district-link">सभी जिले देखें &rarr;</a>
         </div>
 
@@ -1586,8 +1586,8 @@
             </div>
             <div class="m-metric-col">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2H3z"></path></svg>
-                <span class="m-mval">FULL</span>
-                <span class="m-mlbl">Support</span>
+                <span class="m-mval" style="font-size: 13px;">Call</span>
+                <span class="m-mlbl">Support Available</span>
             </div>
         </div>
     </section>
@@ -1599,19 +1599,6 @@
             Agent 24 India एक ऐसा Platform है जो Agents और Businesses को एक साथ जोड़ता है। हमारा मिशन है - सही Agent को सही Customers तक पहुँचाना और Business Growth को आसान बनाना।
         </p>
         <a href="{{ route('front.aboutus') }}" class="m-btn-about-more">और पढ़ें &rarr;</a>
-    </section>
-
-    <!-- Mobile Newsletter Box Section -->
-    <section class="m-newsletter-section">
-        <div class="m-newsletter-card">
-            <h2 class="m-news-title">हमसे जुड़े रहें</h2>
-            <p class="m-news-subtext">नए अपडेट और ऑफर्स के लिए हमारे साथ जुड़ें।</p>
-
-            <form class="m-news-form" onsubmit="event.preventDefault(); alert('Subscribed successfully!');">
-                <input type="email" class="m-news-input" placeholder="अपना Email Address" required>
-                <button type="submit" class="m-news-btn" aria-label="Subscribe">&rarr;</button>
-            </form>
-        </div>
     </section>
 
 </div>
@@ -1705,7 +1692,7 @@
                             <select class="custom-select select2-district" name="district" id="districtSelect">
                                 <option value="">Search district</option>
                                 @foreach(collect($district ?? [])->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $d)
-                                    <option value="{{ $d->id }}" {{ (request('district') == $d->id || (empty(request('district')) && $d->name == 'Jaipur')) ? 'selected' : '' }}>{{ $d->name }}</option>
+                                    <option value="{{ $d->id }}" {{ request('district') == $d->id ? 'selected' : '' }}>{{ $d->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -1853,8 +1840,8 @@
                     </svg>
                 </div>
                 <div class="stat-text-group">
-                    <span class="stat-number">FULL</span>
-                    <span class="stat-label">Support</span>
+                    <span class="stat-number" style="font-size: 15px;">Call</span>
+                    <span class="stat-label">Support Available</span>
                 </div>
             </div>
         </div>
@@ -2167,7 +2154,7 @@
                             </svg>
                         </div>
                         <div class="custom-why-text">
-                            <h3 class="custom-why-head">Full Support</h3>
+                            <h3 class="custom-why-head">Call Support Available</h3>
                             <p class="custom-why-sub">हमेशा आपकी मदद के लिए तैयार</p>
                         </div>
                     </div>

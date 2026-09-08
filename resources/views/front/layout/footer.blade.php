@@ -87,6 +87,140 @@
 </footer>
 <!-- Footer End -->
 
+<!-- Mobile Bottom Navigation Bar Start -->
+<div class="mobile-bottom-nav" id="mobileBottomNav">
+    <!-- 1. Home -->
+    <a href="{{ route('front.home') }}" class="mob-nav-item {{ request()->routeIs('front.home') || request()->routeIs('front.index') ? 'active' : '' }}">
+        <div class="mob-nav-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+        </div>
+        <span class="mob-nav-label">Home</span>
+    </a>
+
+    <!-- 2. Special Offers -->
+    <a href="{{ route('front.price') }}" class="mob-nav-item {{ request()->routeIs('front.price') ? 'active' : '' }}">
+        <div class="mob-nav-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.65-.5-.65C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1h-2.22l.8-1.08C13.84 4.37 14.39 4 15 4zM9 4c.61 0 1.16.37 1.42.92L11.22 6H9c-.55 0-1-.45-1-1s.45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76V14h2V8.76L15.38 12 17 10.83 14.92 8H20v6z"/>
+            </svg>
+        </div>
+        <span class="mob-nav-label">Special Offers</span>
+    </a>
+
+    <!-- 3. Direct Agent -->
+    <a href="{{ route('front.vendorlist') }}" class="mob-nav-item {{ request()->routeIs('front.vendorlist*') && !request()->has('type') ? 'active' : '' }}">
+        <div class="mob-nav-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+            </svg>
+        </div>
+        <span class="mob-nav-label">Direct Agent</span>
+    </a>
+
+    <!-- 4. Area Agent (Highlighted Pill Card) -->
+    <a href="{{ route('front.vendorlist') }}" class="mob-nav-item mob-nav-pill-btn">
+        <div class="mob-nav-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+        </div>
+        <span class="mob-nav-label">Area Agent</span>
+    </a>
+</div>
+
+<style>
+    /* Mobile Bottom Navigation Styles */
+    .mobile-bottom-nav {
+        display: none;
+    }
+
+    @media (max-width: 991px) {
+        body {
+            padding-bottom: 68px !important;
+        }
+
+        .mobile-bottom-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: #FFFFFF;
+            border-top: 1px solid #E2E8F0;
+            box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+            z-index: 9999;
+            padding: 4px 8px;
+        }
+
+        .mob-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #475569;
+            gap: 2px;
+            flex: 1;
+            padding: 4px 6px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .mob-nav-item .mob-nav-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: inherit;
+        }
+
+        .mob-nav-item .mob-nav-label {
+            font-size: 11px;
+            font-weight: 600;
+            line-height: 1.1;
+            color: inherit;
+            white-space: nowrap;
+        }
+
+        .mob-nav-item:hover,
+        .mob-nav-item.active {
+            color: #004BEE;
+        }
+
+        /* Highlighted Area Agent Blue Pill Button */
+        .mob-nav-item.mob-nav-pill-btn {
+            background: #004BEE;
+            color: #FFFFFF !important;
+            border-radius: 12px;
+            padding: 6px 12px;
+            flex: 0 0 auto;
+            min-width: 76px;
+            box-shadow: 0 4px 12px rgba(0, 75, 238, 0.35);
+        }
+
+        .mob-nav-item.mob-nav-pill-btn .mob-nav-label {
+            color: #FFFFFF !important;
+            font-weight: 700;
+            font-size: 11.5px;
+        }
+
+        .mob-nav-item.mob-nav-pill-btn .mob-nav-icon {
+            color: #FFFFFF !important;
+        }
+
+        .mob-nav-item.mob-nav-pill-btn:hover {
+            background: #0036B8;
+            transform: translateY(-1px);
+        }
+    }
+</style>
+<!-- Mobile Bottom Navigation Bar End -->
+
 <!-- ========================= scroll-top ========================= -->
 <a href="#" class="scroll-top btn-hover">
     <i class="lni lni-chevron-up"></i>

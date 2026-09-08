@@ -747,7 +747,7 @@
                                     </svg>
                                 </div>
                                 <div class="why-feature-text">
-                                    <h4 class="why-feature-heading">Full Support</h4>
+                                    <h4 class="why-feature-heading">Call Support Available</h4>
                                     <p class="why-feature-desc">Our support team is always here to help you.</p>
                                 </div>
                             </div>

@@ -288,7 +288,7 @@
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                         <circle cx="12" cy="10" r="3"></circle>
                     </svg>
-                    <input type="text" id="location_search" class="vl-input" placeholder="Search District..." autocomplete="off" value="{{ $selectedDistrict ? $selectedDistrict->name : '' }}">
+                    <input type="text" id="location_search" class="vl-input" placeholder="Search district" autocomplete="off" value="{{ $selectedDistrict ? $selectedDistrict->name : '' }}">
 
                     <div id="searchResults" class="search-results" style="display:none;">
                         @foreach(collect($districtList ?? $district ?? [])->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $value)

@@ -167,7 +167,7 @@
                             </svg>
                         </div>
                         <div class="blue-banner-info">
-                            <h3 class="blue-banner-head">Full Support</h3>
+                            <h3 class="blue-banner-head">Call Support Available</h3>
                             <p class="blue-banner-sub">Dedicated support team always available</p>
                         </div>
                     </div>

@@ -63,8 +63,8 @@ class HomeController extends Controller
 
         $district = District::select('id', 'name', 'image', 'is_home')->where('status', 1)->orderBy('name', 'asc')->get();
 
-        $defaultDistrict = $district->where('name', 'Jaipur')->first() ?? $district->first();
-        $initialCities = $defaultDistrict ? City::select('id', 'name', 'district_id')->where('district_id', $defaultDistrict->id)->where('status', 1)->orderBy('name', 'asc')->get() : collect();
+        $selectedDistrictId = request('district');
+        $initialCities = $selectedDistrictId ? City::select('id', 'name', 'district_id')->where('district_id', $selectedDistrictId)->where('status', 1)->orderBy('name', 'asc')->get() : collect();
         $this->viewData['initialCities'] = $initialCities;
 
         $paidlisting = Advertisment::where('status', 1)->whereDate('expiry_date', '>=', Carbon::today())->limit(10)->get();
@@ -569,21 +569,37 @@ class HomeController extends Controller
         // 9. Advertisements
         $topadvertismentsQuery = Advertisment::where('status', 1)->where('sub_type', 'top');
         if (!empty($location)) {
-            $topadvertismentsQuery->where('district', $location);
+            $topadvertismentsQuery->where(function($q) use ($location) {
+                $q->where('district', $location)->orWhereNull('district')->orWhere('district', '');
+            });
         }
         if (!empty($category)) {
-            $topadvertismentsQuery->where('category', $category);
+            $topadvertismentsQuery->where(function($q) use ($category) {
+                $q->where('category', $category)->orWhereNull('category')->orWhere('category', '');
+            });
         }
-        $topadvertisments = $topadvertismentsQuery->limit(5)->get();
+        $topadvertisments = $topadvertismentsQuery->orderBy('id', 'desc')->limit(10)->get();
+
+        if ($topadvertisments->isEmpty()) {
+            $topadvertisments = Advertisment::where('status', 1)->where('sub_type', 'top')->orderBy('id', 'desc')->limit(10)->get();
+        }
 
         $sideadvertismentsQuery = Advertisment::where('status', 1)->where('sub_type', 'side');
         if (!empty($location)) {
-            $sideadvertismentsQuery->where('district', $location);
+            $sideadvertismentsQuery->where(function($q) use ($location) {
+                $q->where('district', $location)->orWhereNull('district')->orWhere('district', '');
+            });
         }
         if (!empty($category)) {
-            $sideadvertismentsQuery->where('category', $category);
+            $sideadvertismentsQuery->where(function($q) use ($category) {
+                $q->where('category', $category)->orWhereNull('category')->orWhere('category', '');
+            });
         }
-        $sideadvertisments = $sideadvertismentsQuery->limit(5)->get();
+        $sideadvertisments = $sideadvertismentsQuery->orderBy('id', 'desc')->limit(10)->get();
+
+        if ($sideadvertisments->isEmpty()) {
+            $sideadvertisments = Advertisment::where('status', 1)->where('sub_type', 'side')->orderBy('id', 'desc')->limit(10)->get();
+        }
 
         return [
             'pageTitle'              => ($selectedSubCategoryObj ? $selectedSubCategoryObj->name . ' Agents' : ($selectedCategoryObj ? $selectedCategoryObj->name . ' Agents' : 'Verified Agents')) . ($selectedDistrict ? ' in ' . $selectedDistrict->name : ''),

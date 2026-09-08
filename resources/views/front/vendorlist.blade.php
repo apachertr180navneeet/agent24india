@@ -402,168 +402,125 @@
         min-width: 0;
     }
 
-    /* Premium Banner Ad Hero */
-    .vl-premium-banner {
+    /* Clean Image Banner Slider with Counter */
+    .vl-pb-slider-container {
         position: relative;
-        background: linear-gradient(135deg, #05102A 0%, #0A1B44 40%, #0E2963 100%);
-        border-radius: 18px;
+        border-radius: 16px;
         overflow: hidden;
-        padding: 24px 28px;
-        color: #FFFFFF;
-        box-shadow: 0 10px 30px rgba(11, 25, 72, 0.15);
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        min-height: 200px;
-    }
-
-    .vl-pb-content {
-        position: relative;
-        z-index: 2;
-        max-width: 60%;
-    }
-
-    .vl-pb-badge {
-        display: inline-block;
-        background: #FFB800;
-        color: #0F172A;
-        font-size: 10.5px;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        padding: 3px 9px;
-        border-radius: 4px;
-        margin-bottom: 8px;
-    }
-
-    .vl-pb-title {
-        font-size: 24px;
-        font-weight: 800;
-        line-height: 1.25;
-        margin-bottom: 4px;
-        color: #FFFFFF;
-    }
-
-    .vl-pb-subtitle {
-        font-size: 13.5px;
-        color: #94A3B8;
-        margin-bottom: 16px;
-    }
-
-    .vl-pb-features {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        flex-wrap: wrap;
         margin-bottom: 18px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+        background: #081432;
     }
 
-    .vl-pb-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        font-size: 11px;
-        font-weight: 600;
-        color: #E2E8F0;
-    }
-
-    .vl-pb-pill-icon {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: rgba(0, 75, 238, 0.4);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #60A5FA;
-        font-size: 11px;
-    }
-
-    .vl-pb-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: #FFB800;
-        color: #0F172A !important;
-        font-size: 13px;
-        font-weight: 800;
-        padding: 9px 20px;
-        border-radius: 30px;
-        text-decoration: none;
-        transition: transform 0.2s, background 0.2s;
-        box-shadow: 0 4px 14px rgba(255, 184, 0, 0.35);
-    }
-
-    .vl-pb-btn:hover {
-        transform: translateY(-1px);
-        background: #E5A600;
-    }
-
-    .vl-pb-visual {
-        position: absolute;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        width: 46%;
-        z-index: 1;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-    }
-
-    .vl-pb-visual img {
-        height: 100%;
+    .vl-pb-slides-wrapper {
+        position: relative;
         width: 100%;
+    }
+
+    .vl-pb-slide {
+        width: 100%;
+    }
+
+    .vl-pb-slide-link {
+        display: block;
+        width: 100%;
+        line-height: 0;
+        text-decoration: none;
+    }
+
+    .vl-pb-full-img {
+        width: 100%;
+        height: 190px;
         object-fit: cover;
-        mask-image: linear-gradient(to right, transparent 0%, black 40%);
-        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 40%);
+        display: block;
+        transition: transform 0.3s ease;
+    }
+
+    .vl-pb-slide-link:hover .vl-pb-full-img {
+        transform: scale(1.01);
     }
 
     .vl-pb-arrow {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        width: 32px;
-        height: 32px;
+        width: 34px;
+        height: 34px;
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.85);
+        background: rgba(255, 255, 255, 0.88);
         color: #0F172A;
         border: none;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        z-index: 5;
-        transition: background 0.2s;
+        z-index: 10;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
     }
+
     .vl-pb-arrow:hover {
         background: #FFFFFF;
+        transform: translateY(-50%) scale(1.08);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
-    .vl-pb-arrow.left { left: 10px; }
-    .vl-pb-arrow.right { right: 10px; }
+
+    .vl-pb-arrow.pb-prev {
+        left: 14px;
+    }
+
+    .vl-pb-arrow.pb-next {
+        right: 14px;
+    }
+
+    .vl-pb-bottom-bar {
+        position: absolute;
+        bottom: 12px;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        z-index: 10;
+        pointer-events: none;
+    }
 
     .vl-pb-dots {
-        position: absolute;
-        bottom: 10px;
-        left: 50%;
-        transform: translateX(-50%);
         display: flex;
+        align-items: center;
         gap: 6px;
-        z-index: 5;
+        pointer-events: auto;
     }
 
     .vl-pb-dot {
-        width: 6px;
-        height: 6px;
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.45);
+        cursor: pointer;
+        transition: all 0.25s ease;
     }
+
     .vl-pb-dot.active {
         background: #FFFFFF;
-        width: 16px;
-        border-radius: 4px;
+        width: 22px;
+        border-radius: 6px;
+    }
+
+    .vl-pb-counter-badge {
+        background: rgba(15, 23, 42, 0.75);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        color: #FFFFFF;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        padding: 3.5px 11px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        pointer-events: auto;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
 
     /* Listing Header Results Stats */
@@ -924,12 +881,14 @@
     }
 
     .vl-vc-slider-controls {
-        display: none;
+        display: flex;
+        align-items: center;
+        gap: 6px;
     }
 
     .vl-vc-nav-btn {
-        width: 28px;
-        height: 28px;
+        width: 26px;
+        height: 26px;
         border-radius: 50%;
         background: #F1F5F9;
         border: 1px solid #E2E8F0;
@@ -940,6 +899,7 @@
         cursor: pointer;
         transition: all 0.2s;
         padding: 0;
+        font-size: 10px;
     }
 
     .vl-vc-nav-btn:hover {
@@ -958,124 +918,57 @@
         display: flex;
         flex-direction: column;
         gap: 12px;
-        max-height: 480px;
+        max-height: 520px;
         overflow-y: auto;
         scroll-behavior: smooth;
         scrollbar-width: none;
         -ms-overflow-style: none;
+        padding: 2px;
     }
     .vl-vc-list::-webkit-scrollbar {
         display: none;
     }
 
-    .vl-vc-item {
+    .vl-vc-item.vl-vc-image-card {
         background: #FFFFFF;
         border: 1px solid #E2E8F0;
         border-radius: 12px;
-        padding: 12px 14px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        padding: 6px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         position: relative;
         overflow: hidden;
-        display: flex;
-        gap: 12px;
-        align-items: center;
-        transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+        display: block;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         text-decoration: none;
     }
 
-    .vl-vc-item:hover {
+    .vl-vc-item.vl-vc-image-card:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 6px 18px rgba(0, 75, 238, 0.12);
         border-color: #BFDBFE;
     }
 
-    /* Diagonal Ribbon Fold on top-right */
-    .vl-vc-ribbon {
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-width: 0 38px 38px 0;
-        border-color: transparent var(--ribbon-bg, #F59E0B) transparent transparent;
-        z-index: 2;
-    }
-
-    .vl-vc-logo {
-        width: 50px;
-        height: 50px;
-        border-radius: 8px;
-        background: #0B1948;
-        color: #FFFFFF;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        font-weight: 800;
-        flex-shrink: 0;
-        overflow: hidden;
-        border: 1px solid #1E293B;
-    }
-
-    .vl-vc-logo img {
+    .vl-vc-img-link {
+        display: block;
         width: 100%;
-        height: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+        line-height: 0;
+        background: #F8FAFC;
+    }
+
+    .vl-vc-pure-img {
+        width: 100%;
+        height: auto;
+        max-height: 150px;
         object-fit: cover;
+        display: block;
+        border-radius: 8px;
+        transition: transform 0.3s ease;
     }
 
-    .vl-vc-info {
-        flex: 1;
-        min-width: 0;
-    }
-
-    .vl-vc-name {
-        font-size: 13.5px;
-        font-weight: 800;
-        color: var(--slate-dark);
-        margin-bottom: 2px;
-        line-height: 1.2;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .vl-vc-role {
-        font-size: 11.5px;
-        color: var(--slate-muted);
-        margin-bottom: 4px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .vl-vc-meta {
-        font-size: 11.5px;
-        color: var(--slate-body);
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        margin-bottom: 2px;
-        font-weight: 600;
-    }
-    .vl-vc-meta svg {
-        color: var(--primary-blue);
-        flex-shrink: 0;
-    }
-
-    .vl-vc-location {
-        font-size: 11px;
-        color: var(--slate-muted);
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    .vl-vc-location svg {
-        color: var(--primary-blue);
-        flex-shrink: 0;
+    .vl-vc-img-link:hover .vl-vc-pure-img {
+        transform: scale(1.02);
     }
 
     .vl-vc-view-all {
@@ -1225,163 +1118,12 @@
         }
 
         /* Desktop Banner Hero */
-        .vl-premium-banner {
-            position: relative !important;
-            background: #081432 !important;
-            border-radius: 18px !important;
-            overflow: hidden !important;
-            padding: 26px 30px 22px 30px !important;
-            color: #FFFFFF !important;
+        .vl-pb-slider-container {
             margin-bottom: 18px !important;
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            text-align: center !important;
-            box-shadow: 0 10px 30px rgba(11, 25, 72, 0.12) !important;
+            border-radius: 18px !important;
         }
-        .vl-pb-visual {
-            position: absolute !important;
-            right: 0 !important;
-            top: 0 !important;
-            bottom: 0 !important;
-            width: 55% !important;
-            z-index: 1 !important;
-            overflow: hidden !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: flex-end !important;
-            pointer-events: none !important;
-        }
-        .vl-pb-visual img {
-            height: 100% !important;
-            width: 100% !important;
-            object-fit: cover !important;
-            mask-image: linear-gradient(to right, transparent 0%, rgba(8, 20, 50, 0.5) 25%, black 65%) !important;
-            -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(8, 20, 50, 0.5) 25%, black 65%) !important;
-            opacity: 0.85 !important;
-        }
-        .vl-pb-badge {
-            position: relative !important;
-            z-index: 2 !important;
-            display: inline-block !important;
-            background: #F1B434 !important;
-            color: #081432 !important;
-            font-size: 11px !important;
-            font-weight: 800 !important;
-            padding: 4px 12px !important;
-            border-radius: 6px !important;
-            margin-bottom: 8px !important;
-            letter-spacing: 0.4px !important;
-            text-transform: uppercase !important;
-        }
-        .vl-pb-title {
-            position: relative !important;
-            z-index: 2 !important;
-            font-size: 22px !important;
-            font-weight: 800 !important;
-            color: #FFFFFF !important;
-            line-height: 1.25 !important;
-            margin: 0 0 4px 0 !important;
-        }
-        .vl-pb-subtitle {
-            position: relative !important;
-            z-index: 2 !important;
-            font-size: 13.5px !important;
-            font-weight: 600 !important;
-            color: #F1B434 !important;
-            margin: 0 0 16px 0 !important;
-        }
-        .vl-pb-features-row {
-            position: relative !important;
-            z-index: 2 !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 20px !important;
-            margin-bottom: 14px !important;
-            max-width: 520px !important;
-            width: 100% !important;
-        }
-        .vl-pb-nav-btn {
-            width: 28px !important;
-            height: 28px !important;
-            min-width: 28px !important;
-            border-radius: 50% !important;
-            background: #FFFFFF !important;
-            color: #081432 !important;
-            border: none !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            font-size: 11px !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
-            cursor: pointer !important;
-        }
-        .vl-pb-feature-item {
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            text-align: center !important;
-            gap: 4px !important;
-        }
-        .vl-pb-circle-icon {
-            width: 44px !important;
-            height: 44px !important;
-            border-radius: 50% !important;
-            background: #1B4BD8 !important;
-            color: #FFFFFF !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            font-size: 15px !important;
-            box-shadow: 0 3px 8px rgba(27, 75, 216, 0.35) !important;
-        }
-        .vl-pb-feature-label {
-            font-size: 10.5px !important;
-            font-weight: 700 !important;
-            color: #FFFFFF !important;
-            line-height: 1.2 !important;
-        }
-        .vl-pb-carousel-dots {
-            position: relative !important;
-            z-index: 2 !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 6px !important;
-            margin-bottom: 14px !important;
-        }
-        .vl-pb-dot {
-            width: 6px !important;
-            height: 6px !important;
-            border-radius: 50% !important;
-            border: 1.5px solid rgba(255, 255, 255, 0.7) !important;
-            background: transparent !important;
-            display: inline-block !important;
-        }
-        .vl-pb-dot.active {
-            background: #FFFFFF !important;
-            border-color: #FFFFFF !important;
-        }
-        .vl-pb-cta-btn {
-            position: relative !important;
-            z-index: 2 !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            background: #F1B434 !important;
-            color: #081432 !important;
-            font-size: 13.5px !important;
-            font-weight: 800 !important;
-            padding: 9px 28px !important;
-            border-radius: 8px !important;
-            text-decoration: none !important;
-            box-shadow: 0 3px 10px rgba(241, 180, 52, 0.3) !important;
-            transition: transform 0.2s, background 0.2s !important;
-        }
-        .vl-pb-cta-btn:hover {
-            background: #E5A600 !important;
-            transform: translateY(-1px) !important;
+        .vl-pb-full-img {
+            height: 200px !important;
         }
 
         /* Hide Mobile-only elements on desktop */
@@ -1856,165 +1598,30 @@
         }
 
         /* =========================================================
-           1. Top Premium Banner Ad (Matches Screenshot)
+           1. Top Banner Slider (Mobile)
         ========================================================= */
-        .vl-premium-banner {
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            text-align: center !important;
-            padding: 16px 12px 14px 12px !important;
-            border-radius: 14px !important;
-            margin-bottom: 14px !important;
-            min-height: auto !important;
-            background: #0B1736 !important;
-            box-shadow: 0 4px 16px rgba(11, 23, 54, 0.15) !important;
-            position: relative !important;
-            overflow: hidden !important;
-        }
-        .vl-pb-content {
-            max-width: 100% !important;
-            width: 100% !important;
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            text-align: center !important;
-        }
-        .vl-pb-badge {
-            display: inline-block !important;
-            background: #F1B434 !important;
-            color: #0B1736 !important;
-            font-size: 9px !important;
-            font-weight: 800 !important;
-            padding: 2.5px 8px !important;
-            border-radius: 4px !important;
-            margin-bottom: 6px !important;
-            letter-spacing: 0.3px !important;
-            text-transform: uppercase !important;
-        }
-        .vl-pb-title {
-            font-size: 15px !important;
-            font-weight: 800 !important;
-            color: #FFFFFF !important;
-            line-height: 1.25 !important;
-            margin: 0 0 3px 0 !important;
-            text-align: center !important;
-        }
-        .vl-pb-subtitle {
-            font-size: 11px !important;
-            font-weight: 700 !important;
-            color: #F1B434 !important;
-            margin: 0 0 10px 0 !important;
-            text-align: center !important;
-        }
-        .vl-pb-features-row {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: space-between !important;
-            width: 100% !important;
-            margin-bottom: 10px !important;
-            position: relative !important;
-            padding: 0 2px !important;
-        }
-        .vl-pb-nav-btn {
-            width: 24px !important;
-            height: 24px !important;
-            min-width: 24px !important;
-            border-radius: 50% !important;
-            background: #FFFFFF !important;
-            color: #0B1736 !important;
-            border: none !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            font-size: 9px !important;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
-            cursor: pointer !important;
-            z-index: 3 !important;
-        }
-        .vl-pb-feature-item {
-            flex: 1 !important;
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            text-align: center !important;
-            padding: 0 2px !important;
-        }
-        .vl-pb-circle-icon {
-            width: 36px !important;
-            height: 36px !important;
-            border-radius: 50% !important;
-            background: #1B4BD8 !important;
-            color: #FFFFFF !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            font-size: 13px !important;
-            margin-bottom: 4px !important;
-            box-shadow: 0 2px 6px rgba(27, 75, 216, 0.3) !important;
-        }
-        .vl-pb-feature-label {
-            font-size: 8.5px !important;
-            font-weight: 700 !important;
-            color: #FFFFFF !important;
-            line-height: 1.15 !important;
-            text-align: center !important;
-        }
-        .vl-pb-carousel-dots {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 5px !important;
+        .vl-pb-slider-container {
+            border-radius: 12px !important;
             margin-bottom: 12px !important;
         }
-        .vl-pb-dot {
-            width: 5px !important;
-            height: 5px !important;
-            border-radius: 50% !important;
-            border: 1px solid rgba(255, 255, 255, 0.7) !important;
-            background: transparent !important;
-            display: inline-block !important;
+        .vl-pb-full-img {
+            height: 125px !important;
+            border-radius: 12px !important;
         }
-        .vl-pb-dot.active {
-            background: #FFFFFF !important;
-            border-color: #FFFFFF !important;
+        .vl-pb-arrow {
+            width: 26px !important;
+            height: 26px !important;
+            font-size: 10px !important;
         }
-        .vl-pb-cta-btn {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            background: #F1B434 !important;
-            color: #0B1736 !important;
-            font-size: 12px !important;
-            font-weight: 800 !important;
-            height: 36px !important;
-            border-radius: 8px !important;
-            width: 100% !important;
-            text-decoration: none !important;
-            border: none !important;
-            box-shadow: 0 2px 8px rgba(241, 180, 52, 0.25) !important;
+        .vl-pb-arrow.pb-prev { left: 8px !important; }
+        .vl-pb-arrow.pb-next { right: 8px !important; }
+        .vl-pb-bottom-bar {
+            bottom: 8px !important;
+            padding: 0 10px !important;
         }
-        .vl-pb-visual {
-            display: block !important;
-            position: absolute !important;
-            right: 0 !important;
-            top: 0 !important;
-            bottom: 0 !important;
-            width: 100% !important;
-            z-index: 1 !important;
-            opacity: 0.22 !important;
-            pointer-events: none !important;
-        }
-        .vl-pb-visual img {
-            width: 100% !important;
-            height: 100% !important;
-            object-fit: cover !important;
-            mask-image: none !important;
-            -webkit-mask-image: none !important;
-        }
-        .vl-pb-arrow,
-        .vl-pb-dots {
-            display: none !important;
+        .vl-pb-counter-badge {
+            font-size: 9.5px !important;
+            padding: 2px 7px !important;
         }
 
         /* =========================================================
@@ -2783,126 +2390,72 @@
             -------------------------------------------------------------- -->
             <main class="vl-main-col">
 
-                <!-- Top Premium Banner Carousel (Dynamic with $topadvertisments + Category Promo) -->
+                <!-- Top Banner Carousel (Image & Counter Only) -->
+                @php
+                    $bannerSlidesList = [];
+                    if (isset($topadvertisments) && count($topadvertisments) > 0) {
+                        foreach ($topadvertisments as $topAd) {
+                            $adImg = !empty($topAd->image) ? (Str::startsWith($topAd->image, 'http') ? $topAd->image : asset($topAd->image)) : asset('front/assets/images/banner_night_city.jpg');
+                            $adLink = !empty($topAd->link) ? $topAd->link : route('front.addbanner');
+                            $bannerSlidesList[] = [
+                                'image'       => $adImg,
+                                'link'        => $adLink,
+                                'alt'         => $topAd->image_alt ?? 'Banner Ad',
+                                'is_external' => !empty($topAd->link) && Str::startsWith($topAd->link, 'http')
+                            ];
+                        }
+                    }
+                    
+                    if (empty($bannerSlidesList)) {
+                        $bannerSlidesList[] = [
+                            'image'       => asset('front/assets/images/banner_night_city.jpg'),
+                            'link'        => route('front.addbanner'),
+                            'alt'         => 'Promote Your Business',
+                            'is_external' => false
+                        ];
+                        $bannerSlidesList[] = [
+                            'image'       => asset('front/assets/images/index_hero_banner.png'),
+                            'link'        => route('front.addbanner'),
+                            'alt'         => 'Advertise with Us',
+                            'is_external' => false
+                        ];
+                    }
+                    $totalBannerSlidesCount = count($bannerSlidesList);
+                @endphp
+
                 <div class="vl-pb-slider-container" id="vlPbSliderContainer">
                     <div class="vl-pb-slides-wrapper" id="vlPbSlidesWrapper">
-                        
-                        <!-- Slide 1: Dynamic Stylized Category Promo Banner -->
-                        <div class="vl-pb-slide active" data-slide-index="0">
-                            <div class="vl-premium-banner">
-                                <div class="vl-pb-visual">
-                                    <img src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=900&q=80" alt="City Skyline">
-                                </div>
-
-                                <span class="vl-pb-badge">PREMIUM BANNER AD</span>
-                                <h2 class="vl-pb-title">Grow Your {{ $selectedCategoryObj ? $selectedCategoryObj->name : 'Real Estate' }} Business</h2>
-                                <div class="vl-pb-subtitle">Advertise with Premium Banner Ad in {{ $selectedDistrict ? $selectedDistrict->name : 'Jaipur' }}</div>
-
-                                <div class="vl-pb-features-row">
-                                    <button type="button" class="vl-pb-nav-btn pb-prev" aria-label="Previous">
-                                        <i class="fa-solid fa-chevron-left"></i>
-                                    </button>
-
-                                    <div class="vl-pb-feature-item">
-                                        <div class="vl-pb-circle-icon"><i class="fa-solid fa-eye"></i></div>
-                                        <span class="vl-pb-feature-label">High<br>Visibility</span>
-                                    </div>
-                                    <div class="vl-pb-feature-item">
-                                        <div class="vl-pb-circle-icon"><i class="fa-solid fa-users"></i></div>
-                                        <span class="vl-pb-feature-label">Targeted<br>Audience</span>
-                                    </div>
-                                    <div class="vl-pb-feature-item">
-                                        <div class="vl-pb-circle-icon"><i class="fa-solid fa-briefcase"></i></div>
-                                        <span class="vl-pb-feature-label">City<br>Wise Reach</span>
-                                    </div>
-                                    <div class="vl-pb-feature-item">
-                                        <div class="vl-pb-circle-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
-                                        <span class="vl-pb-feature-label">Boost<br>Your Business</span>
-                                    </div>
-
-                                    <button type="button" class="vl-pb-nav-btn pb-next" aria-label="Next">
-                                        <i class="fa-solid fa-chevron-right"></i>
-                                    </button>
-                                </div>
-
-                                <!-- 5 Dots -->
-                                <div class="vl-pb-carousel-dots">
-                                    <span class="vl-pb-dot active" data-dot-index="0"></span>
-                                    <span class="vl-pb-dot" data-dot-index="1"></span>
-                                    <span class="vl-pb-dot" data-dot-index="2"></span>
-                                    <span class="vl-pb-dot" data-dot-index="3"></span>
-                                    <span class="vl-pb-dot" data-dot-index="4"></span>
-                                </div>
-
-                                <a href="{{ route('front.addbanner') }}" class="vl-pb-cta-btn">
-                                    Book Banner Ad
+                        @foreach($bannerSlidesList as $idx => $bSlide)
+                            <div class="vl-pb-slide {{ $idx === 0 ? 'active' : '' }}" data-slide-index="{{ $idx }}" style="{{ $idx === 0 ? '' : 'display: none;' }}">
+                                <a href="{{ $bSlide['link'] }}" class="vl-pb-slide-link" @if($bSlide['is_external']) target="_blank" @endif>
+                                    <img src="{{ $bSlide['image'] }}" alt="{{ $bSlide['alt'] }}" class="vl-pb-full-img" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/banner_night_city.jpg') }}';">
                                 </a>
                             </div>
-                        </div>
+                        @endforeach
+                    </div>
 
-                        <!-- Dynamic Advertisements from Database ($topadvertisments) -->
-                        @if(isset($topadvertisments) && count($topadvertisments) > 0)
-                            @foreach($topadvertisments as $idx => $topAd)
-                                @php
-                                    $adImg = !empty($topAd->image) ? (Str::startsWith($topAd->image, 'http') ? $topAd->image : asset($topAd->image)) : 'https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=900&q=80';
-                                    $adLink = !empty($topAd->link) ? $topAd->link : route('front.addbanner');
-                                    $adTitle = !empty($topAd->title) ? $topAd->title : ($selectedCategoryObj ? $selectedCategoryObj->name . ' Services' : 'Verified Services in ' . ($selectedDistrict ? $selectedDistrict->name : 'Jaipur'));
-                                    $adSubtitle = !empty($topAd->subtitle) ? $topAd->subtitle : 'Connect with top verified professionals';
-                                @endphp
-                                <div class="vl-pb-slide" data-slide-index="{{ $idx + 1 }}" style="display: none;">
-                                    <div class="vl-premium-banner">
-                                        <div class="vl-pb-visual">
-                                            <img src="{{ $adImg }}" alt="{{ $topAd->image_alt ?? 'Top Ad' }}">
-                                        </div>
+                    <!-- Navigation Arrows -->
+                    @if($totalBannerSlidesCount > 1)
+                        <button type="button" class="vl-pb-arrow pb-prev" aria-label="Previous Slide">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <button type="button" class="vl-pb-arrow pb-next" aria-label="Next Slide">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    @endif
 
-                                        <span class="vl-pb-badge">FEATURED PARTNER</span>
-                                        <h2 class="vl-pb-title">{{ $adTitle }}</h2>
-                                        <div class="vl-pb-subtitle">{{ $adSubtitle }}</div>
-
-                                        <div class="vl-pb-features-row">
-                                            <button type="button" class="vl-pb-nav-btn pb-prev" aria-label="Previous">
-                                                <i class="fa-solid fa-chevron-left"></i>
-                                            </button>
-
-                                            <div class="vl-pb-feature-item">
-                                                <div class="vl-pb-circle-icon"><i class="fa-solid fa-star"></i></div>
-                                                <span class="vl-pb-feature-label">Top<br>Rated</span>
-                                            </div>
-                                            <div class="vl-pb-feature-item">
-                                                <div class="vl-pb-circle-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                                                <span class="vl-pb-feature-label">100%<br>Verified</span>
-                                            </div>
-                                            <div class="vl-pb-feature-item">
-                                                <div class="vl-pb-circle-icon"><i class="fa-solid fa-bolt"></i></div>
-                                                <span class="vl-pb-feature-label">Quick<br>Response</span>
-                                            </div>
-                                            <div class="vl-pb-feature-item">
-                                                <div class="vl-pb-circle-icon"><i class="fa-solid fa-award"></i></div>
-                                                <span class="vl-pb-feature-label">Best<br>Deals</span>
-                                            </div>
-
-                                            <button type="button" class="vl-pb-nav-btn pb-next" aria-label="Next">
-                                                <i class="fa-solid fa-chevron-right"></i>
-                                            </button>
-                                        </div>
-
-                                        <!-- 5 Dots -->
-                                        <div class="vl-pb-carousel-dots">
-                                            <span class="vl-pb-dot" data-dot-index="0"></span>
-                                            <span class="vl-pb-dot {{ $idx == 0 ? 'active' : '' }}" data-dot-index="1"></span>
-                                            <span class="vl-pb-dot {{ $idx == 1 ? 'active' : '' }}" data-dot-index="2"></span>
-                                            <span class="vl-pb-dot {{ $idx == 2 ? 'active' : '' }}" data-dot-index="3"></span>
-                                            <span class="vl-pb-dot {{ $idx >= 3 ? 'active' : '' }}" data-dot-index="4"></span>
-                                        </div>
-
-                                        <a href="{{ $adLink }}" class="vl-pb-cta-btn">
-                                            Inquire Now
-                                        </a>
-                                    </div>
-                                </div>
-                            @endforeach
+                    <!-- Slide Counter & Dots Overlay -->
+                    <div class="vl-pb-bottom-bar">
+                        @if($totalBannerSlidesCount > 1)
+                            <div class="vl-pb-dots">
+                                @foreach($bannerSlidesList as $idx => $bSlide)
+                                    <span class="vl-pb-dot {{ $idx === 0 ? 'active' : '' }}" data-dot-index="{{ $idx }}"></span>
+                                @endforeach
+                            </div>
                         @endif
-
+                        <div class="vl-pb-counter-badge">
+                            <span id="vlPbActiveCount">1</span> / <span id="vlPbTotalCount">{{ $totalBannerSlidesCount }}</span>
+                        </div>
                     </div>
                 </div>
 
@@ -2972,10 +2525,12 @@
                             <div class="vl-card-header-top">
                                 <!-- Left: Logo / Photo with Verified Badge -->
                                 <div class="vl-card-photo-box">
-                                    <span class="vl-card-badge-verified">
-                                        <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                        VERIFIED
-                                    </span>
+                                    @if(!empty($vendor->is_approved) && $vendor->is_approved == 1)
+                                        <span class="vl-card-badge-verified">
+                                            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                            VERIFIED
+                                        </span>
+                                    @endif
                                     <img src="{{ $vendorPhoto }}" alt="{{ $businessName }}" onerror="this.onerror=null; this.src='{{ asset('images/images.png') }}';">
                                 </div>
 
@@ -2987,20 +2542,24 @@
                                                 {{ $businessName }}
                                             </a>
                                         </h3>
-                                        <!-- Blue Verified Checkmark Icon -->
-                                        <svg class="vl-blue-tick" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                            <circle cx="12" cy="12" r="10" fill="#004BEE"/>
-                                            <path d="M8 12l2.5 2.5L16 9" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
+                                        @if(!empty($vendor->is_approved) && $vendor->is_approved == 1)
+                                            <!-- Green Verified Checkmark Icon -->
+                                            <svg class="vl-blue-tick" width="16" height="16" viewBox="0 0 24 24" fill="none" title="Verified Agent">
+                                                <circle cx="12" cy="12" r="10" fill="#16A34A"/>
+                                                <path d="M8 12l2.5 2.5L16 9" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        @endif
                                     </div>
 
-                                    <!-- Blue Verified Checkmark Icon for Mobile -->
-                                    <div class="vl-card-blue-tick-row">
-                                        <svg class="vl-blue-tick" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                            <circle cx="12" cy="12" r="10" fill="#004BEE"/>
-                                            <path d="M8 12l2.5 2.5L16 9" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
-                                    </div>
+                                    @if(!empty($vendor->is_approved) && $vendor->is_approved == 1)
+                                        <!-- Green Verified Checkmark Icon for Mobile -->
+                                        <div class="vl-card-blue-tick-row">
+                                            <svg class="vl-blue-tick" width="16" height="16" viewBox="0 0 24 24" fill="none" title="Verified Agent">
+                                                <circle cx="12" cy="12" r="10" fill="#16A34A"/>
+                                                <path d="M8 12l2.5 2.5L16 9" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                    @endif
 
                                     <!-- Star Rating -->
                                     <div class="vl-card-rating-row">
@@ -3163,69 +2722,74 @@
             </main>
 
             <!-- -------------------------------------------------------------
-                 Right Column: Visiting Card Ad Space (Slider)
+                 Right Column: Visiting Card Ad Space (Backend Connected - Image Only)
             -------------------------------------------------------------- -->
+            @php
+                $sideAdsList = [];
+                if (isset($sideadvertisments) && count($sideadvertisments) > 0) {
+                    foreach ($sideadvertisments as $sideAd) {
+                        $sideImg = !empty($sideAd->image) ? (Str::startsWith($sideAd->image, 'http') ? $sideAd->image : asset($sideAd->image)) : asset('front/assets/images/sidebanner/sidebanner1.jpg');
+                        $sideLink = !empty($sideAd->link) ? $sideAd->link : route('front.addbanner');
+                        $sideAdsList[] = [
+                            'image'       => $sideImg,
+                            'link'        => $sideLink,
+                            'alt'         => $sideAd->image_alt ?? ($sideAd->bussines_name ?? 'Visiting Card Ad'),
+                            'is_external' => !empty($sideAd->link) && Str::startsWith($sideAd->link, 'http')
+                        ];
+                    }
+                }
+
+                // Fallback sample cards if none in database
+                if (empty($sideAdsList)) {
+                    $sideAdsList[] = [
+                        'image'       => asset('front/assets/images/sidebanner/sidebanner1.jpg'),
+                        'link'        => route('front.addbanner'),
+                        'alt'         => 'Visiting Card Ad',
+                        'is_external' => false
+                    ];
+                    $sideAdsList[] = [
+                        'image'       => asset('front/assets/images/sidebanner/sidebanner2.jpg'),
+                        'link'        => route('front.addbanner'),
+                        'alt'         => 'Visiting Card Ad',
+                        'is_external' => false
+                    ];
+                    $sideAdsList[] = [
+                        'image'       => asset('front/assets/images/sidebanner/sidebanner3.jpg'),
+                        'link'        => route('front.addbanner'),
+                        'alt'         => 'Visiting Card Ad',
+                        'is_external' => false
+                    ];
+                }
+            @endphp
+
             <aside class="vl-visiting-sidebar">
                 <div class="vl-visiting-card-container">
                     
                     <div class="vl-visiting-header">
                         <div class="vl-visiting-title-wrap">
-                            <h4 class="vl-visiting-title">AREA AGENT</h4>
-                            <span class="vl-visiting-slots">10 Slots Available</span>
+                            <h4 class="vl-visiting-title">VISITING CARDS</h4>
+                            <span class="vl-visiting-slots">{{ count($sideAdsList) }} Ads Active</span>
+                        </div>
+                        <div class="vl-vc-slider-controls">
+                            <button type="button" class="vl-vc-nav-btn" id="vcPrevBtn" aria-label="Previous"><i class="fa-solid fa-chevron-up"></i></button>
+                            <button type="button" class="vl-vc-nav-btn" id="vcNextBtn" aria-label="Next"><i class="fa-solid fa-chevron-down"></i></button>
                         </div>
                     </div>
 
                     <div class="vl-vc-slider-wrapper">
                         <div class="vl-vc-list" id="vcSliderTrack">
-                            @foreach($visitingCards as $vc)
-                                @php
-                                    $vcName = $vc->business_name ?: $vc->name;
-                                    $cleanVcMobile = !empty($vc->mobile) ? preg_replace('/[^0-9]/', '', $vc->mobile) : '9827654321';
-                                    $vcMobile = '+91 ' . $cleanVcMobile;
-                                    $vcAddress = $vc->business_address ?: ($selectedDistrict ? $selectedDistrict->name . ', Jaipur' : 'Vaishali Nagar, Jaipur');
-                                    $vcInitials = strtoupper(substr($vcName, 0, 2));
-                                    $vcRibbonColor = $vc->ribbon_color ?? '#F59E0B';
-                                @endphp
-
-                                <a href="{{ route('front.vendor.details', ['vendor' => $vc->id]) }}" class="vl-vc-item" style="--ribbon-bg: {{ $vcRibbonColor }};">
-                                    <!-- Corner Fold Ribbon -->
-                                    <div class="vl-vc-ribbon"></div>
-
-                                    <!-- Square Logo Box -->
-                                    <div class="vl-vc-logo">
-                                        @if(!empty($vc->profile_photo))
-                                            <img src="{{ $vc->profile_photo_url }}" alt="{{ $vcName }}" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='block';">
-                                            <span style="display:none;">{{ $vcInitials }}</span>
-                                        @else
-                                            <span>{{ $vcInitials }}</span>
-                                        @endif
-                                    </div>
-
-                                    <!-- Card Details -->
-                                    <div class="vl-vc-info">
-                                        <div class="vl-vc-name" title="{{ $vcName }}">{{ $vcName }}</div>
-                                        <div class="vl-vc-role">{{ $vc->designation ?? 'Real Estate Consultant' }}</div>
-                                        <div class="vl-vc-meta">
-                                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#DB2777" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                                            </svg>
-                                            <span>{{ $vcMobile }}</span>
-                                        </div>
-                                        <div class="vl-vc-location">
-                                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#DB2777" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                                <circle cx="12" cy="10" r="3"></circle>
-                                            </svg>
-                                            <span>{{ Str::limit($vcAddress, 18) }}</span>
-                                        </div>
-                                    </div>
-                                </a>
+                            @foreach($sideAdsList as $vc)
+                                <div class="vl-vc-item vl-vc-image-card">
+                                    <a href="{{ $vc['link'] }}" class="vl-vc-img-link" @if($vc['is_external']) target="_blank" @endif>
+                                        <img src="{{ $vc['image'] }}" alt="{{ $vc['alt'] }}" class="vl-vc-pure-img" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/sidebanner/sidebanner1.jpg') }}';">
+                                    </a>
+                                </div>
                             @endforeach
                         </div>
                     </div>
 
                     <a href="{{ route('front.addbanner') }}" class="vl-vc-view-all">
-                        <span>और देखें सभी →</span>
+                        <span>+ Book Visiting Card Ad</span>
                     </a>
 
                 </div>
@@ -3551,7 +3115,10 @@
 
             // Update dots
             $('.vl-pb-dot').removeClass('active');
-            $('.vl-pb-dot[data-dot-index="' + (currentBannerIndex % 5) + '"]').addClass('active');
+            $('.vl-pb-dot[data-dot-index="' + currentBannerIndex + '"]').addClass('active');
+
+            // Update counter badge
+            $('#vlPbActiveCount').text(currentBannerIndex + 1);
         }
 
         $(document).on('click', '.pb-next', function (e) {

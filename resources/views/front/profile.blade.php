@@ -451,6 +451,11 @@
                             </div>
 
                             <div class="custom-form-group">
+                                <label class="custom-form-label">Area / Location (Pick Your Location)</label>
+                                <input type="text" id="pick_your_location" name="pick_your_location" class="custom-input" placeholder="e.g. Mansarovar, Malviya Nagar" value="{{$user->pick_your_location}}">
+                            </div>
+
+                            <div class="custom-form-group">
                                 <label class="custom-form-label">Pincode <span class="req">*</span></label>
                                 <input type="text" id="pincode" name="pincode" class="custom-input" placeholder="6 Digit Pincode" value="{{$user->pincode}}" required>
                             </div>
