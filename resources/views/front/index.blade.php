@@ -630,9 +630,18 @@
     }
     .m-hero-banner-img {
         width: 100%;
-        height: auto;
-        object-fit: contain;
+        height: 175px;
+        min-height: 165px;
+        max-height: 230px;
+        object-fit: cover;
+        object-position: center;
         display: block;
+    }
+    @media (min-width: 480px) and (max-width: 768px) {
+        .m-hero-banner-img {
+            height: 210px;
+            min-height: 190px;
+        }
     }
     .m-hero-slider-arrow {
         position: absolute;
