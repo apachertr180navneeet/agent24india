@@ -619,10 +619,12 @@
         display: flex;
         transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         width: 100%;
+        height: 100%;
     }
     .m-hero-slide-item {
         min-width: 100%;
         width: 100%;
+        height: 100%;
         flex-shrink: 0;
         position: relative;
         display: block;
@@ -630,17 +632,22 @@
     }
     .m-hero-banner-img {
         width: 100%;
-        height: 175px;
-        min-height: 165px;
-        max-height: 230px;
+        height: 195px;
+        min-height: 185px;
         object-fit: cover;
         object-position: center;
         display: block;
     }
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (max-width: 420px) {
         .m-hero-banner-img {
-            height: 210px;
-            min-height: 190px;
+            height: 185px;
+            min-height: 175px;
+        }
+    }
+    @media (min-width: 421px) and (max-width: 768px) {
+        .m-hero-banner-img {
+            height: 230px;
+            min-height: 210px;
         }
     }
     .m-hero-slider-arrow {
