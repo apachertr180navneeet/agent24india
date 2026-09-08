@@ -256,6 +256,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
 });
 
 Route::get('/', [Front\HomeController::class, "index"])->name('front.index');
+Route::get('/home', [Front\HomeController::class, "index"])->name('front.home');
 Route::get('/about-us', [Front\HomeController::class, "aboutus"])->name('front.aboutus');
 Route::get('/notice', [Front\HomeController::class, "notice"])->name('front.notice');
 Route::get('/price', [Front\HomeController::class, "price"])->name('front.price');

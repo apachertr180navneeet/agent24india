@@ -90,7 +90,7 @@
 <!-- Mobile Bottom Navigation Bar Start -->
 <div class="mobile-bottom-nav" id="mobileBottomNav">
     <!-- 1. Home -->
-    <a href="{{ route('front.home') }}" class="mob-nav-item {{ request()->routeIs('front.home') || request()->routeIs('front.index') ? 'active' : '' }}">
+    <a href="{{ route('front.index') }}" class="mob-nav-item {{ request()->routeIs('front.index') ? 'active' : '' }}">
         <div class="mob-nav-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
