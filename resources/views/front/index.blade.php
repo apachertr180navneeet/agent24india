@@ -631,8 +631,7 @@
     .m-hero-banner-img {
         width: 100%;
         height: auto;
-        aspect-ratio: 16 / 8.2;
-        object-fit: cover;
+        object-fit: contain;
         display: block;
     }
     .m-hero-slider-arrow {

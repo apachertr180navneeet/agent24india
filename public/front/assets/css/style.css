@@ -6585,13 +6585,14 @@ img, svg, video, canvas, audio, iframe, embed, object {
         overflow: hidden !important;
     }
     .index-hero-banner-img {
-        width: 200% !important;
-        max-width: 200% !important;
-        min-height: 185px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: auto !important;
         height: auto !important;
-        object-fit: cover !important;
+        object-fit: contain !important;
         object-position: center !important;
-        margin-left: -50% !important;
+        margin-left: 0 !important;
+        margin: 0 !important;
         border-radius: 0 !important;
         display: block !important;
     }
