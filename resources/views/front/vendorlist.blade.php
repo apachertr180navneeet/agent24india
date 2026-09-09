@@ -2515,7 +2515,10 @@
                             }
 
                             $businessName = $vendor->business_name ?: $vendor->name;
-                            $addressText = $vendor->business_address ?: ($selectedDistrict ? $selectedDistrict->name . ', Rajasthan' : 'Jaipur, Rajasthan');
+                            $vListCity = $vendor->city->name ?? $vendor->district->name ?? ($selectedDistrict->name ?? '');
+                            $vListState = $vendor->state->name ?? $vendor->district->state->name ?? $vendor->city->state->name ?? ($selectedDistrict->state->name ?? '');
+                            $vListLoc = !empty($vListCity) && !empty($vListState) ? ($vListCity . ', ' . $vListState) : ($vListCity ?: ($vListState ?: 'Jaipur, Rajasthan'));
+                            $addressText = $vendor->business_address ?: $vListLoc;
                             $vendorPhoto = !empty($vendor->profile_photo) ? $vendor->profile_photo_url : asset('images/images.png');
                         @endphp
 
