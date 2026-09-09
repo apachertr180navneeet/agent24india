@@ -2767,7 +2767,7 @@
                     
                     <div class="vl-visiting-header">
                         <div class="vl-visiting-title-wrap">
-                            <h4 class="vl-visiting-title">VISITING CARDS</h4>
+                            <h4 class="vl-visiting-title">AREA AGENT</h4>
                             <span class="vl-visiting-slots">{{ count($sideAdsList) }} Ads Active</span>
                         </div>
                         <div class="vl-vc-slider-controls">

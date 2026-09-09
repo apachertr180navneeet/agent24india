@@ -540,7 +540,7 @@
                         </div>
                         <div class="contact-detail-text">
                             <span class="contact-detail-label">Phone Number</span>
-                            <a href="tel:+917878242424" class="contact-detail-val">+91 7878 24 24 24</a>
+                            <a href="tel:+917851969366" class="contact-detail-val">+91 78519 69366</a>
                         </div>
                     </div>
 
@@ -553,7 +553,7 @@
                         </div>
                         <div class="contact-detail-text">
                             <span class="contact-detail-label">WhatsApp</span>
-                            <a href="https://wa.me/917878242424" target="_blank" class="contact-detail-val">+91 7878 24 24 24</a>
+                            <a href="https://wa.me/917851969366" target="_blank" class="contact-detail-val">+91 78519 69366 </a>
                         </div>
                     </div>
 
@@ -567,7 +567,7 @@
                         </div>
                         <div class="contact-detail-text">
                             <span class="contact-detail-label">Email Address</span>
-                            <a href="mailto:support@agent24india.com" class="contact-detail-val">support@agent24india.com</a>
+                            <a href="mailto:support@agent24india.com" class="contact-detail-val">agent24india@gmail.com</a>
                         </div>
                     </div>
 
@@ -580,6 +580,12 @@
                             </svg>
                         </div>
                         <div class="contact-detail-text">
+                            
+                            <span class="contact-detail-sub">
+                                
+                                AGENT 24 INDIA ADVERTISING AGENCY<BR>GST : 08DEJPG0124K1ZN
+                                
+                            </span>
                             <span class="contact-detail-label">Working Hours</span>
                             <span class="contact-detail-sub">Monday - Saturday: 10:00 AM - 6:00 PM</span>
                             <span class="contact-detail-sub">Sunday: Closed</span>
