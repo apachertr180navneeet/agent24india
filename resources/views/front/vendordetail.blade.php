@@ -26,21 +26,41 @@
     $categoryName = $vendoruser->business_category_name ?? 'Real Estate Agent';
     $subCategories = $vendoruser->business_sub_category_names ?? 'Buy | Sell | Rent | Commercial | Property Consultant';
     $description = $vendoruser->description ?: ($bizName . ' ' . $city . ' mein ek bharosemand Real Estate Consultant hai. Hum Residential, Commercial, Rental aur Investment Properties mein visheshagyata rakhte hai. Humara uddeshya pardarshita, imandari aur grahak santushti hai.');
+
+    $words = preg_split("/\s+/", trim($bizName));
+    $initials = '';
+    if(count($words) >= 2) {
+        $initials = mb_strtoupper(mb_substr($words[0], 0, 1) . mb_substr($words[1], 0, 1));
+    } else {
+        $initials = mb_strtoupper(mb_substr($bizName, 0, 2));
+    }
 @endphp
 
 <link rel="stylesheet" href="{{ asset('front/assets/css/prototype-style.css') }}?v=1.2" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 <style id="vd-styles">
+.vd-page-wrapper,
+.vd-page-wrapper *,
+.vd-page-wrapper *::before,
+.vd-page-wrapper *::after {
+    box-sizing: border-box;
+}
+
 .vd-page-wrapper {
     background-color: #F8FAFC;
     padding: 24px 0 60px 0;
     min-height: 80vh;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .vd-container {
+    width: 100%;
     max-width: 1240px;
     margin: 0 auto;
     padding: 0 20px;
+    box-sizing: border-box;
 }
 
 /* Breadcrumbs */
@@ -52,6 +72,8 @@
     color: #64748B;
     margin-bottom: 20px;
     flex-wrap: wrap;
+    width: 100%;
+    word-break: break-word;
 }
 
 .vd-breadcrumbs a {
@@ -80,6 +102,13 @@
     grid-template-columns: minmax(0, 1fr) 340px;
     gap: 24px;
     align-items: start;
+    width: 100%;
+    min-width: 0;
+}
+
+.vd-main-content {
+    width: 100%;
+    min-width: 0;
 }
 
 /* --- HERO PROFILE CARD --- */
@@ -90,20 +119,26 @@
     padding: 24px;
     box-shadow: 0 2px 14px rgba(0, 0, 0, 0.03);
     margin-bottom: 20px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .vd-hero-inner {
     display: flex;
     gap: 24px;
     align-items: flex-start;
+    width: 100%;
+    min-width: 0;
 }
 
 /* Logo / Photo Frame */
 .vd-logo-box {
-    width: 155px;
-    height: 155px;
-    border-radius: 14px;
-    background: #0B132B;
+    width: 125px;
+    height: 125px;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #0B132B 0%, #1E293B 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -111,7 +146,8 @@
     position: relative;
     flex-shrink: 0;
     overflow: visible;
-    box-shadow: 0 4px 16px rgba(11, 19, 43, 0.15);
+    box-shadow: 0 4px 16px rgba(11, 19, 43, 0.12);
+    border: 2px solid #E2E8F0;
 }
 
 .vd-logo-img {
@@ -127,51 +163,73 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 10px;
+    padding: 6px 8px 14px 8px;
+    width: 100%;
+    height: 100%;
 }
 
-.vd-placeholder-icon {
+.vd-placeholder-icon-wrap {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(245, 158, 11, 0.14);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 4px;
 }
 
-.vd-placeholder-name {
-    font-size: 11px;
-    font-weight: 800;
+.vd-placeholder-monogram {
+    font-size: 18px;
+    font-weight: 900;
     color: #F59E0B;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    line-height: 1.2;
+    letter-spacing: 1px;
+    line-height: 1.1;
+    font-family: inherit;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.vd-placeholder-tag {
+.vd-placeholder-sub {
     font-size: 8.5px;
     font-weight: 700;
     color: #94A3B8;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
     margin-top: 2px;
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.2;
 }
 
 .vd-verified-pill {
     position: absolute;
     bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
     background: #16A34A;
     color: #FFFFFF;
-    font-size: 10px;
+    font-size: 9.5px;
     font-weight: 800;
-    padding: 4px 10px;
+    padding: 3px 10px;
     border-radius: 20px;
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3);
+    box-shadow: 0 2px 8px rgba(22, 163, 74, 0.35);
     white-space: nowrap;
     letter-spacing: 0.5px;
+    border: 2px solid #FFFFFF;
+    z-index: 2;
 }
 
 /* Hero Info Right Column */
 .vd-hero-info {
     flex: 1;
     min-width: 0;
+    width: 100%;
 }
 
 .vd-title-row {
@@ -179,6 +237,7 @@
     align-items: center;
     gap: 8px;
     margin-bottom: 6px;
+    flex-wrap: wrap;
 }
 
 .vd-biz-name {
@@ -187,6 +246,8 @@
     color: #0F172A;
     line-height: 1.25;
     margin: 0;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .vd-blue-badge {
@@ -201,6 +262,7 @@
     align-items: center;
     gap: 8px;
     margin-bottom: 8px;
+    flex-wrap: wrap;
 }
 
 .vd-rating-num {
@@ -228,6 +290,9 @@
     color: #64748B;
     font-weight: 500;
     margin-bottom: 8px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.4;
 }
 
 /* Address Row */
@@ -239,6 +304,8 @@
     color: #475569;
     margin-bottom: 18px;
     flex-wrap: wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .vd-address-text {
@@ -251,6 +318,7 @@
     text-decoration: none;
     margin-left: 4px;
     font-size: 13px;
+    white-space: nowrap;
 }
 
 .vd-view-map-link:hover {
@@ -260,20 +328,24 @@
 /* 4 Metric Badges in Hero */
 .vd-metrics-strip {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 10px;
     padding-top: 14px;
     border-top: 1px solid #F1F5F9;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .vd-metric-item {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     padding: 8px 10px;
     background: #F8FAFC;
     border: 1px solid #E2E8F0;
     border-radius: 10px;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .vd-metric-icon {
@@ -286,6 +358,8 @@
 .vd-metric-texts {
     display: flex;
     flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .vd-metric-val {
@@ -293,6 +367,9 @@
     font-weight: 800;
     color: #0F172A;
     line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .vd-metric-lbl {
@@ -300,7 +377,8 @@
     font-weight: 600;
     color: #64748B;
     line-height: 1.2;
-    white-space: nowrap;
+    white-space: normal;
+    word-break: break-word;
 }
 
 /* --- TABS NAVIGATION --- */
@@ -311,6 +389,10 @@
     padding: 0 16px;
     margin-bottom: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .vd-tabs-nav {
@@ -321,6 +403,8 @@
     gap: 28px;
     overflow-x: auto;
     scrollbar-width: none;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
 }
 .vd-tabs-nav::-webkit-scrollbar {
     display: none;
@@ -335,6 +419,7 @@
     position: relative;
     white-space: nowrap;
     transition: color 0.2s ease;
+    flex-shrink: 0;
 }
 
 .vd-tab-item:hover {
@@ -360,6 +445,8 @@
 /* TAB PANES */
 .vd-tab-pane {
     display: none;
+    width: 100%;
+    min-width: 0;
 }
 
 .vd-tab-pane.active {
@@ -380,6 +467,10 @@
     padding: 24px;
     box-shadow: 0 2px 14px rgba(0, 0, 0, 0.03);
     margin-bottom: 20px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .vd-card-title {
@@ -387,6 +478,7 @@
     font-weight: 800;
     color: #0F172A;
     margin-bottom: 12px;
+    word-break: break-word;
 }
 
 .vd-about-desc {
@@ -394,6 +486,7 @@
     color: #475569;
     line-height: 1.65;
     margin-bottom: 18px;
+    word-break: break-word;
 }
 
 /* 5 Feature Highlight Pills */
@@ -402,6 +495,7 @@
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
+    width: 100%;
 }
 
 .vd-pill {
@@ -416,6 +510,7 @@
     font-weight: 700;
     color: #0F172A;
     transition: all 0.2s;
+    max-width: 100%;
 }
 
 .vd-pill:hover {
@@ -427,8 +522,9 @@
 /* Office & Team Gallery Grid */
 .vd-gallery-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 14px;
+    width: 100%;
 }
 
 .vd-gallery-item {
@@ -469,8 +565,9 @@
 /* Why Choose Us Grid */
 .vd-why-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 12px;
+    width: 100%;
 }
 
 .vd-why-col {
@@ -484,6 +581,8 @@
     text-align: center;
     gap: 10px;
     transition: all 0.2s;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .vd-why-col:hover {
@@ -504,11 +603,17 @@
     flex-shrink: 0;
 }
 
+.vd-why-texts {
+    min-width: 0;
+    width: 100%;
+}
+
 .vd-why-title {
     font-size: 13.5px;
     font-weight: 800;
     color: #0F172A;
     margin-bottom: 4px;
+    word-break: break-word;
 }
 
 .vd-why-desc {
@@ -516,6 +621,7 @@
     color: #64748B;
     line-height: 1.4;
     margin: 0;
+    word-break: break-word;
 }
 
 /* Royal Blue CTA Banner Strip */
@@ -528,12 +634,15 @@
     justify-content: space-between;
     gap: 20px;
     box-shadow: 0 6px 20px rgba(0, 75, 238, 0.2);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .vd-cta-left {
     display: flex;
     align-items: center;
     gap: 16px;
+    min-width: 0;
 }
 
 .vd-cta-icon-circle {
@@ -547,11 +656,16 @@
     flex-shrink: 0;
 }
 
+.vd-cta-text-wrap {
+    min-width: 0;
+}
+
 .vd-cta-title {
     font-size: 16.5px;
     font-weight: 800;
     color: #FFFFFF;
     margin: 0 0 3px 0;
+    word-break: break-word;
 }
 
 .vd-cta-sub {
@@ -559,6 +673,7 @@
     font-weight: 500;
     color: #BFDBFE;
     margin: 0;
+    word-break: break-word;
 }
 
 .btn-cta-enquire {
@@ -576,6 +691,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     transition: all 0.2s;
     white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .btn-cta-enquire:hover {
@@ -589,6 +705,8 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 100%;
+    min-width: 0;
 }
 
 .vd-side-card {
@@ -597,6 +715,9 @@
     border-radius: 16px;
     padding: 20px;
     box-shadow: 0 2px 14px rgba(0, 0, 0, 0.03);
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .vd-side-title {
@@ -620,17 +741,20 @@
     margin-bottom: 10px;
     transition: all 0.2s ease;
     box-sizing: border-box;
+    min-width: 0;
 }
 
 .vd-btn-left {
     display: flex;
     align-items: center;
     gap: 8px;
+    min-width: 0;
 }
 
 .vd-btn-right {
     font-size: 13.5px;
     font-weight: 600;
+    white-space: nowrap;
 }
 
 .vd-btn-call {
@@ -683,6 +807,8 @@
     align-items: center;
     gap: 12px;
     margin-top: 6px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .vd-trust-icon-green {
@@ -729,6 +855,8 @@
     padding: 10px 14px;
     border-radius: 8px;
     border: 1px solid #E2E8F0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .vd-hours-time {
@@ -740,6 +868,7 @@
     display: flex;
     align-items: center;
     gap: 14px;
+    width: 100%;
 }
 
 .vd-office-address-wrap {
@@ -747,10 +876,12 @@
     font-size: 13px;
     color: #475569;
     line-height: 1.5;
+    min-width: 0;
 }
 
 .vd-office-address-wrap p {
     margin: 0 0 2px 0;
+    word-break: break-word;
 }
 
 .vd-office-map-link {
@@ -786,6 +917,7 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 14px;
+    width: 100%;
 }
 
 .vd-side-all-link {
@@ -793,6 +925,7 @@
     font-weight: 700;
     color: #004BEE;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 .vd-client-review-box {
@@ -800,6 +933,8 @@
     border: 1px solid #E2E8F0;
     border-radius: 12px;
     padding: 14px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .vd-cr-user-row {
@@ -807,6 +942,7 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 8px;
+    width: 100%;
 }
 
 .vd-cr-avatar {
@@ -825,6 +961,7 @@
 
 .vd-cr-meta {
     flex: 1;
+    min-width: 0;
 }
 
 .vd-cr-name {
@@ -832,6 +969,7 @@
     font-weight: 800;
     color: #0F172A;
     margin: 0 0 2px 0;
+    word-break: break-word;
 }
 
 .vd-cr-rating {
@@ -857,6 +995,7 @@
     font-size: 11px;
     color: #94A3B8;
     white-space: nowrap;
+    margin-left: auto;
 }
 
 .vd-cr-quote {
@@ -865,6 +1004,7 @@
     line-height: 1.5;
     margin: 0 0 10px 0;
     font-style: italic;
+    word-break: break-word;
 }
 
 .vd-cr-dots {
@@ -893,6 +1033,9 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 18px;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .vd-prop-filter-badge {
@@ -902,12 +1045,14 @@
     color: #004BEE;
     padding: 4px 12px;
     border-radius: 20px;
+    white-space: nowrap;
 }
 
 .vd-prop-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
+    width: 100%;
 }
 
 .vd-prop-card {
@@ -916,6 +1061,9 @@
     overflow: hidden;
     background: #FFFFFF;
     transition: all 0.25s;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .vd-prop-card:hover {
@@ -927,6 +1075,7 @@
     height: 150px;
     position: relative;
     overflow: hidden;
+    width: 100%;
 }
 
 .vd-prop-img-wrap img {
@@ -971,6 +1120,8 @@
 
 .vd-prop-body {
     padding: 14px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .vd-prop-name {
@@ -978,12 +1129,14 @@
     font-weight: 800;
     color: #0F172A;
     margin: 0 0 4px 0;
+    word-break: break-word;
 }
 
 .vd-prop-loc {
     font-size: 12px;
     color: #64748B;
     margin: 0 0 10px 0;
+    word-break: break-word;
 }
 
 .vd-prop-amenities {
@@ -996,6 +1149,8 @@
     border-top: 1px solid #F1F5F9;
     border-bottom: 1px solid #F1F5F9;
     margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 4px;
 }
 
 .btn-prop-enq {
@@ -1009,6 +1164,7 @@
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
+    box-sizing: border-box;
 }
 
 .btn-prop-enq:hover {
@@ -1019,8 +1175,9 @@
 /* --- SERVICES PANE --- */
 .vd-services-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
+    width: 100%;
 }
 
 .vd-service-box {
@@ -1029,6 +1186,9 @@
     border-radius: 12px;
     padding: 18px;
     transition: all 0.2s;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .vd-service-box:hover {
@@ -1055,6 +1215,7 @@
     font-weight: 800;
     color: #0F172A;
     margin: 0 0 6px 0;
+    word-break: break-word;
 }
 
 .vd-service-desc {
@@ -1062,6 +1223,7 @@
     color: #64748B;
     line-height: 1.5;
     margin: 0;
+    word-break: break-word;
 }
 
 /* --- REVIEWS PANE --- */
@@ -1072,12 +1234,16 @@
     padding-bottom: 16px;
     border-bottom: 1px solid #F1F5F9;
     margin-bottom: 20px;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
 .vd-reviews-sub {
     font-size: 13px;
     color: #64748B;
     margin: 4px 0 0 0;
+    word-break: break-word;
 }
 
 .vd-score-badge {
@@ -1088,6 +1254,7 @@
     border: 1px solid #E2E8F0;
     border-radius: 12px;
     padding: 10px 16px;
+    box-sizing: border-box;
 }
 
 .vd-score-huge {
@@ -1106,6 +1273,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    width: 100%;
 }
 
 .vd-single-review {
@@ -1113,6 +1281,8 @@
     border: 1px solid #E2E8F0;
     border-radius: 12px;
     padding: 16px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .vd-reviewer-head {
@@ -1120,6 +1290,7 @@
     align-items: center;
     gap: 12px;
     margin-bottom: 8px;
+    width: 100%;
 }
 
 .vd-avatar-circle {
@@ -1139,6 +1310,7 @@
     font-weight: 800;
     color: #0F172A;
     margin: 0;
+    word-break: break-word;
 }
 
 .vd-review-date {
@@ -1150,6 +1322,7 @@
     margin-left: auto;
     color: #F59E0B;
     font-size: 12px;
+    flex-shrink: 0;
 }
 
 .vd-rev-comment {
@@ -1157,14 +1330,16 @@
     color: #334155;
     line-height: 1.6;
     margin: 0;
+    word-break: break-word;
 }
 
 /* --- ABOUT SPECS TABLE --- */
 .vd-about-specs-table {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
     margin-top: 16px;
+    width: 100%;
 }
 
 .vd-spec-row {
@@ -1175,6 +1350,8 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .vd-spec-k {
@@ -1182,27 +1359,32 @@
     font-weight: 700;
     color: #64748B;
     text-transform: uppercase;
+    word-break: break-word;
 }
 
 .vd-spec-v {
     font-size: 13.5px;
     font-weight: 700;
     color: #0F172A;
+    word-break: break-word;
 }
 
 /* --- CONTACT DIRECT FORM --- */
 .vd-direct-form {
     margin-top: 14px;
+    width: 100%;
 }
 
 .vd-form-row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px;
+    width: 100%;
 }
 
 .vd-form-group {
     margin-bottom: 14px;
+    width: 100%;
 }
 
 .vd-form-group label {
@@ -1211,6 +1393,7 @@
     font-weight: 700;
     color: #334155;
     margin-bottom: 6px;
+    word-break: break-word;
 }
 
 .vd-input,
@@ -1242,6 +1425,7 @@
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s;
+    box-sizing: border-box;
 }
 
 .btn-submit-enq:hover {
@@ -1259,6 +1443,7 @@
     justify-content: center;
     z-index: 999999;
     padding: 16px;
+    box-sizing: border-box;
 }
 
 .vd-modal-card {
@@ -1270,6 +1455,9 @@
     position: relative;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     animation: vdPop 0.25s ease;
+    box-sizing: border-box;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 @keyframes vdPop {
@@ -1298,12 +1486,116 @@
     font-weight: 800;
     color: #0F172A;
     margin: 0 0 4px 0;
+    word-break: break-word;
 }
 
 .vd-modal-sub {
     font-size: 12.5px;
     color: #64748B;
     margin: 0 0 16px 0;
+    word-break: break-word;
+}
+
+/* Mobile Hero Action Buttons */
+.vd-hero-mobile-actions {
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.vd-m-act-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 8px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+    min-height: 42px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.vd-m-act-btn.vd-m-act-call {
+    background: #004BEE;
+    color: #FFFFFF !important;
+    box-shadow: 0 3px 10px rgba(0, 75, 238, 0.25);
+}
+
+.vd-m-act-btn.vd-m-act-wa {
+    background: #16A34A;
+    color: #FFFFFF !important;
+    box-shadow: 0 3px 10px rgba(22, 163, 74, 0.25);
+}
+
+.vd-m-act-btn.vd-m-act-enq {
+    grid-column: span 2;
+    background: #0F172A;
+    color: #FFFFFF !important;
+    box-shadow: 0 3px 10px rgba(15, 23, 42, 0.2);
+}
+
+/* Mobile Sticky Bottom Contact Bar */
+.vd-mobile-bottom-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #FFFFFF;
+    border-top: 1px solid #E2E8F0;
+    padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px)) 10px;
+    z-index: 9999;
+    box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.08);
+    gap: 8px;
+    box-sizing: border-box;
+}
+
+.vd-mbb-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px 6px;
+    border-radius: 10px;
+    font-size: 12.5px;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.vd-mbb-btn.vd-mbb-call {
+    background: #004BEE;
+    color: #FFFFFF !important;
+    box-shadow: 0 2px 8px rgba(0, 75, 238, 0.25);
+}
+
+.vd-mbb-btn.vd-mbb-wa {
+    background: #16A34A;
+    color: #FFFFFF !important;
+    box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25);
+}
+
+.vd-mbb-btn.vd-mbb-enq {
+    background: #0F172A;
+    color: #FFFFFF !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);
 }
 
 /* ==========================================================================
@@ -1312,10 +1604,10 @@
 
 @media (max-width: 1100px) {
     .vd-why-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
     .vd-gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
@@ -1327,90 +1619,316 @@
         margin-top: 10px;
     }
     .vd-metrics-strip {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .vd-prop-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
+    .vd-page-wrapper {
+        padding: 12px 0 calc(75px + env(safe-area-inset-bottom, 0px)) 0;
+        overflow-x: hidden;
+    }
+    .vd-container {
+        padding: 0 12px;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+    .vd-breadcrumbs {
+        font-size: 12px;
+        margin-bottom: 12px;
+        gap: 6px;
+    }
+    .vd-hero-card {
+        padding: 16px 12px;
+        border-radius: 14px;
+        margin-bottom: 14px;
+        width: 100%;
+        overflow: hidden;
+    }
     .vd-hero-inner {
         flex-direction: column;
         align-items: center;
         text-align: center;
+        gap: 14px;
+        width: 100%;
+    }
+    .vd-logo-box {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto;
+        border-radius: 14px;
+    }
+    .vd-placeholder-icon-wrap {
+        width: 32px;
+        height: 32px;
+        margin-bottom: 2px;
+    }
+    .vd-placeholder-icon-wrap svg {
+        width: 18px;
+        height: 18px;
+    }
+    .vd-placeholder-monogram {
+        font-size: 16px;
+    }
+    .vd-placeholder-sub {
+        font-size: 8px;
+        max-width: 80px;
+    }
+    .vd-verified-pill {
+        font-size: 8.5px;
+        padding: 2.5px 8px;
+        bottom: -8px;
+    }
+    .vd-hero-info {
+        width: 100%;
+        min-width: 0;
     }
     .vd-title-row {
         justify-content: center;
+        flex-wrap: wrap;
+        gap: 6px;
+        width: 100%;
+    }
+    .vd-biz-name {
+        font-size: 18.5px;
+        line-height: 1.3;
+        word-break: break-word;
+        text-align: center;
     }
     .vd-rating-row {
         justify-content: center;
+        gap: 6px;
+        width: 100%;
+    }
+    .vd-tags-row {
+        font-size: 12px;
+        line-height: 1.4;
+        text-align: center;
+        width: 100%;
     }
     .vd-address-row {
         justify-content: center;
-    }
-    .vd-metrics-strip {
-        grid-template-columns: 1fr 1fr;
+        text-align: center;
+        font-size: 12px;
+        line-height: 1.4;
+        margin-bottom: 14px;
         width: 100%;
     }
-    .vd-why-grid {
-        grid-template-columns: 1fr;
+    .vd-metrics-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px;
+        width: 100%;
+        padding-top: 12px;
     }
-    .vd-cta-banner {
-        flex-direction: column;
-        text-align: center;
-        padding: 20px 16px;
+    .vd-metric-item {
+        padding: 6px 8px;
+        gap: 6px;
+        min-width: 0;
     }
-    .vd-cta-left {
-        flex-direction: column;
+    .vd-metric-icon svg {
+        width: 16px;
+        height: 16px;
     }
-    .vd-gallery-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
+    .vd-metric-val {
+        font-size: 12.5px;
     }
-    .vd-prop-grid {
-        grid-template-columns: 1fr;
+    .vd-metric-lbl {
+        font-size: 9.5px;
+        line-height: 1.15;
     }
-    .vd-services-grid {
-        grid-template-columns: 1fr;
+    .vd-hero-mobile-actions {
+        display: grid;
     }
-    .vd-about-specs-table {
-        grid-template-columns: 1fr;
+    .vd-mobile-bottom-bar {
+        display: flex;
     }
-    .vd-form-row {
-        grid-template-columns: 1fr;
+    .vd-tabs-nav-wrap {
+        padding: 0 8px;
+        border-radius: 10px;
+        margin-bottom: 14px;
+        width: 100%;
+        overflow: hidden;
     }
-}
-
-@media (max-width: 480px) {
-    .vd-hero-card {
-        padding: 20px 14px;
+    .vd-tabs-nav {
+        gap: 16px;
+        padding: 0 4px;
+        width: 100%;
+        -webkit-overflow-scrolling: touch;
+    }
+    .vd-tab-item {
+        padding: 12px 2px;
+        font-size: 13px;
     }
     .vd-section-card {
-        padding: 18px 14px;
+        padding: 16px 12px;
+        border-radius: 14px;
+        margin-bottom: 14px;
+        width: 100%;
+        overflow: hidden;
     }
-    .vd-biz-name {
-        font-size: 20px;
+    .vd-card-title {
+        font-size: 16px;
     }
-    .vd-metrics-strip {
-        grid-template-columns: 1fr;
+    .vd-about-desc {
+        font-size: 13px;
+        line-height: 1.55;
+        margin-bottom: 14px;
     }
     .vd-feature-pills {
         gap: 6px;
     }
     .vd-pill {
+        padding: 6px 10px;
+        font-size: 11.5px;
+    }
+    .vd-gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px;
+    }
+    .vd-why-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+    .vd-why-col {
+        padding: 10px 8px;
+        min-width: 0;
+    }
+    .vd-why-icon-box {
+        width: 36px;
+        height: 36px;
+    }
+    .vd-why-title {
+        font-size: 12px;
+    }
+    .vd-why-desc {
+        font-size: 10.5px;
+    }
+    .vd-cta-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 16px 12px;
+        gap: 12px;
+        width: 100%;
+    }
+    .vd-cta-left {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+    .vd-cta-title {
+        font-size: 15px;
+    }
+    .vd-cta-sub {
+        font-size: 12px;
+    }
+    .btn-cta-enquire {
         width: 100%;
         justify-content: center;
     }
-    .vd-gallery-grid {
+    .vd-prop-grid {
         grid-template-columns: 1fr;
+        gap: 12px;
+        width: 100%;
+    }
+    .vd-pane-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    .vd-services-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        width: 100%;
+    }
+    .vd-service-box {
+        padding: 12px;
+    }
+    .vd-reviews-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .vd-score-badge {
+        width: 100%;
+        justify-content: space-between;
+        padding: 8px 12px;
+    }
+    .vd-about-specs-table {
+        grid-template-columns: 1fr;
+        gap: 6px;
+        width: 100%;
+    }
+    .vd-form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    .btn-submit-enq {
+        width: 100%;
+    }
+    .vd-office-split {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        width: 100%;
+    }
+    .vd-map-preview-wrap {
+        width: 100%;
+        height: 120px;
+    }
+    .vd-btn-side {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+    .vd-modal-card {
+        padding: 20px 14px;
+        border-radius: 14px;
     }
 }
 
-
-
-
-
+@media (max-width: 480px) {
+    .vd-container {
+        padding: 0 8px;
+    }
+    .vd-hero-card {
+        padding: 14px 10px;
+    }
+    .vd-logo-box {
+        width: 90px;
+        height: 90px;
+    }
+    .vd-biz-name {
+        font-size: 17px;
+    }
+    .vd-metrics-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 5px;
+    }
+    .vd-metric-item {
+        padding: 6px 6px;
+        gap: 5px;
+    }
+    .vd-metric-val {
+        font-size: 12px;
+    }
+    .vd-metric-lbl {
+        font-size: 9px;
+    }
+    .vd-why-grid {
+        grid-template-columns: 1fr;
+    }
+    .vd-why-col {
+        flex-direction: row;
+        text-align: left;
+        align-items: center;
+        padding: 10px 10px;
+        gap: 10px;
+    }
+    .vd-why-texts {
+        flex: 1;
+    }
 
 
 
@@ -1451,8 +1969,8 @@
                                 <img src="{{ asset($vendoruser->vendor_image) }}" alt="{{ $bizName }}" class="vd-logo-img">
                             @else
                                 <div class="vd-logo-placeholder">
-                                    <div class="vd-placeholder-icon">
-                                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <div class="vd-placeholder-icon-wrap">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M3 21h18"></path>
                                             <path d="M5 21V7l8-4v18"></path>
                                             <path d="M19 21V11l-6-4"></path>
@@ -1461,8 +1979,8 @@
                                             <path d="M9 17h1"></path>
                                         </svg>
                                     </div>
-                                    <span class="vd-placeholder-name">{{ $bizName }}</span>
-                                    <span class="vd-placeholder-tag">— PROPERTIES —</span>
+                                    <span class="vd-placeholder-monogram">{{ $initials }}</span>
+                                    <span class="vd-placeholder-sub">{{ Str::limit($bizName, 14) }}</span>
                                 </div>
                             @endif
 
@@ -1573,6 +2091,26 @@
                                         <span class="vd-metric-lbl">Support Available</span>
                                     </div>
                                 </div>
+                            </div>
+
+                            <!-- Mobile Quick Action Buttons in Hero -->
+                            <div class="vd-hero-mobile-actions">
+                                @if(!empty($cleanPhone))
+                                    <a href="tel:{{ $cleanPhone }}" class="vd-m-act-btn vd-m-act-call">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                        <span>Call Now</span>
+                                    </a>
+                                @endif
+                                @if(!empty($waNum))
+                                    <a href="https://wa.me/{{ $waNum }}?text={{ urlencode('Namaste! Mujhe ' . $bizName . ' ki services ke baare mein jankari chahiye.') }}" class="vd-m-act-btn vd-m-act-wa" target="_blank">
+                                        <i class="fa-brands fa-whatsapp" style="font-size: 16px;"></i>
+                                        <span>WhatsApp</span>
+                                    </a>
+                                @endif
+                                <button type="button" class="vd-m-act-btn vd-m-act-enq" onclick="openEnquiryModal()">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                    <span>Enquire</span>
+                                </button>
                             </div>
                         </div>
 
@@ -2152,6 +2690,26 @@
         </div>
 
     </div>
+</div>
+
+<!-- Mobile Sticky Bottom Contact Action Bar -->
+<div class="vd-mobile-bottom-bar">
+    @if(!empty($cleanPhone))
+        <a href="tel:{{ $cleanPhone }}" class="vd-mbb-btn vd-mbb-call">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            <span>Call</span>
+        </a>
+    @endif
+    @if(!empty($waNum))
+        <a href="https://wa.me/{{ $waNum }}?text={{ urlencode('Namaste! Mujhe ' . $bizName . ' ki services ke baare mein jankari chahiye.') }}" class="vd-mbb-btn vd-mbb-wa" target="_blank">
+            <i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i>
+            <span>WhatsApp</span>
+        </a>
+    @endif
+    <button type="button" class="vd-mbb-btn vd-mbb-enq" onclick="openEnquiryModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        <span>Enquire</span>
+    </button>
 </div>
 
 <!-- Quick Inquiry Modal -->
