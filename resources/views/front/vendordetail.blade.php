@@ -36,7 +36,7 @@
     }
 @endphp
 
-<link rel="stylesheet" href="{{ asset('front/assets/css/prototype-style.css') }}?v=1.2" />
+<link rel="stylesheet" href="{{ asset('public/front/assets/css/prototype-style.css') }}?v=2.0" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 <style id="vd-styles">
 .vd-page-wrapper,

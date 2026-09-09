@@ -6961,7 +6961,12 @@ span.selection {
     ul.main-menu {
         gap: 45px;
     }
-}
+} 
+/* VENDOR DETAIL PAGE STYLES */
+\; Add-Content -Path 'c:\xampp\htdocs\laravel_project\agent24india\front\assets\css\main.css' -Value \
+/* VENDOR DETAIL PAGE STYLES */
+
+
 
 /* VENDOR DETAIL PAGE STYLES */
 .vd-page-wrapper {

@@ -6575,13 +6575,26 @@ img, svg, video, canvas, audio, iframe, embed, object {
 /* 3. Hero & Search Section on Mobile */
 @media (max-width: 768px) {
     .index-hero-banner-section {
-        padding: 10px 0 0 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        overflow: hidden !important;
     }
     .index-hero-banner-container {
-        padding: 0 12px !important;
+        padding: 0 !important;
+        width: 100% !important;
+        overflow: hidden !important;
     }
     .index-hero-banner-img {
-        border-radius: 12px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: auto !important;
+        height: auto !important;
+        object-fit: contain !important;
+        object-position: center !important;
+        margin-left: 0 !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        display: block !important;
     }
     .index-search-section {
         padding: 10px 0 0 0 !important;
@@ -9488,6 +9501,615 @@ img, svg, video, canvas, audio, iframe, embed, object {
         grid-template-columns: 1fr;
     }
 }
+
+/* ==========================================================================
+   AGENT 24 INDIA - COMPREHENSIVE MASTER MOBILE RESPONSIVE ENGINE
+   Supports: 320px, 360px, 400px, 480px, 576px, 768px, 992px, 1200px+
+   ========================================================================== */
+
+/* 1. Global Viewport & Container Normalization */
+html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    position: relative;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box !important;
+}
+
+img, svg, video, canvas, audio, iframe, embed, object {
+    max-width: 100% !important;
+    height: auto;
+}
+
+.section-container,
+.container,
+.container-fluid,
+.page-container,
+.vl-layout-wrap,
+.vd-container,
+.contact-container,
+.profile-page-container,
+.login-main-container,
+.reg-hero-banner-container,
+.reg-split-wrapper,
+.terms-hero-banner-container,
+.price-hero-container {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    max-width: 1280px;
+}
+
+/* Ensure all flex and grid items don't overflow */
+.row, .grid, [class*="grid-"], [class*="-grid"] {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* 2. Responsive Breakpoint: <= 1200px (Laptops & Desktops) */
+@media (max-width: 1200px) {
+    .header-container {
+        padding: 10px 18px;
+    }
+    .main-nav .nav-list {
+        gap: 16px;
+    }
+    .vl-3col-grid {
+        grid-template-columns: 220px 1fr 240px;
+        gap: 16px;
+    }
+    .pricing-cards-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px !important;
+    }
+    .blue-banner-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 16px !important;
+    }
+    .our-goal-cards-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 16px !important;
+    }
+}
+
+/* 3. Responsive Breakpoint: <= 991px (Tablets & Medium Screens) */
+@media (max-width: 991px) {
+    /* Header */
+    .header-search-capsule {
+        display: none !important;
+    }
+    .main-nav {
+        display: none !important;
+    }
+    .header-menu-drawer-btn {
+        display: inline-flex !important;
+    }
+    .hamburger-menu {
+        display: none !important;
+    }
+    .header-actions {
+        gap: 10px;
+    }
+
+    /* Layout Grids */
+    .vl-3col-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+    .vl-filter-sidebar {
+        display: none;
+    }
+    .vl-filter-sidebar.is-open {
+        display: block !important;
+        margin-bottom: 20px;
+    }
+    .vl-visiting-sidebar {
+        order: 3;
+        width: 100% !important;
+    }
+    .vd-layout-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+    .contact-middle-grid,
+    .contact-office-card,
+    .login-split-grid,
+    .reg-split-wrapper,
+    .profile-card-layout,
+    .contact-grid-wrapper {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+    .trust-badges-row,
+    .pf-features-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 14px !important;
+    }
+    .categories-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 14px !important;
+    }
+    .hero-stats-bar,
+    .white-stats-card,
+    .dark-stats-card,
+    .price-white-stats-card,
+    .contact-dark-stats-bar {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 14px !important;
+        padding: 16px 14px !important;
+    }
+    .stat-divider,
+    .ws-divider,
+    .dark-stat-divider,
+    .pws-divider,
+    .contact-dark-divider {
+        display: none !important;
+    }
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 28px !important;
+    }
+}
+
+/* 4. Responsive Breakpoint: <= 768px (Large Mobile & Portrait Tablets) */
+@media (max-width: 768px) {
+    /* Header Items */
+    .site-header {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 1000 !important;
+    }
+    .header-container {
+        padding: 8px 14px !important;
+    }
+    .brand-name {
+        font-size: 16px !important;
+    }
+    .brand-tagline {
+        font-size: 9.5px !important;
+    }
+    .site-header-logo-img {
+        height: 34px !important;
+        max-height: 36px !important;
+        max-width: 145px !important;
+    }
+    .header-actions {
+        gap: 6px !important;
+    }
+    .saved-btn span,
+    .login-btn span {
+        display: none !important;
+    }
+    .saved-btn,
+    .login-btn {
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        padding: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 8px !important;
+        background: #F8FAFC !important;
+        border: 1px solid #E2E8F0 !important;
+    }
+    .btn-register {
+        padding: 6px 12px !important;
+        font-size: 12.5px !important;
+        height: 36px !important;
+        border-radius: 8px !important;
+        white-space: nowrap !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    .header-menu-drawer-btn,
+    .hamburger-menu {
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 8px !important;
+        margin-left: 2px !important;
+    }
+
+    /* Index Hero Banner */
+    .index-hero-banner-section {
+        padding: 8px 12px 0 12px !important;
+    }
+    .index-hero-banner-container {
+        padding: 0 !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
+    }
+    .index-hero-banner-img {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 130px !important;
+        max-height: 220px !important;
+        height: auto !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        margin: 0 !important;
+        border-radius: 12px !important;
+        display: block !important;
+    }
+
+    /* Search Card */
+    .search-card-container {
+        margin-top: 12px !important;
+        padding: 18px 14px !important;
+        border-radius: 14px !important;
+    }
+    .search-card-header {
+        font-size: 15px !important;
+        margin-bottom: 12px !important;
+    }
+    .form-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+    .btn-field {
+        grid-column: span 1 !important;
+        margin-top: 4px !important;
+    }
+    .btn-search-agent {
+        width: 100% !important;
+        height: 48px !important;
+        font-size: 15px !important;
+        justify-content: center !important;
+    }
+
+    /* Stats Bars */
+    .hero-stats-bar,
+    .white-stats-card,
+    .dark-stats-card,
+    .price-white-stats-card,
+    .contact-dark-stats-bar {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+        padding: 14px 10px !important;
+    }
+    .stat-item,
+    .ws-col,
+    .dark-stat-col,
+    .pws-col,
+    .contact-dark-col {
+        justify-content: flex-start !important;
+        padding: 6px !important;
+    }
+    .stat-number,
+    .ws-number,
+    .dark-stat-number,
+    .pws-number,
+    .contact-dark-number {
+        font-size: 17px !important;
+    }
+    .stat-label,
+    .ws-label,
+    .dark-stat-label,
+    .pws-label,
+    .contact-dark-label {
+        font-size: 11.5px !important;
+    }
+
+    /* Categories Grid */
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+    }
+    .category-card {
+        padding: 14px 10px !important;
+        border-radius: 12px !important;
+    }
+    .category-icon-box {
+        width: 44px !important;
+        height: 44px !important;
+        margin-bottom: 6px !important;
+    }
+    .category-title {
+        font-size: 13px !important;
+        line-height: 1.25 !important;
+    }
+    .category-subtitle {
+        font-size: 11px !important;
+    }
+
+    /* Vendor List Agent Cards */
+    .vl-top-filter-bar {
+        position: static !important;
+        padding: 10px 14px !important;
+    }
+    .vl-filter-bar-container {
+        padding: 0 !important;
+        gap: 8px !important;
+    }
+    .vl-card {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        padding: 16px 14px !important;
+        gap: 12px !important;
+    }
+    .vl-card-photo-box {
+        width: 100% !important;
+        height: 130px !important;
+    }
+    .vl-card-actions {
+        width: 100% !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 8px !important;
+        border-top: 1px solid #F1F5F9 !important;
+        padding-top: 12px !important;
+        min-width: unset !important;
+    }
+    .vl-card-btn-call,
+    .vl-card-btn-wa {
+        flex: 1 !important;
+        height: 38px !important;
+        font-size: 12.5px !important;
+        padding: 0 10px !important;
+        justify-content: center !important;
+    }
+
+    /* Price Page Hero & Cards */
+    .price-hero-section {
+        padding: 24px 0 32px 0 !important;
+    }
+    .price-hero-container {
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 16px !important;
+        padding: 0 16px !important;
+    }
+    .price-hero-title {
+        font-size: 26px !important;
+    }
+    .price-hero-subtitle {
+        font-size: 15px !important;
+    }
+    .price-hero-desc {
+        font-size: 13.5px !important;
+        margin-bottom: 16px !important;
+    }
+    .pricing-cards-grid {
+        grid-template-columns: 1fr !important;
+        gap: 18px !important;
+    }
+    .price-why-join-card,
+    .price-ready-grow-card {
+        flex-direction: column !important;
+        text-align: center !important;
+        padding: 20px 16px !important;
+        gap: 16px !important;
+    }
+    .why-join-features-row {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 8px !important;
+    }
+    .btn-why-join-register,
+    .ready-grow-btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    /* Vendor Detail Page */
+    .vd-hero-inner {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 14px !important;
+    }
+    .vd-title-row,
+    .vd-rating-row,
+    .vd-address-row {
+        justify-content: center !important;
+    }
+    .vd-hero-actions {
+        width: 100% !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+    }
+    .vd-tabs-nav {
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        -webkit-overflow-scrolling: touch !important;
+        display: flex !important;
+        gap: 8px !important;
+    }
+
+    /* Forms on Mobile */
+    .contact-form-grid-2,
+    .form-grid-2col,
+    .reg-fields-grid,
+    .profile-form-grid,
+    .profile-form-grid.grid-3col {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+    }
+    .reg-field-full {
+        grid-column: span 1 !important;
+    }
+
+    /* Modals & Popups */
+    .auth-popup {
+        width: 95vw !important;
+        max-width: 95vw !important;
+        padding: 22px 16px !important;
+        border-radius: 14px !important;
+    }
+
+    /* Testimonials on Mobile */
+    .testimonials-grid,
+    .happy-customers-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+    }
+
+    /* Districts Grid */
+    .districts-grid,
+    .vl-categories-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+    }
+
+    /* Sliders & Tracks */
+    .agents-slider-track {
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory !important;
+        -webkit-overflow-scrolling: touch !important;
+        padding-bottom: 8px !important;
+        gap: 12px !important;
+    }
+    .agent-card {
+        min-width: 230px !important;
+        max-width: 250px !important;
+        scroll-snap-align: start !important;
+    }
+}
+
+/* 5. Responsive Breakpoint: <= 576px (Mobile Phones) */
+@media (max-width: 576px) {
+    .header-container {
+        padding: 6px 10px !important;
+    }
+    .site-header-logo-img {
+        height: 32px !important;
+        max-width: 130px !important;
+    }
+    .brand-name {
+        font-size: 15px !important;
+    }
+    .brand-tagline {
+        display: none !important;
+    }
+    .btn-register {
+        padding: 5px 9px !important;
+        font-size: 11.5px !important;
+        height: 34px !important;
+    }
+    .saved-btn,
+    .login-btn,
+    .header-menu-drawer-btn,
+    .hamburger-menu {
+        width: 34px !important;
+        height: 34px !important;
+        min-width: 34px !important;
+    }
+
+    /* Section Spacing */
+    .section-container {
+        padding: 0 12px !important;
+    }
+    .categories-section,
+    .why-choose-section,
+    .rajasthan-districts-section,
+    .about-cta-section,
+    .terms-content-section,
+    .reg-page-section,
+    .contact-page-wrapper,
+    .vd-page-wrapper {
+        padding: 20px 0 !important;
+    }
+
+    /* Cards */
+    .contact-card-box,
+    .contact-talk-card,
+    .contact-message-card,
+    .contact-office-card,
+    .login-card,
+    .why-agent-card,
+    .reg-form-card,
+    .why-reg-card,
+    .profile-section-card,
+    .listing-card-box,
+    .banner-card-box,
+    .payment-history-card,
+    .terms-card,
+    .vd-hero-card,
+    .vd-section-card {
+        padding: 18px 12px !important;
+        border-radius: 14px !important;
+    }
+
+    /* Social Buttons */
+    .social-login-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+    }
+
+    /* Trust Badges */
+    .trust-badges-row,
+    .pf-features-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+
+    /* Tables */
+    .custom-payment-table,
+    table {
+        display: block !important;
+        width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+
+    /* Footer */
+    .footer-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+    .footer-col {
+        text-align: left !important;
+    }
+    .footer-bottom {
+        padding: 16px 0 !important;
+        text-align: center !important;
+    }
+}
+
+/* 6. Responsive Breakpoint: <= 380px (Small Mobile Phones e.g. iPhone SE) */
+@media (max-width: 380px) {
+    .site-header-logo-img {
+        height: 28px !important;
+        max-width: 110px !important;
+    }
+    .brand-name {
+        font-size: 13.5px !important;
+    }
+    .btn-register {
+        padding: 4px 7px !important;
+        font-size: 11px !important;
+        height: 32px !important;
+    }
+    .saved-btn,
+    .login-btn,
+    .header-menu-drawer-btn,
+    .hamburger-menu {
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
+    }
+    .category-title {
+        font-size: 12px !important;
+    }
+    .stat-number,
+    .ws-number,
+    .dark-stat-number,
+    .pws-number {
+        font-size: 15px !important;
+    }
+    .pricing-price-wrap .price-amount {
+        font-size: 28px !important;
+    }
+}
+
 
 
 
