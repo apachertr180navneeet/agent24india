@@ -89,17 +89,7 @@
 
 <!-- Mobile Bottom Navigation Bar Start -->
 <div class="mobile-bottom-nav" id="mobileBottomNav">
-    <!-- 1. Home -->
-    <a href="{{ route('front.index') }}" class="mob-nav-item {{ request()->routeIs('front.index') ? 'active' : '' }}">
-        <div class="mob-nav-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-            </svg>
-        </div>
-        <span class="mob-nav-label">Home</span>
-    </a>
-
-    <!-- 2. Special Offers -->
+    <!-- 1. Special Offers -->
     <a href="{{ route('front.price') }}" class="mob-nav-item {{ request()->routeIs('front.price') ? 'active' : '' }}">
         <div class="mob-nav-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -107,6 +97,16 @@
             </svg>
         </div>
         <span class="mob-nav-label">Special Offers</span>
+    </a>
+
+    <!-- 2. Home -->
+    <a href="{{ route('front.index') }}" class="mob-nav-item {{ request()->routeIs('front.index') ? 'active' : '' }}">
+        <div class="mob-nav-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+        </div>
+        <span class="mob-nav-label">Home</span>
     </a>
 
     <!-- 3. Direct Agent -->

@@ -354,19 +354,22 @@
             <!-- Navigation Links -->
             <nav class="main-nav" id="mainNav">
                 <ul class="nav-list">
+                    <li class="nav-item {{ request()->routeIs('front.price*') ? 'active' : '' }}">
+                        <a href="{{ route('front.price') }}" class="nav-link">Special offers</a>
+                        @if(request()->routeIs('front.price*'))
+                            <span class="active-bar"></span>
+                        @endif
+                    </li>
+
                     <li class="nav-item {{ request()->routeIs('front.vendorlist*') ? 'active' : '' }}">
-                        <a href="#" class="nav-link">Direct Agent</a>
+                        <a href="{{ route('front.vendorlist') }}" class="nav-link">Direct Agent</a>
                         @if(request()->routeIs('front.vendorlist*'))
                             <span class="active-bar"></span>
                         @endif
                     </li>
 
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Area Agent</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Special offers</a>
+                        <a href="{{ route('front.vendorlist') }}" class="nav-link">Area Agent</a>
                     </li>
                 </ul>
             </nav>
@@ -707,17 +710,7 @@
 
 <!-- Mobile Bottom Navigation Bar Start -->
 <div class="mobile-bottom-nav" id="mobileBottomNav">
-    <!-- 1. Home -->
-    <a href="{{ route('front.index') }}" class="mob-nav-item {{ request()->routeIs('front.index') ? 'active' : '' }}">
-        <div class="mob-nav-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-            </svg>
-        </div>
-        <span class="mob-nav-label">Home</span>
-    </a>
-
-    <!-- 2. Special Offers -->
+    <!-- 1. Special Offers -->
     <a href="{{ route('front.price') }}" class="mob-nav-item {{ request()->routeIs('front.price') ? 'active' : '' }}">
         <div class="mob-nav-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -725,6 +718,16 @@
             </svg>
         </div>
         <span class="mob-nav-label">Special Offers</span>
+    </a>
+
+    <!-- 2. Home -->
+    <a href="{{ route('front.index') }}" class="mob-nav-item {{ request()->routeIs('front.index') ? 'active' : '' }}">
+        <div class="mob-nav-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+        </div>
+        <span class="mob-nav-label">Home</span>
     </a>
 
     <!-- 3. Direct Agent -->
