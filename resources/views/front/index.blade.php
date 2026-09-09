@@ -632,22 +632,22 @@
     }
     .m-hero-banner-img {
         width: 100%;
-        height: 195px;
-        min-height: 185px;
+        height: 240px;
+        min-height: 225px;
         object-fit: cover;
         object-position: center;
         display: block;
     }
     @media (max-width: 420px) {
         .m-hero-banner-img {
-            height: 185px;
-            min-height: 175px;
+            height: 225px;
+            min-height: 215px;
         }
     }
     @media (min-width: 421px) and (max-width: 768px) {
         .m-hero-banner-img {
-            height: 230px;
-            min-height: 210px;
+            height: 280px;
+            min-height: 260px;
         }
     }
     .m-hero-slider-arrow {
