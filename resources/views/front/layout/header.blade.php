@@ -354,6 +354,13 @@
             <!-- Navigation Links -->
             <nav class="main-nav" id="mainNav">
                 <ul class="nav-list">
+                    <li class="nav-item {{ request()->routeIs('front.price*') ? 'active' : '' }}">
+                        <a href="#" class="nav-link">Special offers</a>
+                        @if(request()->routeIs('front.price*'))
+                            <span class="active-bar"></span>
+                        @endif
+                    </li>
+
                     <li class="nav-item {{ request()->routeIs('front.vendorlist*') ? 'active' : '' }}">
                         <a href="#" class="nav-link">Direct Agent</a>
                         @if(request()->routeIs('front.vendorlist*'))
@@ -363,10 +370,6 @@
 
                     <li class="nav-item">
                         <a href="#" class="nav-link">Area Agent</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Special offers</a>
                     </li>
                 </ul>
             </nav>
@@ -441,6 +444,47 @@
     </div>
 </header>
 <!-- Header End -->
+
+<!-- Mobile Header Search Sheet Modal -->
+<div class="mobile-search-sheet" id="mobileSearchSheet" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(15,23,42,0.6); z-index:2200; align-items:flex-start; justify-content:center; padding:16px;">
+    <div style="background:#FFFFFF; border-radius:16px; padding:20px; width:100%; max-width:480px; box-shadow:0 10px 30px rgba(0,0,0,0.2); animation:slideDown 0.25s ease-out; margin-top:40px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #E2E8F0; padding-bottom:12px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#004BEE" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <h3 style="font-size:16.5px; font-weight:800; color:#0F172A; margin:0;">Search Agents / एजेंट खोजें</h3>
+            </div>
+            <button type="button" id="mobileSearchCloseBtn" style="background:none; border:none; font-size:26px; line-height:1; color:#64748B; cursor:pointer; padding:2px 8px;">&times;</button>
+        </div>
+        <form action="{{ route('front.vendorlist') }}" method="GET" id="mobileHeaderSearchForm" style="margin-top:16px;">
+            <div style="margin-bottom:14px;">
+                <label style="display:block; font-size:12.5px; font-weight:700; color:#334155; margin-bottom:6px;">District / जिला</label>
+                <select name="district" id="mHeaderDistrictSelect" style="width:100%; height:44px; border:1.5px solid #CBD5E1; border-radius:10px; padding:0 12px; font-size:13.5px; font-weight:600; color:#0F172A; background:#fff; outline:none;">
+                    <option value="">Search district</option>
+                    @foreach(($districtList ?? \App\Models\District::where('status', 1)->orderBy('name')->get()) as $dist)
+                        <option value="{{ $dist->id }}" {{ (isset($location) && $location == $dist->id) ? 'selected' : '' }}>
+                            {{ $dist->name }}, Rajasthan
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div style="margin-bottom:18px;">
+                <label style="display:block; font-size:12.5px; font-weight:700; color:#334155; margin-bottom:6px;">Category / कैटेगरी</label>
+                <select name="category" id="mHeaderCategorySelect" style="width:100%; height:44px; border:1.5px solid #CBD5E1; border-radius:10px; padding:0 12px; font-size:13.5px; font-weight:600; color:#0F172A; background:#fff; outline:none;">
+                    <option value="">All Categories</option>
+                    @foreach(($category ?? \App\Models\Category::whereNull('parent_id')->where('status', 1)->orderBy('name')->get()) as $cat)
+                        <option value="{{ $cat->id }}" {{ (isset($selectedCategory) && $selectedCategory == $cat->id) ? 'selected' : '' }}>
+                            {{ $cat->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <button type="submit" style="width:100%; height:46px; background:#004BEE; color:#fff; font-size:15px; font-weight:700; border:none; border-radius:10px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 12px rgba(0,75,238,0.25);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <span>Agent खोजें</span>
+            </button>
+        </form>
+    </div>
+</div>
 
 <!-- Right Side Offcanvas Drawer Menu Overlay -->
 <div class="right-drawer-overlay" id="rightDrawerOverlay"></div>
@@ -702,22 +746,72 @@
                 closeDrawer();
             });
         }
+
+        // Mobile Header Search Sheet Modal logic
+        var searchSheet = document.getElementById('mobileSearchSheet');
+        var searchBtn = document.getElementById('mobileHeaderSearchBtn');
+        var searchCloseBtn = document.getElementById('mobileSearchCloseBtn');
+        var mHeaderSearchForm = document.getElementById('mobileHeaderSearchForm');
+
+        function openSearchSheet() {
+            if (searchSheet) {
+                searchSheet.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeSearchSheet() {
+            if (searchSheet) {
+                searchSheet.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        }
+
+        if (searchBtn) {
+            searchBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                openSearchSheet();
+            });
+        }
+
+        if (searchCloseBtn) {
+            searchCloseBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                closeSearchSheet();
+            });
+        }
+
+        if (searchSheet) {
+            searchSheet.addEventListener('click', function(e) {
+                if (e.target === searchSheet) {
+                    closeSearchSheet();
+                }
+            });
+        }
+
+        if (mHeaderSearchForm) {
+            mHeaderSearchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                var dist = document.getElementById('mHeaderDistrictSelect') ? document.getElementById('mHeaderDistrictSelect').value.trim() : '';
+                var cat = document.getElementById('mHeaderCategorySelect') ? document.getElementById('mHeaderCategorySelect').value.trim() : '';
+
+                var targetUrl = "{{ route('front.vendorlist') }}";
+                if (dist && cat) {
+                    targetUrl = "{{ url('/vendorlist') }}/" + encodeURIComponent(dist) + "/" + encodeURIComponent(cat);
+                } else if (dist) {
+                    targetUrl = "{{ url('/vendorlist') }}/" + encodeURIComponent(dist);
+                } else if (cat) {
+                    targetUrl = "{{ url('/category/vendorlist') }}/" + encodeURIComponent(cat);
+                }
+                window.location.href = targetUrl;
+            });
+        }
     });
 </script>
 
 <!-- Mobile Bottom Navigation Bar Start -->
 <div class="mobile-bottom-nav" id="mobileBottomNav">
-    <!-- 1. Home -->
-    <a href="{{ route('front.index') }}" class="mob-nav-item {{ request()->routeIs('front.index') ? 'active' : '' }}">
-        <div class="mob-nav-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-            </svg>
-        </div>
-        <span class="mob-nav-label">Home</span>
-    </a>
-
-    <!-- 2. Special Offers -->
+    <!-- 1. Special Offers -->
     <a href="{{ route('front.price') }}" class="mob-nav-item {{ request()->routeIs('front.price') ? 'active' : '' }}">
         <div class="mob-nav-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -727,7 +821,7 @@
         <span class="mob-nav-label">Special Offers</span>
     </a>
 
-    <!-- 3. Direct Agent -->
+    <!-- 2. Direct Agent -->
     <a href="{{ route('front.vendorlist') }}" class="mob-nav-item {{ request()->routeIs('front.vendorlist*') && !request()->has('type') ? 'active' : '' }}">
         <div class="mob-nav-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -737,7 +831,7 @@
         <span class="mob-nav-label">Direct Agent</span>
     </a>
 
-    <!-- 4. Area Agent (Highlighted Pill Card) -->
+    <!-- 3. Area Agent (Highlighted Pill Card) -->
     <a href="{{ route('front.vendorlist') }}" class="mob-nav-item mob-nav-pill-btn">
         <div class="mob-nav-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -745,6 +839,16 @@
             </svg>
         </div>
         <span class="mob-nav-label">Area Agent</span>
+    </a>
+
+    <!-- 4. Home -->
+    <a href="{{ route('front.index') }}" class="mob-nav-item {{ request()->routeIs('front.index') ? 'active' : '' }}">
+        <div class="mob-nav-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+        </div>
+        <span class="mob-nav-label">Home</span>
     </a>
 </div>
 

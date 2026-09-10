@@ -42,7 +42,9 @@
                             </div>
                             <div class="contact-text-block">
                                 <span class="contact-label">Official Support Number</span>
-                                <h4 class="contact-val">+91 91193 36617</h4>
+                                <h4 class="contact-val">
+                                    <a href="tel:+917851969366" style="color: inherit; text-decoration: none;">+91 78519 69366</a>
+                                </h4>
                             </div>
                         </div>
 
@@ -55,7 +57,9 @@
                             </div>
                             <div class="contact-text-block">
                                 <span class="contact-label">WhatsApp Helpline</span>
-                                <h4 class="contact-val">+91 91193 36617</h4>
+                                <h4 class="contact-val">
+                                    <a href="https://wa.me/917851969366" target="_blank" style="color: inherit; text-decoration: none;">+91 78519 69366</a>
+                                </h4>
                             </div>
                         </div>
 
@@ -69,7 +73,24 @@
                             </div>
                             <div class="contact-text-block">
                                 <span class="contact-label">Support Email</span>
-                                <h4 class="contact-val">support@agent24india.com</h4>
+                                <h4 class="contact-val">
+                                    <a href="mailto:agent24india@gmail.com" style="color: inherit; text-decoration: none;">agent24india@gmail.com</a>
+                                </h4>
+                            </div>
+                        </div>
+
+                        <!-- Item 4: Working Hours & Agency Info -->
+                        <div class="contact-info-item">
+                            <div class="contact-icon-circle bg-blue">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12 6 12 12 16 14"/>
+                                </svg>
+                            </div>
+                            <div class="contact-text-block">
+                                <span class="contact-label">Working Hours</span>
+                                <h4 class="contact-val" style="font-size: 14.5px; font-weight: 600; color: #1E293B;">Mon - Sat: 10:00 AM - 6:00 PM</h4>
+                                <span style="font-size: 12px; color: #64748B; display: block; margin-top: 2px;">Sunday: Closed</span>
                             </div>
                         </div>
                     </div>

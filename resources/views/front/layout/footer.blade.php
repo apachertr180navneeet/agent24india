@@ -89,17 +89,7 @@
 
 <!-- Mobile Bottom Navigation Bar Start -->
 <div class="mobile-bottom-nav" id="mobileBottomNav">
-    <!-- 1. Home -->
-    <a href="{{ route('front.index') }}" class="mob-nav-item {{ request()->routeIs('front.index') ? 'active' : '' }}">
-        <div class="mob-nav-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-            </svg>
-        </div>
-        <span class="mob-nav-label">Home</span>
-    </a>
-
-    <!-- 2. Special Offers -->
+    <!-- 1. Special Offers -->
     <a href="{{ route('front.price') }}" class="mob-nav-item {{ request()->routeIs('front.price') ? 'active' : '' }}">
         <div class="mob-nav-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -109,7 +99,7 @@
         <span class="mob-nav-label">Special Offers</span>
     </a>
 
-    <!-- 3. Direct Agent -->
+    <!-- 2. Direct Agent -->
     <a href="{{ route('front.vendorlist') }}" class="mob-nav-item {{ request()->routeIs('front.vendorlist*') && !request()->has('type') ? 'active' : '' }}">
         <div class="mob-nav-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -119,7 +109,7 @@
         <span class="mob-nav-label">Direct Agent</span>
     </a>
 
-    <!-- 4. Area Agent (Highlighted Pill Card) -->
+    <!-- 3. Area Agent (Highlighted Pill Card) -->
     <a href="{{ route('front.vendorlist') }}" class="mob-nav-item mob-nav-pill-btn">
         <div class="mob-nav-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -127,6 +117,16 @@
             </svg>
         </div>
         <span class="mob-nav-label">Area Agent</span>
+    </a>
+
+    <!-- 4. Home -->
+    <a href="{{ route('front.index') }}" class="mob-nav-item {{ request()->routeIs('front.index') ? 'active' : '' }}">
+        <div class="mob-nav-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+        </div>
+        <span class="mob-nav-label">Home</span>
     </a>
 </div>
 

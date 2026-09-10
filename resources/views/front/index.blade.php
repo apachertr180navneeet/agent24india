@@ -3655,7 +3655,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (categorySelect) $(categorySelect).on('change', clearDesktopErrors);
     }
 
-    // Mobile Search Form Validation
+    // Mobile Search Form Direct Navigation & Validation
     const mSearchForm = document.getElementById('mAgentSearchForm');
     const mDistrictSelect = document.getElementById('mDistrictSelect');
     const mCitySelect = document.getElementById('mCitySelect');
@@ -3676,23 +3676,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (mSearchForm) {
         mSearchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
             const district = mDistrictSelect ? mDistrictSelect.value.trim() : '';
             const city = mCitySelect ? mCitySelect.value.trim() : '';
             const category = mCategorySelect ? mCategorySelect.value.trim() : '';
 
-            // Require at least one field to be selected
-            if (!district && !city && !category) {
-                e.preventDefault();
-                if (mSearchValMsg) mSearchValMsg.classList.add('active');
-                mFields.forEach(f => {
-                    if (f) {
-                        f.classList.remove('has-error');
-                        void f.offsetWidth; // Trigger reflow for shake animation
-                        f.classList.add('has-error');
-                    }
-                });
-                return false;
+            let targetUrl = "{{ route('front.vendorlist') }}";
+            let params = new URLSearchParams();
+
+            if (district && category) {
+                targetUrl = "{{ url('/vendorlist') }}/" + encodeURIComponent(district) + "/" + encodeURIComponent(category);
+                if (city && city !== 'all') {
+                    params.set('city', city);
+                }
+            } else if (district) {
+                targetUrl = "{{ url('/vendorlist') }}/" + encodeURIComponent(district);
+                if (city && city !== 'all') {
+                    params.set('city', city);
+                }
+            } else if (category) {
+                targetUrl = "{{ url('/category/vendorlist') }}/" + encodeURIComponent(category);
+                if (city && city !== 'all') {
+                    params.set('city', city);
+                }
+            } else if (city && city !== 'all') {
+                params.set('city', city);
             }
+
+            const qs = params.toString();
+            window.location.href = targetUrl + (qs ? '?' + qs : '');
         });
 
         if (mDistrictSelect) mDistrictSelect.addEventListener('change', clearMobileErrors);
