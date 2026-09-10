@@ -1019,6 +1019,7 @@ class ProfileController extends Controller
             ]);
 
         } catch (\Exception $e) {
+            dd($e);
             DB::rollBack();
 
             // Log error for debugging
@@ -1027,7 +1028,7 @@ class ProfileController extends Controller
                 'line' => $e->getLine()
             ]);
 
-            return back()->with('error', 'Something went wrong while uploading banner: ' . $e->getMessage());
+            return back()->with('error', 'Something went wrong! Please try again.');
         }
     }
 

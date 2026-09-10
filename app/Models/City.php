@@ -21,16 +21,6 @@ class City extends Model
         'updated_by'
     ];
 
-    public function state()
-    {
-        return $this->belongsTo(State::class, 'state_id', 'id');
-    }
-
-    public function district()
-    {
-        return $this->belongsTo(District::class, 'district_id', 'id');
-    }
-
     /**
      * Get list
      */

@@ -23,11 +23,6 @@ class District extends Model
         'district_order'
     ];
 
-    public function state()
-    {
-        return $this->belongsTo(State::class, 'state_id', 'id');
-    }
-
     /**
      * Get list
      */

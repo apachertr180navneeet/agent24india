@@ -1414,11 +1414,6 @@
             <div class="m-agent-slider-track" id="mAgentSliderTrack">
                 @if(isset($vendoruser) && count($vendoruser) > 0)
                     @foreach($vendoruser as $vendor)
-                        @php
-                            $mCity = $vendor->city->name ?? $vendor->district->name ?? '';
-                            $mState = $vendor->state->name ?? $vendor->district->state->name ?? $vendor->city->state->name ?? '';
-                            $mLocation = !empty($mCity) && !empty($mState) ? ($mCity . ', ' . $mState) : ($mCity ?: ($mState ?: 'Jaipur, Rajasthan'));
-                        @endphp
                         <div class="m-agent-slide-card">
                             <span class="m-verified-pill">VERIFIED</span>
                             <div class="m-agent-card-body">
@@ -1428,7 +1423,7 @@
                                 <div class="m-agent-info-wrap">
                                     <h3 class="m-agent-card-name">{{ $vendor->business_name ?: $vendor->name }}</h3>
                                     <span class="m-agent-card-type">{{ $vendor->businessCategory->name ?? ($vendor->category->name ?? 'Real Estate Agent') }}</span>
-                                    <span class="m-agent-card-loc">{{ $mLocation }}</span>
+                                    <span class="m-agent-card-loc">{{ $vendor->district->name ?? 'Jaipur' }}, Rajasthan</span>
                                     <div class="m-agent-card-stars">
                                         <span class="stars-gold">★★★★☆</span> <span class="m-star-score">4.8</span> <span class="m-star-count">(120)</span>
                                     </div>
@@ -2485,11 +2480,6 @@
 
                     @if(isset($vendoruser) && count($vendoruser) > 0)
                         @foreach($vendoruser as $vendor)
-                            @php
-                                $vCity = $vendor->city->name ?? $vendor->district->name ?? '';
-                                $vState = $vendor->state->name ?? $vendor->district->state->name ?? $vendor->city->state->name ?? '';
-                                $vLocation = !empty($vCity) && !empty($vState) ? ($vCity . ', ' . $vState) : ($vCity ?: ($vState ?: 'Jaipur, Rajasthan'));
-                            @endphp
                             <div class="agent-card">
                                 <div class="verified-badge">
                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -2503,7 +2493,7 @@
                                 </div>
                                 <h3 class="agent-name">{{ $vendor->business_name ?: $vendor->name }}</h3>
                                 <p class="agent-category">{{ $vendor->businessCategory->name ?? ($vendor->category->name ?? 'Verified Agent') }}</p>
-                                <p class="agent-location">{{ $vLocation }}</p>
+                                <p class="agent-location">{{ $vendor->district->name ?? 'Jaipur' }}, Rajasthan</p>
                                 <div class="agent-rating-row">
                                     <div class="rating-stars">★★★★★</div>
                                     <span class="rating-score">4.9 <span class="rating-count">(Verified)</span></span>

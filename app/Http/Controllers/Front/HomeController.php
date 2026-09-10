@@ -36,11 +36,11 @@ class HomeController extends Controller
         // Send view data
         $this->viewData['pageTitle'] = 'Home';
 
-        $vendoruser = User::select('id', 'name', 'business_name', 'business_category_id', 'state_id', 'district_id', 'city_id', 'profile_photo', 'mobile', 'whats_app', 'vendor_type')
+        $vendoruser = User::select('id', 'name', 'business_name', 'business_category_id', 'district_id', 'profile_photo', 'mobile', 'whats_app', 'vendor_type')
             ->where('role_id', config('constants.roles.VENDOR.value'))
             ->where('status', 1)
             ->where('is_approved', 1)
-            ->with(['businessCategory:id,name', 'district:id,name,state_id', 'district.state:id,name', 'city:id,name,district_id,state_id', 'city.state:id,name', 'state:id,name'])
+            ->with(['businessCategory:id,name', 'district:id,name'])
             ->orderByRaw("CASE WHEN vendor_type = 'paid' THEN 0 ELSE 1 END, id DESC")
             ->limit(12)
             ->get();

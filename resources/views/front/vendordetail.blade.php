@@ -36,7 +36,7 @@
     }
 @endphp
 
-<link rel="stylesheet" href="{{ asset('public/front/assets/css/prototype-style.css') }}?v=2.0" />
+<link rel="stylesheet" href="{{ asset('front/assets/css/prototype-style.css') }}?v=1.2" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 <style id="vd-styles">
 .vd-page-wrapper,
@@ -2120,8 +2120,11 @@
                 <!-- 2. Interactive Navigation Tabs -->
                 <div class="vd-tabs-nav-wrap">
                     <ul class="vd-tabs-nav" id="vendorTabs">
-                        <li class="vd-tab-item active" data-tab="about">About Us</li>
+                        <li class="vd-tab-item active" data-tab="overview">Overview</li>
+                        <li class="vd-tab-item" data-tab="properties">Properties (45)</li>
                         <li class="vd-tab-item" data-tab="services">Services</li>
+                        <li class="vd-tab-item" data-tab="reviews">Reviews (128)</li>
+                        <li class="vd-tab-item" data-tab="about">About Us</li>
                         <li class="vd-tab-item" data-tab="contact">Contact</li>
                     </ul>
                 </div>
@@ -2129,8 +2132,8 @@
                 <!-- 3. Tab Panes -->
                 <div class="vd-tabs-content">
 
-                    <!-- TAB PANE 1: ABOUT US -->
-                    <div class="vd-tab-pane active" id="pane-about">
+                    <!-- TAB PANE 1: OVERVIEW -->
+                    <div class="vd-tab-pane active" id="pane-overview">
 
                         <!-- About Section Card -->
                         <div class="vd-section-card">
@@ -2179,21 +2182,6 @@
                                     </svg>
                                     <span>End to End Support</span>
                                 </span>
-                            </div>
-
-                            <div class="vd-about-specs-table" style="margin-top: 24px;">
-                                <div class="vd-spec-row">
-                                    <span class="vd-spec-k">Business Type</span>
-                                    <span class="vd-spec-v">{{ $categoryName }}</span>
-                                </div>
-                                <div class="vd-spec-row">
-                                    <span class="vd-spec-k">Operating City</span>
-                                    <span class="vd-spec-v">{{ $city }}, {{ $district }}, {{ $state }}</span>
-                                </div>
-                                <div class="vd-spec-row">
-                                    <span class="vd-spec-k">Pincode</span>
-                                    <span class="vd-spec-v">{{ $pincode }}</span>
-                                </div>
                             </div>
                         </div>
 
@@ -2328,7 +2316,73 @@
 
                     </div>
 
-                    <!-- TAB PANE 2: SERVICES -->
+                    <!-- TAB PANE 2: PROPERTIES -->
+                    <div class="vd-tab-pane" id="pane-properties">
+                        <div class="vd-section-card">
+                            <div class="vd-pane-header">
+                                <h2 class="vd-card-title">Available Properties by {{ $bizName }} (45)</h2>
+                                <span class="vd-prop-filter-badge">All Properties ({{ $city }})</span>
+                            </div>
+                            
+                            <div class="vd-prop-grid">
+                                <div class="vd-prop-card">
+                                    <div class="vd-prop-img-wrap">
+                                        <img src="{{ asset('public/front/assets/images/district_jaipur.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/district_jaipur.jpg') }}';" alt="Luxury Flat">
+                                        <span class="vd-prop-tag for-sale">For Sale</span>
+                                        <span class="vd-prop-price">₹ 75 Lakh</span>
+                                    </div>
+                                    <div class="vd-prop-body">
+                                        <h4 class="vd-prop-name">3 BHK Luxury Apartment</h4>
+                                        <p class="vd-prop-loc"><i class="fa-solid fa-location-dot"></i> Vaishali Nagar, {{ $city }}</p>
+                                        <div class="vd-prop-amenities">
+                                            <span><i class="fa-solid fa-bed"></i> 3 Beds</span>
+                                            <span><i class="fa-solid fa-bath"></i> 3 Baths</span>
+                                            <span><i class="fa-solid fa-chart-area"></i> 1850 sq.ft</span>
+                                        </div>
+                                        <button class="btn-prop-enq" onclick="openEnquiryModal('3 BHK Luxury Apartment - Vaishali Nagar')">Enquire Now</button>
+                                    </div>
+                                </div>
+
+                                <div class="vd-prop-card">
+                                    <div class="vd-prop-img-wrap">
+                                        <img src="{{ asset('public/front/assets/images/office_building.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/office_building.jpg') }}';" alt="Commercial Space">
+                                        <span class="vd-prop-tag for-rent">For Rent</span>
+                                        <span class="vd-prop-price">₹ 45,000 / mo</span>
+                                    </div>
+                                    <div class="vd-prop-body">
+                                        <h4 class="vd-prop-name">Commercial Office Space</h4>
+                                        <p class="vd-prop-loc"><i class="fa-solid fa-location-dot"></i> Mansarovar, {{ $city }}</p>
+                                        <div class="vd-prop-amenities">
+                                            <span><i class="fa-solid fa-building"></i> Commercial</span>
+                                            <span><i class="fa-solid fa-chart-area"></i> 1200 sq.ft</span>
+                                            <span><i class="fa-solid fa-car"></i> Parking</span>
+                                        </div>
+                                        <button class="btn-prop-enq" onclick="openEnquiryModal('Commercial Office Space - Mansarovar')">Enquire Now</button>
+                                    </div>
+                                </div>
+
+                                <div class="vd-prop-card">
+                                    <div class="vd-prop-img-wrap">
+                                        <img src="{{ asset('public/front/assets/images/office_reception.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/office_reception.jpg') }}';" alt="Villa">
+                                        <span class="vd-prop-tag for-sale">For Sale</span>
+                                        <span class="vd-prop-price">₹ 1.45 Cr</span>
+                                    </div>
+                                    <div class="vd-prop-body">
+                                        <h4 class="vd-prop-name">4 BHK Independent Villa</h4>
+                                        <p class="vd-prop-loc"><i class="fa-solid fa-location-dot"></i> Ajmer Road, {{ $city }}</p>
+                                        <div class="vd-prop-amenities">
+                                            <span><i class="fa-solid fa-bed"></i> 4 Beds</span>
+                                            <span><i class="fa-solid fa-bath"></i> 4 Baths</span>
+                                            <span><i class="fa-solid fa-chart-area"></i> 2600 sq.ft</span>
+                                        </div>
+                                        <button class="btn-prop-enq" onclick="openEnquiryModal('4 BHK Independent Villa - Ajmer Road')">Enquire Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB PANE 3: SERVICES -->
                     <div class="vd-tab-pane" id="pane-services">
                         <div class="vd-section-card">
                             <h2 class="vd-card-title">Professional Real Estate Services</h2>
@@ -2357,7 +2411,82 @@
                         </div>
                     </div>
 
-                    <!-- TAB PANE 3: CONTACT -->
+                    <!-- TAB PANE 4: REVIEWS -->
+                    <div class="vd-tab-pane" id="pane-reviews">
+                        <div class="vd-section-card">
+                            <div class="vd-reviews-header">
+                                <div>
+                                    <h2 class="vd-card-title">Client Reviews & Ratings</h2>
+                                    <p class="vd-reviews-sub">Overall Rating based on 128 verified customer experiences</p>
+                                </div>
+                                <div class="vd-score-badge">
+                                    <span class="vd-score-huge">4.8</span>
+                                    <div class="vd-stars-gold">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star-half-stroke"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="vd-reviews-list">
+                                <div class="vd-single-review">
+                                    <div class="vd-reviewer-head">
+                                        <div class="vd-avatar-circle" style="background:#FEE2E2; color:#DC2626;">R</div>
+                                        <div>
+                                            <h4 class="vd-reviewer-name">Rohit Sharma</h4>
+                                            <span class="vd-review-date">2 weeks ago</span>
+                                        </div>
+                                        <div class="vd-rev-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                                    </div>
+                                    <p class="vd-rev-comment">Bahut hi professional aur bharosemand team hai! {{ $city }} mein hume behtareen property dilayi. Negotiation aur registry paper kaam sab smooth raha. Highly Recommended!</p>
+                                </div>
+
+                                <div class="vd-single-review">
+                                    <div class="vd-reviewer-head">
+                                        <div class="vd-avatar-circle" style="background:#EFF6FF; color:#004BEE;">A</div>
+                                        <div>
+                                            <h4 class="vd-reviewer-name">Anil Meena</h4>
+                                            <span class="vd-review-date">1 month ago</span>
+                                        </div>
+                                        <div class="vd-rev-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                                    </div>
+                                    <p class="vd-rev-comment">Commercial property deal finalize karwayi. Bilkul transparent pricing aur koi hidden charges nahi the. Bahut satisfied hu services se.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB PANE 5: ABOUT US -->
+                    <div class="vd-tab-pane" id="pane-about">
+                        <div class="vd-section-card">
+                            <h2 class="vd-card-title">Detailed Profile of {{ $bizName }}</h2>
+                            <p class="vd-about-desc">{{ $description }}</p>
+                            
+                            <div class="vd-about-specs-table">
+                                <div class="vd-spec-row">
+                                    <span class="vd-spec-k">Business Type</span>
+                                    <span class="vd-spec-v">{{ $categoryName }}</span>
+                                </div>
+                                <div class="vd-spec-row">
+                                    <span class="vd-spec-k">Operating City</span>
+                                    <span class="vd-spec-v">{{ $city }}, {{ $district }}, {{ $state }}</span>
+                                </div>
+                                <div class="vd-spec-row">
+                                    <span class="vd-spec-k">Pincode</span>
+                                    <span class="vd-spec-v">{{ $pincode }}</span>
+                                </div>
+                                <div class="vd-spec-row">
+                                    <span class="vd-spec-k">Verification Status</span>
+                                    <span class="vd-spec-v" style="color: #16A34A; font-weight: 700;"><i class="fa-solid fa-circle-check"></i> Government ID & Business Verified</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB PANE 6: CONTACT -->
                     <div class="vd-tab-pane" id="pane-contact">
                         <div class="vd-section-card">
                             <h2 class="vd-card-title">Send Inquiry Directly to {{ $bizName }}</h2>
@@ -2520,6 +2649,7 @@
                 <div class="vd-side-card">
                     <div class="vd-side-rev-header">
                         <h3 class="vd-side-title" style="margin-bottom:0;">What Our Clients Say</h3>
+                        <a href="javascript:void(0)" onclick="switchTab('reviews')" class="vd-side-all-link">View All Reviews</a>
                     </div>
 
                     <div class="vd-client-review-box">
