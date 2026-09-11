@@ -3,7 +3,12 @@
     $trem = $siteTerms ?? null;
     $about = $siteAbout ?? null;
     $setting = $siteSetting ?? null;
-    $districtList = $siteDistricts ?? collect();
+    $districtList = (!empty($siteDistricts) && ($siteDistricts instanceof \Illuminate\Support\Collection || is_array($siteDistricts))) 
+        ? $siteDistricts 
+        : \App\Models\District::select('id', 'name')->where('status', 1)->orderBy('name')->get();
+    $categoryList = (!empty($siteCategories) && ($siteCategories instanceof \Illuminate\Support\Collection || is_array($siteCategories)))
+        ? $siteCategories
+        : \App\Models\Category::select('id', 'name')->whereNull('parent_id')->where('status', 1)->orderBy('name')->get();
     $dynamicLogo = $siteLogo ?? null;
 @endphp
 
@@ -324,7 +329,7 @@
                     </svg>
                     <select id="hscCategorySelect" class="hsc-select">
                         <option value="">All Categories</option>
-                        @foreach(($category ?? \App\Models\Category::whereNull('parent_id')->where('status', 1)->get()) as $cat)
+                        @foreach($categoryList as $cat)
                             <option value="{{ $cat->id }}" {{ (isset($selectedCategory) && $selectedCategory == $cat->id) ? 'selected' : '' }}>
                                 {{ $cat->name }}
                             </option>
@@ -339,7 +344,7 @@
                     </svg>
                     <select id="hscDistrictSelect" class="hsc-select">
                         <option value="" {{ empty($location) ? 'selected' : '' }}>Search district</option>
-                        @foreach(($districtList ?? \App\Models\District::where('status', 1)->orderBy('name')->get()) as $dist)
+                        @foreach($districtList as $dist)
                             <option value="{{ $dist->id }}" {{ (isset($location) && $location == $dist->id) ? 'selected' : '' }}>
                                 {{ $dist->name }}, Rajasthan
                             </option>
@@ -460,7 +465,7 @@
                 <label style="display:block; font-size:12.5px; font-weight:700; color:#334155; margin-bottom:6px;">District / जिला</label>
                 <select name="district" id="mHeaderDistrictSelect" style="width:100%; height:44px; border:1.5px solid #CBD5E1; border-radius:10px; padding:0 12px; font-size:13.5px; font-weight:600; color:#0F172A; background:#fff; outline:none;">
                     <option value="">Search district</option>
-                    @foreach(($districtList ?? \App\Models\District::where('status', 1)->orderBy('name')->get()) as $dist)
+                    @foreach($districtList as $dist)
                         <option value="{{ $dist->id }}" {{ (isset($location) && $location == $dist->id) ? 'selected' : '' }}>
                             {{ $dist->name }}, Rajasthan
                         </option>
@@ -471,7 +476,7 @@
                 <label style="display:block; font-size:12.5px; font-weight:700; color:#334155; margin-bottom:6px;">Category / कैटेगरी</label>
                 <select name="category" id="mHeaderCategorySelect" style="width:100%; height:44px; border:1.5px solid #CBD5E1; border-radius:10px; padding:0 12px; font-size:13.5px; font-weight:600; color:#0F172A; background:#fff; outline:none;">
                     <option value="">All Categories</option>
-                    @foreach(($category ?? \App\Models\Category::whereNull('parent_id')->where('status', 1)->orderBy('name')->get()) as $cat)
+                    @foreach($categoryList as $cat)
                         <option value="{{ $cat->id }}" {{ (isset($selectedCategory) && $selectedCategory == $cat->id) ? 'selected' : '' }}>
                             {{ $cat->name }}
                         </option>
