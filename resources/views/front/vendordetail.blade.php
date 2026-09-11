@@ -2198,10 +2198,6 @@
                                     <span class="vd-spec-k">Pincode</span>
                                     <span class="vd-spec-v">{{ $pincode }}</span>
                                 </div>
-                                <div class="vd-spec-row">
-                                    <span class="vd-spec-k">Verification Status</span>
-                                    <span class="vd-spec-v" style="color: #16A34A; font-weight: 700;"><i class="fa-solid fa-circle-check"></i> Government ID & Business Verified</span>
-                                </div>
                             </div>
                         </div>
 
