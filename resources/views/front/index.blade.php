@@ -221,6 +221,56 @@
         transform: translateY(0) !important;
     }
 
+    /* Mobile Search Select2 Styling */
+    .m-input-wrap .select2-container {
+        width: 100% !important;
+        height: 44px !important;
+    }
+    .m-input-wrap .select2-container--default .select2-selection--single {
+        height: 44px !important;
+        min-height: 44px !important;
+        border: 1px solid #CBD5E1 !important;
+        border-radius: 10px !important;
+        background-color: #FFFFFF !important;
+        padding-left: 14px !important;
+        padding-right: 36px !important;
+        display: flex !important;
+        align-items: center !important;
+        position: relative !important;
+        transition: border-color 0.2s, box-shadow 0.2s !important;
+    }
+    .m-input-wrap .select2-container--default.select2-container--open .select2-selection--single,
+    .m-input-wrap .select2-container--default.select2-container--focus .select2-selection--single {
+        border-color: #004BEE !important;
+        box-shadow: 0 0 0 3px rgba(0, 75, 238, 0.12) !important;
+        outline: none !important;
+    }
+    .m-input-wrap .select2-container--default .select2-selection--single .select2-selection__rendered {
+        padding: 0 !important;
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+        color: #0F172A !important;
+        line-height: 42px !important;
+        height: 42px !important;
+        display: flex !important;
+        align-items: center !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        width: 100% !important;
+    }
+    .m-input-wrap .select2-container--default .select2-selection--single .select2-selection__placeholder {
+        color: #94A3B8 !important;
+        font-weight: 500 !important;
+        line-height: 42px !important;
+    }
+    .m-input-wrap .select2-container--default .select2-selection--single .select2-selection__arrow {
+        display: none !important;
+    }
+    .m-input-wrap .m-field-icon {
+        z-index: 5;
+    }
+
     /* Mobile How It Works Styles matching Screenshot */
     .m-how-it-works-section {
         padding: 24px 16px 14px 16px;
@@ -1081,7 +1131,7 @@
                 <div class="m-field-group" id="mSearchDistrictField">
                     <label class="m-field-label">District / जिला</label>
                     <div class="m-input-wrap">
-                        <select name="district" id="mDistrictSelect" class="m-select-box">
+                        <select name="district" id="mDistrictSelect" class="m-select-box select2-district-mobile">
                             <option value="">Search district</option>
                             @foreach(collect($district ?? [])->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $d)
                                 <option value="{{ $d->id }}" {{ request('district') == $d->id ? 'selected' : '' }}>{{ $d->name }}</option>
@@ -1095,7 +1145,7 @@
                 <div class="m-field-group" id="mSearchCityField">
                     <label class="m-field-label">City / शहर</label>
                     <div class="m-input-wrap">
-                        <select name="city" id="mCitySelect" class="m-select-box">
+                        <select name="city" id="mCitySelect" class="m-select-box select2-city-mobile">
                             <option value="">Select city</option>
                             <option value="all">All City</option>
                             @if(isset($initialCities) && count($initialCities) > 0)
@@ -1112,7 +1162,7 @@
                 <div class="m-field-group" id="mSearchCategoryField">
                     <label class="m-field-label">Category / कैटेगरी</label>
                     <div class="m-input-wrap">
-                        <select name="category" id="mCategorySelect" class="m-select-box">
+                        <select name="category" id="mCategorySelect" class="m-select-box select2-category-mobile">
                             <option value="">Select Category</option>
                             @if(isset($category) && count($category) > 0)
                                 @foreach(collect($category ?? [])->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $cat)
@@ -3575,6 +3625,22 @@ document.addEventListener('DOMContentLoaded', () => {
             allowClear: false,
             width: '100%'
         });
+
+        $('.select2-district-mobile').select2({
+            placeholder: 'Search district',
+            allowClear: false,
+            width: '100%'
+        });
+        $('.select2-city-mobile').select2({
+            placeholder: 'Select city',
+            allowClear: false,
+            width: '100%'
+        });
+        $('.select2-category-mobile').select2({
+            placeholder: 'Select Category',
+            allowClear: false,
+            width: '100%'
+        });
     }
 
     function setupDistrictCityBinding(districtSelectId, citySelectId, isSelect2) {
@@ -3608,7 +3674,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     setupDistrictCityBinding('districtSelect', 'citySelect', true);
-    setupDistrictCityBinding('mDistrictSelect', 'mCitySelect', false);
+    setupDistrictCityBinding('mDistrictSelect', 'mCitySelect', true);
 
     // Desktop Search Form Validation
     const desktopSearchForm = document.getElementById('agentSearchForm');
@@ -3707,9 +3773,9 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = targetUrl + (qs ? '?' + qs : '');
         });
 
-        if (mDistrictSelect) mDistrictSelect.addEventListener('change', clearMobileErrors);
-        if (mCitySelect) mCitySelect.addEventListener('change', clearMobileErrors);
-        if (mCategorySelect) mCategorySelect.addEventListener('change', clearMobileErrors);
+        if (mDistrictSelect) $(mDistrictSelect).on('change', clearMobileErrors);
+        if (mCitySelect) $(mCitySelect).on('change', clearMobileErrors);
+        if (mCategorySelect) $(mCategorySelect).on('change', clearMobileErrors);
     }
 
     // =========================================================================
