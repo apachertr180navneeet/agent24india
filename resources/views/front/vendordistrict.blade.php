@@ -403,13 +403,22 @@
 
                     @if(isset($sideadvertisments) && count($sideadvertisments) > 0)
                         @foreach($sideadvertisments as $sideadvertisment)
+                            @php
+                                $sideVendorId = $sideadvertisment->bussines_name ?? ($sideadvertisment->vendor_user_id ?? ($sideadvertisment->user_id ?? null));
+                                $sLink = !empty($sideVendorId) ? route('front.vendor.details', ['vendor' => $sideVendorId]) : (!empty($sideadvertisment->link) ? $sideadvertisment->link : route('front.addbanner'));
+                                $isExt = !empty($sideadvertisment->link) && Str::startsWith($sideadvertisment->link, 'http') && empty($sideVendorId);
+                            @endphp
                             <div style="margin-bottom: 14px;">
-                                <img src="{{ $sideadvertisment->image }}" class="vl-sidebanner-img" alt="{{ $sideadvertisment->image_alt }}" onerror="this.onerror=null; this.src='{{ asset('images/sidebanner.jpeg') }}';">
+                                <a href="{{ $sLink }}" @if($isExt) target="_blank" @endif>
+                                    <img src="{{ $sideadvertisment->image }}" class="vl-sidebanner-img" alt="{{ $sideadvertisment->image_alt }}" onerror="this.onerror=null; this.src='{{ asset('images/sidebanner.jpeg') }}';">
+                                </a>
                             </div>
                         @endforeach
                     @else
                         <div>
-                            <img src="{{ asset('images/sidebanner.jpeg') }}" class="vl-sidebanner-img" alt="Default Banner" onerror="this.onerror=null; this.src='{{ asset('public/images/sidebanner.jpeg') }}';">
+                            <a href="{{ route('front.addbanner') }}">
+                                <img src="{{ asset('images/sidebanner.jpeg') }}" class="vl-sidebanner-img" alt="Default Banner" onerror="this.onerror=null; this.src='{{ asset('public/images/sidebanner.jpeg') }}';">
+                            </a>
                         </div>
                     @endif
                 </div>

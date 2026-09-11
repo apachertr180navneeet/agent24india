@@ -2396,12 +2396,21 @@
                     if (isset($topadvertisments) && count($topadvertisments) > 0) {
                         foreach ($topadvertisments as $topAd) {
                             $adImg = !empty($topAd->image) ? (Str::startsWith($topAd->image, 'http') ? $topAd->image : asset($topAd->image)) : asset('front/assets/images/banner_night_city.jpg');
-                            $adLink = !empty($topAd->link) ? $topAd->link : route('front.addbanner');
+                            $topVendorId = $topAd->bussines_name ?? ($topAd->vendor_user_id ?? ($topAd->user_id ?? null));
+                            $adLink = route('front.addbanner');
+                            $isExternal = false;
+                            if (!empty($topVendorId)) {
+                                $adLink = route('front.vendor.details', ['vendor' => $topVendorId]);
+                            } elseif (!empty($topAd->link)) {
+                                $adLink = $topAd->link;
+                                $isExternal = Str::startsWith($topAd->link, 'http');
+                            }
+
                             $bannerSlidesList[] = [
                                 'image'       => $adImg,
                                 'link'        => $adLink,
                                 'alt'         => $topAd->image_alt ?? 'Banner Ad',
-                                'is_external' => !empty($topAd->link) && Str::startsWith($topAd->link, 'http')
+                                'is_external' => $isExternal
                             ];
                         }
                     }
@@ -2729,12 +2738,21 @@
                 if (isset($sideadvertisments) && count($sideadvertisments) > 0) {
                     foreach ($sideadvertisments as $sideAd) {
                         $sideImg = !empty($sideAd->image) ? (Str::startsWith($sideAd->image, 'http') ? $sideAd->image : asset($sideAd->image)) : asset('front/assets/images/sidebanner/sidebanner1.jpg');
-                        $sideLink = !empty($sideAd->link) ? $sideAd->link : route('front.addbanner');
+                        $sideVendorId = $sideAd->bussines_name ?? ($sideAd->vendor_user_id ?? ($sideAd->user_id ?? null));
+                        $sideLink = route('front.addbanner');
+                        $isExternal = false;
+                        if (!empty($sideVendorId)) {
+                            $sideLink = route('front.vendor.details', ['vendor' => $sideVendorId]);
+                        } elseif (!empty($sideAd->link)) {
+                            $sideLink = $sideAd->link;
+                            $isExternal = Str::startsWith($sideAd->link, 'http');
+                        }
+
                         $sideAdsList[] = [
                             'image'       => $sideImg,
                             'link'        => $sideLink,
                             'alt'         => $sideAd->image_alt ?? ($sideAd->bussines_name ?? 'Visiting Card Ad'),
-                            'is_external' => !empty($sideAd->link) && Str::startsWith($sideAd->link, 'http')
+                            'is_external' => $isExternal
                         ];
                     }
                 }

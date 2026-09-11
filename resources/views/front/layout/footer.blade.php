@@ -68,14 +68,69 @@
                 </ul>
             </div>
 
-            <!-- Contact Info -->
-            <div class="footer-col">
-                <h4 class="footer-heading">Contact Support</h4>
-                <ul class="footer-contact-list">
-                    <li>📍 Jodhpur & Jaipur, Rajasthan, India</li>
-                    <li>📞 +91 98765 43210</li>
-                    <li>✉️ agent24india@gmail.com</li>
-                </ul>
+            <!-- Talk to Us Column -->
+            <div class="footer-col footer-talk-col">
+                <h4 class="footer-heading">Talk to Us</h4>
+                <div class="footer-talk-list">
+                    
+                    <!-- Item 1: Phone -->
+                    <div class="footer-talk-row">
+                        <div class="footer-talk-bubble blue">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                        </div>
+                        <div class="footer-talk-text">
+                            <span class="footer-talk-label">Phone Number</span>
+                            <a href="tel:+917851969366" class="footer-talk-val">+91 78519 69366</a>
+                        </div>
+                    </div>
+
+                    <!-- Item 2: WhatsApp -->
+                    <div class="footer-talk-row">
+                        <div class="footer-talk-bubble green">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                            </svg>
+                        </div>
+                        <div class="footer-talk-text">
+                            <span class="footer-talk-label">WhatsApp</span>
+                            <a href="https://wa.me/917851969366" target="_blank" class="footer-talk-val">+91 78519 69366</a>
+                        </div>
+                    </div>
+
+                    <!-- Item 3: Email -->
+                    <div class="footer-talk-row">
+                        <div class="footer-talk-bubble blue">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                        </div>
+                        <div class="footer-talk-text">
+                            <span class="footer-talk-label">Email Address</span>
+                            <a href="mailto:agent24india@gmail.com" class="footer-talk-val">agent24india@gmail.com</a>
+                        </div>
+                    </div>
+
+                    <!-- Item 4: Agency Info & Working Hours -->
+                    <div class="footer-talk-row">
+                        <div class="footer-talk-bubble blue">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                        </div>
+                        <div class="footer-talk-text">
+                            <span class="footer-talk-biz">AGENT 24 INDIA ADVERTISING AGENCY</span>
+                            <span class="footer-talk-gst">GST : 08DEJPG0124K1ZN</span>
+                            <span class="footer-talk-label" style="margin-top: 4px;">Working Hours</span>
+                            <span class="footer-talk-sub">Monday - Saturday: 10:00 AM - 6:00 PM</span>
+                            <span class="footer-talk-sub">Sunday: Closed</span>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
         </div>
@@ -131,6 +186,74 @@
 </div>
 
 <style>
+    /* Footer Talk to Us Styles */
+    .footer-talk-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    .footer-talk-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .footer-talk-bubble {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: #FFFFFF;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    }
+    .footer-talk-bubble.blue {
+        background-color: #004BEE;
+    }
+    .footer-talk-bubble.green {
+        background-color: #25D366;
+    }
+    .footer-talk-text {
+        display: flex;
+        flex-direction: column;
+    }
+    .footer-talk-label {
+        font-size: 11.5px;
+        font-weight: 600;
+        color: #94A3B8;
+        margin-bottom: 2px;
+    }
+    .footer-talk-val {
+        font-size: 14px;
+        font-weight: 700;
+        color: #FFFFFF;
+        line-height: 1.3;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+    .footer-talk-val:hover {
+        color: #60A5FA;
+    }
+    .footer-talk-biz {
+        font-size: 12.5px;
+        font-weight: 700;
+        color: #FFFFFF;
+        line-height: 1.35;
+    }
+    .footer-talk-gst {
+        font-size: 12px;
+        font-weight: 600;
+        color: #CBD5E1;
+        line-height: 1.35;
+    }
+    .footer-talk-sub {
+        font-size: 11.5px;
+        font-weight: 500;
+        color: #94A3B8;
+        line-height: 1.4;
+    }
+
     /* Mobile Bottom Navigation Styles */
     .mobile-bottom-nav {
         display: none;
