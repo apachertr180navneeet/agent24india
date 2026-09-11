@@ -360,21 +360,21 @@
             <nav class="main-nav" id="mainNav">
                 <ul class="nav-list">
                     <li class="nav-item {{ request()->routeIs('front.price*') ? 'active' : '' }}">
-                        <a href="#" class="nav-link">Special offers</a>
+                        <a href="{{ route('front.price') }}" class="nav-link">Special offers</a>
                         @if(request()->routeIs('front.price*'))
                             <span class="active-bar"></span>
                         @endif
                     </li>
 
                     <li class="nav-item {{ request()->routeIs('front.vendorlist*') ? 'active' : '' }}">
-                        <a href="#" class="nav-link">Direct Agent</a>
+                        <a href="{{ route('front.vendorlist') }}" class="nav-link">Direct Agent</a>
                         @if(request()->routeIs('front.vendorlist*'))
                             <span class="active-bar"></span>
                         @endif
                     </li>
 
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Area Agent</a>
+                        <a href="{{ route('front.vendorlist') }}" class="nav-link">Area Agent</a>
                     </li>
                 </ul>
             </nav>
@@ -560,16 +560,16 @@
             </a>
         </li>
 
-        <!-- 3. DBM Form -->
+        <!-- 3. Free Listing -->
         <li>
-            <a href="{{ \Auth::check() ? route('front.addListing') : route('login') }}" class="drawer-menu-card {{ request()->routeIs('front.addListing') ? 'active-card' : '' }}">
+            <a href="{{ \Auth::check() ? route('front.addListing') : route('login') }}" class="drawer-menu-card {{ request()->routeIs('front.addListing*') ? 'active-card' : '' }}">
                 <div class="drawer-card-left">
                     <div class="drawer-card-icon">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
                         </svg>
                     </div>
-                    <span class="drawer-card-text">DBM Form</span>
+                    <span class="drawer-card-text">Free Listing</span>
                 </div>
                 <svg class="drawer-card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M9 18l6-6-6-6"/>
@@ -577,7 +577,24 @@
             </a>
         </li>
 
-        <!-- 4. Terms & Condition -->
+        <!-- 4. Banner Ad -->
+        <li>
+            <a href="{{ \Auth::check() ? route('front.addbanner') : route('login') }}" class="drawer-menu-card {{ request()->routeIs('front.addbanner*') ? 'active-card' : '' }}">
+                <div class="drawer-card-left">
+                    <div class="drawer-card-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M21 3H3C2 3 1 4 1 5v14c0 1 1 2 2 2h18c1 0 2-1 2-2V5c0-1-1-2-2-2zm0 16H3V5h18v14zm-10-7h9v6h-9z"/>
+                        </svg>
+                    </div>
+                    <span class="drawer-card-text">Banner Ad</span>
+                </div>
+                <svg class="drawer-card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </a>
+        </li>
+
+        <!-- 5. Terms & Condition -->
         <li>
             <a href="{{ route('front.termsAndConditions') }}" class="drawer-menu-card {{ request()->routeIs('front.termsAndConditions') ? 'active-card' : '' }}">
                 <div class="drawer-card-left">
@@ -594,7 +611,24 @@
             </a>
         </li>
 
-        <!-- 5. Support & Help -->
+        <!-- 6. Privacy Policy -->
+        <li>
+            <a href="{{ route('front.privacyPolicy') }}" class="drawer-menu-card {{ request()->routeIs('front.privacyPolicy') ? 'active-card' : '' }}">
+                <div class="drawer-card-left">
+                    <div class="drawer-card-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+                        </svg>
+                    </div>
+                    <span class="drawer-card-text">Privacy Policy</span>
+                </div>
+                <svg class="drawer-card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </a>
+        </li>
+
+        <!-- 7. Support & Help -->
         <li>
             <a href="{{ route('front.support') }}" class="drawer-menu-card {{ request()->routeIs('front.support') ? 'active-card' : '' }}">
                 <div class="drawer-card-left">
@@ -611,7 +645,7 @@
             </a>
         </li>
 
-        <!-- 6. About Us -->
+        <!-- 8. About Us -->
         <li>
             <a href="{{ route('front.aboutus') }}" class="drawer-menu-card {{ request()->routeIs('front.aboutus') ? 'active-card' : '' }}">
                 <div class="drawer-card-left">
@@ -628,7 +662,7 @@
             </a>
         </li>
 
-        <!-- 7. Contact Us -->
+        <!-- 9. Contact Us -->
         <li>
             <a href="{{ route('front.contactus') }}" class="drawer-menu-card {{ request()->routeIs('front.contactus') ? 'active-card' : '' }}">
                 <div class="drawer-card-left">
@@ -645,7 +679,7 @@
             </a>
         </li>
 
-        <!-- 8. Login / Logout -->
+        <!-- 10. Login / Logout -->
         <li>
             @if(\Auth::check())
                 <a href="{{ route('front.logout') }}" onclick="return confirm('Are you sure you want to logout?')" class="drawer-menu-card" style="border-color: #FEE2E2;">
@@ -680,7 +714,7 @@
             @endif
         </li>
 
-        <!-- 9. Register -->
+        <!-- 11. Register -->
         @if(!\Auth::check())
             <li>
                 <a href="{{ route('front.register') }}" class="drawer-menu-card {{ request()->routeIs('front.register') ? 'active-card' : '' }}">

@@ -47,12 +47,11 @@
                     @if($about && $about->status == 1)
                         <li><a href="{{route('front.aboutus')}}">About Us</a></li>
                     @endif
-                    <li><a href="#verifiedAgents">Top Agents</a></li>
-                    <li><a href="#rajasthanDistricts">Important Cities</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
-                    @if($trem && $trem->status == 1)
-                        <li><a href="{{route('front.price')}}">Price Plans</a></li>
-                    @endif
+                    <li><a href="{{route('front.vendorlist')}}">Top Agents</a></li>
+                    <li><a href="{{route('front.price')}}">Price Plans</a></li>
+                    <li><a href="{{route('front.termsAndConditions')}}">Terms & Conditions</a></li>
+                    <li><a href="{{route('front.privacyPolicy')}}">Privacy Policy</a></li>
+                    <li><a href="{{route('front.contactus')}}">Contact Us</a></li>
                 </ul>
             </div>
 
@@ -136,8 +135,9 @@
         </div>
 
         <div class="footer-bottom">
-            <p>© {{ date('Y') }} {{ $setting->logo_title ?? 'AGENT 24 INDIA' }}. All rights reserved. Sahi Agent, Sahi Connection.</p>
+            <p>© {{ date('Y') }} {{ $setting->logo_title ?? 'AGENT 24 INDIA' }}. All rights reserved. | <a href="{{ route('front.termsAndConditions') }}" style="color: #94a3b8; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Terms & Conditions</a> | <a href="{{ route('front.privacyPolicy') }}" style="color: #94a3b8; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">Privacy Policy</a></p>
         </div>
+    </div>
     </div>
 </footer>
 <!-- Footer End -->
