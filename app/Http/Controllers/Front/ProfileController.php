@@ -880,7 +880,6 @@ class ProfileController extends Controller
     //     ]);
     // }
 
-
     public function storebanner(Request $request)
     {
         try {
@@ -890,11 +889,11 @@ class ProfileController extends Controller
 
             // ================= VALIDATION =================
             $request->validate([
-                'sub_type'   => 'required|in:side,top',
+                'sub_type'   => 'required|in:side,top,paid_listing',
                 'price'      => 'required|numeric|min:1',
                 'type'       => 'required|string',
                 'home_city'  => 'required',
-                'image'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
+                'image'      => 'required|image|mimes:jpg,jpeg,png,webp',
             ]);
 
             $district   = $request->district ?? 0;
@@ -918,7 +917,7 @@ class ProfileController extends Controller
                 return back()->with([
                     'notification' => [
                         '_status'  => false,
-                        '_message' => 'Already 10 Banner Exist. maximum 10 banner allowed. contact to admin.',
+                        '_message' => 'Already 10 Visiting Card ads exist for this location. Maximum 10 allowed. Please contact admin.',
                         '_type'    => 'error'
                     ]
                 ]);
@@ -928,7 +927,7 @@ class ProfileController extends Controller
                 return back()->with([
                     'notification' => [
                         '_status'  => false,
-                        '_message' => 'Already 5 Banner Exist. maximum 5 banner allowed. contact to admin.',
+                        '_message' => 'Already 5 Top Banners exist for this location. Maximum 5 allowed. Please contact admin.',
                         '_type'    => 'error'
                     ]
                 ]);
@@ -946,9 +945,9 @@ class ProfileController extends Controller
             $txnid  = 'banner_' . time();
             $amount = $request->price;
 
-            $productInfo = "Banner Payment";
+            $productInfo = "Banner Payment - " . ucfirst(str_replace('_', ' ', $subType));
             $firstname   = $user->name;
-            $email       = $user->email;
+            $email       = $user->email ?? 'user@agent24india.com';
             $phone       = $user->mobile ?? '9999999999';
 
             // HASH GENERATION
@@ -980,7 +979,7 @@ class ProfileController extends Controller
                 }
 
                 $file = $request->file('image');
-                $filename = time().'_'.$file->getClientOriginalName();
+                $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                 $file->move($path, $filename);
 
                 $imagePath = url('public/upload/advertisment/' . $filename);
@@ -995,6 +994,7 @@ class ProfileController extends Controller
                 'city'          => $city,
                 'category'      => $categoryId,
                 'home_city'     => $request->home_city,
+                'image_alt'     => $request->image_alt ?? ($user->name . ' Ad'),
                 'sub_type'      => $subType,
                 'expiry_date'   => $expiryDate,
                 'price'         => $amount,
@@ -1019,7 +1019,6 @@ class ProfileController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            dd($e);
             DB::rollBack();
 
             // Log error for debugging
@@ -1031,7 +1030,6 @@ class ProfileController extends Controller
             return back()->with('error', 'Something went wrong! Please try again.');
         }
     }
-
 
     public function paymentSuccess(Request $request)
     {

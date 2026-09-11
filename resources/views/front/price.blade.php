@@ -11,10 +11,9 @@
                 <p class="price-hero-subtitle">अपने बिज़नेस को दें सही Visibility और अधिक Customers</p>
                 <p class="price-hero-desc">Affordable Plans के साथ पाएँ ज्यादा Visibility और भरोसेमंद Customers।</p>
                 
-                <!-- Monthly / 3 Months Toggle -->
+                <!-- Monthly / 1 Month Duration Badge -->
                 <div class="price-toggle-wrap">
-                    <button class="price-toggle-btn" id="toggleMonthly">Monthly</button>
-                    <button class="price-toggle-btn active" id="toggle3Months">3 Months (Best Value)</button>
+                    <button class="price-toggle-btn active" id="toggleMonthly" style="cursor: default;">1 Month Plans</button>
                 </div>
             </div>
             
@@ -123,7 +122,7 @@
                             <!-- Price Tag -->
                             <div class="pricing-price-wrap">
                                 <div class="price-amount text-green">₹0</div>
-                                <div class="price-duration">/ 3 Months</div>
+                                <div class="price-duration">/ 1 Month</div>
                                 <div class="price-subtag-green">(बिल्कुल फ्री)</div>
                             </div>
 
@@ -195,7 +194,7 @@
                             <!-- Price Tag -->
                             <div class="pricing-price-wrap">
                                 <div class="price-amount text-blue">₹249</div>
-                                <div class="price-duration">/ 3 Months</div>
+                                <div class="price-duration">/ 1 Month</div>
                             </div>
 
                             <!-- Divider line -->
@@ -239,7 +238,7 @@
                         <!-- Card Action Button -->
                         <div class="pricing-action-wrap">
                             @if(\Auth::check())
-                                <a href="{{ route('front.addbanner') }}" class="pricing-btn btn-solid-blue">Choose Plan</a>
+                                <a href="{{ route('front.addbanner', ['plan' => 'visiting_card', 'sub_type' => 'side', 'price' => 249]) }}" class="pricing-btn btn-solid-blue">Choose Plan</a>
                             @else
                                 <a href="javascript:void(0)" class="pricing-btn btn-solid-blue open-signin">Choose Plan</a>
                             @endif
@@ -265,7 +264,7 @@
                             <!-- Price Tag -->
                             <div class="pricing-price-wrap">
                                 <div class="price-amount text-orange">₹499</div>
-                                <div class="price-duration">/ 3 Months</div>
+                                <div class="price-duration">/ 1 Month</div>
                             </div>
 
                             <!-- Divider line -->
@@ -315,7 +314,7 @@
                         <!-- Card Action Button -->
                         <div class="pricing-action-wrap">
                             @if(\Auth::check())
-                                <a href="{{ route('front.addListing') }}" class="pricing-btn btn-solid-orange">Choose Plan</a>
+                                <a href="{{ route('front.addbanner', ['plan' => 'paid_listing', 'sub_type' => 'paid_listing', 'price' => 499]) }}" class="pricing-btn btn-solid-orange">Choose Plan</a>
                             @else
                                 <a href="javascript:void(0)" class="pricing-btn btn-solid-orange open-signin">Choose Plan</a>
                             @endif
@@ -340,7 +339,7 @@
                             <!-- Price Tag -->
                             <div class="pricing-price-wrap">
                                 <div class="price-amount text-purple">₹999</div>
-                                <div class="price-duration">/ 3 Months</div>
+                                <div class="price-duration">/ 1 Month</div>
                             </div>
 
                             <!-- Divider line -->
@@ -390,7 +389,7 @@
                         <!-- Card Action Button -->
                         <div class="pricing-action-wrap">
                             @if(\Auth::check())
-                                <a href="{{ route('front.addbanner') }}" class="pricing-btn btn-solid-purple">Choose Plan</a>
+                                <a href="{{ route('front.addbanner', ['plan' => 'banner_ad', 'sub_type' => 'top', 'price' => 999]) }}" class="pricing-btn btn-solid-purple">Choose Plan</a>
                             @else
                                 <a href="javascript:void(0)" class="pricing-btn btn-solid-purple open-signin">Choose Plan</a>
                             @endif
@@ -1388,49 +1387,4 @@
         }
     </style>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var btnMonthly = document.getElementById('toggleMonthly');
-            var btn3Months = document.getElementById('toggle3Months');
-            
-            var card1Price = document.querySelector('.green-card .price-amount');
-            var card1Dur = document.querySelector('.green-card .price-duration');
-            var card2Price = document.querySelector('.blue-card .price-amount');
-            var card2Dur = document.querySelector('.blue-card .price-duration');
-            var card3Price = document.querySelector('.orange-card .price-amount');
-            var card3Dur = document.querySelector('.orange-card .price-duration');
-            var card4Price = document.querySelector('.purple-card .price-amount');
-            var card4Dur = document.querySelector('.purple-card .price-duration');
-            
-            if (btnMonthly && btn3Months) {
-                btnMonthly.addEventListener('click', function() {
-                    btnMonthly.classList.add('active');
-                    btn3Months.classList.remove('active');
-                    
-                    if (card1Price) card1Price.textContent = '₹0';
-                    if (card1Dur) card1Dur.textContent = '/ 1 Month';
-                    if (card2Price) card2Price.textContent = '₹99';
-                    if (card2Dur) card2Dur.textContent = '/ 1 Month';
-                    if (card3Price) card3Price.textContent = '₹199';
-                    if (card3Dur) card3Dur.textContent = '/ 1 Month';
-                    if (card4Price) card4Price.textContent = '₹399';
-                    if (card4Dur) card4Dur.textContent = '/ 1 Month';
-                });
-                
-                btn3Months.addEventListener('click', function() {
-                    btn3Months.classList.add('active');
-                    btnMonthly.classList.remove('active');
-                    
-                    if (card1Price) card1Price.textContent = '₹0';
-                    if (card1Dur) card1Dur.textContent = '/ 3 Months';
-                    if (card2Price) card2Price.textContent = '₹249';
-                    if (card2Dur) card2Dur.textContent = '/ 3 Months';
-                    if (card3Price) card3Price.textContent = '₹499';
-                    if (card3Dur) card3Dur.textContent = '/ 3 Months';
-                    if (card4Price) card4Price.textContent = '₹999';
-                    if (card4Dur) card4Dur.textContent = '/ 3 Months';
-                });
-            }
-        });
-    </script>
 @endsection
