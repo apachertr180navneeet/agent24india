@@ -2806,10 +2806,6 @@
                         </div>
                     </div>
 
-                    <a href="{{ route('front.addbanner') }}" class="vl-vc-view-all">
-                        <span>+ Book Visiting Card Ad</span>
-                    </a>
-
                 </div>
             </aside>
 

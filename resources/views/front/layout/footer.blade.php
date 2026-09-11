@@ -161,10 +161,10 @@
         <span class="mob-nav-label">Direct Agent</span>
     </a>
 
-    <!-- 3. Area Agent (Highlighted Pill Card) -->
-    <a href="{{ route('front.vendorlist') }}" class="mob-nav-item mob-nav-pill-btn">
+    <!-- 3. Area Agent -->
+    <a href="{{ route('front.vendorlist') }}" class="mob-nav-item">
         <div class="mob-nav-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
             </svg>
         </div>
@@ -310,32 +310,6 @@
         .mob-nav-item:hover,
         .mob-nav-item.active {
             color: #004BEE;
-        }
-
-        /* Highlighted Area Agent Blue Pill Button */
-        .mob-nav-item.mob-nav-pill-btn {
-            background: #004BEE;
-            color: #FFFFFF !important;
-            border-radius: 12px;
-            padding: 6px 12px;
-            flex: 0 0 auto;
-            min-width: 76px;
-            box-shadow: 0 4px 12px rgba(0, 75, 238, 0.35);
-        }
-
-        .mob-nav-item.mob-nav-pill-btn .mob-nav-label {
-            color: #FFFFFF !important;
-            font-weight: 700;
-            font-size: 11.5px;
-        }
-
-        .mob-nav-item.mob-nav-pill-btn .mob-nav-icon {
-            color: #FFFFFF !important;
-        }
-
-        .mob-nav-item.mob-nav-pill-btn:hover {
-            background: #0036B8;
-            transform: translateY(-1px);
         }
     }
 </style>
