@@ -72,7 +72,21 @@
                 <h4 class="footer-heading">Talk to Us</h4>
                 <div class="footer-talk-list">
                     
-                    <!-- Item 1: Phone -->
+                    <!-- Item 1: Agency Info & GST -->
+                    <div class="footer-talk-row">
+                        <div class="footer-talk-bubble blue">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                            </svg>
+                        </div>
+                        <div class="footer-talk-text">
+                            <span class="footer-talk-biz">AGENT 24 INDIA ADVERTISING AGENCY</span>
+                            <span class="footer-talk-gst">GST : 08DEJPG0124K1ZN</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 2: Phone -->
                     <div class="footer-talk-row">
                         <div class="footer-talk-bubble blue">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -85,7 +99,7 @@
                         </div>
                     </div>
 
-                    <!-- Item 2: WhatsApp -->
+                    <!-- Item 3: WhatsApp -->
                     <div class="footer-talk-row">
                         <div class="footer-talk-bubble green">
                             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -98,7 +112,7 @@
                         </div>
                     </div>
 
-                    <!-- Item 3: Email -->
+                    <!-- Item 4: Email -->
                     <div class="footer-talk-row">
                         <div class="footer-talk-bubble blue">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -109,23 +123,6 @@
                         <div class="footer-talk-text">
                             <span class="footer-talk-label">Email Address</span>
                             <a href="mailto:agent24india@gmail.com" class="footer-talk-val">agent24india@gmail.com</a>
-                        </div>
-                    </div>
-
-                    <!-- Item 4: Agency Info & Working Hours -->
-                    <div class="footer-talk-row">
-                        <div class="footer-talk-bubble blue">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"/>
-                                <polyline points="12 6 12 12 16 14"/>
-                            </svg>
-                        </div>
-                        <div class="footer-talk-text">
-                            <span class="footer-talk-biz">AGENT 24 INDIA ADVERTISING AGENCY</span>
-                            <span class="footer-talk-gst">GST : 08DEJPG0124K1ZN</span>
-                            <span class="footer-talk-label" style="margin-top: 4px;">Working Hours</span>
-                            <span class="footer-talk-sub">Monday - Saturday: 10:00 AM - 6:00 PM</span>
-                            <span class="footer-talk-sub">Sunday: Closed</span>
                         </div>
                     </div>
 
