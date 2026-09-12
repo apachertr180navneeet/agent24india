@@ -374,7 +374,7 @@
 @section('content')
 <div class="reg-hero-banner-section">
     <div class="reg-hero-banner-container">
-        <img src="{{ asset('public/front/assets/images/register_hero_banner.png') }}" alt="Register - Agent 24 India" class="reg-hero-banner-img" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/register_hero_banner.png') }}';">
+        <img src="{{ asset('public/front/assets/images/register_hero_banner.png') }}" alt="Register - Agent 24 India" class="reg-hero-banner-img" onerror="this.onerror=null; this.src='{{ asset('public/front/assets/images/register_hero_banner.png') }}';">
     </div>
 </div>
 

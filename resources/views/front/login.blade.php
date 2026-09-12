@@ -552,7 +552,7 @@
     <!-- Hero Banner Section -->
     <section class="login-hero-banner-section">
         <div class="login-hero-banner-container">
-            <img src="{{ asset('public/front/assets/images/login_hero_banner.png') }}" alt="Welcome Back! - Login to your Agent 24 India account" class="login-hero-banner-img" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/login_hero_banner.png') }}';">
+            <img src="{{ asset('public/front/assets/images/login_hero_banner.png') }}" alt="Welcome Back! - Login to your Agent 24 India account" class="login-hero-banner-img" onerror="this.onerror=null; this.src='{{ asset('public/front/assets/images/login_hero_banner.png') }}';">
         </div>
     </section>
 

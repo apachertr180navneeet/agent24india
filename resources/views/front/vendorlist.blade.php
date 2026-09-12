@@ -2395,7 +2395,7 @@
                     $bannerSlidesList = [];
                     if (isset($topadvertisments) && count($topadvertisments) > 0) {
                         foreach ($topadvertisments as $topAd) {
-                            $adImg = !empty($topAd->image) ? (Str::startsWith($topAd->image, 'http') ? $topAd->image : asset($topAd->image)) : asset('front/assets/images/banner_night_city.jpg');
+                            $adImg = !empty($topAd->image) ? (Str::startsWith($topAd->image, 'http') ? $topAd->image : asset($topAd->image)) : asset('public/front/assets/images/banner_night_city.jpg');
                             $topVendorId = $topAd->bussines_name ?? ($topAd->vendor_user_id ?? ($topAd->user_id ?? null));
                             $adLink = route('front.addbanner');
                             $isExternal = false;
@@ -2417,13 +2417,13 @@
                     
                     if (empty($bannerSlidesList)) {
                         $bannerSlidesList[] = [
-                            'image'       => asset('front/assets/images/banner_night_city.jpg'),
+                            'image'       => asset('public/front/assets/images/banner_night_city.jpg'),
                             'link'        => route('front.addbanner'),
                             'alt'         => 'Promote Your Business',
                             'is_external' => false
                         ];
                         $bannerSlidesList[] = [
-                            'image'       => asset('front/assets/images/index_hero_banner.png'),
+                            'image'       => asset('public/front/assets/images/index_hero_banner.png'),
                             'link'        => route('front.addbanner'),
                             'alt'         => 'Advertise with Us',
                             'is_external' => false
@@ -2437,7 +2437,7 @@
                         @foreach($bannerSlidesList as $idx => $bSlide)
                             <div class="vl-pb-slide {{ $idx === 0 ? 'active' : '' }}" data-slide-index="{{ $idx }}" style="{{ $idx === 0 ? '' : 'display: none;' }}">
                                 <a href="{{ $bSlide['link'] }}" class="vl-pb-slide-link" @if($bSlide['is_external']) target="_blank" @endif>
-                                    <img src="{{ $bSlide['image'] }}" alt="{{ $bSlide['alt'] }}" class="vl-pb-full-img" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/banner_night_city.jpg') }}';">
+                                    <img src="{{ $bSlide['image'] }}" alt="{{ $bSlide['alt'] }}" class="vl-pb-full-img" onerror="this.onerror=null; this.src='{{ asset('public/front/assets/images/banner_night_city.jpg') }}';">
                                 </a>
                             </div>
                         @endforeach
@@ -2737,7 +2737,7 @@
                 $sideAdsList = [];
                 if (isset($sideadvertisments) && count($sideadvertisments) > 0) {
                     foreach ($sideadvertisments as $sideAd) {
-                        $sideImg = !empty($sideAd->image) ? (Str::startsWith($sideAd->image, 'http') ? $sideAd->image : asset($sideAd->image)) : asset('front/assets/images/sidebanner/sidebanner1.jpg');
+                        $sideImg = !empty($sideAd->image) ? (Str::startsWith($sideAd->image, 'http') ? $sideAd->image : asset($sideAd->image)) : asset('public/front/assets/images/sidebanner/sidebanner1.jpg');
                         $sideVendorId = $sideAd->bussines_name ?? ($sideAd->vendor_user_id ?? ($sideAd->user_id ?? null));
                         $sideLink = route('front.addbanner');
                         $isExternal = false;
@@ -2760,19 +2760,19 @@
                 // Fallback sample cards if none in database
                 if (empty($sideAdsList)) {
                     $sideAdsList[] = [
-                        'image'       => asset('front/assets/images/sidebanner/sidebanner1.jpg'),
+                        'image'       => asset('public/front/assets/images/sidebanner/sidebanner1.jpg'),
                         'link'        => route('front.addbanner'),
                         'alt'         => 'Visiting Card Ad',
                         'is_external' => false
                     ];
                     $sideAdsList[] = [
-                        'image'       => asset('front/assets/images/sidebanner/sidebanner2.jpg'),
+                        'image'       => asset('public/front/assets/images/sidebanner/sidebanner2.jpg'),
                         'link'        => route('front.addbanner'),
                         'alt'         => 'Visiting Card Ad',
                         'is_external' => false
                     ];
                     $sideAdsList[] = [
-                        'image'       => asset('front/assets/images/sidebanner/sidebanner3.jpg'),
+                        'image'       => asset('public/front/assets/images/sidebanner/sidebanner3.jpg'),
                         'link'        => route('front.addbanner'),
                         'alt'         => 'Visiting Card Ad',
                         'is_external' => false
@@ -2799,7 +2799,7 @@
                             @foreach($sideAdsList as $vc)
                                 <div class="vl-vc-item vl-vc-image-card">
                                     <a href="{{ $vc['link'] }}" class="vl-vc-img-link" @if($vc['is_external']) target="_blank" @endif>
-                                        <img src="{{ $vc['image'] }}" alt="{{ $vc['alt'] }}" class="vl-vc-pure-img" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/sidebanner/sidebanner1.jpg') }}';">
+                                        <img src="{{ $vc['image'] }}" alt="{{ $vc['alt'] }}" class="vl-vc-pure-img" onerror="this.onerror=null; this.src='{{ asset('public/front/assets/images/sidebanner/sidebanner1.jpg') }}';">
                                     </a>
                                 </div>
                             @endforeach

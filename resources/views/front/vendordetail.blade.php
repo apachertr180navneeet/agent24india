@@ -36,7 +36,7 @@
     }
 @endphp
 
-<link rel="stylesheet" href="{{ asset('front/assets/css/prototype-style.css') }}?v=1.2" />
+<link rel="stylesheet" href="{{ asset('public/front/assets/css/prototype-style.css') }}?v=1.3" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 <style id="vd-styles">
 .vd-page-wrapper,
@@ -2206,19 +2206,19 @@
                             <h2 class="vd-card-title">Our Office & Team</h2>
                             <div class="vd-gallery-grid">
                                 <div class="vd-gallery-item">
-                                    <img src="{{ asset('public/front/assets/images/office_reception.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/office_reception.jpg') }}';" alt="Office Reception" class="vd-gallery-img">
+                                    <img src="{{ asset('public/front/assets/images/office_reception.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('public/front/assets/images/office_reception.jpg') }}';" alt="Office Reception" class="vd-gallery-img">
                                     <div class="vd-gallery-caption">Office Reception</div>
                                 </div>
                                 <div class="vd-gallery-item">
-                                    <img src="{{ asset('public/front/assets/images/office_conference.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/office_conference.jpg') }}';" alt="Conference Meeting Room" class="vd-gallery-img">
+                                    <img src="{{ asset('public/front/assets/images/office_conference.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('public/front/assets/images/office_conference.jpg') }}';" alt="Conference Meeting Room" class="vd-gallery-img">
                                     <div class="vd-gallery-caption">Conference Room</div>
                                 </div>
                                 <div class="vd-gallery-item">
-                                    <img src="{{ asset('public/front/assets/images/office_team.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/office_team.jpg') }}';" alt="Real Estate Agent Team" class="vd-gallery-img">
+                                    <img src="{{ asset('public/front/assets/images/office_team.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('public/front/assets/images/office_team.jpg') }}';" alt="Real Estate Agent Team" class="vd-gallery-img">
                                     <div class="vd-gallery-caption">Professional Team</div>
                                 </div>
                                 <div class="vd-gallery-item">
-                                    <img src="{{ asset('public/front/assets/images/office_building.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('front/assets/images/office_building.jpg') }}';" alt="Commercial Office Building" class="vd-gallery-img">
+                                    <img src="{{ asset('public/front/assets/images/office_building.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('public/front/assets/images/office_building.jpg') }}';" alt="Commercial Office Building" class="vd-gallery-img">
                                     <div class="vd-gallery-caption">Office Building</div>
                                 </div>
                             </div>

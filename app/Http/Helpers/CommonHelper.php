@@ -77,3 +77,14 @@ if (!function_exists('checkRecordReferenceByTable')) {
     }
 }
 
+if (!function_exists('appAsset')) {
+    function appAsset($path)
+    {
+        $clean = ltrim($path, '/');
+        if (str_starts_with($clean, 'public/')) {
+            $clean = substr($clean, 7);
+        }
+        return asset(str_contains(request()->getBaseUrl(), '/public') ? $clean : 'public/' . $clean);
+    }
+}
+

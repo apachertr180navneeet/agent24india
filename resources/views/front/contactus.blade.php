@@ -517,7 +517,7 @@
 
         <!-- 1. Top Hero Banner -->
         <div class="contact-hero-banner-wrap">
-            <img src="{{ asset('front/assets/images/contact_hero_banner.png') }}" 
+            <img src="{{ asset('public/front/assets/images/contact_hero_banner.png') }}" 
                  alt="Contact Us - Agent 24 India" 
                  class="contact-hero-img"
                  onerror="this.onerror=null; this.src='{{ asset('public/front/assets/images/contact_hero_banner.png') }}';">

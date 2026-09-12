@@ -990,59 +990,59 @@
         
         // Exact slug check in districts folder
         $possibleFiles = [
-            "front/assets/images/districts/{$slug}.jpg",
-            "front/assets/images/districts/{$slug}.png",
-            "front/assets/images/districts/{$slug}.webp",
-            "front/assets/images/districts/{$slug}.jpeg",
+            "public/front/assets/images/districts/{$slug}.jpg",
+            "public/front/assets/images/districts/{$slug}.png",
+            "public/front/assets/images/districts/{$slug}.webp",
+            "public/front/assets/images/districts/{$slug}.jpeg",
         ];
         foreach ($possibleFiles as $file) {
-            if (file_exists(public_path($file))) {
+            if (file_exists(public_path(str_replace('public/', '', $file)))) {
                 return asset($file);
             }
         }
 
         // Substring / alias matching for major cities
-        if (str_contains($name, 'delhi')) return asset('front/assets/images/districts/new_delhi.jpg');
-        if (str_contains($name, 'mumbai') || str_contains($name, 'bombay')) return asset('front/assets/images/districts/mumbai.jpg');
-        if (str_contains($name, 'bangalore') || str_contains($name, 'bengaluru')) return asset('front/assets/images/districts/bangalore.jpg');
-        if (str_contains($name, 'pune')) return asset('front/assets/images/districts/pune.jpg');
-        if (str_contains($name, 'hyderabad')) return asset('front/assets/images/districts/hyderabad.jpg');
-        if (str_contains($name, 'ahmedabad')) return asset('front/assets/images/districts/ahmedabad.jpg');
-        if (str_contains($name, 'chennai') || str_contains($name, 'madras')) return asset('front/assets/images/districts/chennai.jpg');
-        if (str_contains($name, 'surat')) return asset('front/assets/images/districts/surat.jpg');
-        if (str_contains($name, 'lucknow')) return asset('front/assets/images/districts/lucknow.jpg');
-        if (str_contains($name, 'jaipur')) return asset('front/assets/images/districts/jaipur.jpg');
-        if (str_contains($name, 'jodhpur')) return asset('front/assets/images/districts/jodhpur.jpg');
-        if (str_contains($name, 'udaipur')) return asset('front/assets/images/districts/udaipur.png');
-        if (str_contains($name, 'ajmer')) return asset('front/assets/images/districts/ajmer.jpg');
-        if (str_contains($name, 'bikaner')) return asset('front/assets/images/districts/bikaner.jpg');
-        if (str_contains($name, 'jaisalmer')) return asset('front/assets/images/districts/jaisalmer.jpg');
-        if (str_contains($name, 'shimla')) return asset('front/assets/images/districts/shimla.jpg');
-        if (str_contains($name, 'amritsar')) return asset('front/assets/images/districts/amritsar.jpg');
-        if (str_contains($name, 'haridwar')) return asset('front/assets/images/districts/haridwar.jpg');
-        if (str_contains($name, 'noida')) return asset('front/assets/images/districts/noida.jpg');
-        if (str_contains($name, 'patna')) return asset('front/assets/images/districts/patna.jpg');
-        if (str_contains($name, 'ranchi')) return asset('front/assets/images/districts/ranchi.jpg');
-        if (str_contains($name, 'raipur')) return asset('front/assets/images/districts/raipur.jpg');
-        if (str_contains($name, 'indore')) return asset('front/assets/images/districts/indore.jpg');
-        if (str_contains($name, 'visakhapatnam') || str_contains($name, 'vizag')) return asset('front/assets/images/districts/visakhapatnam.jpg');
+        if (str_contains($name, 'delhi')) return asset('public/front/assets/images/districts/new_delhi.jpg');
+        if (str_contains($name, 'mumbai') || str_contains($name, 'bombay')) return asset('public/front/assets/images/districts/mumbai.jpg');
+        if (str_contains($name, 'bangalore') || str_contains($name, 'bengaluru')) return asset('public/front/assets/images/districts/bangalore.jpg');
+        if (str_contains($name, 'pune')) return asset('public/front/assets/images/districts/pune.jpg');
+        if (str_contains($name, 'hyderabad')) return asset('public/front/assets/images/districts/hyderabad.jpg');
+        if (str_contains($name, 'ahmedabad')) return asset('public/front/assets/images/districts/ahmedabad.jpg');
+        if (str_contains($name, 'chennai') || str_contains($name, 'madras')) return asset('public/front/assets/images/districts/chennai.jpg');
+        if (str_contains($name, 'surat')) return asset('public/front/assets/images/districts/surat.jpg');
+        if (str_contains($name, 'lucknow')) return asset('public/front/assets/images/districts/lucknow.jpg');
+        if (str_contains($name, 'jaipur')) return asset('public/front/assets/images/districts/jaipur.jpg');
+        if (str_contains($name, 'jodhpur')) return asset('public/front/assets/images/districts/jodhpur.jpg');
+        if (str_contains($name, 'udaipur')) return asset('public/front/assets/images/districts/udaipur.png');
+        if (str_contains($name, 'ajmer')) return asset('public/front/assets/images/districts/ajmer.jpg');
+        if (str_contains($name, 'bikaner')) return asset('public/front/assets/images/districts/bikaner.jpg');
+        if (str_contains($name, 'jaisalmer')) return asset('public/front/assets/images/districts/jaisalmer.jpg');
+        if (str_contains($name, 'shimla')) return asset('public/front/assets/images/districts/shimla.jpg');
+        if (str_contains($name, 'amritsar')) return asset('public/front/assets/images/districts/amritsar.jpg');
+        if (str_contains($name, 'haridwar')) return asset('public/front/assets/images/districts/haridwar.jpg');
+        if (str_contains($name, 'noida')) return asset('public/front/assets/images/districts/noida.jpg');
+        if (str_contains($name, 'patna')) return asset('public/front/assets/images/districts/patna.jpg');
+        if (str_contains($name, 'ranchi')) return asset('public/front/assets/images/districts/ranchi.jpg');
+        if (str_contains($name, 'raipur')) return asset('public/front/assets/images/districts/raipur.jpg');
+        if (str_contains($name, 'indore')) return asset('public/front/assets/images/districts/indore.jpg');
+        if (str_contains($name, 'visakhapatnam') || str_contains($name, 'vizag')) return asset('public/front/assets/images/districts/visakhapatnam.jpg');
 
         // Dynamic pool fallback so different districts never look identical
         $dynamicPool = [
-            'front/assets/images/districts/jaipur.jpg',
-            'front/assets/images/districts/jodhpur.jpg',
-            'front/assets/images/districts/udaipur.png',
-            'front/assets/images/districts/shimla.jpg',
-            'front/assets/images/districts/amritsar.jpg',
-            'front/assets/images/districts/haridwar.jpg',
-            'front/assets/images/districts/new_delhi.jpg',
-            'front/assets/images/districts/mumbai.jpg',
-            'front/assets/images/districts/bangalore.jpg',
-            'front/assets/images/districts/lucknow.jpg',
-            'front/assets/images/districts/hyderabad.jpg',
-            'front/assets/images/districts/ajmer.jpg',
-            'front/assets/images/districts/bikaner.jpg',
-            'front/assets/images/districts/jaisalmer.jpg',
+            'public/front/assets/images/districts/jaipur.jpg',
+            'public/front/assets/images/districts/jodhpur.jpg',
+            'public/front/assets/images/districts/udaipur.png',
+            'public/front/assets/images/districts/shimla.jpg',
+            'public/front/assets/images/districts/amritsar.jpg',
+            'public/front/assets/images/districts/haridwar.jpg',
+            'public/front/assets/images/districts/new_delhi.jpg',
+            'public/front/assets/images/districts/mumbai.jpg',
+            'public/front/assets/images/districts/bangalore.jpg',
+            'public/front/assets/images/districts/lucknow.jpg',
+            'public/front/assets/images/districts/hyderabad.jpg',
+            'public/front/assets/images/districts/ajmer.jpg',
+            'public/front/assets/images/districts/bikaner.jpg',
+            'public/front/assets/images/districts/jaisalmer.jpg',
         ];
         $idNum = is_numeric($dist->id ?? null) ? (int)$dist->id : (int)$index;
         return asset($dynamicPool[$idNum % count($dynamicPool)]);
@@ -1065,16 +1065,16 @@
                 @if($mobileBanners->count() > 0)
                     @foreach($mobileBanners as $bIdx => $bItem)
                         @php
-                            $bImg = !empty($bItem->image) ? (Str::startsWith($bItem->image, 'http') ? $bItem->image : asset($bItem->image)) : asset('front/assets/images/index_hero_banner.png');
+                            $bImg = !empty($bItem->image) ? (Str::startsWith($bItem->image, 'http') ? $bItem->image : asset($bItem->image)) : asset('public/front/assets/images/index_hero_banner.png');
                             $bLink = !empty($bItem->link) ? $bItem->link : (!empty($bItem->url) ? $bItem->url : 'javascript:;');
                         @endphp
                         <a href="{{ $bLink }}" class="m-hero-slide-item" data-slide-index="{{ $bIdx }}">
-                            <img src="{{ $bImg }}" alt="{{ $bItem->title ?? 'Agent 24 India' }}" class="m-hero-banner-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/index_hero_banner.png') }}';">
+                            <img src="{{ $bImg }}" alt="{{ $bItem->title ?? 'Agent 24 India' }}" class="m-hero-banner-img" onerror="this.onerror=null;this.src='{{ asset('public/front/assets/images/index_hero_banner.png') }}';">
                         </a>
                     @endforeach
                 @else
                     <div class="m-hero-slide-item" data-slide-index="0">
-                        <img src="{{ asset('front/assets/images/index_hero_banner.png') }}" alt="Agent 24 India" class="m-hero-banner-img">
+                        <img src="{{ asset('public/front/assets/images/index_hero_banner.png') }}" alt="Agent 24 India" class="m-hero-banner-img">
                     </div>
                 @endif
             </div>
@@ -1468,7 +1468,7 @@
                             <span class="m-verified-pill">VERIFIED</span>
                             <div class="m-agent-card-body">
                                 <div class="m-agent-avatar-wrap">
-                                    <img src="{{ $vendor->profile_photo_url }}" alt="{{ $vendor->business_name ?: $vendor->name }}" class="m-agent-avatar-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/agent_sharma.jpg') }}';">
+                                    <img src="{{ $vendor->profile_photo_url }}" alt="{{ $vendor->business_name ?: $vendor->name }}" class="m-agent-avatar-img" onerror="this.onerror=null;this.src='{{ asset('public/front/assets/images/agent_sharma.jpg') }}';">
                                 </div>
                                 <div class="m-agent-info-wrap">
                                     <h3 class="m-agent-card-name">{{ $vendor->business_name ?: $vendor->name }}</h3>
@@ -1491,7 +1491,7 @@
                         <span class="m-verified-pill">VERIFIED</span>
                         <div class="m-agent-card-body">
                             <div class="m-agent-avatar-wrap">
-                                <img src="{{ asset('front/assets/images/agent_sharma.jpg') }}" alt="Sharma Property Consultant" class="m-agent-avatar-img">
+                                <img src="{{ asset('public/front/assets/images/agent_sharma.jpg') }}" alt="Sharma Property Consultant" class="m-agent-avatar-img">
                             </div>
                             <div class="m-agent-info-wrap">
                                 <h3 class="m-agent-card-name">Sharma Property Consultant</h3>
@@ -1513,7 +1513,7 @@
                         <span class="m-verified-pill">VERIFIED</span>
                         <div class="m-agent-card-body">
                             <div class="m-agent-avatar-wrap">
-                                <img src="{{ asset('front/assets/images/agent_krishna.jpg') }}" alt="Krishna Motors" class="m-agent-avatar-img">
+                                <img src="{{ asset('public/front/assets/images/agent_krishna.jpg') }}" alt="Krishna Motors" class="m-agent-avatar-img">
                             </div>
                             <div class="m-agent-info-wrap">
                                 <h3 class="m-agent-card-name">Krishna Motors</h3>
@@ -1535,7 +1535,7 @@
                         <span class="m-verified-pill">VERIFIED</span>
                         <div class="m-agent-card-body">
                             <div class="m-agent-avatar-wrap">
-                                <img src="{{ asset('front/assets/images/agent_rto.jpg') }}" alt="RTO Solution Point" class="m-agent-avatar-img">
+                                <img src="{{ asset('public/front/assets/images/agent_rto.jpg') }}" alt="RTO Solution Point" class="m-agent-avatar-img">
                             </div>
                             <div class="m-agent-info-wrap">
                                 <h3 class="m-agent-card-name">RTO Solution Point</h3>
@@ -1586,32 +1586,32 @@
                     [
                         'name' => 'Jaipur',
                         'agents' => '12,500+ Agents',
-                        'image' => asset('front/assets/images/districts/jaipur.jpg')
+                        'image' => asset('public/front/assets/images/districts/jaipur.jpg')
                     ],
                     [
                         'name' => 'Jodhpur',
                         'agents' => '8,200+ Agents',
-                        'image' => asset('front/assets/images/districts/jodhpur.jpg')
+                        'image' => asset('public/front/assets/images/districts/jodhpur.jpg')
                     ],
                     [
                         'name' => 'Udaipur',
                         'agents' => '6,800+ Agents',
-                        'image' => asset('front/assets/images/districts/udaipur.png')
+                        'image' => asset('public/front/assets/images/districts/udaipur.png')
                     ],
                     [
                         'name' => 'Kota',
                         'agents' => '5,100+ Agents',
-                        'image' => asset('front/assets/images/districts/lucknow.jpg')
+                        'image' => asset('public/front/assets/images/districts/lucknow.jpg')
                     ],
                     [
                         'name' => 'Bikaner',
                         'agents' => '4,300+ Agents',
-                        'image' => asset('front/assets/images/districts/bikaner.jpg')
+                        'image' => asset('public/front/assets/images/districts/bikaner.jpg')
                     ],
                     [
                         'name' => 'Ajmer',
                         'agents' => '3,900+ Agents',
-                        'image' => asset('front/assets/images/districts/ajmer.jpg')
+                        'image' => asset('public/front/assets/images/districts/ajmer.jpg')
                     ],
                 ];
 
@@ -1634,7 +1634,7 @@
                             : ($agentCountPresets[$index % count($agentCountPresets)] ?? '5,000+ Agents');
                     @endphp
                     <a href="{{ route('front.vendorlist') }}?district={{ $dist->id }}" class="m-district-card">
-                        <img src="{{ $distImg }}" alt="{{ $dist->name }}" class="m-district-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/districts/jaipur.jpg') }}';">
+                        <img src="{{ $distImg }}" alt="{{ $dist->name }}" class="m-district-img" onerror="this.onerror=null;this.src='{{ asset('public/front/assets/images/districts/jaipur.jpg') }}';">
                         <div class="m-district-info">
                             <h3 class="m-district-name">{{ $dist->name }}</h3>
                             <span class="m-district-agents">{{ $agentLabel }}</span>
@@ -1651,7 +1651,7 @@
                             $renderedCount++;
                         @endphp
                         <a href="{{ route('front.vendorlist') }}?search={{ urlencode($preset['name']) }}" class="m-district-card">
-                            <img src="{{ $preset['image'] }}" alt="{{ $preset['name'] }}" class="m-district-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/districts/jaipur.jpg') }}';">
+                            <img src="{{ $preset['image'] }}" alt="{{ $preset['name'] }}" class="m-district-img" onerror="this.onerror=null;this.src='{{ asset('public/front/assets/images/districts/jaipur.jpg') }}';">
                             <div class="m-district-info">
                                 <h3 class="m-district-name">{{ $preset['name'] }}</h3>
                                 <span class="m-district-agents">{{ $preset['agents'] }}</span>
@@ -1702,7 +1702,7 @@
                 </div>
 
                 <div class="m-agent-cta-graphic">
-                    <img src="{{ asset('front/assets/images/login_hero_banner.png') }}" alt="Agent Dashboard App" class="m-cta-phone-img">
+                    <img src="{{ asset('public/front/assets/images/login_hero_banner.png') }}" alt="Agent Dashboard App" class="m-cta-phone-img">
                 </div>
             </div>
         </div>
@@ -1817,18 +1817,18 @@
             @if($desktopBanners->count() > 0)
                 @foreach($desktopBanners as $dIdx => $dItem)
                     @php
-                        $dImg = !empty($dItem->image) ? (Str::startsWith($dItem->image, 'http') ? $dItem->image : asset($dItem->image)) : asset('front/assets/images/index_hero_banner.png');
+                        $dImg = !empty($dItem->image) ? (Str::startsWith($dItem->image, 'http') ? $dItem->image : asset($dItem->image)) : asset('public/front/assets/images/index_hero_banner.png');
                         $dLink = !empty($dItem->link) ? $dItem->link : (!empty($dItem->url) ? $dItem->url : 'javascript:;');
                     @endphp
                     <div class="d-hero-slide-item" data-slide-index="{{ $dIdx }}">
                         <a href="{{ $dLink }}" class="d-hero-banner-link">
-                            <img src="{{ $dImg }}" alt="{{ $dItem->title ?? 'काम कोई भी हो... Agent Sahi Yahi Milega! - Agent 24 India' }}" class="index-hero-banner-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/index_hero_banner.png') }}';">
+                            <img src="{{ $dImg }}" alt="{{ $dItem->title ?? 'काम कोई भी हो... Agent Sahi Yahi Milega! - Agent 24 India' }}" class="index-hero-banner-img" onerror="this.onerror=null;this.src='{{ asset('public/front/assets/images/index_hero_banner.png') }}';">
                         </a>
                     </div>
                 @endforeach
             @else
                 <div class="d-hero-slide-item" data-slide-index="0">
-                    <img src="{{ asset('front/assets/images/index_hero_banner.png') }}" alt="काम कोई भी हो... Agent Sahi Yahi Milega! - Agent 24 India" class="index-hero-banner-img">
+                    <img src="{{ asset('public/front/assets/images/index_hero_banner.png') }}" alt="काम कोई भी हो... Agent Sahi Yahi Milega! - Agent 24 India" class="index-hero-banner-img">
                 </div>
             @endif
         </div>
@@ -2370,7 +2370,7 @@
 
                     <!-- Woman Photo Image Frame -->
                     <div class="custom-woman-photo-frame">
-                        <img src="{{ asset('front/assets/images/woman_pointing.jpg') }}" alt="Happy Customer - Agent 24 India" class="custom-woman-img">
+                        <img src="{{ asset('public/front/assets/images/woman_pointing.jpg') }}" alt="Happy Customer - Agent 24 India" class="custom-woman-img">
                     </div>
                 </div>
 
@@ -2539,7 +2539,7 @@
                                     <span>VERIFIED</span>
                                 </div>
                                 <div class="agent-avatar-wrapper">
-                                    <img src="{{ $vendor->profile_photo_url }}" alt="{{ $vendor->business_name ?: $vendor->name }}" class="agent-avatar-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/agent_sharma.jpg') }}';">
+                                    <img src="{{ $vendor->profile_photo_url }}" alt="{{ $vendor->business_name ?: $vendor->name }}" class="agent-avatar-img" onerror="this.onerror=null;this.src='{{ asset('public/front/assets/images/agent_sharma.jpg') }}';">
                                 </div>
                                 <h3 class="agent-name">{{ $vendor->business_name ?: $vendor->name }}</h3>
                                 <p class="agent-category">{{ $vendor->businessCategory->name ?? ($vendor->category->name ?? 'Verified Agent') }}</p>
@@ -2565,7 +2565,7 @@
                                 <span>VERIFIED</span>
                             </div>
                             <div class="agent-avatar-wrapper">
-                                <img src="{{ asset('front/assets/images/agent_sharma.jpg') }}" alt="Sharma Property Consultant" class="agent-avatar-img">
+                                <img src="{{ asset('public/front/assets/images/agent_sharma.jpg') }}" alt="Sharma Property Consultant" class="agent-avatar-img">
                             </div>
                             <h3 class="agent-name">Sharma Property Consultant</h3>
                             <p class="agent-category">Real Estate Agent</p>
@@ -2590,7 +2590,7 @@
                                 <span>VERIFIED</span>
                             </div>
                             <div class="agent-avatar-wrapper">
-                                <img src="{{ asset('front/assets/images/agent_krishna.jpg') }}" alt="Krishna Motors" class="agent-avatar-img">
+                                <img src="{{ asset('public/front/assets/images/agent_krishna.jpg') }}" alt="Krishna Motors" class="agent-avatar-img">
                             </div>
                             <h3 class="agent-name">Krishna Motors</h3>
                             <p class="agent-category">Automobile Agent</p>
@@ -2615,7 +2615,7 @@
                                 <span>VERIFIED</span>
                             </div>
                             <div class="agent-avatar-wrapper">
-                                <img src="{{ asset('front/assets/images/agent_rto.jpg') }}" alt="RTO Solution Point" class="agent-avatar-img">
+                                <img src="{{ asset('public/front/assets/images/agent_rto.jpg') }}" alt="RTO Solution Point" class="agent-avatar-img">
                             </div>
                             <h3 class="agent-name">RTO Solution Point</h3>
                             <p class="agent-category">RTO Agent</p>
@@ -2640,7 +2640,7 @@
                                 <span>VERIFIED</span>
                             </div>
                             <div class="agent-avatar-wrapper">
-                                <img src="{{ asset('front/assets/images/agent_insurance.jpg') }}" alt="Secure Life Insurance" class="agent-avatar-img">
+                                <img src="{{ asset('public/front/assets/images/agent_insurance.jpg') }}" alt="Secure Life Insurance" class="agent-avatar-img">
                             </div>
                             <h3 class="agent-name">Secure Life Insurance</h3>
                             <p class="agent-category">Insurance Agent</p>
@@ -2730,7 +2730,7 @@
                     @foreach($dDistricts as $dist)
                         <div class="district-card">
                             <div class="district-image-wrapper">
-                                <img src="{{ $getDistrictImg($dist, $loop->index) }}" alt="{{ $dist->name }}" class="district-img" onerror="this.onerror=null;this.src='{{ asset('front/assets/images/districts/jaipur.jpg') }}';">
+                                <img src="{{ $getDistrictImg($dist, $loop->index) }}" alt="{{ $dist->name }}" class="district-img" onerror="this.onerror=null;this.src='{{ asset('public/front/assets/images/districts/jaipur.jpg') }}';">
                             </div>
                             <div class="district-info-body">
                                 <div class="district-meta-row">
@@ -2752,7 +2752,7 @@
                     <!-- Card 1: Jaipur -->
                     <div class="district-card">
                         <div class="district-image-wrapper">
-                            <img src="{{ asset('front/assets/images/jal-mahal-jaipur-9175.jpg') }}" alt="Jaipur Jal Mahal" class="district-img">
+                            <img src="{{ asset('public/front/assets/images/jal-mahal-jaipur-9175.jpg') }}" alt="Jaipur Jal Mahal" class="district-img">
                         </div>
                         <div class="district-info-body">
                             <div class="district-meta-row">
@@ -2773,7 +2773,7 @@
                     <!-- Card 2: Jodhpur -->
                     <div class="district-card">
                         <div class="district-image-wrapper">
-                            <img src="{{ asset('front/assets/images/jodhpur.jpg') }}" alt="Jodhpur Mehrangarh Fort" class="district-img">
+                            <img src="{{ asset('public/front/assets/images/jodhpur.jpg') }}" alt="Jodhpur Mehrangarh Fort" class="district-img">
                         </div>
                         <div class="district-info-body">
                             <div class="district-meta-row">
