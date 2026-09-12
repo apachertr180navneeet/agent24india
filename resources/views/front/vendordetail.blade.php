@@ -2365,26 +2365,29 @@
                     <div class="vd-tab-pane" id="pane-contact">
                         <div class="vd-section-card">
                             <h2 class="vd-card-title">Send Inquiry Directly to {{ $bizName }}</h2>
-                            <form class="vd-direct-form" onsubmit="event.preventDefault(); alert('Aapki enquiry bhej di gayi hai! Agent jald hi aapse sampark karenge.');">
+                            <form class="vd-direct-form" onsubmit="handleDirectEnquirySubmit(event)">
                                 <div class="vd-form-row">
                                     <div class="vd-form-group">
                                         <label>Aapka Naam *</label>
-                                        <input type="text" class="vd-input" placeholder="Enter your name" required>
+                                        <input type="text" id="directName" class="vd-input" placeholder="Enter your name" required>
                                     </div>
                                     <div class="vd-form-group">
                                         <label>Mobile Number *</label>
-                                        <input type="tel" class="vd-input" placeholder="10-digit mobile number" required>
+                                        <input type="tel" id="directMobile" class="vd-input" placeholder="10-digit mobile number" required>
                                     </div>
                                 </div>
                                 <div class="vd-form-group">
                                     <label>Aapki Requirement (Buy / Sell / Rent)</label>
-                                    <input type="text" class="vd-input" placeholder="e.g. Looking for 3 BHK flat in Vaishali Nagar">
+                                    <input type="text" id="directRequirement" class="vd-input" placeholder="e.g. Looking for 3 BHK flat in Vaishali Nagar">
                                 </div>
                                 <div class="vd-form-group">
                                     <label>Message (Optional)</label>
-                                    <textarea class="vd-textarea" rows="4" placeholder="Apna message yahan likhe..."></textarea>
+                                    <textarea id="directMessage" class="vd-textarea" rows="4" placeholder="Apna message yahan likhe..."></textarea>
                                 </div>
-                                <button type="submit" class="btn-submit-enq">Send Inquiry Now</button>
+                                <button type="submit" class="btn-submit-enq" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+                                    <i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i>
+                                    <span>Send Inquiry via WhatsApp</span>
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -2494,11 +2497,11 @@
         <form class="vd-modal-form" onsubmit="handleEnquirySubmit(event)">
             <div class="vd-form-group">
                 <label>Aapka Naam *</label>
-                <input type="text" class="vd-input" placeholder="Enter your full name" required>
+                <input type="text" id="modalName" class="vd-input" placeholder="Enter your full name" required>
             </div>
             <div class="vd-form-group">
                 <label>Mobile Number *</label>
-                <input type="tel" class="vd-input" placeholder="Enter 10-digit mobile number" required>
+                <input type="tel" id="modalMobile" class="vd-input" placeholder="Enter 10-digit mobile number" required>
             </div>
             <div class="vd-form-group">
                 <label>Requirement / Property Name</label>
@@ -2506,9 +2509,12 @@
             </div>
             <div class="vd-form-group">
                 <label>Message (Optional)</label>
-                <textarea class="vd-textarea" rows="3" placeholder="Requirement details..."></textarea>
+                <textarea id="modalMessage" class="vd-textarea" rows="3" placeholder="Requirement details..."></textarea>
             </div>
-            <button type="submit" class="btn-submit-enq" style="width: 100%;">Submit Inquiry</button>
+            <button type="submit" class="btn-submit-enq" style="width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+                <i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i>
+                <span>Send Inquiry via WhatsApp</span>
+            </button>
         </form>
     </div>
 </div>
@@ -2554,9 +2560,54 @@
         }
     }
 
+    const vendorWhatsAppNumber = "{{ $waNum ?: '919829012345' }}";
+    const vendorBusinessName = @json($bizName);
+    const pageUrl = @json(url()->current());
+
+    function sendToWhatsApp(name, mobile, requirement, message) {
+        let text = `*Namaste ${vendorBusinessName}! New Inquiry via Agent 24 India*\n\n`;
+        text += `👤 *Customer Name:* ${name}\n`;
+        text += `📞 *Mobile Number:* ${mobile}\n`;
+        if (requirement) {
+            text += `📋 *Requirement:* ${requirement}\n`;
+        }
+        if (message) {
+            text += `💬 *Message:* ${message}\n`;
+        }
+        text += `\n🔗 *Profile Link:* ${pageUrl}`;
+
+        const waUrl = `https://wa.me/${vendorWhatsAppNumber}?text=${encodeURIComponent(text)}`;
+        window.open(waUrl, '_blank');
+    }
+
+    function handleDirectEnquirySubmit(e) {
+        e.preventDefault();
+        const name = document.getElementById('directName').value.trim();
+        const mobile = document.getElementById('directMobile').value.trim();
+        const req = document.getElementById('directRequirement').value.trim();
+        const msg = document.getElementById('directMessage').value.trim();
+
+        if (!name || !mobile) {
+            alert('Kripya apna naam aur mobile number darj karein.');
+            return;
+        }
+
+        sendToWhatsApp(name, mobile, req, msg);
+    }
+
     function handleEnquirySubmit(e) {
         e.preventDefault();
-        alert('Aapki enquiry safaltapoorvak bhej di gayi hai! Agent 24 India dwara jald aapse sampark kiya jayega.');
+        const name = document.getElementById('modalName').value.trim();
+        const mobile = document.getElementById('modalMobile').value.trim();
+        const req = document.getElementById('modalReqField').value.trim();
+        const msg = document.getElementById('modalMessage').value.trim();
+
+        if (!name || !mobile) {
+            alert('Kripya apna naam aur mobile number darj karein.');
+            return;
+        }
+
+        sendToWhatsApp(name, mobile, req, msg);
         closeEnquiryModal();
     }
 </script>
