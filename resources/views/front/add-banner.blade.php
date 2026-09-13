@@ -98,14 +98,210 @@
             padding: 12px 14px;
         }
     }
+
+    /* Hero Section (Same as Pricing Section) */
+    .price-hero-section {
+        background: linear-gradient(135deg, #EFF4FF 0%, #E0EAFF 50%, #F5F3FF 100%);
+        position: relative;
+        overflow: hidden;
+        padding: 40px 0 50px 0;
+        border-bottom: 1px solid rgba(0, 75, 238, 0.08);
+    }
+    
+    .price-hero-container {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 0 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 40px;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .price-hero-left {
+        flex: 1;
+        max-width: 620px;
+    }
+    
+    .price-hero-title {
+        font-size: 38px;
+        font-weight: 900;
+        color: #004BEE;
+        margin: 0 0 10px 0;
+        line-height: 1.15;
+        letter-spacing: -0.5px;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    
+    .price-hero-subtitle {
+        font-size: 19px;
+        font-weight: 700;
+        color: #0F172A;
+        margin: 0 0 8px 0;
+        line-height: 1.45;
+    }
+    
+    .price-hero-desc {
+        font-size: 15px;
+        font-weight: 500;
+        color: #475569;
+        margin: 0 0 24px 0;
+        line-height: 1.5;
+    }
+    
+    /* Toggle Pill Wrap */
+    .price-toggle-wrap {
+        display: inline-flex;
+        background: #FFFFFF;
+        border-radius: 50px;
+        padding: 4px;
+        box-shadow: 0 4px 18px rgba(0, 75, 238, 0.1);
+        border: 1px solid #E2E8F0;
+        gap: 4px;
+    }
+    
+    .price-toggle-btn {
+        padding: 8px 22px;
+        border-radius: 50px;
+        border: none;
+        font-size: 13.5px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        background: transparent;
+        color: #004BEE;
+    }
+    
+    .price-toggle-btn.active {
+        background: #004BEE;
+        color: #FFFFFF;
+        box-shadow: 0 4px 14px rgba(0, 75, 238, 0.35);
+    }
+    
+    .price-hero-right {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .price-hero-illustration {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    @media (max-width: 991px) {
+        .price-hero-container {
+            flex-direction: column;
+            text-align: center;
+            gap: 30px;
+        }
+        .price-hero-left {
+            max-width: 100%;
+        }
+        .price-hero-title {
+            font-size: 30px;
+        }
+        .price-hero-subtitle {
+            font-size: 17px;
+        }
+        .price-toggle-wrap {
+            margin: 0 auto;
+        }
+    }
 </style>
 @endpush
 
 @section('content')
-    <!-- Hero Banner -->
-    <section class="price-hero-banner-section">
-        <div class="price-hero-banner-container">
-            <img src="{{ asset('public/front/assets/images/price_hero_banner.png') }}" alt="Banner Ad - Agent 24 India" class="price-hero-banner-img">
+    <!-- Pricing Hero Section Start -->
+    <section class="price-hero-section">
+        <div class="price-hero-container">
+            <!-- Left Content -->
+            <div class="price-hero-left">
+                <h1 class="price-hero-title">Pricing Plans</h1>
+                <p class="price-hero-subtitle">अपने बिज़नेस को दें सही Visibility और अधिक Customers</p>
+                <p class="price-hero-desc">Affordable Plans के साथ पाएँ ज्यादा Visibility और भरोसेमंद Customers।</p>
+                
+                <!-- Monthly / 1 Month Duration Badge -->
+                <div class="price-toggle-wrap">
+                    <button class="price-toggle-btn active" id="toggleMonthly" style="cursor: default;">1 Month Plans</button>
+                </div>
+            </div>
+            
+            <!-- Right Illustration -->
+            <div class="price-hero-right">
+                <div class="price-hero-illustration">
+                    <!-- Browser / Tablet Card Mockup with Shield, Coins & Plant -->
+                    <svg width="340" height="210" viewBox="0 0 260 170" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; filter: drop-shadow(0 15px 30px rgba(0,75,238,0.15));">
+                        <!-- City Background Silhouette -->
+                        <path d="M10 140V100H25V80H35V140H50V60H65V140H80V90H95V140H110V50H125V140H140V75H155V140H170V110H185V140H200V85H215V140H230V65H245V140" fill="#E2E8F0" opacity="0.6"/>
+                        <path d="M25 140V90H40V140H75V70H90V140H130V60H145V140H180V95H195V140H220V75H235V140" fill="#CBD5E1" opacity="0.5"/>
+
+                        <!-- Tablet / Browser Window -->
+                        <rect x="20" y="15" width="200" height="135" rx="10" fill="#FFFFFF" stroke="#2563EB" stroke-width="2.5"/>
+                        <!-- Top Bar -->
+                        <line x1="20" y1="36" x2="220" y2="36" stroke="#E2E8F0" stroke-width="1.5"/>
+                        <!-- Logo & Dots -->
+                        <circle cx="30" cy="25" r="4" fill="#004BEE"/>
+                        <text x="38" y="28" fill="#004BEE" font-size="7" font-weight="900" font-family="sans-serif">AGENT 24 INDIA</text>
+                        <circle cx="195" cy="25" r="2" fill="#94A3B8"/>
+                        <circle cx="203" cy="25" r="2" fill="#94A3B8"/>
+                        <circle cx="211" cy="25" r="2" fill="#94A3B8"/>
+                        <!-- Inner Mockup Elements -->
+                        <rect x="32" y="44" width="70" height="10" rx="3" fill="#DBEAFE"/>
+                        <rect x="32" y="60" width="80" height="35" rx="5" fill="#F8FAFC" stroke="#E2E8F0"/>
+                        <rect x="40" y="68" width="16" height="16" rx="8" fill="#E2E8F0"/>
+                        <rect x="62" y="70" width="40" height="4" rx="2" fill="#CBD5E1"/>
+                        <rect x="62" y="78" width="30" height="4" rx="2" fill="#E2E8F0"/>
+
+                        <rect x="32" y="102" width="80" height="35" rx="5" fill="#F8FAFC" stroke="#E2E8F0"/>
+                        <rect x="40" y="110" width="16" height="16" rx="8" fill="#E2E8F0"/>
+                        <rect x="62" y="112" width="40" height="4" rx="2" fill="#CBD5E1"/>
+                        <rect x="62" y="120" width="30" height="4" rx="2" fill="#E2E8F0"/>
+
+                        <!-- Shield Badge with Checkmark -->
+                        <g filter="drop-shadow(0 8px 16px rgba(0,75,238,0.3))">
+                            <path d="M175 42L145 54V80C145 98 158 114 175 119C192 114 205 98 205 80V54L175 42Z" fill="#1D4ED8"/>
+                            <path d="M175 46L149 57V80C149 95 160 109 175 114C190 109 201 95 201 80V57L175 46Z" fill="#2563EB"/>
+                            <path d="M164 80L171 87L186 71" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+
+                        <!-- Gold Coins Stack -->
+                        <g>
+                            <ellipse cx="140" cy="138" rx="16" ry="6" fill="#D97706"/>
+                            <rect x="124" y="132" width="32" height="6" fill="#F59E0B"/>
+                            <ellipse cx="140" cy="132" rx="16" ry="6" fill="#FCD34D"/>
+
+                            <ellipse cx="140" cy="128" rx="16" ry="6" fill="#D97706"/>
+                            <rect x="124" y="122" width="32" height="6" fill="#F59E0B"/>
+                            <ellipse cx="140" cy="122" rx="16" ry="6" fill="#FDE68A"/>
+
+                            <ellipse cx="140" cy="118" rx="16" ry="6" fill="#D97706"/>
+                            <rect x="124" y="112" width="32" height="6" fill="#F59E0B"/>
+                            <ellipse cx="140" cy="112" rx="16" ry="6" fill="#FEF08A"/>
+
+                            <!-- Coin on the side -->
+                            <ellipse cx="160" cy="136" rx="12" ry="5" fill="#D97706"/>
+                            <rect x="148" y="131" width="24" height="5" fill="#F59E0B"/>
+                            <ellipse cx="160" cy="131" rx="12" ry="5" fill="#FDE68A"/>
+                        </g>
+
+                        <!-- Potted Plant on Right -->
+                        <g>
+                            <!-- Pot -->
+                            <path d="M225 125L228 145H242L245 125H225Z" fill="#E2E8F0" stroke="#94A3B8" stroke-width="1.5"/>
+                            <!-- Leaves -->
+                            <path d="M235 125C235 110 248 100 248 100C248 100 248 115 235 125Z" fill="#16A34A"/>
+                            <path d="M235 125C235 112 222 105 222 105C222 105 224 118 235 125Z" fill="#22C55E"/>
+                            <path d="M235 125C235 105 238 90 238 90C238 90 244 105 235 125Z" fill="#15803D"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>
         </div>
     </section>
 
