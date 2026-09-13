@@ -768,22 +768,21 @@ class HomeController extends Controller
             ->whereNull('parent_id')
             ->get();
 
-        $vendorSubCategories = collect();
-        if ($vendoruser) {
-            $subCategoryIds = [];
+        // Get subcategories of selected vendor category
+        $subCategoriesList = collect();
+        if ($vendoruser && !empty($vendoruser->business_category_id)) {
             if (!empty($vendoruser->business_sub_category_id)) {
-                $subCategoryIds = array_filter(explode(',', (string)$vendoruser->business_sub_category_id));
+                $subCategoryIds = array_filter(explode(',', $vendoruser->business_sub_category_id));
+                if (!empty($subCategoryIds)) {
+                    $subCategoriesList = Category::where('status', 1)
+                        ->whereIn('id', $subCategoryIds)
+                        ->get();
+                }
             }
 
-            if (!empty($subCategoryIds)) {
-                $vendorSubCategories = Category::where('status', 1)
-                    ->whereIn('id', $subCategoryIds)
-                    ->get();
-            }
-
-            // If no specific subcategories selected or found, fetch all subcategories under vendor's category
-            if ($vendorSubCategories->isEmpty() && !empty($vendoruser->business_category_id)) {
-                $vendorSubCategories = Category::where('status', 1)
+            // Fallback: If vendor has no specific subcategories assigned, fetch all subcategories under vendor's category
+            if ($subCategoriesList->isEmpty()) {
+                $subCategoriesList = Category::where('status', 1)
                     ->where('parent_id', $vendoruser->business_category_id)
                     ->get();
             }
@@ -791,7 +790,7 @@ class HomeController extends Controller
 
         $this->viewData['vendoruser'] = $vendoruser;
         $this->viewData['category'] = $category;
-        $this->viewData['vendorSubCategories'] = $vendorSubCategories;
+        $this->viewData['subCategoriesList'] = $subCategoriesList;
 
         return view('front.vendordetail')->with($this->viewData);
     }

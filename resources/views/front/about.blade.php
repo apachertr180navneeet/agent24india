@@ -397,7 +397,7 @@
                         </svg>
                     </div>
                     <div class="dark-stat-text">
-                        <span class="dark-stat-number">Full</span>
+                        <span class="dark-stat-number">Call</span>
                         <span class="dark-stat-label">Support Available</span>
                     </div>
                 </div>

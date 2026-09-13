@@ -727,7 +727,7 @@
                             </svg>
                         </div>
                         <div class="pws-text">
-                            <span class="pws-number">Full</span>
+                            <span class="pws-number">Call</span>
                             <span class="pws-label">Support Available</span>
                         </div>
                     </div>

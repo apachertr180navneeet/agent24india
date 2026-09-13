@@ -24,8 +24,12 @@
     $pincode = $vendoruser->pincode ?? '302021';
     $address = $vendoruser->business_address ?? 'Vaishali Nagar, Jaipur, Rajasthan - 302021';
     $categoryName = $vendoruser->business_category_name ?? 'Real Estate Agent';
-    $subCategories = $vendoruser->business_sub_category_names ?: ((isset($vendorSubCategories) && $vendorSubCategories->isNotEmpty()) ? $vendorSubCategories->pluck('name')->implode(' | ') : 'Buy | Sell | Rent | Commercial | Property Consultant');
-    $description = $vendoruser->description ?: ($bizName . ' ' . $city . ' mein ek bharosemand ' . $categoryName . ' hai. Hum gunvatta, pardarshita aur grahak santushti ke sath behtareen sevaye pradan karte hai.');
+    $subCategories = !empty($vendoruser->business_sub_category_names)
+        ? $vendoruser->business_sub_category_names
+        : (isset($subCategoriesList) && $subCategoriesList->isNotEmpty()
+            ? $subCategoriesList->pluck('name')->implode(' | ')
+            : 'Buy | Sell | Rent | Commercial | Property Consultant');
+    $description = $vendoruser->description ?: ($bizName . ' ' . $city . ' mein ek bharosemand Real Estate Consultant hai. Hum Residential, Commercial, Rental aur Investment Properties mein visheshagyata rakhte hai. Humara uddeshya pardarshita, imandari aur grahak santushti hai.');
 
     $words = preg_split("/\s+/", trim($bizName));
     $initials = '';
@@ -2087,7 +2091,7 @@
                                         </svg>
                                     </div>
                                     <div class="vd-metric-texts">
-                                        <span class="vd-metric-val">Full</span>
+                                        <span class="vd-metric-val">Call</span>
                                         <span class="vd-metric-lbl">Support Available</span>
                                     </div>
                                 </div>
@@ -2343,29 +2347,26 @@
                                         'fa-solid fa-briefcase',
                                         'fa-solid fa-key',
                                         'fa-solid fa-scale-balanced',
-                                        'fa-solid fa-handshake',
                                         'fa-solid fa-building',
-                                        'fa-solid fa-award',
-                                        'fa-solid fa-certificate',
+                                        'fa-solid fa-handshake',
+                                        'fa-solid fa-location-dot',
                                         'fa-solid fa-shield-halved',
-                                        'fa-solid fa-layer-group',
-                                        'fa-solid fa-tags',
-                                        'fa-solid fa-gears'
+                                        'fa-solid fa-chart-line',
+                                        'fa-solid fa-certificate'
                                     ];
                                 @endphp
-
-                                @if(!empty($vendorSubCategories) && $vendorSubCategories->count() > 0)
-                                    @foreach($vendorSubCategories as $index => $subCat)
+                                @if(isset($subCategoriesList) && $subCategoriesList->count() > 0)
+                                    @foreach($subCategoriesList as $key => $sub)
                                         <div class="vd-service-box">
                                             <div class="vd-service-icon">
-                                                @if(!empty($subCat->image) && !str_contains($subCat->image, 'images.png'))
-                                                    <img src="{{ $subCat->image }}" alt="{{ $subCat->name }}" style="width: 26px; height: 26px; object-fit: contain;">
+                                                @if(!empty($sub->image) && !str_contains($sub->image, 'images.png'))
+                                                    <img src="{{ $sub->image }}" alt="{{ $sub->name }}" style="width: 24px; height: 24px; object-fit: contain;">
                                                 @else
-                                                    <i class="{{ $serviceIcons[$index % count($serviceIcons)] }}"></i>
+                                                    <i class="{{ $serviceIcons[$key % count($serviceIcons)] }}"></i>
                                                 @endif
                                             </div>
-                                            <h4 class="vd-service-title">{{ $subCat->name }}</h4>
-                                            <p class="vd-service-desc">{{ $subCat->description ?: ('Verified and professional ' . $subCat->name . ' services provided by ' . $bizName . ' in ' . $city . '.') }}</p>
+                                            <h4 class="vd-service-title">{{ $sub->name }}</h4>
+                                            <p class="vd-service-desc">{{ $sub->description ?: ($sub->name . ' services provided by ' . $bizName . ' across prime localities in ' . $city . '.') }}</p>
                                         </div>
                                     @endforeach
                                 @else

@@ -919,7 +919,7 @@
                         </svg>
                     </div>
                     <div class="ws-text">
-                        <div class="ws-number">Full</div>
+                        <div class="ws-number">Call</div>
                         <div class="ws-label">Support Available</div>
                     </div>
                 </div>

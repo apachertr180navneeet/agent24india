@@ -850,7 +850,7 @@
                     </svg>
                 </div>
                 <div class="contact-dark-info">
-                    <span class="contact-dark-number">Full</span>
+                    <span class="contact-dark-number">Call</span>
                     <span class="contact-dark-label">Support Available</span>
                 </div>
             </div>
