@@ -768,8 +768,30 @@ class HomeController extends Controller
             ->whereNull('parent_id')
             ->get();
 
+        $vendorSubCategories = collect();
+        if ($vendoruser) {
+            $subCategoryIds = [];
+            if (!empty($vendoruser->business_sub_category_id)) {
+                $subCategoryIds = array_filter(explode(',', (string)$vendoruser->business_sub_category_id));
+            }
+
+            if (!empty($subCategoryIds)) {
+                $vendorSubCategories = Category::where('status', 1)
+                    ->whereIn('id', $subCategoryIds)
+                    ->get();
+            }
+
+            // If no specific subcategories selected or found, fetch all subcategories under vendor's category
+            if ($vendorSubCategories->isEmpty() && !empty($vendoruser->business_category_id)) {
+                $vendorSubCategories = Category::where('status', 1)
+                    ->where('parent_id', $vendoruser->business_category_id)
+                    ->get();
+            }
+        }
+
         $this->viewData['vendoruser'] = $vendoruser;
         $this->viewData['category'] = $category;
+        $this->viewData['vendorSubCategories'] = $vendorSubCategories;
 
         return view('front.vendordetail')->with($this->viewData);
     }

@@ -24,8 +24,8 @@
     $pincode = $vendoruser->pincode ?? '302021';
     $address = $vendoruser->business_address ?? 'Vaishali Nagar, Jaipur, Rajasthan - 302021';
     $categoryName = $vendoruser->business_category_name ?? 'Real Estate Agent';
-    $subCategories = $vendoruser->business_sub_category_names ?? 'Buy | Sell | Rent | Commercial | Property Consultant';
-    $description = $vendoruser->description ?: ($bizName . ' ' . $city . ' mein ek bharosemand Real Estate Consultant hai. Hum Residential, Commercial, Rental aur Investment Properties mein visheshagyata rakhte hai. Humara uddeshya pardarshita, imandari aur grahak santushti hai.');
+    $subCategories = $vendoruser->business_sub_category_names ?: ((isset($vendorSubCategories) && $vendorSubCategories->isNotEmpty()) ? $vendorSubCategories->pluck('name')->implode(' | ') : 'Buy | Sell | Rent | Commercial | Property Consultant');
+    $description = $vendoruser->description ?: ($bizName . ' ' . $city . ' mein ek bharosemand ' . $categoryName . ' hai. Hum gunvatta, pardarshita aur grahak santushti ke sath behtareen sevaye pradan karte hai.');
 
     $words = preg_split("/\s+/", trim($bizName));
     $initials = '';
@@ -2335,28 +2335,61 @@
                     <!-- TAB PANE 2: SERVICES -->
                     <div class="vd-tab-pane" id="pane-services">
                         <div class="vd-section-card">
-                            <h2 class="vd-card-title">Professional Real Estate Services</h2>
+                            <h2 class="vd-card-title">Professional {{ $categoryName }} Services</h2>
                             <div class="vd-services-grid">
-                                <div class="vd-service-box">
-                                    <div class="vd-service-icon"><i class="fa-solid fa-house-chimney"></i></div>
-                                    <h4 class="vd-service-title">Residential Property Buy & Sale</h4>
-                                    <p class="vd-service-desc">Verified apartments, villas, builder floors, and residential plots across prime localities in {{ $city }}.</p>
-                                </div>
-                                <div class="vd-service-box">
-                                    <div class="vd-service-icon"><i class="fa-solid fa-briefcase"></i></div>
-                                    <h4 class="vd-service-title">Commercial Real Estate</h4>
-                                    <p class="vd-service-desc">Retail showrooms, corporate office spaces, warehouses, and industrial land leasing with high ROI.</p>
-                                </div>
-                                <div class="vd-service-box">
-                                    <div class="vd-service-icon"><i class="fa-solid fa-key"></i></div>
-                                    <h4 class="vd-service-title">Rental & Leasing Management</h4>
-                                    <p class="vd-service-desc">Tenant verification, registered lease agreements, rent collection assistance, and property care.</p>
-                                </div>
-                                <div class="vd-service-box">
-                                    <div class="vd-service-icon"><i class="fa-solid fa-scale-balanced"></i></div>
-                                    <h4 class="vd-service-title">Legal & Document Verification</h4>
-                                    <p class="vd-service-desc">Title deeds check, registry assistance, mutation, map approval, and transparent ownership transfer.</p>
-                                </div>
+                                @php
+                                    $serviceIcons = [
+                                        'fa-solid fa-house-chimney',
+                                        'fa-solid fa-briefcase',
+                                        'fa-solid fa-key',
+                                        'fa-solid fa-scale-balanced',
+                                        'fa-solid fa-handshake',
+                                        'fa-solid fa-building',
+                                        'fa-solid fa-award',
+                                        'fa-solid fa-certificate',
+                                        'fa-solid fa-shield-halved',
+                                        'fa-solid fa-layer-group',
+                                        'fa-solid fa-tags',
+                                        'fa-solid fa-gears'
+                                    ];
+                                @endphp
+
+                                @if(!empty($vendorSubCategories) && $vendorSubCategories->count() > 0)
+                                    @foreach($vendorSubCategories as $index => $subCat)
+                                        <div class="vd-service-box">
+                                            <div class="vd-service-icon">
+                                                @if(!empty($subCat->image) && !str_contains($subCat->image, 'images.png'))
+                                                    <img src="{{ $subCat->image }}" alt="{{ $subCat->name }}" style="width: 26px; height: 26px; object-fit: contain;">
+                                                @else
+                                                    <i class="{{ $serviceIcons[$index % count($serviceIcons)] }}"></i>
+                                                @endif
+                                            </div>
+                                            <h4 class="vd-service-title">{{ $subCat->name }}</h4>
+                                            <p class="vd-service-desc">{{ $subCat->description ?: ('Verified and professional ' . $subCat->name . ' services provided by ' . $bizName . ' in ' . $city . '.') }}</p>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="vd-service-box">
+                                        <div class="vd-service-icon"><i class="fa-solid fa-house-chimney"></i></div>
+                                        <h4 class="vd-service-title">Residential Property Buy & Sale</h4>
+                                        <p class="vd-service-desc">Verified apartments, villas, builder floors, and residential plots across prime localities in {{ $city }}.</p>
+                                    </div>
+                                    <div class="vd-service-box">
+                                        <div class="vd-service-icon"><i class="fa-solid fa-briefcase"></i></div>
+                                        <h4 class="vd-service-title">Commercial Real Estate</h4>
+                                        <p class="vd-service-desc">Retail showrooms, corporate office spaces, warehouses, and industrial land leasing with high ROI.</p>
+                                    </div>
+                                    <div class="vd-service-box">
+                                        <div class="vd-service-icon"><i class="fa-solid fa-key"></i></div>
+                                        <h4 class="vd-service-title">Rental & Leasing Management</h4>
+                                        <p class="vd-service-desc">Tenant verification, registered lease agreements, rent collection assistance, and property care.</p>
+                                    </div>
+                                    <div class="vd-service-box">
+                                        <div class="vd-service-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                                        <h4 class="vd-service-title">Legal & Document Verification</h4>
+                                        <p class="vd-service-desc">Title deeds check, registry assistance, mutation, map approval, and transparent ownership transfer.</p>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
