@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Permission as SpatiePermission;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Cms;
+use Illuminate\Support\Facades\Cache;
 use Auth;
 
 class CmsController extends Controller
@@ -25,10 +26,10 @@ class CmsController extends Controller
         // Adding breadcrumb array
         $breadcrumb = [
             'Dashboard' => route('admin.dashboard'),
-            'Role' => ''
+            'CMS Management' => ''
         ];
 
-        $cms = Cms::orderBy('id', 'desc')->get();
+        $cms = Cms::orderBy('id', 'asc')->get();
 
         // Send view data
         $this->viewData['pageTitle'] = $this->pageTitle;
@@ -43,18 +44,17 @@ class CmsController extends Controller
         // Adding breadcrumb array
         $breadcrumb = [
             'Dashboard' => route('admin.dashboard'),
-            'Role' => route('admin.role.index'),
+            'CMS Management' => route('admin.cms.index'),
             'Edit' => '',
         ];
 
-        // User to edit
-        $cms = Cms::where('cms.id', $id)->first();
+        // CMS to edit
+        $cms = Cms::findOrFail($id);
         
         // Send view data
         $this->viewData['pageTitle'] = $this->pageTitle;
         $this->viewData['breadcrumb'] = $breadcrumb;
         $this->viewData['cms'] = $cms;
-
 
         return view('admin.cms.edit')->with($this->viewData);
     }
@@ -62,20 +62,25 @@ class CmsController extends Controller
  
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
         try {
-            // ✅ Find CMS record
+            // Find CMS record
             $cms = Cms::findOrFail($id);
 
-            // ✅ Update fields
-            $cms->title        = $request->name;
+            // Update fields
+            $cms->title       = $request->name;
             $cms->description = $request->description; // CKEditor content
-            $cms->status      = $request->status;
+            $cms->status      = $request->status ?? 1;
             $cms->updated_by  = auth()->id();
             $cms->save();
 
-            DB::commit();
+            // Invalidate cache immediately so frontend updates instantly
+            Cache::forget('site_global_cms');
 
-            // ✅ Success notification
+            // Success notification
             $notification = [
                 '_status'  => true,
                 '_message' => __('messages.records_updated', ['record' => 'CMS']),
@@ -87,10 +92,7 @@ class CmsController extends Controller
                 ->with(['notification' => $notification]);
 
         } catch (\Exception $e) {
-            dd($e->getMessage());
-            DB::rollBack();
-
-            // ❌ Error notification
+            // Error notification
             $notification = [
                 '_status'  => false,
                 '_message' => $e->getMessage(),

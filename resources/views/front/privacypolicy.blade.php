@@ -1,5 +1,9 @@
 @extends('front.layout.main')
-@section('title', 'Privacy Policy - Agent 24 India')
+@php
+    $cmsItem = $privacyPolicy ?? $sitePrivacy ?? null;
+    $cmsTitle = $cmsItem->title ?? 'Privacy Policy';
+@endphp
+@section('title', $cmsTitle . ' - Agent 24 India')
 
 @section('content')
     <!-- Privacy Policy Main Content Area Start -->
@@ -10,7 +14,7 @@
             <div class="terms-hero-banner-container">
                 <div class="terms-hero-flex">
                     <div class="terms-hero-text">
-                        <h1 class="terms-hero-title">Privacy Policy</h1>
+                        <h1 class="terms-hero-title">{{ $cmsTitle }}</h1>
                         <p class="terms-hero-subtitle">Your privacy and data security are paramount to us. Please read how Agent 24 India collects, protects, and handles your information.</p>
                     </div>
                     <div class="terms-hero-illustration">
@@ -65,12 +69,9 @@
                 
                 <div class="terms-card">
                     
-                    @if(!empty($privacyPolicy) && !empty($privacyPolicy->description))
-                        <div class="terms-block">
-                            <h2 class="terms-heading" style="margin-bottom: 16px;">{{ $privacyPolicy->title ?? 'Privacy Policy & Data Security' }}</h2>
-                            <div class="terms-text" style="line-height: 1.8; color: #334155;">
-                                {!! $privacyPolicy->description !!}
-                            </div>
+                    @if(!empty($cmsItem) && !empty($cmsItem->description))
+                        <div class="terms-dynamic-content formatted-cms-body">
+                            {!! $cmsItem->description !!}
                         </div>
                     @else
                         <!-- 1. Introduction -->
@@ -140,7 +141,7 @@
                     <div class="terms-action-bar">
                         <label class="terms-checkbox-label" for="privacyCheck">
                             <input type="checkbox" id="privacyCheck" class="terms-checkbox" checked>
-                            <span>I have read and agree to the Privacy Policy.</span>
+                            <span>I have read and agree to the {{ $cmsTitle }}.</span>
                         </label>
                         
                         <a href="{{ route('front.index') }}" class="btn-terms-agree" id="btnPrivacyAgree">I Agree</a>
@@ -296,6 +297,73 @@
             border-radius: 16px;
             padding: 36px 42px;
             box-shadow: 0 4px 20px rgba(0, 75, 238, 0.04);
+        }
+        .formatted-cms-body {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #334155;
+        }
+        .formatted-cms-body h1,
+        .formatted-cms-body h2,
+        .formatted-cms-body h3,
+        .formatted-cms-body h4,
+        .formatted-cms-body h5,
+        .formatted-cms-body h6 {
+            color: #004BEE;
+            font-weight: 800;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            letter-spacing: -0.2px;
+        }
+        .formatted-cms-body h1 { font-size: 26px; }
+        .formatted-cms-body h2 { font-size: 20px; }
+        .formatted-cms-body h3 { font-size: 17.5px; }
+        .formatted-cms-body h4 { font-size: 16px; }
+        .formatted-cms-body p {
+            margin-bottom: 14px;
+            color: #334155;
+            font-weight: 500;
+        }
+        .formatted-cms-body ul,
+        .formatted-cms-body ol {
+            padding-left: 24px;
+            margin-bottom: 18px;
+        }
+        .formatted-cms-body li {
+            margin-bottom: 8px;
+            color: #334155;
+            font-weight: 500;
+            line-height: 1.7;
+        }
+        .formatted-cms-body blockquote {
+            border-left: 4px solid #004BEE;
+            background: #F0F6FF;
+            padding: 14px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 18px 0;
+            font-style: italic;
+            color: #1E293B;
+        }
+        .formatted-cms-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .formatted-cms-body table th,
+        .formatted-cms-body table td {
+            border: 1px solid #E2E8F0;
+            padding: 10px 14px;
+            font-size: 14px;
+        }
+        .formatted-cms-body table th {
+            background-color: #F1F5F9;
+            font-weight: 700;
+            color: #0F172A;
+        }
+        .formatted-cms-body a {
+            color: #004BEE;
+            font-weight: 700;
+            text-decoration: underline;
         }
         .terms-block {
             margin-bottom: 24px;

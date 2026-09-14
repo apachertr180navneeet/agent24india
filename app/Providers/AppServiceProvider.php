@@ -51,8 +51,13 @@ class AppServiceProvider extends ServiceProvider
                 });
 
                 $cmsPages = Cache::remember('site_global_cms', 3600, function () {
-                    return Cms::whereIn('id', [1, 2, 3, 4])->get()->keyBy('id');
+                    return Cms::where('status', 1)->get();
                 });
+
+                $aboutCms   = $cmsPages->firstWhere('id', 1) ?? $cmsPages->firstWhere('slug', 'about-us') ?? $cmsPages->first(fn($c) => stripos($c->title, 'about') !== false);
+                $termsCms   = $cmsPages->firstWhere('id', 2) ?? $cmsPages->firstWhere('slug', 'terms-and-conditions') ?? $cmsPages->first(fn($c) => stripos($c->title, 'term') !== false);
+                $privacyCms = $cmsPages->firstWhere('id', 3) ?? $cmsPages->firstWhere('slug', 'privacy-policy') ?? $cmsPages->first(fn($c) => stripos($c->title, 'privacy') !== false);
+                $noticeCms  = $cmsPages->firstWhere('id', 4) ?? $cmsPages->firstWhere('slug', 'notice') ?? $cmsPages->first(fn($c) => stripos($c->title, 'notice') !== false);
 
                 $layoutDistricts = Cache::remember('site_global_districts', 3600, function () {
                     return District::select('id', 'name')->where('status', 1)->orderBy('name')->get();
@@ -70,10 +75,11 @@ class AppServiceProvider extends ServiceProvider
                     'siteTitle'        => $setting->site_title ?? 'Agent 24 India',
                     'siteSetting'      => $setting,
                     'siteLogo'         => $siteLogo,
-                    'siteAbout'        => $cmsPages->get(1),
-                    'siteTerms'        => $cmsPages->get(2),
-                    'sitePrivacy'      => $cmsPages->get(3),
-                    'siteNotice'       => $cmsPages->get(4),
+                    'siteAbout'        => $aboutCms,
+                    'siteTerms'        => $termsCms,
+                    'sitePrivacy'      => $privacyCms,
+                    'siteNotice'       => $noticeCms,
+                    'siteCmsList'      => $cmsPages,
                     'siteDistricts'    => $layoutDistricts,
                     'siteCategories'   => $layoutCategories,
                 ]);

@@ -1,5 +1,9 @@
 @extends('front.layout.main')
-@section('title', 'Terms & Conditions - Agent 24 India')
+@php
+    $cmsItem = $termsAndConditions ?? $siteTerms ?? null;
+    $cmsTitle = $cmsItem->title ?? 'Terms & Conditions';
+@endphp
+@section('title', $cmsTitle . ' - Agent 24 India')
 
 @section('content')
     <!-- Terms & Conditions Main Content Area Start -->
@@ -10,7 +14,7 @@
             <div class="terms-hero-banner-container">
                 <div class="terms-hero-flex">
                     <div class="terms-hero-text">
-                        <h1 class="terms-hero-title">Terms & Conditions</h1>
+                        <h1 class="terms-hero-title">{{ $cmsTitle }}</h1>
                         <p class="terms-hero-subtitle">Please read these terms and conditions carefully before using the Agent 24 India platform.</p>
                     </div>
                     <div class="terms-hero-illustration">
@@ -74,73 +78,79 @@
                 
                 <div class="terms-card">
                     
-                    <!-- 1. General Terms -->
-                    <div class="terms-block">
-                        <h2 class="terms-heading">1. General Terms</h2>
-                        <p class="terms-text">
-                            Agent 24 India is an online platform that connects verified Agents and Businesses. We do not provide agency services directly; our platform exclusively provides business listing, discovery, and verified connectivity services.
-                        </p>
-                    </div>
+                    @if(!empty($cmsItem) && !empty($cmsItem->description))
+                        <div class="terms-dynamic-content formatted-cms-body">
+                            {!! $cmsItem->description !!}
+                        </div>
+                    @else
+                        <!-- 1. General Terms -->
+                        <div class="terms-block">
+                            <h2 class="terms-heading">1. General Terms</h2>
+                            <p class="terms-text">
+                                Agent 24 India is an online platform that connects verified Agents and Businesses. We do not provide agency services directly; our platform exclusively provides business listing, discovery, and verified connectivity services.
+                            </p>
+                        </div>
 
-                    <!-- 2. Account & Information -->
-                    <div class="terms-block">
-                        <h2 class="terms-heading">2. Account & Information</h2>
-                        <ul class="terms-list">
-                            <li>Users must provide accurate, complete, and authentic information during registration and listing creation.</li>
-                            <li>Providing false, misleading, or fraudulent information may result in immediate account suspension or termination.</li>
-                            <li>Users are solely responsible for maintaining the security and confidentiality of their account credentials.</li>
-                        </ul>
-                    </div>
+                        <!-- 2. Account & Information -->
+                        <div class="terms-block">
+                            <h2 class="terms-heading">2. Account & Information</h2>
+                            <ul class="terms-list">
+                                <li>Users must provide accurate, complete, and authentic information during registration and listing creation.</li>
+                                <li>Providing false, misleading, or fraudulent information may result in immediate account suspension or termination.</li>
+                                <li>Users are solely responsible for maintaining the security and confidentiality of their account credentials.</li>
+                            </ul>
+                        </div>
 
-                    <!-- 3. Payments & Refunds -->
-                    <div class="terms-block">
-                        <h2 class="terms-heading">3. Payments & Refunds</h2>
-                        <ul class="terms-list">
-                            <li>All payments must be made in accordance with our designated growth and subscription plans.</li>
-                            <li>Payments once processed and completed are non-refundable.</li>
-                            <li>Subscription plans, features, and pricing are subject to change without prior notice.</li>
-                        </ul>
-                    </div>
+                        <!-- 3. Payments & Refunds -->
+                        <div class="terms-block">
+                            <h2 class="terms-heading">3. Payments & Refunds</h2>
+                            <ul class="terms-list">
+                                <li>All payments must be made in accordance with our designated growth and subscription plans.</li>
+                                <li>Payments once processed and completed are non-refundable.</li>
+                                <li>Subscription plans, features, and pricing are subject to change without prior notice.</li>
+                            </ul>
+                        </div>
 
-                    <!-- 4. Listings & Content -->
-                    <div class="terms-block">
-                        <h2 class="terms-heading">4. Listings & Content</h2>
-                        <ul class="terms-list">
-                            <li>Users assume full responsibility for all content, images, and details published on their listings.</li>
-                            <li>We are not liable for any inaccurate, misleading, or unauthorized third-party content.</li>
-                            <li>We reserve the right to review, edit, or remove any listing at any time at our sole discretion.</li>
-                        </ul>
-                    </div>
+                        <!-- 4. Listings & Content -->
+                        <div class="terms-block">
+                            <h2 class="terms-heading">4. Listings & Content</h2>
+                            <ul class="terms-list">
+                                <li>Users assume full responsibility for all content, images, and details published on their listings.</li>
+                                <li>We are not liable for any inaccurate, misleading, or unauthorized third-party content.</li>
+                                <li>We reserve the right to review, edit, or remove any listing at any time at our sole discretion.</li>
+                            </ul>
+                        </div>
 
-                    <!-- 5. Limitation of Liability -->
-                    <div class="terms-block">
-                        <h2 class="terms-heading">5. Limitation of Liability</h2>
-                        <p class="terms-text">
-                            While we strive for excellence, we do not guarantee the completeness or accuracy of user-provided information. Agent 24 India shall not be held liable for any direct, indirect, or incidental disputes, losses, or damages arising from connections established through the platform.
-                        </p>
-                    </div>
+                        <!-- 5. Limitation of Liability -->
+                        <div class="terms-block">
+                            <h2 class="terms-heading">5. Limitation of Liability</h2>
+                            <p class="terms-text">
+                                While we strive for excellence, we do not guarantee the completeness or accuracy of user-provided information. Agent 24 India shall not be held liable for any direct, indirect, or incidental disputes, losses, or damages arising from connections established through the platform.
+                            </p>
+                        </div>
 
-                    <!-- 6. Changes to Terms -->
-                    <div class="terms-block">
-                        <h2 class="terms-heading">6. Changes to Terms</h2>
-                        <p class="terms-text">
-                            We reserve the right to update or modify these Terms & Conditions at any time. Any revisions will become effective immediately upon being posted on this website.
-                        </p>
-                    </div>
+                        <!-- 6. Changes to Terms -->
+                        <div class="terms-block">
+                            <h2 class="terms-heading">6. Changes to Terms</h2>
+                            <p class="terms-text">
+                                We reserve the right to update or modify these Terms & Conditions at any time. Any revisions will become effective immediately upon being posted on this website.
+                            </p>
+                        </div>
 
-                    <!-- 7. Contact Us -->
-                    <div class="terms-block">
-                        <h2 class="terms-heading">7. Contact Us</h2>
-                        <p class="terms-text">
-                            If you have any questions, inquiries, or concerns regarding these terms, please contact us at: <a href="mailto:{{ $setting->email ?? 'support@agent24india.com' }}" class="terms-email-link">{{ $setting->email ?? 'support@agent24india.com' }}</a>
-                        </p>
-                    </div>
+                        <!-- 7. Contact Us -->
+                        <div class="terms-block">
+                            <h2 class="terms-heading">7. Contact Us</h2>
+                            <p class="terms-text">
+                                If you have any questions, inquiries, or concerns regarding these terms, please contact us at: <a href="mailto:{{ $setting->email ?? 'support@agent24india.com' }}" class="terms-email-link">{{ $setting->email ?? 'support@agent24india.com' }}</a>
+                            </p>
+                        </div>
+                    @endif
 
                     <!-- Bottom Action Bar (Checkbox & I Agree Button) -->
                     <div class="terms-action-bar">
                         <label class="terms-checkbox-label" for="termsCheck">
                             <input type="checkbox" id="termsCheck" class="terms-checkbox" checked>
-                            <span>I have read and agree to the Terms & Conditions.</span>
+                            <span>I have read and agree to the {{ $cmsTitle }}.</span>
                         </label>
                         
                         <a href="{{ route('front.index') }}" class="btn-terms-agree" id="btnTermsAgree">I Agree</a>
@@ -296,6 +306,73 @@
             border-radius: 16px;
             padding: 36px 42px;
             box-shadow: 0 4px 20px rgba(0, 75, 238, 0.04);
+        }
+        .formatted-cms-body {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #334155;
+        }
+        .formatted-cms-body h1,
+        .formatted-cms-body h2,
+        .formatted-cms-body h3,
+        .formatted-cms-body h4,
+        .formatted-cms-body h5,
+        .formatted-cms-body h6 {
+            color: #004BEE;
+            font-weight: 800;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            letter-spacing: -0.2px;
+        }
+        .formatted-cms-body h1 { font-size: 26px; }
+        .formatted-cms-body h2 { font-size: 20px; }
+        .formatted-cms-body h3 { font-size: 17.5px; }
+        .formatted-cms-body h4 { font-size: 16px; }
+        .formatted-cms-body p {
+            margin-bottom: 14px;
+            color: #334155;
+            font-weight: 500;
+        }
+        .formatted-cms-body ul,
+        .formatted-cms-body ol {
+            padding-left: 24px;
+            margin-bottom: 18px;
+        }
+        .formatted-cms-body li {
+            margin-bottom: 8px;
+            color: #334155;
+            font-weight: 500;
+            line-height: 1.7;
+        }
+        .formatted-cms-body blockquote {
+            border-left: 4px solid #004BEE;
+            background: #F0F6FF;
+            padding: 14px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 18px 0;
+            font-style: italic;
+            color: #1E293B;
+        }
+        .formatted-cms-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .formatted-cms-body table th,
+        .formatted-cms-body table td {
+            border: 1px solid #E2E8F0;
+            padding: 10px 14px;
+            font-size: 14px;
+        }
+        .formatted-cms-body table th {
+            background-color: #F1F5F9;
+            font-weight: 700;
+            color: #0F172A;
+        }
+        .formatted-cms-body a {
+            color: #004BEE;
+            font-weight: 700;
+            text-decoration: underline;
         }
         .terms-block {
             margin-bottom: 24px;

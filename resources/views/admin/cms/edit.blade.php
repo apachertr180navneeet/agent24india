@@ -71,7 +71,7 @@
                             <div class="row row-sm">
                                 <div class="col-md-12 col-lg-12 col-xl-12 text-right">
                                     <div class="form-group">
-                                        <a href="{{route('admin.district.index')}}" class="btn btn-info">Cancel</a>
+                                        <a href="{{route('admin.cms.index')}}" class="btn btn-info">Cancel</a>
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
                                 </div>
@@ -92,6 +92,7 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 
 <script>
+    let myEditor;
     ClassicEditor
         .create(document.querySelector('#description'), {
             toolbar: [
@@ -102,8 +103,17 @@
                 'undo', 'redo'
             ]
         })
+        .then(editor => {
+            myEditor = editor;
+        })
         .catch(error => {
             console.error(error);
         });
+
+    document.getElementById('edit-form').addEventListener('submit', function() {
+        if (myEditor) {
+            document.querySelector('#description').value = myEditor.getData();
+        }
+    });
 </script>
 @endpush

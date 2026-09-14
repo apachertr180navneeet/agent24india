@@ -82,19 +82,28 @@ class HomeController extends Controller
 
 
     public function aboutus(){
-        // Send view data
-        $this->viewData['pageTitle'] = 'About Us';
+        $about = Cms::where('id', '1')->orWhere('slug', 'about-us')->first();
+        if (!$about) {
+            $about = Cms::where('title', 'like', '%about%')->first();
+        }
 
-        $this->viewData['about'] = Cms::where('id', '1')->first();
+        // Send view data
+        $this->viewData['pageTitle'] = $about->title ?? 'About Us';
+        $this->viewData['about'] = $about;
 
         return view("front.about")->with($this->viewData);
     }
 
     public function notice(){
-        // Send view data
-        $this->viewData['pageTitle'] = 'About Us';
+        $notice = Cms::where('id', '4')->orWhere('slug', 'notice')->first();
+        if (!$notice) {
+            $notice = Cms::where('title', 'like', '%notice%')->first();
+        }
 
-        $this->viewData['about'] = Cms::where('id', '4')->first();
+        // Send view data
+        $this->viewData['pageTitle'] = $notice->title ?? 'Notice';
+        $this->viewData['notice'] = $notice;
+        $this->viewData['about'] = $notice;
 
         return view("front.notice")->with($this->viewData);
     }
@@ -109,22 +118,42 @@ class HomeController extends Controller
 
 
     public function termsAndConditions(){
-        // Send view data
-        $this->viewData['pageTitle'] = 'Terms & Conditions';
+        $terms = Cms::where('id', '2')->orWhere('slug', 'terms-and-conditions')->first();
+        if (!$terms) {
+            $terms = Cms::where('title', 'like', '%term%')->first();
+        }
 
-        $this->viewData['termsAndConditions'] = Cms::where('id', '2')->first();
+        // Send view data
+        $this->viewData['pageTitle'] = $terms->title ?? 'Terms & Conditions';
+        $this->viewData['termsAndConditions'] = $terms;
 
         return view("front.termsAndConditions")->with($this->viewData);
     }
 
 
     public function privacyPolicy(){
-        // Send view data
-        $this->viewData['pageTitle'] = 'Privacy Policy';
+        $privacy = Cms::where('id', '3')->orWhere('slug', 'privacy-policy')->first();
+        if (!$privacy) {
+            $privacy = Cms::where('title', 'like', '%privacy%')->first();
+        }
 
-        $this->viewData['privacyPolicy'] = Cms::where('id', '3')->first();
+        // Send view data
+        $this->viewData['pageTitle'] = $privacy->title ?? 'Privacy Policy';
+        $this->viewData['privacyPolicy'] = $privacy;
 
         return view("front.privacypolicy")->with($this->viewData);
+    }
+
+    public function cmsPage($slug){
+        $cms = Cms::where('slug', $slug)->orWhere('id', $slug)->first();
+        if (!$cms) {
+            abort(404);
+        }
+
+        $this->viewData['pageTitle'] = $cms->title;
+        $this->viewData['cms'] = $cms;
+
+        return view("front.cms")->with($this->viewData);
     }
 
 

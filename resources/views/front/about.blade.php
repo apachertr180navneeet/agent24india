@@ -1,5 +1,9 @@
 @extends('front.layout.main')
-@section('title', $pageTitle ?? 'About Us')
+@php
+    $aboutData = $about ?? $siteAbout ?? null;
+    $pageTitle = $aboutData->title ?? $pageTitle ?? 'About Us';
+@endphp
+@section('title', $pageTitle . ' - Agent 24 India')
 
 @section('content')
     <!-- About Us Hero Banner Section Start -->
@@ -11,13 +15,13 @@
     <!-- About Us Hero Banner Section End -->
 
     <!-- Dynamic CMS Story Section (If Description Exists) -->
-    @if(!empty($about) && !empty($about->description))
+    @if(!empty($aboutData) && !empty($aboutData->description))
     <section class="about-cms-section" style="padding: 30px 0 10px 0;">
         <div class="section-container" style="max-width: 1240px; margin: 0 auto; padding: 0 24px;">
-            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
-                <h3 style="font-size: 24px; font-weight: 800; color: #0F172A; margin-bottom: 16px; text-align: center;">{!! $about->title ?? 'About Agent 24 India' !!}</h3>
-                <div style="font-size: 15px; color: #475569; line-height: 1.8;">
-                    {!! $about->description !!}
+            <div style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 36px 40px; box-shadow: 0 4px 20px rgba(0, 75, 238, 0.04);">
+                <h2 style="font-size: 26px; font-weight: 800; color: #004BEE; margin-bottom: 20px; text-align: center; letter-spacing: -0.3px;">{!! $aboutData->title ?? 'About Agent 24 India' !!}</h2>
+                <div class="formatted-cms-body" style="font-size: 15px; color: #334155; line-height: 1.8;">
+                    {!! $aboutData->description !!}
                 </div>
             </div>
         </div>
